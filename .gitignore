@@ -1,0 +1,5 @@
+#gitignore for automatic code Grader
+
+# IDE Files
+*.idea
+.DS_Store
