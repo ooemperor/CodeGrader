@@ -2,17 +2,19 @@
 Basic Database Object that all Tables do inherit from
 @author: mkaiser
 """
-from sqlalchemy.orm import DeclarativeBase
+
+from sqlalchemy.ext.declarative import as_declarative
 from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT
 
 
-class Base(DeclarativeBase):
+@as_declarative()
+class Base(object):
     """
     The dbBase (Database Base) class that defines the constructor and other functions for all objects on the database
     """
     def __init__(self, *args, **kwargs):
         """
-        Base Constructor of a Object in the database
+        Base Constructor of an Object in the database
         @param args: multiple input arguments
         @param kwargs: multiple input keyword:arguments
         """
@@ -24,7 +26,7 @@ class Base(DeclarativeBase):
         @param fill_with_defaults: If empty Columns shall be filled with the default values of the database
         @return: True of successful, false if error
         """
-        attributes = attributes.copy()
+        # attributes = attributes.copy()
         # TODO: implement function
         return True
 

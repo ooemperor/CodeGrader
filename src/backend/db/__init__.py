@@ -4,15 +4,17 @@ Imports all the classes in this directory
 @author: mkaiser
 """
 import sqlalchemy as sql
-from src.backend.config import Config
+
+from src.backend.config import config
+
+__all__ = ["User", "Task", "Base", "dbEngine"]
 
 # TODO: Import all the Databasemodels after writing
-config = Config.Config()
 dbEngine = sql.create_engine(config.dbConnectionString)
 
-from .User import User
-from .Task import Task
-from .Base import Base
+from src.backend.db.User import User
+from src.backend.db.Task import Task
+from src.backend.db.Base import Base
 
 
 """

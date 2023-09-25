@@ -2,9 +2,8 @@
 File for mulitple helper functions, that are associated with the Database
 @author: mkaiser
 """
-from src.backend.config import Config
+from src.backend.config import config
 import psycopg2
-config = Config.Config()
 
 from src.backend.db import Base, dbEngine
 
