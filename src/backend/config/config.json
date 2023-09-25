@@ -1,5 +1,14 @@
 {
   "port": 8001,
   "debug": "True",
-  "applicationName": "CodeGrader"
+  "applicationName": "CodeGrader",
+  "database": {
+    "dialect": "postgresql",
+    "DBdriver": "psycopg2",
+    "username": "codeGrader",
+    "password": "codeGrader",
+    "host": "10.101.10.82",
+    "port": "5432",
+    "database": "codeGraderDB"
+  }
 }

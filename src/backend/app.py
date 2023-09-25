@@ -6,10 +6,14 @@ Route definition and main File that runs the application.
 
 from flask import Flask, request
 from src.backend.config.Config import Config
+from db import *
 config = Config()
 
-# construction of the Flask Application
+# construction of Application and DB Connection
 app = Flask(config.appName)
+
+
+
 
 
 @app.route("/", methods=['POST', 'GET'])

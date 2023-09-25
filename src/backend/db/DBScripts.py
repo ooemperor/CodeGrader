@@ -1,0 +1,52 @@
+"""
+File for mulitple helper functions, that are associated with the Database
+@author: mkaiser
+"""
+from src.backend.config import Config
+import psycopg2
+config = Config.Config()
+
+from src.backend.db import Base, dbEngine
+
+
+def __executeSqlOnDB(sqlStatement):
+    """
+    Executes a SQL Statement on the database
+    @param sqlStatement: the Statement that shall be executed.
+    @return:
+    """
+    conn = psycopg2.connect(user=config.DBUser, password=config.DBPassword, host=config.DBHost, port=config.DBPort, dbname=config.DBName)
+    cur = conn.cursor()
+    print(cur.execute(sqlStatement))
+    conn.commit()
+    cur.close()
+    conn.close()
+    return True
+
+
+def test_DB():
+    """
+    Tests the DB Connection
+    @return: True for succesful Database connection, else false.
+    """
+    __executeSqlOnDB('SELECT VERSION();')
+    return True
+
+
+def create_DB():
+    """
+    Creates the database based on the metadata.
+    @return: True if success else throws an error.
+    """
+    Base.metadata.create_all(dbEngine)
+    return True
+
+
+def delete_DB():
+    """
+    Deleting all the Data and the schema public of the database and then recreating the schema public
+    @return: True if successful, else throws error
+    """
+    __executeSqlOnDB("DROP SCHEMA public CASCADE")
+    __executeSqlOnDB("CREATE SCHEMA public")
+    return True

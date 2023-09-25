@@ -3,6 +3,7 @@ Configuration Class for the backend of the CodeGrader
 @author: mkaiser
 """
 import json
+import os
 
 
 class Config:
@@ -15,10 +16,31 @@ class Config:
         Init function for the configuration class
         @return: Created Config Object
         """
-        f = open("config/config.json")  # TODO Change path to /etc/fileName in productive deployment
+
+        f = open(os.path.abspath("C:\\Users\\mikai\\Desktop\\GIT\\CodeGrader\\src\\backend\\config\\config.json"))  # TODO Change path to /etc/fileName in productive deployment
         conf = json.load(f)
         f.close()
 
         self.port = conf["port"]
         self.debug = conf["debug"]
         self.appName = conf["applicationName"]
+
+        self.DBName = conf["database"]["database"]
+        self.DBUser = conf["database"]["username"]
+        self.DBPassword = conf["database"]["password"]
+        self.DBHost = conf["database"]["host"]
+        self.DBPort = conf["database"]["port"]
+        self.dbConnectionString = (conf["database"]["dialect"] +
+                                   "+" +
+                                   conf["database"]["DBdriver"] +
+                                   "://" +
+                                   conf["database"]["username"] +
+                                   ":" +
+                                   conf["database"]["password"] +
+                                   "@" +
+                                   conf["database"]["host"] +
+                                   ":" +
+                                   conf["database"]["port"] +
+                                   "/" +
+                                   conf["database"]["database"]
+                                   )
