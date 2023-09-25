@@ -37,6 +37,10 @@ def create_DB():
     @return: True if success else throws an error.
     """
     Base.metadata.create_all(dbEngine)
+    print("The following tables have been deployed: ")
+    for table in Base.metadata.tables.keys():
+        print("\t" + table)
+
     return True
 
 
@@ -47,4 +51,5 @@ def delete_DB():
     """
     __executeSqlOnDB("DROP SCHEMA public CASCADE")
     __executeSqlOnDB("CREATE SCHEMA public")
+    print("Schema has been deleted and recreated!")
     return True

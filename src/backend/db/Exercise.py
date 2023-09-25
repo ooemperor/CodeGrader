@@ -1,19 +1,21 @@
 """
-Database Model File for a Task with its given column properties.
+Database Model File for a Exercise.
 @author: mkaiser
 """
 from src.backend.db.Base import Base
 from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func, \
     ForeignKey
-from src.backend.db.Exercise import Exercise
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.orderinglist import ordering_list
+from src.backend.db.Subject import Subject
 
 
-class Task(Base):
+class Exercise(Base):
     """
-    Class to represent a Task in the database
-    @see: db.Base
+    Class that represents a exercise.
+    Exercise holds multiple tasks (is a Group of tasks)
     """
-    __tablename__ = 'task'
+    __tablename__ = 'exercise'
 
     id = Column(
         BIGINT, primary_key=True
@@ -32,9 +34,18 @@ class Task(Base):
     )
 
     # Foreign Keys
-    exercise_id = Column(
+    subject_id = Column(
         BIGINT,
-        ForeignKey(Exercise.id, onupdate="CASCADE", ondelete="CASCADE"),
+        ForeignKey(Subject.id, onupdate="CASCADE", ondelete="CASCADE"),
         nullable=True,
         index=True
+    )
+
+    tasks = relationship(
+        "Task",
+        collection_class=ordering_list("name"),
+        order_by="[Task.name]",
+        cascade="all",
+        passive_deletes=True,
+        backref="Task"
     )
