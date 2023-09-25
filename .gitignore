@@ -3,3 +3,7 @@
 # IDE Files
 *.idea
 .DS_Store
+
+# PyCache Files
+__pycache__ 
+*.pyc
