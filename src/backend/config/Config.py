@@ -16,8 +16,7 @@ class Config:
         Init function for the configuration class
         @return: Created Config Object
         """
-
-        f = open(os.path.abspath("C:\\Users\\mikai\\Desktop\\GIT\\CodeGrader\\src\\backend\\config\\config.json"))  # TODO Change path to /etc/fileName in productive deployment
+        f = open(os.path.join(os.path.dirname(__file__), "config.json"))  # TODO Change path to /etc/fileName in productive deployment
         conf = json.load(f)
         f.close()
 

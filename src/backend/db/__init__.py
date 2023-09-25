@@ -7,10 +7,12 @@ import sqlalchemy as sql
 
 from src.backend.config import config
 
+
 __all__ = ["User", "Task", "Base", "dbEngine"]
 
 # TODO: Import all the Databasemodels after writing
 dbEngine = sql.create_engine(config.dbConnectionString)
+
 
 from src.backend.db.User import User
 from src.backend.db.Task import Task

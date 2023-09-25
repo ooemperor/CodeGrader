@@ -16,7 +16,6 @@ def __executeSqlOnDB(sqlStatement):
     """
     conn = psycopg2.connect(user=config.DBUser, password=config.DBPassword, host=config.DBHost, port=config.DBPort, dbname=config.DBName)
     cur = conn.cursor()
-    print(cur.execute(sqlStatement))
     conn.commit()
     cur.close()
     conn.close()

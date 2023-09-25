@@ -1,6 +1,6 @@
 {
   "port": 8001,
-  "debug": "False",
+  "debug": 0,
   "applicationName": "CodeGrader",
   "database": {
     "dialect": "postgresql",

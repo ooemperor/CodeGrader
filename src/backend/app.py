@@ -5,9 +5,7 @@ Route definition and main File that runs the application.
 """
 
 from flask import Flask, request
-
 from config import config
-
 
 
 # construction of Application and DB Connection
