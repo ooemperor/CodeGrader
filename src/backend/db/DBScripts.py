@@ -12,10 +12,12 @@ def __executeSqlOnDB(sqlStatement):
     """
     Executes a SQL Statement on the database
     @param sqlStatement: the Statement that shall be executed.
-    @return:
+    @return: The output of the query
+    @rtype:
     """
     conn = psycopg2.connect(user=config.DBUser, password=config.DBPassword, host=config.DBHost, port=config.DBPort, dbname=config.DBName)
     cur = conn.cursor()
+    cur.execute(sqlStatement)
     conn.commit()
     cur.close()
     conn.close()
@@ -49,7 +51,7 @@ def delete_DB():
     Deleting all the Data and the schema public of the database and then recreating the schema public
     @return: True if successful, else throws error
     """
-    __executeSqlOnDB("DROP SCHEMA public CASCADE")
-    __executeSqlOnDB("CREATE SCHEMA public")
+    __executeSqlOnDB("DROP SCHEMA public CASCADE;")
+    __executeSqlOnDB("CREATE SCHEMA public;")
     print("Schema has been deleted and recreated!")
     return True

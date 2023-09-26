@@ -48,7 +48,7 @@ class Subject(Base):
         order_by="[Exercise.name]",
         cascade="all",
         passive_deletes=True,
-        backref="Exercise"
+        backref="ExerciseSubject"
     )
 
     memberships = relationship(
@@ -57,5 +57,6 @@ class Subject(Base):
         order_by="[Membership.id]",
         cascade="all",
         passive_deletes=True,
-        backref="Membership"
+        backref="MembershipSubject"
     )
+

@@ -38,7 +38,7 @@ class Profile(Base):
         order_by="[User.username]",
         cascade="all",
         passive_deletes=True,
-        backref="user"
+        backref="UserProfile"
     )
 
     # relationship to the adminusers
@@ -48,7 +48,7 @@ class Profile(Base):
         order_by="[AdminUser.username]",
         cascade="all",
         passive_deletes=True,
-        backref="adminuser"
+        backref="AdminUserProfile"
     )
 
     #relationships to the subjects
@@ -58,5 +58,6 @@ class Profile(Base):
         order_by="[Subject.name]",
         cascade="all",
         passive_deletes=True,
-        backref="subject"
+        backref="SubjectProfile"
     )
+

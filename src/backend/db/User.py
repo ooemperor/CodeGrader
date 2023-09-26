@@ -53,6 +53,16 @@ class User(Base):
         BIGINT, ForeignKey(Profile.id, onupdate="CASCADE", ondelete="CASCADE"), nullable=True, index=True
     )
 
+    # Relationships
+    memberships = relationship(
+        "Membership",
+        collection_class=ordering_list("id"),
+        order_by="[Membership.id]",
+        cascade="all",
+        passive_deletes=True,
+        backref="MembershipUser"
+    )
+
 
 class AdminUser(Base):
     """
@@ -94,12 +104,4 @@ class AdminUser(Base):
         index=True
     )
 
-    # Relationships
-    memberships = relationship(
-        "Membership",
-        collection_class=ordering_list("id"),
-        order_by="[Membership.id]",
-        cascade="all",
-        passive_deletes=True,
-        backref="Membership"
-    )
+

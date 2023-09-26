@@ -10,5 +10,10 @@
     "host": "10.101.10.82",
     "port": "5432",
     "database": "codeGraderDB"
-  }
+  },
+  "metadataColumnsCount": 2,
+  "columnIgnoreList": [
+    "id",
+    "creation_dts"
+  ]
 }

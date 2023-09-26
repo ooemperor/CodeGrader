@@ -43,3 +43,5 @@ class Config:
                                    "/" +
                                    conf["database"]["database"]
                                    )
+        self.metadataColumnsAmount = conf["metadataColumnsCount"]
+        self.columnIgnoreList = conf["columnIgnoreList"]

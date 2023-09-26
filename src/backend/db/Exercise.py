@@ -15,6 +15,7 @@ class Exercise(Base):
     Class that represents a exercise.
     Exercise holds multiple tasks (is a Group of tasks)
     """
+
     __tablename__ = 'exercise'
 
     id = Column(
@@ -47,5 +48,5 @@ class Exercise(Base):
         order_by="[Task.name]",
         cascade="all",
         passive_deletes=True,
-        backref="Task"
+        backref="TaskExercise"
     )
