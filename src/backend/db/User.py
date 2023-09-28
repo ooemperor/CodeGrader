@@ -41,7 +41,7 @@ class User(Base):
     )
     # password stored in hash
     password = Column(
-        String, nullable=False
+        String, nullable=False  # password will be stored in hash form in database
     )
     # usertag for filtering
     tag = Column(
@@ -89,7 +89,7 @@ class AdminUser(Base):
         String, nullable=False
     )
     password = Column(
-        String, nullable=False
+        String, nullable=False  # password will be stored in hash form in database
     )
     # usertag for filtering
     tag = Column(
