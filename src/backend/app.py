@@ -31,10 +31,21 @@ def home():
 # TODO: Add all the routes needed for the backend API
 
 
-@app.route("/user/<int:id>", methods=['GET'])
-def user(id):
-    return UserHandler().get(id)
-
+@app.route("/user/<int:id_>", methods=['GET', 'POST', 'PUT'])
+def user(id_):
+    """
+    Route for get, post, put of user elements.
+    @param id_: The identifier of the user
+    @return: # TODO: define return type of api
+    @rtype: undefined
+    """
+    match request.method:
+        case 'GET':
+            return UserHandler().get(id_)
+        case 'POST':
+            return UserHandler().post(id_, request.get_json())
+        case 'PUT':
+            return UserHandler().put(request.get_json())
 
 
 # starting the web application
