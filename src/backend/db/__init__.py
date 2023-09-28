@@ -10,9 +10,11 @@ from src.backend.config import config
 
 __all__ = ["User", "AdminUser", "Profile", "Task", "Base", "dbEngine", "Session", "Subject", "Exercise"]
 
-# TODO: Import all the Databasemodels after writing
+# creation of the db engine
 dbEngine = sql.create_engine(config.dbConnectionString)
 
+# import of all the datamodels.
+# import cannot not be on top of file because of the dbEngine
 from src.backend.db.Profile import Profile
 from src.backend.db.User import User, AdminUser
 from src.backend.db.Subject import Subject
