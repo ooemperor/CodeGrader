@@ -18,7 +18,21 @@ class UserHandler(BaseHandler):
         @rtype: str
         """
         super().__init__()
-        user = self.sql_session.get_object(User, identifier)
+        with self.sql_session.begin() as sql:
+            user = sql.get(User, identifier)
+            sql.expunge(user)  # taking the user away from the session, so we can work on it away from DB.
+
         # TODO: Here we need to handle the error when no object can be found in the database.
-        # Maybe write the get function into the BaseHandler
+        return user.get_attrs()
+
+    def post(self, **kwargs):
+        """
+        updating the single user in the database.
+
+        @param kwargs: the arguments for the user that are updated
+        @type kwargs: key:value pairs
+        @return: True or False depending on the outcome of the post. # TODO: will be further refined
+        @rtype: Boolean
+        """
         return True
+

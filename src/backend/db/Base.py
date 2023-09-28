@@ -121,6 +121,7 @@ class Base(object):
     def get_attrs(self):
         """
         Getting a dictionary of all the arguments for a given Object in the Database
+        This representation contains every column, including columns such as foreign keys and more.
         @return: The dictionary with the attributes and values that define the Object on which the function is called.
         @rtype: dict
         """
@@ -128,5 +129,6 @@ class Base(object):
 
         # go through all columns and add them to the data dictionary
         for val in self.column_properties:
-            data[val.key] = getattr(val)
+            data[val.key] = getattr(self, val.key)
         return data
+

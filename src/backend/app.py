@@ -30,10 +30,10 @@ def home():
 
 # TODO: Add all the routes needed for the backend API
 
+
 @app.route("/user/<int:id>", methods=['GET'])
 def user(id):
     return UserHandler().get(id)
-
 
 
 
