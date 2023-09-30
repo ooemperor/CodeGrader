@@ -20,7 +20,7 @@ class Membership(Base):
     __table_args__ = (UniqueConstraint("user_id", "subject_id"),)  # last comma necessary to avoid error message of data type
 
     id = Column(
-        BIGINT, primary_key=True
+        BIGINT, primary_key=True, index=True
     )
     # Datetimestamp of creation in the database
     creation_dts = Column(

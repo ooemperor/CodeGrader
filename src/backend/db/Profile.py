@@ -15,7 +15,7 @@ class Profile(Base):
     __tablename__ = "profile"
     # primary key
     id = Column(
-        Integer, primary_key=True
+        Integer, primary_key=True, index=True
     )
     # Datetimestamp of creation in the database
     creation_dts = Column(

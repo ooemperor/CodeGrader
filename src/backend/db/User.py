@@ -19,7 +19,7 @@ class User(Base):
     __tablename__ = "user"
     # primary key
     id = Column(
-        BIGINT, primary_key=True
+        BIGINT, primary_key=True, index=True
     )
     # Datetimestamp of creation in the database
     creation_dts = Column(
@@ -54,7 +54,10 @@ class User(Base):
     # Foreign Keys
     # Foreign key to the Profile Table
     profile_id = Column(
-        BIGINT, ForeignKey(Profile.id, onupdate="CASCADE", ondelete="CASCADE"), nullable=True, index=True
+        BIGINT,
+        ForeignKey(Profile.id, onupdate="CASCADE", ondelete="CASCADE"),
+        nullable=True,
+        index=True
     )
 
     # Relationships

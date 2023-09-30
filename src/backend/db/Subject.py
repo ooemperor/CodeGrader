@@ -18,7 +18,7 @@ class Subject(Base):
     __tablename__ = 'subject'
     # primary_key
     id = Column(
-        BIGINT, primary_key=True
+        BIGINT, primary_key=True, index=True
     )
     # Datetimestamp of creation in the database
     creation_dts = Column(

@@ -101,7 +101,8 @@ class Session:
         """
         try:
             with self.session.begin() as session:
-                object_ = session.get(cls, id_)
+                object_ = session.query(cls).get(id_)
+                session.expunge(object_)
                 return object_
         except Exception:
             session.rollback()

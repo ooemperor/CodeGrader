@@ -8,7 +8,7 @@ import sqlalchemy as sql
 from src.backend.config import config
 
 
-__all__ = ["User", "AdminUser", "Profile", "Task", "Base", "dbEngine", "Session", "Subject", "Exercise"]
+__all__ = ["User", "AdminUser", "Profile", "Task", "Base", "dbEngine", "Session", "Subject", "Exercise", "File"]
 
 # creation of the db engine
 dbEngine = sql.create_engine(config.dbConnectionString)
@@ -23,6 +23,7 @@ from src.backend.db.Exercise import Exercise
 from src.backend.db.Task import Task
 from src.backend.db.Base import Base
 from src.backend.db.Session import Session
+from src.backend.db.File import File
 
 
 """

@@ -26,11 +26,7 @@ class UserHandler(BaseHandler):
         assert (id_ is not None) and (id_ > 0)
 
         super().__init__()
-
-        with self.sql_session.session.begin() as sql:
-            user = sql.get(User, id_)
-            sql.expunge(user)  # taking the user away from the session, so we can work on it away from DB.
-
+        user = self.sql_session.get_object(User, id_)
         assert user is not None
         return user.get_attrs()  # TODO: need to make better user representation.
 
@@ -101,9 +97,7 @@ class AdminUserHandler(BaseHandler):
         assert (id_ is not None) and (id_ > 0)
         super().__init__()
 
-        with self.sql_session.session.begin() as sql:
-            admin = sql.get(AdminUser, id_)
-            sql.expunge(admin)  # taking the user away from the session, so we can work on it away from DB.
+        self.sql_session.get_object(AdminUser, id_)
 
         assert admin is not None
         return admin.get_attrs()  # TODO: need to make better user representation.

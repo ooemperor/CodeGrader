@@ -4,7 +4,7 @@ Route definition and main File that runs the application.
 @version: 1.0
 """
 
-from flask import Flask, request
+from flask import Flask, request, send_file
 from config import config
 from handlers.User import UserHandler, AdminUserHandler
 
