@@ -24,12 +24,13 @@ class UserHandler(BaseHandler):
         """
         assert (id_ is not None) and (id_ > 0)
         super().__init__()
-        with self.sql_session.begin() as sql:
+
+        with self.sql_session.session.begin() as sql:
             user = sql.get(User, id_)
             sql.expunge(user)  # taking the user away from the session, so we can work on it away from DB.
 
-        # TODO: Here we need to handle the error when no object can be found in the database.
-        return user.get_attrs()
+        assert user is not None
+        return user.get_attrs()  # TODO: need to make better user representation.
 
     def post(self, dict_):
         """
@@ -40,11 +41,10 @@ class UserHandler(BaseHandler):
         @rtype: Boolean
         """
         super().__init__()
-        user = User(dict_)
-        with self.sql_session.begin() as sql:
-            sql.add(user)
-            sql.commit()
-        return True  # TODO: Return has to be more precise
+        user = User(**dict_)
+        new_user_id = self.sql_session.create(user)
+
+        return f"User with id {new_user_id} created"  # TODO: Return has to be more precise
 
     def put(self, id_, dict_):
         """
@@ -57,13 +57,20 @@ class UserHandler(BaseHandler):
         @rtype: Boolean
         """
         super().__init__()
-        dict_id_ = dict[id]
-        assert dict_id_ == id_
+        self.sql_session.update(User, id_, dict_)
+        return "Updated"
 
-        with self.sql_session.begin() as sql:
-            user = sql.get(User, id_)
-            user.set_attrs(dict_)
-            sql.commit()
-        return True
+    def delete(self, id_):
+        """
+        Deleting a user from the database
+        @param id_: The identifier of the object
+        @type id_: int
+        @return: True or False depending on the outcome of the post. # TODO: will be further refined
+        @rtype: Boolean
+        """
+        super().__init__()
+
+        self.sql_session.delete(User, id_)
+        return "True"
 
 

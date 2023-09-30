@@ -17,4 +17,4 @@ class BaseHandler:
         Setting up Ojbects and params that we use in all handlers.
         @return: No return
         """
-        self.sql_session = Session().session  # creating the  session for later use
+        self.sql_session = Session()  # creating the  session for later use

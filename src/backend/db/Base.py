@@ -68,7 +68,7 @@ class Base(object):
         @type kwargs: dict
         @return: No return
         """
-        if len(kwargs.keys()) > (len(self._col_props) - self.metadatacolumns):
+        if len(kwargs.keys()) > (len(self.column_properties) - self.metadatacolumns):
             raise AttributeError("More values provided than the Class supports in its construction")
 
     def set_attrs(self, attributes, fill_with_defaults=True):

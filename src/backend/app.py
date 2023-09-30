@@ -31,7 +31,7 @@ def home():
 # TODO: Add all the routes needed for the backend API
 
 
-@app.route("/user/<int:id_>", methods=['GET', 'POST', 'PUT'])
+@app.route("/user/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
 def user(id_):
     """
     Route for get, post, put of user elements.
@@ -39,13 +39,24 @@ def user(id_):
     @return: # TODO: define return type of api
     @rtype: undefined
     """
-    match request.method:
-        case 'GET':
-            return UserHandler().get(id_)
-        case 'POST':
-            return UserHandler().post(id_, request.get_json())
-        case 'PUT':
-            return UserHandler().put(request.get_json())
+    if request.method == 'GET':
+        return UserHandler().get(id_)
+
+    elif request.method == 'PUT':
+        return UserHandler().put(id_, request.get_json())
+
+    elif request.method == 'DELETE':
+        return UserHandler().delete(id_)
+
+
+@app.route("/addUser", methods=['POST'])
+def addUser():
+    """
+    Adding a new user in the database
+    @return: # TODO: define return type of api
+    @rtype: undefined
+    """
+    return UserHandler().post(request.get_json())
 
 
 # starting the web application
