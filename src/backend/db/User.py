@@ -25,6 +25,10 @@ class User(Base):
     creation_dts = Column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
+    # Datetimestamp of the last update in the database
+    updated_dts = Column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
     # username for login
     username = Column(
         String, nullable=False, unique=True, index=True
@@ -75,6 +79,10 @@ class AdminUser(Base):
     )
     creation_dts = Column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    # Datetimestamp of the last update in the database
+    updated_dts = Column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
     )
     username = Column(
         String, nullable=False, unique=True, index=True

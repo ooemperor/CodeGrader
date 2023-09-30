@@ -6,7 +6,7 @@ Route definition and main File that runs the application.
 
 from flask import Flask, request
 from config import config
-from handlers.User import UserHandler
+from handlers.User import UserHandler, AdminUserHandler
 
 
 # construction of Application and DB Connection
@@ -58,6 +58,35 @@ def addUser():
     @rtype: undefined
     """
     return UserHandler().post(request.get_json())
+
+
+@app.route("/adminUser/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
+def adminUser(id_):
+    """
+    Route for get, post, put of user elements.
+    @param id_: The identifier of the user
+    @return: # TODO: define return type of api
+    @rtype: undefined
+    """
+    if request.method == 'GET':
+        return AdminUserHandler().get(id_)
+
+    elif request.method == 'PUT':
+        print(request.get_json())
+        return AdminUserHandler().put(id_, request.get_json())
+
+    elif request.method == 'DELETE':
+        return AdminUserHandler().delete(id_)
+
+
+@app.route("/addAdminUser", methods=['POST'])
+def addAdminUser():
+    """
+    Adding a new user in the database
+    @return: # TODO: define return type of api
+    @rtype: undefined
+    """
+    return AdminUserHandler().post(request.get_json())
 
 
 # starting the web application

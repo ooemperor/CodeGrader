@@ -26,6 +26,10 @@ class Membership(Base):
     creation_dts = Column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
+    # Datetimestamp of the last update in the database
+    updated_dts = Column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
 
     # Foreign Keys:
     user_id = Column(

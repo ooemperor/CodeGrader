@@ -22,6 +22,10 @@ class Task(Base):
     creation_dts = Column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
+    # Datetimestamp of the last update in the database
+    updated_dts = Column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
     # name of the task that is visible to users
     name = Column(
         String, nullable=False, index=True

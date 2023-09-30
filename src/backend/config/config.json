@@ -14,7 +14,8 @@
   "metadataColumnsCount": 2,
   "columnIgnoreList": [
     "id",
-    "creation_dts"
+    "creation_dts",
+    "updated_dts"
   ],
   "tests": {
     "apiHost": "127.0.0.1"

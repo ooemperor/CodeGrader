@@ -4,6 +4,6 @@ Imports all the classes and functions in this directory
 @author: mkaiser
 """
 from src.backend.handlers.Base import BaseHandler
-from src.backend.handlers.User import User
+from src.backend.handlers.User import User, AdminUser
 
-__all__ = ["BaseHandler", "User"]
+__all__ = ["BaseHandler", "User", "AdminUser"]
