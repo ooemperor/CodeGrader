@@ -43,6 +43,7 @@ def user(id_):
         return UserHandler().get(id_)
 
     elif request.method == 'PUT':
+        print(request.get_json())
         return UserHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':

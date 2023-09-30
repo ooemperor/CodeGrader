@@ -20,10 +20,12 @@ class Config:
         conf = json.load(f)
         f.close()
 
+        # Flask Application Configurations
         self.port = conf["port"]
         self.debug = conf["debug"]
         self.appName = conf["applicationName"]
 
+        # Configuration for database Connection
         self.DBName = conf["database"]["database"]
         self.DBUser = conf["database"]["username"]
         self.DBPassword = conf["database"]["password"]
@@ -45,3 +47,7 @@ class Config:
                                    )
         self.metadataColumnsAmount = conf["metadataColumnsCount"]
         self.columnIgnoreList = conf["columnIgnoreList"]
+
+        # Configurations for Testing purposes
+        self.tests_ApiHost = conf["tests"]["apiHost"]
+        self.tests_ApiPort = self.port

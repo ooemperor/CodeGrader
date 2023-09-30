@@ -15,5 +15,8 @@
   "columnIgnoreList": [
     "id",
     "creation_dts"
-  ]
+  ],
+  "tests": {
+    "apiHost": "127.0.0.1"
+  }
 }

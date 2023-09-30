@@ -25,7 +25,7 @@ class TaskTest(unittest.TestCase):
         with session.session.begin() as session:
             task_id = session.scalars(select(Task.id).where(Task.name == "task1")).one()
             task = session.get(Task, task_id)
-            self.assertEqual(task.name, "task1")
-            self.assertEqual(task.tag, "tasktag")
-            self.assertEqual(task.id, task_id)
+            self.assertEqual("task1", task.name )
+            self.assertEqual("tasktag", task.tag)
+            self.assertEqual( task_id, task.id)
             session.delete(task)

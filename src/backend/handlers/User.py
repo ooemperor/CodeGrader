@@ -44,7 +44,7 @@ class UserHandler(BaseHandler):
         user = User(**dict_)
         new_user_id = self.sql_session.create(user)
 
-        return f"User with id {new_user_id} created"  # TODO: Return has to be more precise
+        return f"{new_user_id}"  # TODO: Return has to be more precise
 
     def put(self, id_, dict_):
         """

@@ -61,7 +61,7 @@ class Session:
     def delete(self, cls, id_):
         try:
             with self.session.begin() as session:
-                session.delete(cls, id_)
+                session.delete(session.get(cls, id_))
                 session.commit()
         except Exception:
             session.rollback()
