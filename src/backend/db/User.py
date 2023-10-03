@@ -97,7 +97,7 @@ class AdminUser(Base):
     __tablename__ = 'adminuser'
     # primary key
     id = Column(
-        BIGINT, primary_key=True
+        BIGINT, primary_key=True, index=True
     )
     creation_dts = Column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
