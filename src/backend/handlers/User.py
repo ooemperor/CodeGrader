@@ -97,7 +97,7 @@ class AdminUserHandler(BaseHandler):
         assert (id_ is not None) and (id_ > 0)
         super().__init__()
 
-        self.sql_session.get_object(AdminUser, id_)
+        admin = self.sql_session.get_object(AdminUser, id_)
 
         assert admin is not None
         return admin.get_attrs()  # TODO: need to make better user representation.
