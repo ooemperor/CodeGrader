@@ -24,9 +24,8 @@ class ApiUserTest(unittest.TestCase):
         # creating the user
         r = requests.post(create_url, json=user_dict)
         self.assertIsNotNone(r)
-        self.assertIsInstance(int(r.text), int)
         self.assertEqual(200, r.status_code)
-        user_id = r.text
+        user_id = json.loads(r.text)["response"]["id"]
 
         # checks after creation
         r = requests.get(f"{user_url}{user_id}")
@@ -65,7 +64,7 @@ class ApiUserTest(unittest.TestCase):
         r = requests.post(create_url, json=user_dict)
         self.assertIsNotNone(r)
         self.assertEqual(200, r.status_code)
-        user_id = r.text
+        user_id = json.loads(r.text)["response"]["id"]
 
         # checks after creation
         r = requests.get(f"{user_url}{user_id}")
@@ -125,9 +124,8 @@ class ApiAdminUserTest(unittest.TestCase):
         # creating the user
         r = requests.post(create_url, json=adminUser_dict)
         self.assertIsNotNone(r)
-        self.assertIsInstance(int(r.text), int)
         self.assertEqual(200, r.status_code)
-        adminUser_id = r.text
+        adminUser_id = json.loads(r.text)["response"]["id"]
 
         # checks after creation
         r = requests.get(f"{adminUser_url}{adminUser_id}")
@@ -166,7 +164,7 @@ class ApiAdminUserTest(unittest.TestCase):
         r = requests.post(create_url, json=user_dict)
         self.assertIsNotNone(r)
         self.assertEqual(200, r.status_code)
-        adminUser_id = r.text
+        adminUser_id = json.loads(r.text)["response"]["id"]
 
         # checks after creation
         r = requests.get(f"{adminUser_url}{adminUser_id}")

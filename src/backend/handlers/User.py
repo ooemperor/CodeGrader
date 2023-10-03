@@ -98,7 +98,7 @@ class AdminUserHandler(BaseHandler):
         """
         Constructor for the UserHandlerClass
         """
-        super.__init()
+        super().__init__()
         self.dbClass = AdminUser
 
     def get(self, id_):
