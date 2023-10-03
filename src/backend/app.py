@@ -43,7 +43,6 @@ def user(id_):
         return UserHandler().get(id_)
 
     elif request.method == 'PUT':
-        print(request.get_json())
         return UserHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':
@@ -72,7 +71,6 @@ def adminUser(id_):
         return AdminUserHandler().get(id_)
 
     elif request.method == 'PUT':
-        print(request.get_json())
         return AdminUserHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':
@@ -98,6 +96,7 @@ def addProfile():
     """
     return ProfileHandler().post(request.get_json())
 
+
 @app.route("/profile/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
 def profile(id_):
     """
@@ -110,7 +109,6 @@ def profile(id_):
         return ProfileHandler().get(id_)
 
     elif request.method == 'PUT':
-        print(request.get_json())
         return ProfileHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':
@@ -138,7 +136,6 @@ def subject(id_):
         return SubjectHandler().get(id_)
 
     elif request.method == 'PUT':
-        print(request.get_json())
         return SubjectHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':

@@ -40,7 +40,6 @@ class ApiUserTest(unittest.TestCase):
         r = requests.delete(f"{user_url}{user_id}")
         self.assertEqual(200, r.status_code)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
 
     def test_createUpdateAndDeleteUser(self):
         """

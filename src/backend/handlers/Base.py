@@ -52,7 +52,7 @@ class BaseHandler:
 
         assert (id_ is not None) and (id_ > 0)
 
-        obj_ = self.sql_session.get_object(self.cls, id_)
+        obj_ = self.sql_session.get_object(self.dbClass, id_)
         assert obj_ is not None
         return obj_.toJson()  # TODO: need to make better user representation.
 
@@ -84,7 +84,7 @@ class BaseHandler:
         """
         assert (id_ is not None) and (id_ > 0)
         assert dict_ is not None
-        assert len(dict_.keys()) == 6
+        assert len(dict_.keys()) > 0
 
         self.sql_session.update(self.dbClass, id_, dict_)
         return self.create_generic_response('PUT', id_, f"{self.dbClass} has been successfully updated")
