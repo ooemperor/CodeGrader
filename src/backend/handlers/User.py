@@ -14,6 +14,14 @@ class UserHandler(BaseHandler):
     """
     Handler for a UserObject
     """
+
+    def __init__(self):
+        """
+        Constructor for the UserHandlerClass
+        """
+        super().__init__()
+        self.dbClass = User
+
     def get(self, id_):
         """
         Get a specific AdminUser from the database
@@ -28,7 +36,7 @@ class UserHandler(BaseHandler):
         super().__init__()
         user = self.sql_session.get_object(User, id_)
         assert user is not None
-        return user.get_attrs()  # TODO: need to make better user representation.
+        return user.toJson()  # TODO: need to make better user representation.
 
     def post(self, dict_):
         """
@@ -45,7 +53,7 @@ class UserHandler(BaseHandler):
         user = User(**dict_)
         new_user_id = self.sql_session.create(user)
 
-        return f"{new_user_id}"  # TODO: Return has to be more precise
+        return self.create_generic_response('POST', new_user_id, "User has been successfully created")
 
     def put(self, id_, dict_):
         """
@@ -63,7 +71,7 @@ class UserHandler(BaseHandler):
 
         super().__init__()
         self.sql_session.update(User, id_, dict_)
-        return "Updated"
+        return self.create_generic_response('PUT', id_, "Admin has been successfully updated")
 
     def delete(self, id_):
         """
@@ -78,13 +86,21 @@ class UserHandler(BaseHandler):
         super().__init__()
 
         self.sql_session.delete(User, id_)
-        return "True"
+        return self.create_generic_response('DELETE', id_, "User has been successfully deleted")
 
 
 class AdminUserHandler(BaseHandler):
     """
     Handler for the AdminUser
     """
+
+    def __init__(self):
+        """
+        Constructor for the UserHandlerClass
+        """
+        super.__init()
+        self.dbClass = AdminUser
+
     def get(self, id_):
         """
         Get a specific AdminUser from the database
@@ -100,7 +116,7 @@ class AdminUserHandler(BaseHandler):
         admin = self.sql_session.get_object(AdminUser, id_)
 
         assert admin is not None
-        return admin.get_attrs()  # TODO: need to make better user representation.
+        return admin.toJson()
 
     def post(self, dict_):
         """
@@ -115,7 +131,7 @@ class AdminUserHandler(BaseHandler):
         admin = AdminUser(**dict_)
         new_user_id = self.sql_session.create(admin)
 
-        return f"{new_user_id}"  # TODO: Return has to be more precise
+        return self.create_generic_response('POST', new_user_id, "Admin has been successfully created")
 
     def put(self, id_, dict_):
         """
@@ -130,7 +146,7 @@ class AdminUserHandler(BaseHandler):
         # TODO: Require source of origin to be the adminFrontend
         super().__init__()
         self.sql_session.update(AdminUser, id_, dict_)
-        return "Updated"
+        return self.create_generic_response('PUT', id_, "Admin has been successfully updated")
 
     def delete(self, id_):
         """
@@ -144,7 +160,8 @@ class AdminUserHandler(BaseHandler):
         super().__init__()
 
         self.sql_session.delete(AdminUser, id_)
-        return "True"
+
+        return self.create_generic_response('DELETE', id_, "Admin has been successfully deleted")
 
 
 

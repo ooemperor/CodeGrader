@@ -6,7 +6,7 @@ Route definition and main File that runs the application.
 
 from flask import Flask, request, send_file
 from config import config
-from handlers.User import UserHandler, AdminUserHandler
+from handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler
 
 
 # construction of Application and DB Connection
@@ -88,6 +88,61 @@ def addAdminUser():
     """
     return AdminUserHandler().post(request.get_json())
 
+
+@app.route("/addProfile", methods=['POST'])
+def addProfile():
+    """
+    Adding a new user in the database
+    @return: # TODO: define return type of api
+    @rtype: undefined
+    """
+    return ProfileHandler().post(request.get_json())
+
+@app.route("/profile/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
+def profile(id_):
+    """
+    Route for get, post, put of profile elements.
+    @param id_: The identifier of the user
+    @return: # TODO: define return type of api
+    @rtype: undefined
+    """
+    if request.method == 'GET':
+        return ProfileHandler().get(id_)
+
+    elif request.method == 'PUT':
+        print(request.get_json())
+        return ProfileHandler().put(id_, request.get_json())
+
+    elif request.method == 'DELETE':
+        return ProfileHandler().delete(id_)
+
+
+@app.route("/addSubject", methods=['POST'])
+def addSubject():
+    """
+    Adding a new user in the database
+    @return: # TODO: define return type of api
+    @rtype: undefined
+    """
+    return SubjectHandler().post(request.get_json())
+
+@app.route("/subject/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
+def subject(id_):
+    """
+    Route for get, post, put of profile elements.
+    @param id_: The identifier of the user
+    @return: # TODO: define return type of api
+    @rtype: undefined
+    """
+    if request.method == 'GET':
+        return SubjectHandler().get(id_)
+
+    elif request.method == 'PUT':
+        print(request.get_json())
+        return SubjectHandler().put(id_, request.get_json())
+
+    elif request.method == 'DELETE':
+        return SubjectHandler().delete(id_)
 
 # starting the web application
 app.run(port=config.port, debug=config.debug)

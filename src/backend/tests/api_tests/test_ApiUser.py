@@ -35,7 +35,6 @@ class ApiUserTest(unittest.TestCase):
         self.assertEqual("test", json.loads(r.text)["first_name"])
         self.assertEqual("user", json.loads(r.text)["last_name"])
         self.assertEqual("test.user@mail.com", json.loads(r.text)["email"])
-        self.assertEqual("myPassword", json.loads(r.text)["password"])
         self.assertEqual("usertag", json.loads(r.text)["tag"])
 
         # deleting the user after the test
@@ -75,7 +74,6 @@ class ApiUserTest(unittest.TestCase):
         self.assertEqual("test", json.loads(r.text)["first_name"])
         self.assertEqual("user", json.loads(r.text)["last_name"])
         self.assertEqual("test.user@mail.com", json.loads(r.text)["email"])
-        self.assertEqual("myPassword", json.loads(r.text)["password"])
         self.assertEqual("usertag", json.loads(r.text)["tag"])
 
         new_user_dict = {
@@ -98,7 +96,6 @@ class ApiUserTest(unittest.TestCase):
         self.assertEqual("first", json.loads(r.text)["first_name"])
         self.assertEqual("last", json.loads(r.text)["last_name"])
         self.assertEqual("test.user@mail.com", json.loads(r.text)["email"])
-        self.assertEqual("myNewPassword", json.loads(r.text)["password"])
         self.assertEqual("newUserTag", json.loads(r.text)["tag"])
 
         # deleting the user after the test
@@ -139,7 +136,6 @@ class ApiAdminUserTest(unittest.TestCase):
         self.assertEqual("admin", json.loads(r.text)["first_name"])
         self.assertEqual("user", json.loads(r.text)["last_name"])
         self.assertEqual("test.user@mail.com", json.loads(r.text)["email"])
-        self.assertEqual("myPassword", json.loads(r.text)["password"])
         self.assertEqual("usertag", json.loads(r.text)["tag"])
 
         # deleting the user after the test
@@ -179,7 +175,6 @@ class ApiAdminUserTest(unittest.TestCase):
         self.assertEqual("admin", json.loads(r.text)["first_name"])
         self.assertEqual("user", json.loads(r.text)["last_name"])
         self.assertEqual("test.user@mail.com", json.loads(r.text)["email"])
-        self.assertEqual("myPassword", json.loads(r.text)["password"])
         self.assertEqual("usertag", json.loads(r.text)["tag"])
 
         new_user_dict = {
@@ -202,7 +197,6 @@ class ApiAdminUserTest(unittest.TestCase):
         self.assertEqual("first", json.loads(r.text)["first_name"])
         self.assertEqual("last", json.loads(r.text)["last_name"])
         self.assertEqual("test.user@mail.com", json.loads(r.text)["email"])
-        self.assertEqual("myNewPassword", json.loads(r.text)["password"])
         self.assertEqual("newUserTag", json.loads(r.text)["tag"])
 
         # deleting the user after the test

@@ -5,7 +5,7 @@ Database Model File for a user with its given column properties.
 from src.backend.db.Base import Base
 from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func, \
     ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
 from src.backend.db.Profile import Profile
 
@@ -67,8 +67,27 @@ class User(Base):
         order_by="[Membership.id]",
         cascade="all",
         passive_deletes=True,
-        backref="MembershipUser"
+        backref=backref("MembershipUser", lazy="joined")
     )
+
+    def toJson(self):
+        """
+        Render the json representation of a user
+        @return: JSON representation of a user
+        @rtype: String
+        """
+        out = dict()
+        out["id"] = self.id
+        out["username"] = self.username
+        out["first_name"] = self.first_name
+        out["last_name"] = self.last_name
+        out["email"] = self.email
+        out["tag"] = self.tag
+        if self.UserProfile is None:
+            out["profile"] = None
+        else:
+            out["profile"] = self.UserProfile.toJson()
+        return out
 
 
 class AdminUser(Base):
@@ -114,5 +133,24 @@ class AdminUser(Base):
         nullable=True,
         index=True
     )
+
+    def toJson(self):
+        """
+        Render the json representation of a user
+        @return: JSON representation of a user
+        @rtype: String
+        """
+        out = dict()
+        out["id"] = self.id
+        out["username"] = self.username
+        out["first_name"] = self.first_name
+        out["last_name"] = self.last_name
+        out["email"] = self.email
+        out["tag"] = self.tag
+        if self.AdminUserProfile is None:
+            out["profile"] = None
+        else:
+            out["profile"] = self.AdminUserProfile.toJson()
+        return out
 
 

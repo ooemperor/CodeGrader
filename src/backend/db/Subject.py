@@ -5,7 +5,7 @@ Database Model File for a Subject. Subject can also be used as a Lecture or Topi
 from src.backend.db.Base import Base
 from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func, \
     ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
 from src.backend.db.Profile import Profile
 
@@ -52,7 +52,7 @@ class Subject(Base):
         order_by="[Exercise.name]",
         cascade="all",
         passive_deletes=True,
-        backref="ExerciseSubject"
+        backref=backref("ExerciseSubject", lazy="joined")
     )
 
     memberships = relationship(
@@ -61,6 +61,32 @@ class Subject(Base):
         order_by="[Membership.id]",
         cascade="all",
         passive_deletes=True,
-        backref="MembershipSubject"
+        backref=backref("MembershipSubject", lazy="joined")
     )
+
+    def toJson(self):
+        """
+        Render the json representation of a Subject
+        @return: JSON representation of a Subject
+        @rtype: dict
+        """
+        out = dict()
+        out["id"] = self.id
+        out["name"] = self.name
+        out["tag"] = self.tag
+        # adding profile to json
+        if self.SubjectProfile is None:
+            out["profile"] = None
+        else:
+            out["profile"] = self.SubjectProfile.toJson()
+
+        # adding exercises with tasks to Profile.
+        if self.exercises is None:
+            out["exercises"] = None
+        else:
+            _exercises = []
+            for exercise in self.exercises:
+                _exercises.append(exercise.toJson())
+            out["exercises"] = _exercises
+        return out
 

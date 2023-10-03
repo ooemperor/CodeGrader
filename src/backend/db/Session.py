@@ -21,6 +21,7 @@ class Session:
         # dbEngine is used from the db package
         self.session = sessionmaker(dbEngine)  # creating the session
 
+
     def create(self, object_):
         """
         Adding the instance into the database
@@ -102,7 +103,7 @@ class Session:
         try:
             with self.session.begin() as session:
                 object_ = session.query(cls).get(id_)
-                session.expunge(object_)
+                session.expunge_all()
                 return object_
         except Exception:
             session.rollback()

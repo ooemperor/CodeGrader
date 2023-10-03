@@ -5,7 +5,7 @@ Database Model File for a Exercise.
 from src.backend.db.Base import Base
 from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func, \
     ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
 from src.backend.db.Subject import Subject
 
@@ -52,5 +52,24 @@ class Exercise(Base):
         order_by="[Task.name]",
         cascade="all",
         passive_deletes=True,
-        backref="TaskExercise"
+        backref=backref("TaskExercise", lazy="joined")
     )
+
+    def toJson(self):
+        """
+        Render the json representation of a Task
+        @return: JSON representation of a Task
+        @rtype: dict
+        """
+        out = dict()
+        out["id"] = self.id
+        out["name"] = self.name
+        out["tag"] = self.tag
+        if self.tasks is None:
+            out["tasks"] = None
+        else:
+            _tasks = []
+            for task in self.tasks:
+                _tasks.append(task.toJson())
+            out["tasks"] = _tasks
+        return out

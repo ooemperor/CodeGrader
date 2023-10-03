@@ -5,7 +5,7 @@ Database Model File for a Membership.
 from src.backend.db.Base import Base
 from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func, \
     ForeignKey, UniqueConstraint
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
 from src.backend.db.User import User
 from src.backend.db.Subject import Subject

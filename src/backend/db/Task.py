@@ -42,3 +42,15 @@ class Task(Base):
         nullable=True,
         index=True
     )
+
+    def toJson(self):
+        """
+        Render the json representation of a Task
+        @return: JSON representation of a Task
+        @rtype: dict
+        """
+        out = dict()
+        out["id"] = self.id
+        out["name"] = self.name
+        out["tag"] = self.tag
+        return out

@@ -38,4 +38,4 @@ class ProfileTest(unittest.TestCase):
             self.assertEqual(profile2.name, "TestProfile2")
             self.assertEqual(profile2.tag, "new tag")
             self.assertEqual(profile2.id, profile_id)
-            session.delete(profile2)
+            #session.delete(profile2)

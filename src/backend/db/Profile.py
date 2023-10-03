@@ -4,7 +4,7 @@ Database Model File for storing all the profiles that we are using. This introdu
 """
 from src.backend.db.Base import Base
 from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
 
 
@@ -42,7 +42,7 @@ class Profile(Base):
         order_by="[User.username]",
         cascade="all",
         passive_deletes=True,
-        backref="UserProfile"
+        backref=backref("UserProfile", lazy="joined")
     )
 
     # relationship to the adminusers
@@ -52,7 +52,7 @@ class Profile(Base):
         order_by="[AdminUser.username]",
         cascade="all",
         passive_deletes=True,
-        backref="AdminUserProfile"
+        backref=backref("AdminUserProfile", lazy="joined")
     )
 
     #relationships to the subjects
@@ -62,6 +62,18 @@ class Profile(Base):
         order_by="[Subject.name]",
         cascade="all",
         passive_deletes=True,
-        backref="SubjectProfile"
+        backref=backref("SubjectProfile", lazy="joined")
     )
+
+    def toJson(self):
+        """
+        Render the json representation of a Profile
+        @return: JSON representation of a profile
+        @rtype: dict
+        """
+        out = dict()
+        out["id"] = self.id
+        out["name"] = self.name
+        out["tag"] = self.tag
+        return out
 
