@@ -52,6 +52,7 @@ class Exercise(Base):
         order_by="[Task.name]",
         cascade="all",
         passive_deletes=True,
+        lazy="joined",
         backref=backref("TaskExercise", lazy="joined")
     )
 

@@ -179,7 +179,7 @@ def addExercise():
     @return: # TODO: define return type of api
     @rtype: undefined
     """
-    return TaskHandler().post(request.get_json())
+    return ExerciseHandler().post(request.get_json())
 
 
 @app.route("/exercise/<int:id_>", methods=['GET', 'PUT', 'DELETE'])

@@ -52,6 +52,7 @@ class Subject(Base):
         order_by="[Exercise.name]",
         cascade="all",
         passive_deletes=True,
+        lazy="joined",
         backref=backref("ExerciseSubject", lazy="joined")
     )
 
@@ -61,6 +62,7 @@ class Subject(Base):
         order_by="[Membership.id]",
         cascade="all",
         passive_deletes=True,
+        lazy="joined",
         backref=backref("MembershipSubject", lazy="joined")
     )
 

@@ -103,6 +103,7 @@ class Session:
         try:
             with self.session.begin() as session:
                 object_ = session.query(cls).get(id_)
+                session.expunge(object_)
                 session.expunge_all()
                 return object_
         except Exception:

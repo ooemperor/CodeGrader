@@ -42,6 +42,7 @@ class Profile(Base):
         order_by="[User.username]",
         cascade="all",
         passive_deletes=True,
+        lazy="joined",
         backref=backref("UserProfile", lazy="joined")
     )
 
@@ -52,6 +53,7 @@ class Profile(Base):
         order_by="[AdminUser.username]",
         cascade="all",
         passive_deletes=True,
+        lazy="joined",
         backref=backref("AdminUserProfile", lazy="joined")
     )
 
@@ -62,6 +64,7 @@ class Profile(Base):
         order_by="[Subject.name]",
         cascade="all",
         passive_deletes=True,
+        lazy="joined",
         backref=backref("SubjectProfile", lazy="joined")
     )
 
