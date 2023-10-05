@@ -6,7 +6,7 @@ Route definition and main File that runs the application.
 
 from flask import Flask, request, send_file
 from config import config
-from handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler
+from handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, ExerciseHandler, TaskHandler
 
 
 # construction of Application and DB Connection
@@ -124,6 +124,7 @@ def addSubject():
     """
     return SubjectHandler().post(request.get_json())
 
+
 @app.route("/subject/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
 def subject(id_):
     """
@@ -140,6 +141,63 @@ def subject(id_):
 
     elif request.method == 'DELETE':
         return SubjectHandler().delete(id_)
+
+
+# Task
+@app.route("/addTask", methods=['POST'])
+def addTask():
+    """
+    Adding a new Task in the database
+    @return: # TODO: define return type of api
+    @rtype: undefined
+    """
+    return TaskHandler().post(request.get_json())
+
+
+@app.route("/task/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
+def task(id_):
+    """
+    Route for get, post, put of Task elements.
+    @param id_: The identifier of the user
+    @return: # TODO: define return type of api
+    @rtype: undefined
+    """
+    if request.method == 'GET':
+        return TaskHandler().get(id_)
+
+    elif request.method == 'PUT':
+        return TaskHandler().put(id_, request.get_json())
+
+    elif request.method == 'DELETE':
+        return TaskHandler().delete(id_)
+
+
+@app.route("/addExercise", methods=['POST'])
+def addExercise():
+    """
+    Adding a new Exercise in the database
+    @return: # TODO: define return type of api
+    @rtype: undefined
+    """
+    return TaskHandler().post(request.get_json())
+
+
+@app.route("/exercise/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
+def exercise(id_):
+    """
+    Route for get, post, put of Exercise elements.
+    @param id_: The identifier of the user
+    @return: # TODO: define return type of api
+    @rtype: undefined
+    """
+    if request.method == 'GET':
+        return ExerciseHandler().get(id_)
+
+    elif request.method == 'PUT':
+        return ExerciseHandler().put(id_, request.get_json())
+
+    elif request.method == 'DELETE':
+        return ExerciseHandler().delete(id_)
 
 # starting the web application
 app.run(port=config.port, debug=config.debug)
