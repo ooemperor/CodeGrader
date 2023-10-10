@@ -1,9 +1,9 @@
 """
-Class for Testcases for the src.backend.db.User Class
+Class for Testcases for the codeGrader.backend.db.User Class
 @author: mkaiser
 """
 import unittest
-from src.backend.db import AdminUser, User, Session
+from codeGrader.backend.db import AdminUser, User, Session
 from sqlalchemy import select
 
 

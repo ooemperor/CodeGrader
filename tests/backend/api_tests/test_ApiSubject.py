@@ -1,6 +1,6 @@
 import unittest
 import requests, json
-from src.backend.config import config
+from codeGrader.backend.config import config
 
 
 class ApiSubjectTest(unittest.TestCase):

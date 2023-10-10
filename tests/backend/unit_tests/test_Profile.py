@@ -1,9 +1,9 @@
 """
-Class for Testcases for the src.backend.db.Profile Class
+Class for Testcases for the codeGrader.backend.db.Profile Class
 @author: mkaiser
 """
 import unittest
-from src.backend.db import Profile, Session
+from codeGrader.backend.db import Profile, Session
 from sqlalchemy import select
 
 
