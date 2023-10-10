@@ -1,6 +1,5 @@
 {
   "port": 8001,
-  "debug": 0,
   "applicationName": "CodeGrader",
   "database": {
     "dialect": "postgresql",
@@ -11,7 +10,7 @@
     "port": "5432",
     "database": "codeGraderDB"
   },
-  "metadataColumnsCount": 2,
+  "metadataColumnsCount": 3,
   "columnIgnoreList": [
     "id",
     "creation_dts",
@@ -19,5 +18,9 @@
   ],
   "tests": {
     "apiHost": "127.0.0.1"
+  },
+  "logging": {
+    "debug": 0,
+    "useIntegratedLogging": 0
   }
 }

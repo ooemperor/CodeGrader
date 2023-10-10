@@ -1,10 +1,11 @@
 """
 Defining the logger class for the CodeGrader
 Writing the own logger class for better control of the logged messages.
+
 @author: mkaiser
 """
 
-from abc import abstractmethod
+from datetime import datetime as dt
 from src.backend.config import config
 
 
@@ -23,9 +24,16 @@ class Logger:
         self.writeToFile = False
 
     def info(self, message):
-        # TODO: add doc and implement function
+        """
+        General Information to be logged.
+        General Information e.g. User has opened something.
+        @param message: The message that we shall display
+        @type message: str
+        @return: True if successful
+        @rtype: Boolean
+        """
         self._write_to_log_file(message)
-        print(message)
+        print(f"\033[1;34m INFO {dt.now()} {message}")
         return True
 
     def debug(self, message):
@@ -42,6 +50,7 @@ class Logger:
 
     def error(self, message):
         # TODO: add doc and implement function
+        self._write_to_log_file(message)
         print(message)
         return True
 

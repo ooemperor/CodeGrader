@@ -22,7 +22,8 @@ class Config:
 
         # Flask Application Configurations
         self.port = conf["port"]
-        self.debug = conf["debug"]
+        self.debug = conf["logging"]["debug"]
+        self.useIntegratedLogin = conf["logging"]["useIntegratedLogging"]
         self.appName = conf["applicationName"]
 
         # Configuration for database Connection

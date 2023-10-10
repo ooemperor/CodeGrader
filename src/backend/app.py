@@ -4,14 +4,23 @@ Route definition and main File that runs the application.
 @version: 1.0
 """
 
-from flask import Flask, request, send_file
+from flask import Flask, request
 from config import config
 from handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, ExerciseHandler, TaskHandler
-
+from src.backend.logger import Logger
+import logging
 
 # construction of Application and DB Connection
 app = Flask(config.appName)
 
+# disabling the integrated logger if set so in the config. 
+if not config.useIntegratedLogin:
+    app.logger.disabled = True
+    log = logging.getLogger('werkzeug')
+    log.disabled = True
+
+# adding the custom logger
+log = Logger()
 
 @app.route("/", methods=['POST', 'GET'])
 def home():
@@ -39,6 +48,7 @@ def user(id_):
     @return: # TODO: define return type of api
     @rtype: undefined
     """
+    log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
         return UserHandler().get(id_)
 
@@ -56,6 +66,7 @@ def addUser():
     @return: # TODO: define return type of api
     @rtype: undefined
     """
+    log.info(f"{request.remote_addr} {request.method} {request.path}")
     return UserHandler().post(request.get_json())
 
 
@@ -67,6 +78,7 @@ def adminUser(id_):
     @return: # TODO: define return type of api
     @rtype: undefined
     """
+    log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
         return AdminUserHandler().get(id_)
 
@@ -84,6 +96,7 @@ def addAdminUser():
     @return: # TODO: define return type of api
     @rtype: undefined
     """
+    log.info(f"{request.remote_addr} {request.method} {request.path}")
     return AdminUserHandler().post(request.get_json())
 
 
@@ -94,6 +107,7 @@ def addProfile():
     @return: # TODO: define return type of api
     @rtype: undefined
     """
+    log.info(f"{request.remote_addr} {request.method} {request.path}")
     return ProfileHandler().post(request.get_json())
 
 
@@ -105,6 +119,7 @@ def profile(id_):
     @return: # TODO: define return type of api
     @rtype: undefined
     """
+    log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
         return ProfileHandler().get(id_)
 
@@ -122,6 +137,7 @@ def addSubject():
     @return: # TODO: define return type of api
     @rtype: undefined
     """
+    log.info(f"{request.remote_addr} {request.method} {request.path}")
     return SubjectHandler().post(request.get_json())
 
 
@@ -133,6 +149,7 @@ def subject(id_):
     @return: # TODO: define return type of api
     @rtype: undefined
     """
+    log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
         return SubjectHandler().get(id_)
 
@@ -151,6 +168,7 @@ def addTask():
     @return: # TODO: define return type of api
     @rtype: undefined
     """
+    log.info(f"{request.remote_addr} {request.method} {request.path}")
     return TaskHandler().post(request.get_json())
 
 
@@ -190,6 +208,7 @@ def exercise(id_):
     @return: # TODO: define return type of api
     @rtype: undefined
     """
+    log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
         return ExerciseHandler().get(id_)
 
@@ -198,6 +217,7 @@ def exercise(id_):
 
     elif request.method == 'DELETE':
         return ExerciseHandler().delete(id_)
+
 
 # starting the web application
 app.run(port=config.port, debug=config.debug)
