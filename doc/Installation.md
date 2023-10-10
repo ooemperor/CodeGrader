@@ -8,6 +8,7 @@ It is assumed that you already have setup such a server and have access with a r
 
 ## General Steps
 ```
+apt-get install -y python-dev libpq-dev
 apt-get install -y pip
 ```
 
