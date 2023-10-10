@@ -4,7 +4,7 @@ Dropping the database according to the datamodel
 @see: src.backend.db
 """
 
-from src.backend.db.DBScripts import test_DB, delete_DB
+from ..db.DBScripts import test_DB, delete_DB
 
 if test_DB() is True:
     delete_DB()

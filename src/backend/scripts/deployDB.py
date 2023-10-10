@@ -4,7 +4,7 @@ Completely redeploying the Database.
 @see: src.backend.db
 """
 
-from src.backend.db.DBScripts import test_DB, delete_DB, create_DB
+from ..db.DBScripts import test_DB, delete_DB, create_DB
 
 if test_DB() is True:
     delete_DB()
