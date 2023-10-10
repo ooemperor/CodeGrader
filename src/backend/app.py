@@ -5,8 +5,8 @@ Route definition and main File that runs the application.
 """
 
 from flask import Flask, request
-from config import config
-from handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, ExerciseHandler, TaskHandler
+from src.backend.config import config
+from src.backend.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, ExerciseHandler, TaskHandler
 from src.backend.logger import Logger
 import logging
 
@@ -220,4 +220,5 @@ def exercise(id_):
 
 
 # starting the web application
-app.run(port=config.port, debug=config.debug)
+if __name__ == "__main__":
+    app.run(port=config.port, debug=config.debug)
