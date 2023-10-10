@@ -1,10 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='CodeGrader',
     version='1.0',
-    packages=['src/', 'src.backend/', 'src.backend.db/', 'src.backend.config/', 'src.backend.logger/',
-              'src.backend.handlers/'],
+    packages=find_packages(),
     url='https://github.com/ooemperor/CodeGrader',
     license='',
     author='mkaiser',
