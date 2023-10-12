@@ -5,7 +5,7 @@ Database Model to store a File (Attachment or Submission and more).
 from codeGrader.backend.db.Base import Base
 from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func, \
     LargeBinary
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
 
 
@@ -38,9 +38,37 @@ class File(Base):
         LargeBinary, nullable=False
     )
 
-    def toJson(self):
+    instruction = relationship(
+        "Instruction",
+        collection_class=ordering_list("id"),
+        order_by="[Instruction.id]",
+        cascade="all",
+        passive_deletes=True,
+        lazy="joined",
+        backref=backref("InstructionFile", lazy="joined")
+    )
+
+    attachments = relationship(
+        "Attachment",
+        collection_class=ordering_list("id"),
+        order_by="[Attachment.id]",
+        cascade="all",
+        passive_deletes=True,
+        lazy="joined",
+        backref=backref("AttachmentFile", lazy="joined")
+    )
+
+    def toJson(self, include_binary=True):
+        """
+        Render the json representation of a File
+        @param include_binary: if the Binary Data of the file should also be provided or not.
+        @type include_binary: Boolean
+        @return: JSON representation of a profile
+        @rtype: dict
+        """
         out = dict()
         out["filename"] = self.filename
         out["fileExtension"] = self.fileExtension
-        out["file"] = self.file
+        if include_binary:
+            out["file"] = self.file
         return out

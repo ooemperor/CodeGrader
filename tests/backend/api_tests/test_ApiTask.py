@@ -26,6 +26,8 @@ class ApiTaskTest(unittest.TestCase):
         self.assertEqual(200, r.status_code)
         self.assertEqual("testTask", json.loads(r.text)["name"])
         self.assertEqual("tasktag", json.loads(r.text)["tag"])
+        self.assertEqual(None, json.loads(r.text)["attachments"])
+        self.assertEqual(None, json.loads(r.text)["instructions"])
 
         r = requests.delete(f"{task_url}{task_id}")
         self.assertIsNotNone(r)
@@ -37,8 +39,8 @@ class ApiTaskTest(unittest.TestCase):
         Covers post, get and delete for the api/user
         @return: No return
         """
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addExercise"
-        task_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/exercise/"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addTask"
+        task_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/task/"
 
         task_dict = {
             "name": "testTask",
@@ -59,6 +61,8 @@ class ApiTaskTest(unittest.TestCase):
         self.assertEqual(task_id, json.loads(r.text)["id"])
         self.assertEqual("testTask", json.loads(r.text)["name"])
         self.assertEqual("tasktag", json.loads(r.text)["tag"])
+        self.assertEqual(None, json.loads(r.text)["attachments"])
+        self.assertEqual(None, json.loads(r.text)["instructions"])
 
         r = requests.put(f"{task_url}{task_id}", json=task_dict_2, headers={'content-type': 'application/json'})
         self.assertEqual(200, r.status_code)
@@ -67,6 +71,9 @@ class ApiTaskTest(unittest.TestCase):
         self.assertEqual(task_id, json.loads(r.text)["id"])
         self.assertEqual("newTaskName", json.loads(r.text)["name"])
         self.assertEqual("newTag", json.loads(r.text)["tag"])
+        self.assertEqual(None, json.loads(r.text)["attachments"])
+        self.assertEqual(None, json.loads(r.text)["instructions"])
+
 
         r = requests.delete(f"{task_url}{task_id}")
         self.assertIsNotNone(r)

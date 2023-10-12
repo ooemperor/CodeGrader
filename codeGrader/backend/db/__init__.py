@@ -7,8 +7,8 @@ import sqlalchemy as sql
 
 from codeGrader.backend.config import config
 
-
-__all__ = ["User", "AdminUser", "Profile", "Task", "Base", "dbEngine", "Session", "Subject", "Exercise", "File"]
+__all__ = ["User", "AdminUser", "Profile", "Task", "Base", "dbEngine", "Session", "Subject", "Exercise", "File",
+           "Attachment", "Instruction"]
 
 # creation of the db engine
 dbEngine = sql.create_engine(config.dbConnectionString)
@@ -24,17 +24,10 @@ from .Task import Task
 from .Base import Base
 from .Session import Session
 from .File import File
-
+from .Attachments import Attachment, Instruction
 
 """
 Classes to do in first draft:
-User ==> AdminUser
-UserProfile_lnk
-Profile
-
-Lecture
-Task
-Exercise
 Attachment
 
 Submission

@@ -20,7 +20,7 @@ class BaseHandler:
         self.sql_session = Session()  # creating the  session for later use
         self.cls = type(self)
 
-    def create_generic_response(self, method, id_, response):
+    def create_generic_response(self, method, id_, response): # TODO: move to the ErrorHandlerClass
         """
         Generates a generic method for a response Body
         @param method: the request method

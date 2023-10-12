@@ -8,8 +8,8 @@ import mimetypes
 
 from flask import Flask, request, send_file
 from codeGrader.backend.config import config
-from codeGrader.backend.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, ExerciseHandler, \
-    TaskHandler, FileHandler
+from codeGrader.backend.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler,  \
+    ExerciseHandler, TaskHandler, FileHandler
 from codeGrader.backend.logger import Logger
 import logging
 

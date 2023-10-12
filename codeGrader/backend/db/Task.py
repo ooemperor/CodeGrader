@@ -2,9 +2,12 @@
 Database Model File for a Task with its given column properties.
 @author: mkaiser
 """
+
 from codeGrader.backend.db.Base import Base
 from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func, \
     ForeignKey
+from sqlalchemy.ext.orderinglist import ordering_list
+from sqlalchemy.orm import relationship, backref
 from codeGrader.backend.db.Exercise import Exercise
 
 
@@ -43,6 +46,28 @@ class Task(Base):
         index=True
     )
 
+    # Relationships
+
+    instructions = relationship(
+        "Instruction",
+        collection_class=ordering_list("id"),
+        order_by="[Instruction.id]",
+        cascade="all",
+        passive_deletes=True,
+        lazy="joined",
+        backref=backref("TaskInstruction", lazy="joined")
+    )
+
+    attachments = relationship(
+        "Attachment",
+        collection_class=ordering_list("id"),
+        order_by="[Attachment.id]",
+        cascade="all",
+        passive_deletes=True,
+        lazy="joined",
+        backref=backref("TaskAttachment", lazy="joined")
+    )
+
     def toJson(self):
         """
         Render the json representation of a Task
@@ -53,4 +78,21 @@ class Task(Base):
         out["id"] = self.id
         out["name"] = self.name
         out["tag"] = self.tag
+
+        if len(self.instructions) == 0:
+            out["instructions"] = None
+        else:
+            _instructions = []
+            for instr in self.instructions:
+                _instructions.append(instr.toJson())
+            out["instructions"] = _instructions
+
+        if len(self.attachments) == 0:
+            out["attachments"] = None
+        else:
+            _attachments = []
+            for att in self.attachments:
+                _attachments.append(att.toJson())
+            out["attachments"] = _attachments
+
         return out
