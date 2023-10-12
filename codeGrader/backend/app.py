@@ -4,6 +4,7 @@ Route definition and main File that runs the application.
 @version: 1.0
 """
 import io
+import mimetypes
 
 from flask import Flask, request, send_file
 from codeGrader.backend.config import config
@@ -239,14 +240,17 @@ def uploadFile():
         return "Error", 500
 
 
-@app.route("/file/<int:id_>", methods=["GET"])
+@app.route("/file/<int:id_>", methods=["GET", "DELETE"])
 def file(id_):
     if request.method == 'GET':
         data = FileHandler().get(id_)
         return send_file(io.BytesIO(data["file"]),
-                         mimetype="text/plain",
+                         mimetype=mimetypes.guess_type(data["filename"])[0],
                          as_attachment=True,
                          download_name=(data["filename"]))
+
+    elif request.method == 'DELETE':
+        return FileHandler().delete(id_)
 
     else:
         # TODO: return error for wrong method.
