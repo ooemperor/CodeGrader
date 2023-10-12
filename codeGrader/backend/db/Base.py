@@ -3,11 +3,10 @@ Basic Database Object that all Tables do inherit from
 @author: mkaiser
 """
 from sqlalchemy.ext.declarative import as_declarative
-from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT
+from sqlalchemy import Boolean
 from codeGrader.backend.config import config
-from codeGrader.backend.db import dbEngine
 from sqlalchemy.orm import \
-    class_mapper, object_mapper, ColumnProperty, RelationshipProperty
+    class_mapper, ColumnProperty, RelationshipProperty
 
 
 @as_declarative()

@@ -1,23 +1,24 @@
 """
-Holds the Handlers for everything that corresponds with the Exercise
+Holds the Handlers for everything that corresponds with the Task
 @author: mkaiser
 # TODO: Handle Errors while parsing information or querying the database
 # TODO: Define and document proper response after put and post operations.
 
 """
-from codeGrader.backend.handlers.Base import BaseHandler
-from codeGrader.backend.db import Exercise
+from codeGrader.backend.api.handlers.Base import BaseHandler
+from codeGrader.backend.db import Task
 
 
-class ExerciseHandler(BaseHandler):
+class TaskHandler(BaseHandler):
     """
-    Handler for the Exercise.
+    Handler for the Task.
     Using the default get, post, delete and put methods defined in the BaseHandler
+    # TODO: integrate the files to be added.
     @see: BaseHandler
     """
     def __init__(self):
         """
-        Constructor for the ExerciseHandler
+        Constructor for the ProfileHandler
         """
         super().__init__()
-        self.dbClass = Exercise
+        self.dbClass = Task

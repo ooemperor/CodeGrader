@@ -2,8 +2,8 @@
 Database Model File for storing all the profiles that we are using. This introduces the capability to later on filter by profile
 @author: mkaiser
 """
-from codeGrader.backend.db.Base import Base
-from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func
+from .Base import Base
+from sqlalchemy import String, Integer, Column, DateTime, func
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
 

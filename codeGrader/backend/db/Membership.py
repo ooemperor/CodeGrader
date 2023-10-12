@@ -2,13 +2,11 @@
 Database Model File for a Membership.
 @author: mkaiser
 """
-from codeGrader.backend.db.Base import Base
-from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func, \
+from .Base import Base
+from .User import User
+from .Subject import Subject
+from sqlalchemy import Column, DateTime, BIGINT, func, \
     ForeignKey, UniqueConstraint
-from sqlalchemy.orm import relationship, backref
-from sqlalchemy.ext.orderinglist import ordering_list
-from codeGrader.backend.db.User import User
-from codeGrader.backend.db.Subject import Subject
 
 
 class Membership(Base):

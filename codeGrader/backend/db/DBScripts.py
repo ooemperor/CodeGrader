@@ -5,7 +5,7 @@ File for mulitple helper functions, that are associated with the Database
 from codeGrader.backend.config import config
 import psycopg2
 
-from codeGrader.backend.db import Base, dbEngine
+from . import Base, dbEngine
 
 
 def __executeSqlOnDB(sqlStatement: str):

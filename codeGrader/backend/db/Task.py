@@ -3,12 +3,12 @@ Database Model File for a Task with its given column properties.
 @author: mkaiser
 """
 
-from codeGrader.backend.db.Base import Base
-from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func, \
+from .Base import Base
+from .Exercise import Exercise
+from sqlalchemy import String, Column, DateTime, BIGINT, func, \
     ForeignKey
 from sqlalchemy.ext.orderinglist import ordering_list
 from sqlalchemy.orm import relationship, backref
-from codeGrader.backend.db.Exercise import Exercise
 
 
 class Task(Base):

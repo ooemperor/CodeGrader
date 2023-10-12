@@ -2,8 +2,8 @@
 Database Model to store a File (Attachment or Submission and more).
 @author: mkaiser
 """
-from codeGrader.backend.db.Base import Base
-from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func, \
+from .Base import Base
+from sqlalchemy import String, Integer, Column, Boolean, DateTime, func, \
     LargeBinary
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list

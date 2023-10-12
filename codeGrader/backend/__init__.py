@@ -4,7 +4,8 @@ Everything that shall be provided by the backend package needs to be provided in
 @author: mkaiser
 """
 
-from . import config
+__all__ = ["db", "api", "config"]
+
 from . import db
-from . import handlers
-from . import logger
+from . import api
+from . import config

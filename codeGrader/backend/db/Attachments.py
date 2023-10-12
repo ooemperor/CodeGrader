@@ -4,10 +4,10 @@ Instruction and Attachment are getting partioned horizontally. This makes for ea
 @author: mkaiser
 """
 
-from codeGrader.backend.db.Base import Base
-from codeGrader.backend.db.Task import Task
-from codeGrader.backend.db.File import File
-from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func, \
+from .Base import Base
+from .Task import Task
+from .File import File
+from sqlalchemy import Column, DateTime, BIGINT, func, \
     ForeignKey
 
 

@@ -8,9 +8,9 @@ import mimetypes
 
 from flask import Flask, request, send_file
 from codeGrader.backend.config import config
-from codeGrader.backend.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, \
+from codeGrader.backend.api.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, \
     ExerciseHandler, TaskHandler, FileHandler
-from codeGrader.backend.logger import Logger
+from codeGrader.backend.api.logger import Logger
 import logging
 
 # construction of Application and DB Connection

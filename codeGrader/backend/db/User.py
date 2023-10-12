@@ -2,12 +2,12 @@
 Database Model File for a user with its given column properties.
 @author: mkaiser
 """
-from codeGrader.backend.db.Base import Base
-from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func, \
+from .Base import Base
+from .Profile import Profile
+from sqlalchemy import String, Column, DateTime, BIGINT, func, \
     ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
-from codeGrader.backend.db.Profile import Profile
 
 
 class User(Base):

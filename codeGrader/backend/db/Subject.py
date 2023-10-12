@@ -2,12 +2,12 @@
 Database Model File for a Subject. Subject can also be used as a Lecture or Topic within a academic understanding.
 @author: mkaiser
 """
-from codeGrader.backend.db.Base import Base
-from sqlalchemy import String, Integer, Column, Boolean, Float, Enum, DateTime, Interval, BIGINT, VARCHAR, func, \
+from .Base import Base
+from .Profile import Profile
+from sqlalchemy import String, Column, DateTime, BIGINT, func, \
     ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
-from codeGrader.backend.db.Profile import Profile
 
 
 class Subject(Base):
