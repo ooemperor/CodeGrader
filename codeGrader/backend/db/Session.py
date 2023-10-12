@@ -21,8 +21,7 @@ class Session:
         # dbEngine is used from the db package
         self.session = sessionmaker(dbEngine)  # creating the session
 
-
-    def create(self, object_):
+    def create(self, object_: object):
         """
         Adding the instance into the database
         @param object_: The Object that we want to create.
@@ -43,7 +42,7 @@ class Session:
 
         return return_id
 
-    def delete(self, object_):
+    def delete(self, object_: object):
         """
         Deleting an instance from the database
         @param object_: The object to delete from the database
@@ -59,7 +58,7 @@ class Session:
             session.rollback()
             raise
 
-    def delete(self, cls, id_):
+    def delete(self, cls: type, id_: int):
         try:
             with self.session.begin() as session:
                 session.delete(session.get(cls, id_))
@@ -68,7 +67,7 @@ class Session:
             session.rollback()
             raise
 
-    def update(self, cls, id_, update_dict):
+    def update(self, cls: type, id_: int, update_dict: dict):
         """
         Function for updating an object in the database
         @param cls: The class of the Object for the table mapping
@@ -90,7 +89,7 @@ class Session:
             session.rollback()
             raise
 
-    def get_object(self, cls, id_):
+    def get_object(self, cls: type, id_: int):
         """
         Get a object form the database using the given identifier
         @param cls: The class of the Object for the table mapping

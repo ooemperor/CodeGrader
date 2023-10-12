@@ -8,7 +8,7 @@ import mimetypes
 
 from flask import Flask, request, send_file
 from codeGrader.backend.config import config
-from codeGrader.backend.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler,  \
+from codeGrader.backend.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, \
     ExerciseHandler, TaskHandler, FileHandler
 from codeGrader.backend.logger import Logger
 import logging
@@ -46,10 +46,11 @@ def home():
 
 
 @app.route("/user/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
-def user(id_):
+def user(id_: int):
     """
     Route for get, post, put of user elements.
     @param id_: The identifier of the user
+    @type id_: int
     @return: # TODO: define return type of api
     @rtype: undefined
     """
@@ -76,10 +77,11 @@ def addUser():
 
 
 @app.route("/adminUser/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
-def adminUser(id_):
+def adminUser(id_: int):
     """
     Route for get, post, put of user elements.
     @param id_: The identifier of the user
+    @type id_: int
     @return: # TODO: define return type of api
     @rtype: undefined
     """
@@ -117,10 +119,11 @@ def addProfile():
 
 
 @app.route("/profile/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
-def profile(id_):
+def profile(id_: int):
     """
     Route for get, post, put of profile elements.
     @param id_: The identifier of the user
+    @type id_: int
     @return: # TODO: define return type of api
     @rtype: undefined
     """
@@ -147,10 +150,11 @@ def addSubject():
 
 
 @app.route("/subject/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
-def subject(id_):
+def subject(id_: int):
     """
     Route for get, post, put of profile elements.
     @param id_: The identifier of the user
+    @type id_: int
     @return: # TODO: define return type of api
     @rtype: undefined
     """
@@ -178,10 +182,11 @@ def addTask():
 
 
 @app.route("/task/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
-def task(id_):
+def task(id_: int):
     """
     Route for get, post, put of Task elements.
     @param id_: The identifier of the user
+    @type id_: int
     @return: # TODO: define return type of api
     @rtype: undefined
     """
@@ -206,10 +211,11 @@ def addExercise():
 
 
 @app.route("/exercise/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
-def exercise(id_):
+def exercise(id_: int):
     """
     Route for get, post, put of Exercise elements.
     @param id_: The identifier of the user
+    @type id_: int
     @return: # TODO: define return type of api
     @rtype: undefined
     """
@@ -241,7 +247,14 @@ def uploadFile():
 
 
 @app.route("/file/<int:id_>", methods=["GET", "DELETE"])
-def file(id_):
+def file(id_: int):
+    """
+
+    @param id_: The id of the file in the database
+    @type id_: int
+    @return: # TODO: define return type of api
+    @rtype: undefined
+    """
     if request.method == 'GET':
         data = FileHandler().get(id_)
         return send_file(io.BytesIO(data["file"]),

@@ -23,7 +23,7 @@ class Logger:
         self.debug = config.debug
         self.writeToFile = False
 
-    def info(self, message):
+    def info(self, message: str):
         """
         General Information to be logged.
         General Information e.g. User has opened something.
@@ -36,25 +36,25 @@ class Logger:
         print(f"\033[1;34m INFO {dt.now()} {message}")
         return True
 
-    def debug(self, message):
+    def debug(self, message: str):
         # TODO: add doc and implement function
         self._write_to_log_file(message)
         print(message)
         return True
 
-    def warning(self, message):
+    def warning(self, message: str):
         # TODO: add doc and implement function
         self._write_to_log_file(message)
         print(message)
         return True
 
-    def error(self, message):
+    def error(self, message: str):
         # TODO: add doc and implement function
         self._write_to_log_file(message)
         print(message)
         return True
 
-    def _write_to_log_file(self, text):
+    def _write_to_log_file(self, text: str):
         """
         Writing Log message to log file
         # TODO: needs implementation
@@ -64,7 +64,7 @@ class Logger:
         @rtype: Boolean
         """
         if self.writeToFile:
-            # implement writing to file
+            # TODO implement writing to file
             return True
         else:
             return True

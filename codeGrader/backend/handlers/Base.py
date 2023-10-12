@@ -20,7 +20,7 @@ class BaseHandler:
         self.sql_session = Session()  # creating the  session for later use
         self.cls = type(self)
 
-    def create_generic_response(self, method, id_, response): # TODO: move to the ErrorHandlerClass
+    def create_generic_response(self, method: str, id_: int, response: str): # TODO: move to the ErrorHandlerClass
         """
         Generates a generic method for a response Body
         @param method: the request method
@@ -40,7 +40,7 @@ class BaseHandler:
         out["response"] = _response
         return out
 
-    def get(self, id_):
+    def get(self, id_: int):
         """
         Get a specific Object from the database from the corresponding table
         Will be overwritten in some of the subclasses for better assertions and preprocessing
@@ -56,7 +56,7 @@ class BaseHandler:
         assert obj_ is not None
         return obj_.toJson()
 
-    def post(self, dict_):
+    def post(self, dict_: dict):
         """
         Creating a new user object and writing in the database
         @param dict_: The dictionary/ key:value pair for the creation of the object
@@ -72,7 +72,7 @@ class BaseHandler:
 
         return self.create_generic_response('POST', new_obj_id, f"{self.dbClass} has been successfully created")
 
-    def put(self, id_, dict_):
+    def put(self, id_: int, dict_: dict):
         """
         Updating a existing Object in the database
         @param id_: The identifier of the object
@@ -89,7 +89,7 @@ class BaseHandler:
         self.sql_session.update(self.dbClass, id_, dict_)
         return self.create_generic_response('PUT', id_, f"{self.dbClass} has been successfully updated")
 
-    def delete(self, id_):
+    def delete(self, id_: int):
         """
         Deleting a object from the database
         @param id_: The identifier of the object

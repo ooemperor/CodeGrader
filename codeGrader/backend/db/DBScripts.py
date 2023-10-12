@@ -8,7 +8,7 @@ import psycopg2
 from codeGrader.backend.db import Base, dbEngine
 
 
-def __executeSqlOnDB(sqlStatement):
+def __executeSqlOnDB(sqlStatement: str):
     """
     Executes a SQL Statement on the database
     @param sqlStatement: the Statement that shall be executed.

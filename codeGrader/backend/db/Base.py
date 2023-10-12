@@ -71,7 +71,7 @@ class Base(object):
         if len(kwargs.keys()) > (len(self.column_properties) - self.metadatacolumns):
             raise AttributeError("More values provided than the Class supports in its construction")
 
-    def set_attrs(self, attributes, fill_with_defaults=True):
+    def set_attrs(self, attributes: dict, fill_with_defaults=True):
         """
         Setting the attributes for an object defined by the attributes
         @param attributes: values of the object that shall be set
