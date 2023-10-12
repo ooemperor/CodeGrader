@@ -3,10 +3,12 @@ Route definition and main File that runs the application.
 @author: mkaiser
 @version: 1.0
 """
+import io
 
-from flask import Flask, request
+from flask import Flask, request, send_file
 from codeGrader.backend.config import config
-from codeGrader.backend.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, ExerciseHandler, TaskHandler
+from codeGrader.backend.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, ExerciseHandler, \
+    TaskHandler, FileHandler
 from codeGrader.backend.logger import Logger
 import logging
 
@@ -22,6 +24,7 @@ if not config.useIntegratedLogin:
 # adding the custom logger
 log = Logger()
 
+
 @app.route("/", methods=['POST', 'GET'])
 def home():
     """
@@ -36,6 +39,7 @@ def home():
         response = {"text": "Hello World"}
         return response
     # TODO: remove home directory after paths are implement.
+
 
 # TODO: Add all the routes needed for the backend API
 
@@ -217,6 +221,36 @@ def exercise(id_):
 
     elif request.method == 'DELETE':
         return ExerciseHandler().delete(id_)
+
+
+@app.route("/uploadFile", methods=["POST"])
+def uploadFile():
+    if request.method == 'POST':
+        if len(request.files.keys()) > 1:
+            return "Error", 500
+        else:
+            file_ = request.files[list(request.files.keys())[0]]
+            file_type = file_.filename.rsplit('.', 1)[1].lower()
+            data = {"filename": file_.filename, "fileExtension": file_type, "file": file_.read()}
+            return FileHandler().post(data)
+
+    else:
+        # TODO: return error for wrong method.
+        return "Error", 500
+
+
+@app.route("/file/<int:id_>", methods=["GET"])
+def file(id_):
+    if request.method == 'GET':
+        data = FileHandler().get(id_)
+        return send_file(io.BytesIO(data["file"]),
+                         mimetype="text/plain",
+                         as_attachment=True,
+                         download_name=(data["filename"]))
+
+    else:
+        # TODO: return error for wrong method.
+        return "Error", 500
 
 
 # starting the web application

@@ -54,7 +54,7 @@ class BaseHandler:
 
         obj_ = self.sql_session.get_object(self.dbClass, id_)
         assert obj_ is not None
-        return obj_.toJson()  # TODO: need to make better user representation.
+        return obj_.toJson()
 
     def post(self, dict_):
         """

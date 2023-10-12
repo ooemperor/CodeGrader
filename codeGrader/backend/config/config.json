@@ -21,6 +21,6 @@
   },
   "logging": {
     "debug": 0,
-    "useIntegratedLogging": 0
+    "useIntegratedLogging": 1
   }
 }

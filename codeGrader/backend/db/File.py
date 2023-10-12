@@ -29,7 +29,18 @@ class File(Base):
     filename = Column(
         String, nullable=False, index=True
     )
-    #  the file directly in the database, not beatiful but worth a test
-    file = Column(
-        LargeBinary, nullable=False, index=True
+    # the file type. e.g .pdf, .py and more
+    fileExtension = Column(
+        String, nullable=False
     )
+    #  the file directly in the database, not beautiful but worth a test
+    file = Column(
+        LargeBinary, nullable=False
+    )
+
+    def toJson(self):
+        out = dict()
+        out["filename"] = self.filename
+        out["fileExtension"] = self.fileExtension
+        out["file"] = self.file
+        return out
