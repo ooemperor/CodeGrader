@@ -21,7 +21,7 @@ class Config:
         f.close()
 
         # Flask Application Configurations
-        self.port = conf["port"]
+        self.ApiPort = conf["api"]["port"]
         self.debug = conf["logging"]["debug"]
         self.useIntegratedLogin = conf["logging"]["useIntegratedLogging"]
         self.appName = conf["applicationName"]
@@ -51,4 +51,12 @@ class Config:
 
         # Configurations for Testing purposes
         self.tests_ApiHost = conf["tests"]["apiHost"]
-        self.tests_ApiPort = self.port
+        self.tests_ApiPort = self.ApiPort
+
+        # Configuration for EvaluationService
+        self.evaluationHost = conf["evaluationService"]["host"]
+        self.evaluationPort = conf["evaluationService"]["port"]
+
+        # Configuration for the ExecutionService
+        self.executionHost = conf["executionService"]["host"]
+        self.executionPort = conf["executionService"]["port"]

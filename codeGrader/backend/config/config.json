@@ -1,6 +1,17 @@
 {
-  "port": 8001,
   "applicationName": "CodeGrader",
+  "api": {
+    "host": "127.0.0.1",
+    "port": 8001
+  },
+  "evaluationService": {
+    "host": "127.0.0.1",
+    "port": 8002
+  },
+  "executionService": {
+    "host": "127.0.0.1",
+    "port": 8003
+  },
   "database": {
     "dialect": "postgresql",
     "DBdriver": "psycopg2",

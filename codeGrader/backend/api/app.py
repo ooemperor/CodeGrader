@@ -272,4 +272,4 @@ def file(id_: int):
 
 # starting the web application
 if __name__ == "__main__":
-    app.run(port=config.port, debug=config.debug)
+    app.run(port=config.ApiPort, debug=config.debug)

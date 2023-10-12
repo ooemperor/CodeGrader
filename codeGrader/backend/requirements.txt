@@ -7,3 +7,4 @@ sqlalchemy >=2.0, <2.1
 setuptools ==56.0.0
 requests >=2.31, <2.32
 gunicorn >=21.2.0, <21.3
+rpyc >=5.3, <5.4
