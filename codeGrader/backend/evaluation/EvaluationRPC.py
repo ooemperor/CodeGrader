@@ -15,16 +15,19 @@ class EvaluationRPC(Service):
     mkaiser 2023-10-12: just a POC at this point in time.
     """
 
-    def __init(self):
+    def __init__(self):
         """
         Constructor for the RPC Server
         :return: No Return
         """
-        self.server = ThreadedServer(EvaluationRPC, port=8002)
+        #self.server = ThreadedServer(EvaluationRPC, port=8002)
 
     def start(self):
+        self.server = ThreadedServer(EvaluationRPC, port=8002)
         self.server.start()
 
     @exposed
-    def exposed_hello(self):
+    def hello(self):  # TODO: delete and create proper mapping.
         print("Hello World")
+
+EvaluationRPC().start()
