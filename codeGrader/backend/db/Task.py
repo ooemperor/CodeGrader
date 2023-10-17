@@ -5,7 +5,7 @@ Database Model File for a Task with its given column properties.
 
 from .Base import Base
 from .Exercise import Exercise
-from sqlalchemy import String, Column, DateTime, BIGINT, func, \
+from sqlalchemy import String, Column, DateTime, Integer, func, \
     ForeignKey
 from sqlalchemy.ext.orderinglist import ordering_list
 from sqlalchemy.orm import relationship, backref
@@ -19,7 +19,7 @@ class Task(Base):
     __tablename__ = 'task'
 
     id = Column(
-        BIGINT, primary_key=True, index=True
+        Integer, primary_key=True, index=True
     )
     # Datetimestamp of creation in the database
     creation_dts = Column(
@@ -40,7 +40,7 @@ class Task(Base):
 
     # Foreign Keys
     exercise_id = Column(
-        BIGINT,
+        Integer,
         ForeignKey(Exercise.id, onupdate="CASCADE", ondelete="CASCADE"),
         nullable=True,
         index=True

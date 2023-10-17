@@ -5,7 +5,7 @@ Database Model File for a user with its given column properties.
 from .Base import Base
 from .Profile import Profile
 from sqlalchemy import String, Column, DateTime, BIGINT, func, \
-    ForeignKey
+    ForeignKey, Integer
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
 
@@ -19,7 +19,7 @@ class User(Base):
     __tablename__ = "user"
     # primary key
     id = Column(
-        BIGINT, primary_key=True, index=True
+        Integer, primary_key=True, index=True
     )
     # Datetimestamp of creation in the database
     creation_dts = Column(
@@ -54,7 +54,7 @@ class User(Base):
     # Foreign Keys
     # Foreign key to the Profile Table
     profile_id = Column(
-        BIGINT,
+        Integer,
         ForeignKey(Profile.id, onupdate="CASCADE", ondelete="CASCADE"),
         nullable=True,
         index=True
@@ -98,7 +98,7 @@ class AdminUser(Base):
     __tablename__ = 'adminuser'
     # primary key
     id = Column(
-        BIGINT, primary_key=True, index=True
+        Integer, primary_key=True, index=True
     )
     creation_dts = Column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
@@ -129,7 +129,7 @@ class AdminUser(Base):
 
     # Foreign key to the Profile Table
     profile_id = Column(
-        BIGINT,
+        Integer,
         ForeignKey(Profile.id, onupdate="CASCADE", ondelete="CASCADE"),
         nullable=True,
         index=True

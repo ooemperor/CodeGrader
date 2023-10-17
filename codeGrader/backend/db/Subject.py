@@ -4,7 +4,7 @@ Database Model File for a Subject. Subject can also be used as a Lecture or Topi
 """
 from .Base import Base
 from .Profile import Profile
-from sqlalchemy import String, Column, DateTime, BIGINT, func, \
+from sqlalchemy import String, Column, DateTime, Integer, func, \
     ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
@@ -18,7 +18,7 @@ class Subject(Base):
     __tablename__ = 'subject'
     # primary_key
     id = Column(
-        BIGINT, primary_key=True, index=True
+        Integer, primary_key=True, index=True
     )
     # Datetimestamp of creation in the database
     creation_dts = Column(
@@ -39,7 +39,7 @@ class Subject(Base):
 
     # Foreign key to the Profile Table
     profile_id = Column(
-        BIGINT,
+        Integer,
         ForeignKey(Profile.id, onupdate="CASCADE", ondelete="CASCADE"),
         nullable=True,
         index=True

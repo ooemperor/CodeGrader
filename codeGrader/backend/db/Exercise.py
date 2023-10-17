@@ -4,7 +4,7 @@ Database Model File for a Exercise.
 """
 from .Base import Base
 from .Subject import Subject
-from sqlalchemy import String, Column, DateTime, BIGINT, func, \
+from sqlalchemy import String, Column, DateTime, Integer, func, \
     ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
@@ -19,7 +19,7 @@ class Exercise(Base):
     __tablename__ = 'exercise'
 
     id = Column(
-        BIGINT, primary_key=True, index=True
+        Integer, primary_key=True, index=True
     )
     # Datetimestamp of creation in the database
     creation_dts = Column(
@@ -40,7 +40,7 @@ class Exercise(Base):
 
     # Foreign Keys
     subject_id = Column(
-        BIGINT,
+        Integer,
         ForeignKey(Subject.id, onupdate="CASCADE", ondelete="CASCADE"),
         nullable=True,
         index=True

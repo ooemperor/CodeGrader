@@ -5,7 +5,7 @@ Database Model File for a Membership.
 from .Base import Base
 from .User import User
 from .Subject import Subject
-from sqlalchemy import Column, DateTime, BIGINT, func, \
+from sqlalchemy import Column, DateTime, Integer, func, \
     ForeignKey, UniqueConstraint
 
 
@@ -18,7 +18,7 @@ class Membership(Base):
     __table_args__ = (UniqueConstraint("user_id", "subject_id"),)  # last comma necessary to avoid error message of data type
 
     id = Column(
-        BIGINT, primary_key=True, index=True
+        Integer, primary_key=True, index=True
     )
     # Datetimestamp of creation in the database
     creation_dts = Column(
@@ -31,14 +31,14 @@ class Membership(Base):
 
     # Foreign Keys:
     user_id = Column(
-        BIGINT,
+        Integer,
         ForeignKey(User.id, onupdate="CASCADE", ondelete="CASCADE"),
         nullable=True,
         index=True
     )
 
     subject_id = Column(
-        BIGINT,
+        Integer,
         ForeignKey(Subject.id, onupdate="CASCADE", ondelete="CASCADE"),
         nullable=True,
         index=True
