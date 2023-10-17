@@ -4,6 +4,7 @@ Configuration Class for the backend of the codeGrader
 """
 import json
 import os
+import platform
 
 
 class Config:
@@ -16,7 +17,15 @@ class Config:
         Init function for the configuration class
         @return: Created Config Object
         """
-        f = open(os.path.join(os.path.dirname(__file__), "config.json"))  # TODO Change path to /etc/fileName in productive deployment
+        self.system = platform.system()
+        if self.system == 'Windows':
+            f = open(os.path.join(os.path.dirname(__file__), "config.json"))
+        elif self.system == 'Linux':
+            f = open("etc/codeGrader/config.json")
+        else:
+            # For MAC OS there might be some changes needed here for the proper file path.
+            f = open(os.path.join(os.path.dirname(__file__), "config.json"))
+
         conf = json.load(f)
         f.close()
 
