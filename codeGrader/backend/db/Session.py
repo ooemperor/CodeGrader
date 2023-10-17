@@ -105,7 +105,7 @@ class Session:
                 session.expunge(object_)
                 session.expunge_all()
                 return object_
-        except Exception:
+        except Exception as e:
             session.rollback()
             raise
 

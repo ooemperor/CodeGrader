@@ -40,6 +40,31 @@ class BaseHandler:
         out["response"] = _response
         return out
 
+    def create_generic_error_response(self, method: str, id_: int, error: Exception):
+        """
+        Generating a generic error response when there is some sort of a Problem.
+        @param method: The method used to call the handler e.g. PUT, POST and more
+        @type method: str
+        @param id_: The id_ of the object if provided
+        @type id_: int or None
+        @param error: The Exception Object that has gotten raised.
+        @return: The custom error message that shall be provided to the user.
+        @rtype: dict
+        """
+        out = dict()
+
+        error_out = dict()
+        error_out["error_type"] = str(type(error))
+        error_out["error_msg"] = str(error)
+
+        _response = dict()
+        _response["id"] = id_
+        _response["error"] = error_out
+
+        out["method"] = method
+        out["response"] = _response
+        return out
+
     def get(self, id_: int):
         """
         Get a specific Object from the database from the corresponding table
@@ -51,10 +76,12 @@ class BaseHandler:
         """
 
         assert (id_ is not None) and (id_ > 0)
-
-        obj_ = self.sql_session.get_object(self.dbClass, id_)
-        assert obj_ is not None
-        return obj_.toJson()
+        try:
+            obj_ = self.sql_session.get_object(self.dbClass, id_)
+            assert obj_ is not None
+            return obj_.toJson()
+        except Exception as err:
+            return self.create_generic_error_response('GET', id_, err)
 
     def post(self, dict_: dict):
         """
@@ -66,11 +93,14 @@ class BaseHandler:
         """
         assert dict_ is not None
         assert len(dict_.keys()) >= 0
+        try:
+            obj_ = self.dbClass(**dict_)
+            new_obj_id = self.sql_session.create(obj_)
+            return self.create_generic_response('POST', new_obj_id, f"{self.dbClass} has been successfully created")
+        except Exception as err:
+            return self.create_generic_error_response('POST', new_obj_id, err)
 
-        obj_ = self.dbClass(**dict_)
-        new_obj_id = self.sql_session.create(obj_)
 
-        return self.create_generic_response('POST', new_obj_id, f"{self.dbClass} has been successfully created")
 
     def put(self, id_: int, dict_: dict):
         """
@@ -85,9 +115,12 @@ class BaseHandler:
         assert (id_ is not None) and (id_ > 0)
         assert dict_ is not None
         assert len(dict_.keys()) > 0
+        try:
+            self.sql_session.update(self.dbClass, id_, dict_)
+            return self.create_generic_response('PUT', id_, f"{self.dbClass} has been successfully updated")
+        except Exception as err:
+            return self.create_generic_error_response('PUT', id_, err)
 
-        self.sql_session.update(self.dbClass, id_, dict_)
-        return self.create_generic_response('PUT', id_, f"{self.dbClass} has been successfully updated")
 
     def delete(self, id_: int):
         """
@@ -98,6 +131,8 @@ class BaseHandler:
         @rtype: Boolean
         """
         assert (id_ is not None) and (id_ > 0)
-
-        self.sql_session.delete(self.dbClass, id_)
-        return self.create_generic_response('DELETE', id_, f"{self.dbClass} has been successfully deleted")
+        try:
+            self.sql_session.delete(self.dbClass, id_)
+            return self.create_generic_response('DELETE', id_, f"{self.dbClass} has been successfully deleted")
+        except Exception as err:
+            return self.create_generic_error_response('DELETE', id_, err)
