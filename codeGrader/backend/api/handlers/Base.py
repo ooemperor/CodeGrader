@@ -88,8 +88,8 @@ class BaseHandler:
         Creating a new user object and writing in the database
         @param dict_: The dictionary/ key:value pair for the creation of the object
         @type dict_: dict
-        @return: True else Error # TODO: Add more meaningful return Type
-        @rtype: Boolean
+        @return: Dictionary Containing the error or the response data
+        @rtype: dict
         """
         assert dict_ is not None
         assert len(dict_.keys()) >= 0
@@ -109,8 +109,8 @@ class BaseHandler:
         @type id_: int
         @param dict_: the arguments for the object that are updated
         @type dict_: key:value pairs
-        @return: True or False depending on the outcome of the post. # TODO: will be further refined
-        @rtype: Boolean
+        @return: Dictionary Containing the error or the response data
+        @rtype: dict
         """
         assert (id_ is not None) and (id_ > 0)
         assert dict_ is not None
@@ -127,8 +127,8 @@ class BaseHandler:
         Deleting a object from the database
         @param id_: The identifier of the object
         @type id_: int
-        @return: True or False depending on the outcome of the post. # TODO: will be further refined
-        @rtype: Boolean
+        @return: Dictionary Containing the error or the response data
+        @rtype: dict
         """
         assert (id_ is not None) and (id_ > 0)
         try:

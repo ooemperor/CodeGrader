@@ -1,10 +1,7 @@
 """
 Holds the Handlers for everything that corresponds with the Users
 @author: mkaiser
-# TODO: Handle Errors while parsing information or querying the database
-# TODO: Define and document proper response after put and post operations.
 # TODO: Define how to handle realtions of Profile and more.
-
 """
 from codeGrader.backend.api.handlers.Base import BaseHandler
 from codeGrader.backend.db import User, AdminUser
@@ -36,15 +33,15 @@ class UserHandler(BaseHandler):
         super().__init__()
         user = self.sql_session.get_object(User, id_)
         assert user is not None
-        return user.toJson()  # TODO: need to make better user representation.
+        return user.toJson()
 
     def post(self, dict_):
         """
         Creating a new user object and writing in the database
         @param dict_: The dictionary/ key:value pair for the creation of the user
         @type dict_: dict
-        @return: True else Error # TODO: Add more meaningful return Type
-        @rtype: Boolean
+        @return: Dictionary Containing the error or the response data
+        @rtype: dict
         """
         assert dict_ is not None
         assert len(dict_.keys()) == 6
@@ -62,8 +59,8 @@ class UserHandler(BaseHandler):
         @type id_: int
         @param dict_: the arguments for the user that are updated
         @type dict_: key:value pairs
-        @return: True or False depending on the outcome of the post. # TODO: will be further refined
-        @rtype: Boolean
+        @return: Dictionary Containing the error or the response data
+        @rtype: dict
         """
         assert (id_ is not None) and (id_ > 0)
         assert dict_ is not None
@@ -78,8 +75,8 @@ class UserHandler(BaseHandler):
         Deleting a user from the database
         @param id_: The identifier of the object
         @type id_: int
-        @return: True or False depending on the outcome of the post. # TODO: will be further refined
-        @rtype: Boolean
+        @return: Dictionary Containing the error or the response data
+        @rtype: dict
         """
         assert (id_ is not None) and (id_ > 0)
 
@@ -123,8 +120,8 @@ class AdminUserHandler(BaseHandler):
         Creating a new AdminUser object and writing in the database
         @param dict_: The dictionary/ key:value pair for the creation of the user
         @type dict_: dict
-        @return: True else Error # TODO: Add more meaningful return Type
-        @rtype: Boolean
+        @return: Dictionary Containing the error or the response data
+        @rtype: dict
         """
         # TODO: Require source of origin to be the adminFrontend
         super().__init__()
@@ -140,8 +137,8 @@ class AdminUserHandler(BaseHandler):
         @type id_: int
         @param dict_: the arguments for the user that are updated
         @type dict_: key:value pairs
-        @return: True or False depending on the outcome of the post. # TODO: will be further refined
-        @rtype: Boolean
+        @return: Dictionary Containing the error or the response data
+        @rtype: dict
         """
         # TODO: Require source of origin to be the adminFrontend
         super().__init__()
@@ -153,8 +150,8 @@ class AdminUserHandler(BaseHandler):
         Deleting a Adminuser from the database
         @param id_: The identifier of the object
         @type id_: int
-        @return: True or False depending on the outcome of the post. # TODO: will be further refined
-        @rtype: Boolean
+        @return: Dictionary Containing the error or the response data
+        @rtype: dict
         """
         # TODO: Require source of origin to be the adminFrontend
         super().__init__()

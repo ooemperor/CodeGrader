@@ -29,20 +29,11 @@ log = Logger()
 @app.route("/", methods=['POST', 'GET'])
 def home():
     """
-    Returns the home Data.
-    :return: The home Data for testing purposes
+    Returns the answer to all questions
+    @return: The answer to all the questions
     """
-    if request.method == "POST":
-        print(request.get_json())
-        return "Success!"
-
-    else:
-        response = {"text": "Hello World"}
-        return response
-    # TODO: remove home directory after paths are implement.
-
-
-# TODO: Add all the routes needed for the backend API
+    response = {"response": "42"}
+    return response
 
 
 @app.route("/user/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
@@ -51,8 +42,8 @@ def user(id_: int):
     Route for get, post, put of user elements.
     @param id_: The identifier of the user
     @type id_: int
-    @return: # TODO: define return type of api
-    @rtype: undefined
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
     """
     log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
@@ -69,8 +60,8 @@ def user(id_: int):
 def addUser():
     """
     Adding a new user in the database
-    @return: # TODO: define return type of api
-    @rtype: undefined
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
     """
     log.info(f"{request.remote_addr} {request.method} {request.path}")
     return UserHandler().post(request.get_json())
@@ -82,8 +73,8 @@ def adminUser(id_: int):
     Route for get, post, put of user elements.
     @param id_: The identifier of the user
     @type id_: int
-    @return: # TODO: define return type of api
-    @rtype: undefined
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
     """
     log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
@@ -100,8 +91,8 @@ def adminUser(id_: int):
 def addAdminUser():
     """
     Adding a new user in the database
-    @return: # TODO: define return type of api
-    @rtype: undefined
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
     """
     log.info(f"{request.remote_addr} {request.method} {request.path}")
     return AdminUserHandler().post(request.get_json())
@@ -111,8 +102,8 @@ def addAdminUser():
 def addProfile():
     """
     Adding a new user in the database
-    @return: # TODO: define return type of api
-    @rtype: undefined
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
     """
     log.info(f"{request.remote_addr} {request.method} {request.path}")
     return ProfileHandler().post(request.get_json())
@@ -124,8 +115,8 @@ def profile(id_: int):
     Route for get, post, put of profile elements.
     @param id_: The identifier of the user
     @type id_: int
-    @return: # TODO: define return type of api
-    @rtype: undefined
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
     """
     log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
@@ -142,8 +133,8 @@ def profile(id_: int):
 def addSubject():
     """
     Adding a new user in the database
-    @return: # TODO: define return type of api
-    @rtype: undefined
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
     """
     log.info(f"{request.remote_addr} {request.method} {request.path}")
     return SubjectHandler().post(request.get_json())
@@ -155,8 +146,8 @@ def subject(id_: int):
     Route for get, post, put of profile elements.
     @param id_: The identifier of the user
     @type id_: int
-    @return: # TODO: define return type of api
-    @rtype: undefined
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
     """
     log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
@@ -174,8 +165,8 @@ def subject(id_: int):
 def addTask():
     """
     Adding a new Task in the database
-    @return: # TODO: define return type of api
-    @rtype: undefined
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
     """
     log.info(f"{request.remote_addr} {request.method} {request.path}")
     return TaskHandler().post(request.get_json())
@@ -187,8 +178,8 @@ def task(id_: int):
     Route for get, post, put of Task elements.
     @param id_: The identifier of the user
     @type id_: int
-    @return: # TODO: define return type of api
-    @rtype: undefined
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
     """
     if request.method == 'GET':
         return TaskHandler().get(id_)
@@ -204,8 +195,8 @@ def task(id_: int):
 def addExercise():
     """
     Adding a new Exercise in the database
-    @return: # TODO: define return type of api
-    @rtype: undefined
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
     """
     return ExerciseHandler().post(request.get_json())
 
@@ -216,8 +207,8 @@ def exercise(id_: int):
     Route for get, post, put of Exercise elements.
     @param id_: The identifier of the user
     @type id_: int
-    @return: # TODO: define return type of api
-    @rtype: undefined
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
     """
     log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
@@ -232,6 +223,11 @@ def exercise(id_: int):
 
 @app.route("/uploadFile", methods=["POST"])
 def uploadFile():
+    """
+    Route to upload a file, that will be stored within the database
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
+    """
     if request.method == 'POST':
         if len(request.files.keys()) > 1:
             return "Error", 500
@@ -252,8 +248,8 @@ def file(id_: int):
 
     @param id_: The id of the file in the database
     @type id_: int
-    @return: # TODO: define return type of api
-    @rtype: undefined
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
     """
     if request.method == 'GET':
         data = FileHandler().get(id_)

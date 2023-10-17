@@ -1,9 +1,6 @@
 """
 Holds the Handlers for everything that corresponds with the Exercise
 @author: mkaiser
-# TODO: Handle Errors while parsing information or querying the database
-# TODO: Define and document proper response after put and post operations.
-
 """
 from codeGrader.backend.api.handlers.Base import BaseHandler
 from codeGrader.backend.db import Exercise

@@ -13,7 +13,6 @@ class Session:
     Updating a object in the database is handled on the object.
     @see: codeGrader.backend.db.Base
     """
-    # TODO: need more meaningful error messages.
     def __init__(self):
         """
         Constructor for the session
@@ -39,7 +38,6 @@ class Session:
         except Exception:
             session.rollback()
             raise
-
         return return_id
 
     def delete(self, object_: object):
@@ -54,15 +52,27 @@ class Session:
             with self.session.begin() as session:
                 session.delete(object_)
                 session.commit()
+                return True
+
         except Exception:
             session.rollback()
             raise
 
     def delete(self, cls: type, id_: int):
+        """
+        Deleting a object from the database by id and Class
+        @param cls: The Class of the Object
+        @type cls: type
+        @param id_: The identifier of the object in the database
+        @type id_: int
+        @return:
+        """
         try:
             with self.session.begin() as session:
                 session.delete(session.get(cls, id_))
                 session.commit()
+                return True
+
         except Exception:
             session.rollback()
             raise
