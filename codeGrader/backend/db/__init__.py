@@ -8,7 +8,7 @@ import sqlalchemy as sql
 from codeGrader.backend.config import (config)
 
 __all__ = ["User", "AdminUser", "Profile", "Task", "Base", "dbEngine", "Session", "Subject", "Exercise", "File",
-           "Attachment", "Instruction", "test_DB", "delete_DB", "create_DB"]
+           "Attachment", "Instruction", "test_DB", "delete_DB", "create_DB", "Submission"]
 
 # creation of the db engine
 dbEngine = sql.create_engine(config.dbConnectionString)
@@ -25,6 +25,7 @@ from .Base import Base
 from .Session import Session
 from .File import File
 from .Attachments import Attachment, Instruction
+from .Submission import Submission
 from .DBScripts import test_DB, create_DB, delete_DB
 
 """

@@ -53,7 +53,7 @@ class Subject(Base):
         cascade="all",
         passive_deletes=True,
         lazy="joined",
-        backref=backref("ExerciseSubject", lazy="joined")
+        backref=backref("ExerciseSubject", lazy="noload")
     )
 
     memberships = relationship(

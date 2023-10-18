@@ -68,6 +68,16 @@ class Task(Base):
         backref=backref("TaskAttachment", lazy="joined")
     )
 
+    submissions = relationship(
+        "Submission",
+        collection_class=ordering_list("id"),
+        order_by="[Submission.id]",
+        cascade="all",
+        passive_deletes=True,
+        lazy="joined",
+        backref=backref("TaskSubmission", lazy="joined")
+    )
+
     def toJson(self):
         """
         Render the json representation of a Task

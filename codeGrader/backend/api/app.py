@@ -9,7 +9,7 @@ import mimetypes
 from flask import Flask, request, send_file
 from codeGrader.backend.config import config
 from codeGrader.backend.api.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, \
-    ExerciseHandler, TaskHandler, FileHandler
+    ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler
 from codeGrader.backend.api.logger import Logger
 import logging
 
@@ -245,7 +245,7 @@ def uploadFile():
 @app.route("/file/<int:id_>", methods=["GET", "DELETE"])
 def file(id_: int):
     """
-
+    Route for a deleting or getting a file.
     @param id_: The id of the file in the database
     @type id_: int
     @return: Custom Response messgae that we get from the handler class.
@@ -264,6 +264,18 @@ def file(id_: int):
     else:
         # TODO: return error for wrong method.
         return "Error", 500
+
+
+@app.route("/addSubmission", methods=["POST"])
+def addSubmission():
+    if request.method == 'POST':
+        return SubmissionHandler().post(request.get_json())
+
+
+@app.route("/submission/<int:id_>", methods=["GET"])
+def submission(id_):
+    if request.method == 'GET':
+        return SubmissionHandler().get(id_)
 
 
 # starting the web application

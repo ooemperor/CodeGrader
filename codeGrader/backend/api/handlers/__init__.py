@@ -10,6 +10,7 @@ from .Subject import SubjectHandler
 from .Task import TaskHandler
 from .Exercise import ExerciseHandler
 from .File import FileHandler
+from .Submission import SubmissionHandler
 
 __all__ = ["BaseHandler", "UserHandler", "AdminUserHandler", "ProfileHandler", "SubjectHandler", "TaskHandler",
-           "ExerciseHandler", "FileHandler"]
+           "ExerciseHandler", "FileHandler", "SubmissionHandler"]

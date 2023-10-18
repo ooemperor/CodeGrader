@@ -64,7 +64,7 @@ class Profile(Base):
         order_by="[Subject.name]",
         cascade="all",
         passive_deletes=True,
-        lazy="joined",
+        lazy="noload",
         backref=backref("SubjectProfile", lazy="joined")
     )
 

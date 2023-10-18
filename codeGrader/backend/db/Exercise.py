@@ -53,7 +53,7 @@ class Exercise(Base):
         cascade="all",
         passive_deletes=True,
         lazy="joined",
-        backref=backref("TaskExercise", lazy="joined")
+        backref=backref("TaskExercise", lazy="noload")
     )
 
     def toJson(self):

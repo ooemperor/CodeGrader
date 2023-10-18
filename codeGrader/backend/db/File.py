@@ -44,7 +44,7 @@ class File(Base):
         order_by="[Instruction.id]",
         cascade="all",
         passive_deletes=True,
-        lazy="joined",
+        lazy="noload",
         backref=backref("InstructionFile", lazy="joined")
     )
 
@@ -54,7 +54,7 @@ class File(Base):
         order_by="[Attachment.id]",
         cascade="all",
         passive_deletes=True,
-        lazy="joined",
+        lazy="noload",
         backref=backref("AttachmentFile", lazy="joined")
     )
 
