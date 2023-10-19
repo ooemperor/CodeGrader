@@ -11,14 +11,6 @@ import time
 from enum import Enum
 
 
-class LXCStatus(Enum):
-    """
-    Enum class for the state of the LXC
-    """
-    STOPPED = 0,
-    RUNNING = 1
-
-
 class LXC:
     """
     Linux Container Class.
