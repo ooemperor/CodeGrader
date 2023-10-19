@@ -34,7 +34,7 @@ class Evaluator:
         assert actualSolution is not None
         assert self.evaluation_type is not None
         if self.evaluation_type == "basic":
-            evaluation = return self._basic_full_compare_evaluation(expectedSolution, actualSolution)
+            evaluation = self._basic_full_compare_evaluation(expectedSolution, actualSolution)
         elif self.evaluation_type == "line-per-line":
             evaluation = self._line_compare_evaluation(expectedSolution, actualSolution)
         elif self.evaluation_type == 'line-per-line-ignore-blanks':
