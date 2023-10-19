@@ -6,6 +6,7 @@ import unittest
 from codeGrader.backend.db import Task, Submission, User, Session
 from sqlalchemy import select
 
+
 class SubmissionTest(unittest.TestCase):
     def test_SubmissionCreation(self):
         """

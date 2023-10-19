@@ -88,5 +88,18 @@ class Evaluator:
         @type actualSolution: list
         @return: True if all lines match.
         """
-        raise NotImplementedError("Method is not yet implemented")
-        # TODO: Implement the no blank comparison function.  function.
+        assert self.evaluation_type == 'line-per-line-ignore-blanks' # TODO: might wanna change this string to something better
+        assert expectedSolution is not None
+        assert actualSolution is not None
+
+        if len(expectedSolution) > len(actualSolution):
+            # we do not have the same amount of output lines, so it does not match
+            return False
+
+        else:
+            j = 0 # counter for the expectedSolution
+            for i in range(0, len(actualSolution)):
+                if expectedSolution[i].strip() == actualSolution[i].strip():
+                    continue
+                else:
+                    return False  # lines do not match, we do not have the identical output
