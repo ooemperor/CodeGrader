@@ -44,3 +44,12 @@ psql --username=postgres --dbname=codeGraderDB --command='ALTER SCHEMA public OW
 psql --username=postgres --dbname=codeGraderDB --command='GRANT SELECT ON pg_largeobject TO codeGrader'
 
 ```
+
+### Execution Service
+For the execution Service we do need some additional packages,so we can create containers and more. 
+```
+apt-get install lxc libvirt0 libpam-cgfs bridge-utils uidmap
+```
+
+The installation of the lxc packages can be verified with the <code>lxc-ls</code> command. If the installation was succesful there should not be any output at this point.
+If there was some kind of error during the installation, an error message would be shown. 
