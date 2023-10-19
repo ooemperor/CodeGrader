@@ -22,7 +22,7 @@ class Evaluator:
         self.sql_session = Session()  # needed so we can later expand the evaluations.
         pass
 
-    def evaluate(self, expectedSolution, actualSolution):
+    def evaluate(self, expectedSolution, actualSolution): # TODO: define data type of input
         """
         Evaluates the expected with the actualValue based
         First Basic Version that we need to further expand.
@@ -34,11 +34,15 @@ class Evaluator:
         assert actualSolution is not None
         assert self.evaluation_type is not None
         if self.evaluation_type == "basic":
-            return self._basic_full_compare_evaluation(expectedSolution, actualSolution)
+            evaluation = return self._basic_full_compare_evaluation(expectedSolution, actualSolution)
         elif self.evaluation_type == "line-per-line":
-            return self._line_compare_evaluation(expectedSolution, actualSolution)
+            evaluation = self._line_compare_evaluation(expectedSolution, actualSolution)
+        elif self.evaluation_type == 'line-per-line-ignore-blanks':
+            evaluation = self._lin_compare_without_blanks_evaluation(expectedSolution, actualSolution)
         else:
             raise AttributeError("")
+        # TODO: create new evaluationResult in the database.
+        return evaluation
 
     def _basic_full_compare_evaluation(self, expectedSolution: str, actualSolution: str):
         """
