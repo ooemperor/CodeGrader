@@ -111,11 +111,9 @@ class Session:
         """
         try:
             with self.session.begin() as session:
-                print("before")
                 object_ = session.query(cls).get(id_)
                 session.expunge(object_)
                 session.expunge_all()
-                print("after")
                 return object_
         except Exception as e:
             session.rollback()

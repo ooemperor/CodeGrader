@@ -3,6 +3,7 @@ File for the ResponseHandlers.
 e.g. GenericResponseHandler and ErrorResponse Handler
 @author: mkaiser
 """
+import sqlalchemy.orm.exc
 
 
 class GenericResponseHandler:
@@ -15,7 +16,8 @@ class GenericResponseHandler:
         empty constructor for the Generic ResponseHandler
         """
 
-    def get_response_code(self, method: str):
+    @staticmethod
+    def _get_response_code(method: str):
         if method == 'POST':
             return 201
         elif method == 'DELETE':
@@ -42,7 +44,7 @@ class GenericResponseHandler:
         out["method"] = method
         out["response"] = _response
 
-        return out, self.get_response_code(method)
+        return out, self._get_response_code(method)
 
 
 class ErrorResponseHandler:
@@ -55,6 +57,15 @@ class ErrorResponseHandler:
         """
         Constructor for the Errorhandler
         """
+
+    @staticmethod
+    def _get_response_code(exception: Exception):
+        if exception in [sqlalchemy.orm.exc.UnmappedInstanceError]:
+            # object was not found in the database
+            return 404
+        else:
+            # return general server error
+            return 500
 
     def generate_response(self, method: str, id_: int, exception: Exception):
         """
@@ -81,4 +92,4 @@ class ErrorResponseHandler:
 
         out["method"] = method
         out["response"] = _response
-        return out
+        return out, self._get_response_code(exception)

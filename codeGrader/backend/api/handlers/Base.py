@@ -48,7 +48,7 @@ class BaseHandler:
         @return: The custom error message that shall be provided to the user.
         @rtype: dict
         """
-        return self.errorHandler.generate_response(method, id_, exception)
+        return self.errorResponseHandler.generate_response(method, id_, exception)
 
     def get(self, id_: int):
         """
