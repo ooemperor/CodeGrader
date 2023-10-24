@@ -100,8 +100,6 @@ class BaseHandler:
         except Exception as err:
             return self.create_generic_error_response('POST', new_obj_id, err)
 
-
-
     def put(self, id_: int, dict_: dict):
         """
         Updating a existing Object in the database
@@ -120,7 +118,6 @@ class BaseHandler:
             return self.create_generic_response('PUT', id_, f"{self.dbClass} has been successfully updated")
         except Exception as err:
             return self.create_generic_error_response('PUT', id_, err)
-
 
     def delete(self, id_: int):
         """
