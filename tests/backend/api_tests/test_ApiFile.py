@@ -19,7 +19,7 @@ class ApiFileTest(unittest.TestCase):
         r = requests.post(create_url, files=files)
         test_file.close()
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(201, r.status_code)
         file_id = json.loads(r.text)["response"]["id"]
 
         r = requests.get(f"{file_url}{file_id}")
@@ -27,4 +27,4 @@ class ApiFileTest(unittest.TestCase):
 
         r = requests.delete(f"{file_url}{file_id}")
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(204, r.status_code)

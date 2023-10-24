@@ -19,7 +19,7 @@ class ApiSubjectTest(unittest.TestCase):
         }
         r = requests.post(create_url, json=subject_dict)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(201, r.status_code)
         subject_id = json.loads(r.text)["response"]["id"]
 
         r = requests.get(f"{subject_url}{subject_id}")
@@ -29,7 +29,7 @@ class ApiSubjectTest(unittest.TestCase):
 
         r = requests.delete(f"{subject_url}{subject_id}")
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(204, r.status_code)
 
     def test_createUpdateAndDeleteSubject(self):
         """
@@ -51,7 +51,7 @@ class ApiSubjectTest(unittest.TestCase):
         }
         r = requests.post(create_url, json=subject_dict)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(201, r.status_code)
         subject_id = json.loads(r.text)["response"]["id"]
 
         r = requests.get(f"{subject_url}{subject_id}")
@@ -70,4 +70,4 @@ class ApiSubjectTest(unittest.TestCase):
 
         r = requests.delete(f"{subject_url}{subject_id}")
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(204, r.status_code)

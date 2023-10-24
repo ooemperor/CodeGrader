@@ -24,7 +24,7 @@ class ApiUserTest(unittest.TestCase):
         # creating the user
         r = requests.post(create_url, json=user_dict)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(201, r.status_code)
         user_id = json.loads(r.text)["response"]["id"]
 
         # checks after creation
@@ -38,7 +38,7 @@ class ApiUserTest(unittest.TestCase):
 
         # deleting the user after the test
         r = requests.delete(f"{user_url}{user_id}")
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(204, r.status_code)
         self.assertIsNotNone(r)
 
     def test_createUpdateAndDeleteUser(self):
@@ -62,7 +62,7 @@ class ApiUserTest(unittest.TestCase):
         # creating the user
         r = requests.post(create_url, json=user_dict)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(201, r.status_code)
         user_id = json.loads(r.text)["response"]["id"]
 
         # checks after creation
@@ -99,7 +99,7 @@ class ApiUserTest(unittest.TestCase):
         # deleting the user after the test
         r = requests.delete(f"{user_url}{user_id}")
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(204, r.status_code)
 
 
 class ApiAdminUserTest(unittest.TestCase):
@@ -123,7 +123,7 @@ class ApiAdminUserTest(unittest.TestCase):
         # creating the user
         r = requests.post(create_url, json=adminUser_dict)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(201, r.status_code)
         adminUser_id = json.loads(r.text)["response"]["id"]
 
         # checks after creation
@@ -137,9 +137,8 @@ class ApiAdminUserTest(unittest.TestCase):
 
         # deleting the user after the test
         r = requests.delete(f"{adminUser_url}{adminUser_id}")
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(204, r.status_code)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
 
     def test_createUpdateAndDeleteUser(self):
         """
@@ -162,7 +161,7 @@ class ApiAdminUserTest(unittest.TestCase):
         # creating the user
         r = requests.post(create_url, json=user_dict)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(201, r.status_code)
         adminUser_id = json.loads(r.text)["response"]["id"]
 
         # checks after creation
@@ -199,4 +198,4 @@ class ApiAdminUserTest(unittest.TestCase):
         # deleting the user after the test
         r = requests.delete(f"{adminUser_url}{adminUser_id}")
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(204, r.status_code)

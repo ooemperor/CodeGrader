@@ -19,7 +19,7 @@ class ApiProfileTest(unittest.TestCase):
         }
         r = requests.post(create_url, json=profile_dict)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(201, r.status_code)
         profile_id = json.loads(r.text)["response"]["id"]
 
         r = requests.get(f"{profile_url}{profile_id}")
@@ -29,7 +29,7 @@ class ApiProfileTest(unittest.TestCase):
 
         r = requests.delete(f"{profile_url}{profile_id}")
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(204, r.status_code)
 
     def test_createUpdateAndDeleteProfile(self):
         """
@@ -51,7 +51,7 @@ class ApiProfileTest(unittest.TestCase):
         }
         r = requests.post(create_url, json=profile_dict)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(201, r.status_code)
         profile_id = json.loads(r.text)["response"]["id"]
 
         r = requests.get(f"{profile_url}{profile_id}")
@@ -70,4 +70,4 @@ class ApiProfileTest(unittest.TestCase):
 
         r = requests.delete(f"{profile_url}{profile_id}")
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(204, r.status_code)

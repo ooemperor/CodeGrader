@@ -19,7 +19,7 @@ class ApiTaskTest(unittest.TestCase):
         }
         r = requests.post(create_url, json=task_dict)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(201, r.status_code)
         task_id = json.loads(r.text)["response"]["id"]
 
         r = requests.get(f"{task_url}{task_id}")
@@ -31,7 +31,7 @@ class ApiTaskTest(unittest.TestCase):
 
         r = requests.delete(f"{task_url}{task_id}")
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(204, r.status_code)
 
     def test_createUpdateAndDeleteTask(self):
         """
@@ -53,7 +53,7 @@ class ApiTaskTest(unittest.TestCase):
         }
         r = requests.post(create_url, json=task_dict)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(201, r.status_code)
         task_id = json.loads(r.text)["response"]["id"]
 
         r = requests.get(f"{task_url}{task_id}")
@@ -74,7 +74,6 @@ class ApiTaskTest(unittest.TestCase):
         self.assertEqual(None, json.loads(r.text)["attachments"])
         self.assertEqual(None, json.loads(r.text)["instructions"])
 
-
         r = requests.delete(f"{task_url}{task_id}")
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(204, r.status_code)

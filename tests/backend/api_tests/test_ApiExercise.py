@@ -19,7 +19,7 @@ class ApiExerciseTest(unittest.TestCase):
         }
         r = requests.post(create_url, json=exercise_dict)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(201, r.status_code)
         exercise_id = json.loads(r.text)["response"]["id"]
 
         r = requests.get(f"{exercise_url}{exercise_id}")
@@ -29,7 +29,7 @@ class ApiExerciseTest(unittest.TestCase):
 
         r = requests.delete(f"{exercise_url}{exercise_id}")
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(204, r.status_code)
 
     def test_createUpdateAndDeleteExercise(self):
         """
@@ -51,7 +51,7 @@ class ApiExerciseTest(unittest.TestCase):
         }
         r = requests.post(create_url, json=exercise_dict)
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(201, r.status_code)
         exercise_id = json.loads(r.text)["response"]["id"]
 
         r = requests.get(f"{exercise_url}{exercise_id}")
@@ -70,4 +70,4 @@ class ApiExerciseTest(unittest.TestCase):
 
         r = requests.delete(f"{exercise_url}{exercise_id}")
         self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
+        self.assertEqual(204, r.status_code)
