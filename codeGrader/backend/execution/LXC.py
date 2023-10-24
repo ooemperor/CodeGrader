@@ -7,8 +7,6 @@ This class will act as a controller for the lxc
 
 import os
 import subprocess
-import time
-from enum import Enum
 
 
 class LXC:
@@ -25,7 +23,7 @@ class LXC:
         self.status = "stopped"
         self._lxc_setup()  # creating the lxc
 
-    def _invariant_os():
+    def _invariant_os(self, func):
         """
         Invariant method that checks if the os is a posix system.
         This lets the process fail if we do not have a posix system, so we do not attempt to make damage to the OS.
@@ -34,15 +32,16 @@ class LXC:
         """
         assert os.name == 'posix'
         assert int(os.system("lxc-ls")) == 0
+        
 
-    @staticmethod
-    def _run_cmd(command):
+    def _run_cmd(self, command):
         """
         Runs a subprocess aka Command and only return the text output
         @param command:
         @return:
         """
         result = None
+        assert self.name is not None
         p1 = subprocess.run(command, shell=True, text=True, capture_output=True)
         result = p1.stdout
         return result
