@@ -23,17 +23,18 @@ class LXC:
         self.status = "stopped"
         self._lxc_setup()  # creating the lxc
 
-    def _invariant_os(self, func):
+    @staticmethod
+    def _invariant_os():
         """
         Invariant method that checks if the os is a posix system.
         This lets the process fail if we do not have a posix system, so we do not attempt to make damage to the OS.
         @return: No Return
         @rtype: None
         """
-        def check_os(self):
+        def wrapper():
             assert os.name == 'posix'
             assert int(os.system("lxc-ls")) == 0
-        return check_os
+        return wrapper()
 
 
     def _run_cmd(self, command):
