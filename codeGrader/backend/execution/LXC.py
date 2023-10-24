@@ -30,9 +30,11 @@ class LXC:
         @return: No Return
         @rtype: None
         """
-        assert os.name == 'posix'
-        assert int(os.system("lxc-ls")) == 0
-        
+        def check_os(self):
+            assert os.name == 'posix'
+            assert int(os.system("lxc-ls")) == 0
+        return check_os
+
 
     def _run_cmd(self, command):
         """
