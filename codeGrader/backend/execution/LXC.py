@@ -87,6 +87,7 @@ class LXC:
         assert self._invariant_os()
         command = f"lxc-start -n {self.name}"
         self._run_cmd(command)
+        self._lxc_get_status()
 
     def lxc_stop(self):
         """
@@ -98,6 +99,7 @@ class LXC:
         assert self.status != 'stopped'
         cmd = f"lxc-stop -n {self.name}"
         os.system(cmd)
+        self._lxc_get_status()
 
     def lxc_execute_command(self, command):
         """
@@ -118,4 +120,3 @@ class LXC:
         """
         assert self._invariant_os()
         assert file is not None
-
