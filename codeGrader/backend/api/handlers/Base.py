@@ -3,6 +3,7 @@ Base Handler for the backend API. Setting basic properties like a session.
 @author: mkaiser
 """
 from codeGrader.backend.db import Session
+from .ResponseGenerator import ErrorResponseHandler, GenericResponseHandler
 
 
 class BaseHandler:
@@ -19,8 +20,10 @@ class BaseHandler:
         """
         self.sql_session = Session()  # creating the  session for later use
         self.cls = type(self)
+        self.errorResponseHandler = ErrorResponseHandler()  # adding errorhandler in case we need it
+        self.genericResponseHandler = GenericResponseHandler()  # generic Response Handler when there are no errors
 
-    def create_generic_response(self, method: str, id_: int, response: str): # TODO: move to the ErrorHandlerClass
+    def create_generic_response(self, method: str, id_: int, response: str):
         """
         Generates a generic method for a response Body
         @param method: the request method
@@ -32,38 +35,20 @@ class BaseHandler:
         @return: The response JSON
         @rtype: dict
         """
-        out = dict()
-        _response = dict()
-        _response["id"] = id_
-        _response["message"] = response
-        out["method"] = method
-        out["response"] = _response
-        return out
+        return self.genericResponseHandler.generate_response(method, id_, response)
 
-    def create_generic_error_response(self, method: str, id_: int, error: Exception):
+    def create_generic_error_response(self, method: str, id_: int, exception: Exception):
         """
         Generating a generic error response when there is some sort of a Problem.
         @param method: The method used to call the handler e.g. PUT, POST and more
         @type method: str
         @param id_: The id_ of the object if provided
         @type id_: int or None
-        @param error: The Exception Object that has gotten raised.
+        @param exception: The Exception Object that has gotten raised.
         @return: The custom error message that shall be provided to the user.
         @rtype: dict
         """
-        out = dict()
-
-        error_out = dict()
-        error_out["error_type"] = str(type(error))
-        error_out["error_msg"] = str(error)
-
-        _response = dict()
-        _response["id"] = id_
-        _response["error"] = error_out
-
-        out["method"] = method
-        out["response"] = _response
-        return out
+        return self.errorHandler.generate_response(method, id_, exception)
 
     def get(self, id_: int):
         """
@@ -93,6 +78,7 @@ class BaseHandler:
         """
         assert dict_ is not None
         assert len(dict_.keys()) >= 0
+        new_obj_id = None
         try:
             obj_ = self.dbClass(**dict_)
             new_obj_id = self.sql_session.create(obj_)
