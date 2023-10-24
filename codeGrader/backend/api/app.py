@@ -268,12 +268,24 @@ def file(id_: int):
 
 @app.route("/addSubmission", methods=["POST"])
 def addSubmission():
+    """
+    Add a submission to the DB
+    @return: Response in form of dictionary
+    @rtype: dict
+    """
     if request.method == 'POST':
         return SubmissionHandler().post(request.get_json())
 
 
 @app.route("/submission/<int:id_>", methods=["GET"])
 def submission(id_):
+    """
+    Handler for get of a Submission
+    @param id_: The id_ of the submission to get
+    @type  id_: int
+    @return: The JSON representation of the submission
+    @rtype: dict
+    """
     if request.method == 'GET':
         return SubmissionHandler().get(id_)
 
