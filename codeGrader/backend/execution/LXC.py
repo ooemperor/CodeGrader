@@ -68,7 +68,7 @@ class LXC:
         command = f"lxc-create -n {self.name} -t debian -- -r bullseye"
         self._run_cmd(command)
 
-    def _lxc_destroy(self):
+    def lxc_destroy(self):
         """
         Destroy the LXC after the execution has finished.
         @return: Nothing
@@ -78,7 +78,7 @@ class LXC:
         command = f"lxc-destroy -n {self.name}"
         self._run_cmd(command)
 
-    def _lxc_start(self):
+    def lxc_start(self):
         """
         Setup an LXC for the Execution
         @return: Nothing
@@ -88,7 +88,7 @@ class LXC:
         command = f"lxc-start -n {self.name}"
         self._run_cmd(command)
 
-    def _lxc_stop(self):
+    def lxc_stop(self):
         """
         Stop the lxc container of the execution
         @return: Nothing
@@ -118,4 +118,4 @@ class LXC:
         """
         assert self._invariant_os()
         assert file is not None
-        
+
