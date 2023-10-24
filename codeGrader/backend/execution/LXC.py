@@ -95,6 +95,7 @@ class LXC:
         @rtype: None
         """
         assert self._invariant_os()
+        assert self.status != 'stopped'
         cmd = f"lxc-stop -n {self.name}"
         os.system(cmd)
 
@@ -116,3 +117,5 @@ class LXC:
         @return: None
         """
         assert self._invariant_os()
+        assert file is not None
+        
