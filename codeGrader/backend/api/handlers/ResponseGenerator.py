@@ -67,7 +67,7 @@ class ErrorResponseHandler:
             # return general server error
             return 500
 
-    def generate_response(self, method: str, id_: int, exception: Exception):
+    def generate_response(self, method: str, exception: Exception, id_: int = None):
         """
         The Response Generator
         @param method: The method of the request

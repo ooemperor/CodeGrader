@@ -3,6 +3,7 @@
     "applicationName": "CodeGrader",
     "host": "127.0.0.1",
     "port": 8001,
+    "TokenAuthorization": 1,
     "tokenLength": 30
   },
   "evaluationService": {

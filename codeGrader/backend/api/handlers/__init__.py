@@ -11,6 +11,8 @@ from .Task import TaskHandler
 from .Exercise import ExerciseHandler
 from .File import FileHandler
 from .Submission import SubmissionHandler
+from .Exceptions import AuthorizationFail
+from .Authentication import authentication
 
 __all__ = ["BaseHandler", "UserHandler", "AdminUserHandler", "ProfileHandler", "SubjectHandler", "TaskHandler",
-           "ExerciseHandler", "FileHandler", "SubmissionHandler"]
+           "ExerciseHandler", "FileHandler", "SubmissionHandler", "authentication", "AuthorizationFail"]

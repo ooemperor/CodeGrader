@@ -5,11 +5,12 @@ Route definition and main File that runs the application.
 """
 import io
 import mimetypes
+from functools import wraps
 
 from flask import Flask, request, send_file
 from codeGrader.backend.config import config
 from codeGrader.backend.api.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, \
-    ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler
+    ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler, authentication
 from codeGrader.backend.api.logger import Logger
 import logging
 
@@ -27,6 +28,7 @@ log = Logger()
 
 
 @app.route("/", methods=['POST', 'GET'])
+@authentication
 def home():
     """
     Returns the answer to all questions

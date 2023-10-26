@@ -34,6 +34,7 @@ class Config:
         self.debug = conf["logging"]["debug"]
         self.useIntegratedLogin = conf["logging"]["useIntegratedLogging"]
         self.appName = conf["api"]["applicationName"]
+        self.tokenAuthorization = conf["api"]["TokenAuthorization"]
         self.tokenLength = conf["api"]["tokenLength"]
 
         # Configuration for database Connection
