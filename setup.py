@@ -9,9 +9,9 @@ setup(
     author='mkaiser',
     author_email='',
     description='',
-    entrypoints={
-        "console_scripts":[
-            "codeGraderDeployDB=codeGrader.scripts.deployDB:main"
+    entry_points={
+        'console_scripts': [
+            'codeGraderDeployDB = codeGrader.scripts.deployDB:main'
         ]
     }
 )

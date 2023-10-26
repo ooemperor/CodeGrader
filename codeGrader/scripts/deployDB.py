@@ -6,6 +6,7 @@ Completely redeploying the Database.
 import sys
 from codeGrader.backend.db import test_DB, delete_DB, create_DB
 
+
 def main():
     if test_DB() is True:
         delete_DB()
