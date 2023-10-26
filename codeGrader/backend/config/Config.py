@@ -33,7 +33,8 @@ class Config:
         self.ApiPort = conf["api"]["port"]
         self.debug = conf["logging"]["debug"]
         self.useIntegratedLogin = conf["logging"]["useIntegratedLogging"]
-        self.appName = conf["applicationName"]
+        self.appName = conf["api"]["applicationName"]
+        self.tokenLength = conf["api"]["tokenLength"]
 
         # Configuration for database Connection
         self.DBName = conf["database"]["database"]
@@ -55,8 +56,8 @@ class Config:
                                    "/" +
                                    conf["database"]["database"]
                                    )
-        self.metadataColumnsAmount = conf["metadataColumnsCount"]
-        self.columnIgnoreList = conf["columnIgnoreList"]
+        self.metadataColumnsAmount = conf["database"]["datamodel"]["metadataColumnsCount"]
+        self.columnIgnoreList = conf["database"]["datamodel"]["columnIgnoreList"]
 
         # Configurations for Testing purposes
         self.tests_ApiHost = conf["tests"]["apiHost"]

@@ -1,8 +1,9 @@
 {
-  "applicationName": "CodeGrader",
   "api": {
+    "applicationName": "CodeGrader",
     "host": "127.0.0.1",
-    "port": 8001
+    "port": 8001,
+    "tokenLength": 30
   },
   "evaluationService": {
     "host": "127.0.0.1",
@@ -19,14 +20,16 @@
     "password": "codeGrader",
     "host": "10.101.10.82",
     "port": "5432",
-    "database": "codeGraderDB"
+    "database": "codeGraderDB",
+    "datamodel": {
+      "metadataColumnsCount": 3,
+      "columnIgnoreList": [
+        "id",
+        "creation_dts",
+        "updated_dts"
+      ]
+    }
   },
-  "metadataColumnsCount": 3,
-  "columnIgnoreList": [
-    "id",
-    "creation_dts",
-    "updated_dts"
-  ],
   "tests": {
     "apiHost": "127.0.0.1"
   },

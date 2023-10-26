@@ -4,6 +4,9 @@ DB Model File that holds all the classes/tables that are related to the Authenti
 """
 from .Base import Base
 from sqlalchemy import String, Column, DateTime, Integer, func
+from codeGrader.backend.config import config
+import string
+import random
 
 
 class APIToken(Base):
@@ -30,6 +33,27 @@ class APIToken(Base):
     token = Column(
         String, nullable=False, index=True
     )
-    owner = Column(
+    description = Column(
         String, nullable=False, index=False
     )
+
+    def __init__(self, description: str):
+        """
+        API Token Constructor of an Object in the database
+        Overwrites the Base Constructor.
+        @param description: the description of the token and what it is used for.
+        @type description: str
+        """
+        self.cls = type(self)  # cls is short form for class
+        assert description is not None
+        kwargs = dict()
+        kwargs["description"] = description
+
+        token = ""
+        for i in range(0, config.tokenLength):
+            token += random.choice(string.ascii_lowercase + string.digits)
+
+        kwargs["token"] = token
+
+        # after preprocessing setting/updating the attributes
+        self.set_attrs(kwargs)
