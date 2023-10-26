@@ -38,24 +38,23 @@ class Evaluation:
         elif self.evaluation_type == "line-per-line":
             evaluation = self._line_compare_evaluation(expectedSolution, actualSolution)
         elif self.evaluation_type == 'line-per-line-ignore-blanks':
-            evaluation = self._lin_compare_without_blanks_evaluation(expectedSolution, actualSolution)
+            evaluation = self._line_compare_without_blanks_evaluation(expectedSolution, actualSolution)
         else:
             raise AttributeError("")
         # TODO: create new evaluationResult in the database.
         return evaluation
 
-    def _basic_full_compare_evaluation(self, expectedSolution: str, actualSolution: str):
+    def _basic_full_compare_evaluation(self, expectedSolution: list, actualSolution: list):
         """
         Basic Fullcompare evaluation
-        @param expectedSolution: The Solution that we expect to be correct
-        @type expectedSolution: str
-        @param actualSolution: The solution that we got provided from the execution Service
-        @type actualSolution: str
+        @param expectedSolution: The Solution that we expect to be correct. List of lines
+        @type expectedSolution: list
+        @param actualSolution: The solution that we got provided from the execution Service. List of lines
+        @type actualSolution: list
         @return:
         """
-        # TODO: define the assertions better.
-        # assert type(expectedSolution) is str
-        # assert type(actualSolution) is str
+        assert type(expectedSolution) == list
+        assert type(actualSolution) == list
         assert self.evaluation_type == "basic"
         if expectedSolution == actualSolution:
             return True
@@ -74,18 +73,18 @@ class Evaluation:
         assert self.evaluation_type == "line-per-line"
         assert expectedSolution is not None
         assert actualSolution is not None
-        if len(expectedSolution.readlines()) != len(actualSolution.readlines()):
+        if len(expectedSolution) != len(actualSolution):
             # we do not have the same amount of output lines, so it does not match
             return False
         else:
-            for i in range(0, len(expectedSolution.readlines())):
+            for i in range(0, len(expectedSolution)):
                 if expectedSolution[i] == actualSolution[i]:
                     continue
                 else:
                     return False  # lines do not match, we do not have the identical output
             return True
 
-    def _lin_compare_without_blanks_evaluation(self, expectedSolution: list, actualSolution: list):
+    def _line_compare_without_blanks_evaluation(self, expectedSolution: list, actualSolution: list):
         """
         Compare the two inputs while ignoring any additional blanks at the end of the line.
         @param expectedSolution: List of lines from the master solution from the Task.
@@ -98,13 +97,13 @@ class Evaluation:
         assert expectedSolution is not None
         assert actualSolution is not None
 
-        if len(expectedSolution.readlines()) > len(actualSolution.readlines()):
+        if len(expectedSolution) > len(actualSolution):
             # we do not have the same amount of output lines, so it does not match
             return False
 
         else:
             j = 0  # counter for the expectedSolution
-            for i in range(0, len(actualSolution.readlines())):
+            for i in range(0, len(actualSolution)):
                 if expectedSolution[i].strip() == actualSolution[i].strip():
                     continue
                 else:
