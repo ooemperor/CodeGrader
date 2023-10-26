@@ -8,5 +8,10 @@ setup(
     license='',
     author='mkaiser',
     author_email='',
-    description=''
+    description='',
+    entrypoints={
+        "console_scripts":[
+            "codeGraderDeployDB=codeGrader.scripts.deployDB:main"
+        ]
+    }
 )
