@@ -30,4 +30,5 @@ class EvaluationRPC(Service):
     def hello(self):  # TODO: delete and create proper mapping.
         print("Hello World")
 
-EvaluationRPC().start()
+if __name__ == '__main__':
+    EvaluationRPC().start()

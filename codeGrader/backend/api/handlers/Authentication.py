@@ -13,7 +13,6 @@ from sqlalchemy import select
 from flask import request
 
 
-
 def _check_authentication(api_token: str):
     """
     Checking if the provided api_token is valid
@@ -41,15 +40,21 @@ def authentication(f):
     """
     @wraps(f)
     def decorator(*args, **kwargs):
-        if "Authorization" in request.headers:
+        if config.tokenAuthorization:
+            if "Authorization" in request.headers:
 
-            try:
-                _check_authentication(request.headers['Authorization'].split(' ')[1])
-                return f(*args, **kwargs)
-            except sqlalchemy.exc.NoResultFound:
-                error = AuthorizationFail("API Key is not valid")
+                try:
+                    _check_authentication(request.headers['Authorization'].split(' ')[1])
+                    return f(*args, **kwargs)
+
+                except sqlalchemy.exc.NoResultFound:
+                    error = AuthorizationFail("API Key is not valid")
+                    return ErrorResponseHandler().generate_response(request.method, error)
+
+            else:
+                error = AuthorizationRequired("No Authorization has been provided")
                 return ErrorResponseHandler().generate_response(request.method, error)
+
         else:
-            error = AuthorizationRequired("No Authorization has been provided")
-            return ErrorResponseHandler().generate_response(request.method, error)
+            return f(*args, **kwargs)
     return decorator

@@ -4,6 +4,7 @@ e.g. GenericResponseHandler and ErrorResponse Handler
 @author: mkaiser
 """
 import sqlalchemy.orm.exc
+from .Exceptions import AuthorizationException
 
 
 class GenericResponseHandler:
@@ -63,6 +64,8 @@ class ErrorResponseHandler:
         if exception in [sqlalchemy.orm.exc.UnmappedInstanceError]:
             # object was not found in the database
             return 404
+        elif issubclass(type(exception), AuthorizationException):
+            return 401
         else:
             # return general server error
             return 500
@@ -87,7 +90,8 @@ class ErrorResponseHandler:
         error_out["error_msg"] = str(exception)
 
         _response = dict()
-        _response["id"] = id_
+        if id_ is not None:
+            _response["id"] = id_
         _response["error"] = error_out
 
         out["method"] = method
