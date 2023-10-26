@@ -21,7 +21,7 @@ class Config:
         if self.system == 'Windows':
             f = open(os.path.join(os.path.dirname(__file__), "config.json"))
         elif self.system == 'Linux':
-            f = open("etc/codeGrader/config.json")
+            f = open("/etc/codeGrader/config.json")
         else:
             # For MAC OS there might be some changes needed here for the proper file path.
             f = open(os.path.join(os.path.dirname(__file__), "config.json"))
