@@ -2,4 +2,9 @@
 This package is used for the execution service of the CodeGrader
 @author: mkaiser
 """
-__all__ = []
+
+from .ExecutionRPC import ExecutionRPC
+
+__all__ = ["ExecutionRPC"]
+
+

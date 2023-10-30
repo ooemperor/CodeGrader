@@ -11,7 +11,7 @@ import rpyc
 
 
 @service
-class EvaluationRPC(Service):
+class ExecutionRPC(Service):
     """
     RPC Server for the evaluation Service
     mkaiser 2023-10-12: just a POC at this point in time.

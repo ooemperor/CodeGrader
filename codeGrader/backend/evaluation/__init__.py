@@ -4,6 +4,5 @@ This package is used for the evaluation service of the CodeGrader
 """
 
 from .EvaluationRPC import EvaluationRPC
-from .Evaluation import Evaluation
 
-__all__ = ["EvaluationRPC", "Evaluation"]
+__all__ = ["EvaluationRPC"]
