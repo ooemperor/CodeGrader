@@ -36,7 +36,7 @@ class ExecutionRPC(Service):
         self.server.start()
 
     @exposed
-    def addEvaluation(self, submission_id_ : int):
+    def addExecution(self, submission_id_ : int):
         """
         Adding a execution to the Service for execution.
         @param submission_id_: The id of a submission that has been made
