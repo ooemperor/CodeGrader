@@ -32,7 +32,7 @@ class ExecutionRPC(Service):
         Starting the RPC Server
         @return:
         """
-        self.server = ThreadedServer(EvaluationRPC, port=config.executionPort)
+        self.server = ThreadedServer(ExecutionRPC, port=config.executionPort)
         self.server.start()
 
     @exposed
