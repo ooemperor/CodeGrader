@@ -126,7 +126,7 @@ class LXC:
         assert type(fileName) is str
         assert fileContent is not None
 
-        nf = open(f'/var/lib/lxc/{self.name}/rootfs/opt/{fileName}')
+        nf = open(f'/var/lib/lxc/{self.name}/rootfs/opt/{fileName}', 'wb')
         data = fileContent
         nf.write(data)
         nf.close()

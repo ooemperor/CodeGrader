@@ -29,6 +29,7 @@ class Execution:
         self.submission = self.sql_session.get_object(Submission, self.submissionId)
         self.scriptFile = self.submission.file
         self.lxc = LXC("container_name")
+        self.lxc.lxc_start()
 
         # parameters that we will set after the execution.
         self.output = None  # the output of the execution.
@@ -44,6 +45,7 @@ class Execution:
 
         self.lxc.lxc_upload_file(self.scriptFile.filename, self.scriptFile.getFileContent())
         start_time = time.time()
-        self.output = self.lxc.lxc_execute_command(f"python3 {self.file.filename}") # TODO make better execution function.
+        self.output = self.lxc.lxc_execute_command(f"python3 {self.scriptFile.filename}") # TODO make better execution function.
         end_time = time.time()
         self.duration = end_time - start_time
+
