@@ -6,8 +6,9 @@ This class will define what the execution is and what is to do to get a result.
 
 import os
 from codeGrader.backend.config import config
+import time
 from . import LXC
-from codeGrader.backend.db import Session, Submission
+from codeGrader.backend.db import Session, Submission, File
 
 
 class Execution:
@@ -26,6 +27,7 @@ class Execution:
         self.submissionId = id_
         self.sql_session = Session()
         self.submission = self.sql_session.get_object(Submission, self.submissionId)
+        self.scriptFile = self.submission.file
         self.lxc = LXC("container_name")
 
         # parameters that we will set after the execution.
@@ -39,8 +41,9 @@ class Execution:
         @return: No Return type at the moment
         @todo: implement this function
         """
-        raise NotImplementedError # TODO: remove after finishing of the lxc controller
+
+        self.lxc.lxc_upload_file(self.scriptFile.filename, self.scriptFile.getFileContent())
         start_time = time.time()
-        self.output = self.lxc.lxc_execute_command("exe")
+        self.output = self.lxc.lxc_execute_command(f"python3 {self.file.filename}") # TODO make better execution function.
         end_time = time.time()
         self.duration = end_time - start_time

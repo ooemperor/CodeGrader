@@ -2,6 +2,8 @@
 Database Model to store a File (Attachment or Submission and more).
 @author: mkaiser
 """
+import io
+
 from .Base import Base
 from sqlalchemy import String, Integer, Column, Boolean, DateTime, func, \
     LargeBinary
@@ -57,6 +59,14 @@ class File(Base):
         lazy="noload",
         backref=backref("AttachmentFile", lazy="joined")
     )
+
+    def getFileContent(self):
+        """
+        Getting the content of a file a returning it
+        @return: Content of file
+        @rtype: file content
+        """
+        return io.BytesIO(self.file).getbuffer()
 
     def toJson(self, include_binary=True):
         """

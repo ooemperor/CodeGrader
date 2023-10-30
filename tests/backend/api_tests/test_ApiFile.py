@@ -7,7 +7,6 @@ class ApiFileTest(unittest.TestCase):
     def test_createAndDeleteExercise(self):
         """
         Test Case for creating and deleting a file in the database
-        Covers post, get and delete for the api/user
         @return: No return
         """
         create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/uploadFile"

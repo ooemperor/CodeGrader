@@ -101,7 +101,7 @@ class LXC:
         os.system(cmd)
         self._lxc_get_status()
 
-    def lxc_execute_command(self, command):
+    def lxc_execute_command(self, command: str):
         """
         Executes a command on a given LXC Container
         @param command:
@@ -112,11 +112,21 @@ class LXC:
         output = self._run_cmd(command)
         return output
 
-    def lxc_upload_file(self, file):
+    def lxc_upload_file(self, fileName: str, fileContent):
         """
-        Upload a file to the lxc container
-        @param file: The file to be uploaded
+        Upload/Copy/Create a file in the directory of the LXC.
+        @param fileName: The name of the file that shall be written
+        @type fileName: file
+        @param fileContent: The content of the filename that has been converted to normal string and is not Bytes anymore
+        @type fileContent: String
         @return: None
         """
         assert self._invariant_os()
-        assert file is not None
+        assert fileName is not None
+        assert type(fileName) is str
+        assert fileContent is not None
+
+        nf = open(f'/var/lib/lxc/{self.name}/rootfs/opt/{fileName}')
+        data = fileContent
+        nf.write(data)
+        nf.close()
