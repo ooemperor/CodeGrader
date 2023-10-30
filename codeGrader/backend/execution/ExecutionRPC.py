@@ -24,7 +24,8 @@ class EvaluationRPC(Service):
         @return: Nothing
         @rtype: None
         """
-        self.evaluationRPC = rpyc.connect(config.evaluationHost, config.evaluationPort).root
+        # TODO: Enable this step in the final deployment
+        # self.evaluationRPC = rpyc.connect(config.evaluationHost, config.evaluationPort).root
 
     def start(self):
         """
