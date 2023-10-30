@@ -7,7 +7,7 @@ This class will define what the execution is and what is to do to get a result.
 import os
 from codeGrader.backend.config import config
 import time
-from . import LXC
+from .LXC import LXC
 from codeGrader.backend.db import Session, Submission, File
 
 
