@@ -11,7 +11,9 @@ setup(
     description='',
     entry_points={
         'console_scripts': [
-            'codeGraderDeployDB = codeGrader.scripts.deployDB:main'
+            'cgDeployDB = codeGrader.scripts.deployDB:main',
+            'cgEvaluationService = codeGrader.scripts.cgEvaluationService:main',
+            'cgExecutionService = codeGrader.scripts.cgExecutionService:main'
         ]
     }
 )
