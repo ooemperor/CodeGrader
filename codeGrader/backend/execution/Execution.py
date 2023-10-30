@@ -49,3 +49,14 @@ class Execution:
         end_time = time.time()
         self.duration = end_time - start_time
 
+        # since the execution is done we cleanup after and destroy the lxc.
+        self._cleanup()
+
+    def _cleanup(self):
+        """
+        Cleanup after the execution
+        @return: Nothing
+        @rtype: None
+        """
+        self.lxc.lxc_stop()
+        self.lxc.lxc_destroy()
