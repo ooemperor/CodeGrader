@@ -72,6 +72,24 @@ class Submission(Base):
         lazy="joined"
     )
 
+    executionResult = relationship(
+        "ExecutionResult",
+        collection_class=ordering_list("id"),
+        order_by="[ExecutionResult.id]",
+        cascade="all",
+        passive_deletes=True,
+        lazy="joined"
+    )
+
+    evaluationResult = relationship(
+        "EvaluationResult",
+        collection_class=ordering_list("id"),
+        order_by="[EvaluationResult.id]",
+        cascade="all",
+        passive_deletes=True,
+        lazy="joined"
+    )
+
     def toJson(self):
         """
         JSON representation of a Submission.

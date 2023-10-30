@@ -4,6 +4,6 @@ Imports all the classes in this directory
 @author: mkaiser
 """
 
-from . import test_Task, test_User, test_Profile, test_Subject, test_Exercise, test_Submission, test_APIToken
+from . import test_Task, test_User, test_Profile, test_Subject, test_Exercise, test_Submission, test_APIToken, test_File
 
-__all__ = [test_Task, test_User, test_Profile, test_Subject, test_Exercise, test_Submission, test_APIToken]
+__all__ = [test_Task, test_User, test_Profile, test_Subject, test_Exercise, test_Submission, test_APIToken, test_File]

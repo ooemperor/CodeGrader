@@ -6,6 +6,7 @@ This RPC Server will be the providing interface for the communication between th
 
 from rpyc import Service, exposed, service
 from rpyc.utils.server import ThreadedServer
+from codeGrader.backend.config import config
 
 
 @service
@@ -14,6 +15,7 @@ class EvaluationRPC(Service):
     RPC Server for the evaluation Service
     mkaiser 2023-10-12: just a POC at this point in time.
     """
+    server: ThreadedServer
 
     def __init__(self):
         """
@@ -23,12 +25,24 @@ class EvaluationRPC(Service):
         #self.server = ThreadedServer(EvaluationRPC, port=8002)
 
     def start(self):
-        self.server = ThreadedServer(EvaluationRPC, port=8002)
+        self.server = ThreadedServer(EvaluationRPC, port=config.evaluationPort)
         self.server.start()
 
     @exposed
     def hello(self):  # TODO: delete and create proper mapping.
         print("Hello World")
+
+    @exposed
+    def evaluate(self, submission_id: int):
+        """
+        Method to start an evaluation.
+        This method will be used in the execution service to signal to the EvaluationService that there is something to evaluate.
+        @param executionResult_id: The id of the ExecutionResult
+        @return:
+        """
+        raise NotImplementedError
+        # start the evaluation for the given submission.
+
 
 if __name__ == '__main__':
     EvaluationRPC().start()

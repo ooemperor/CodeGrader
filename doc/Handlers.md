@@ -8,10 +8,13 @@ Each "simple" Object has at least a get and post function.
 
 ## Operations:
 ### get
-Just a get Operation which returns a json representation of an object out of the database
+Just a get Operation which returns a json representation of an object out of the database__
 
 ### post
 POST Creates new objects/entries in the database
 
 ### put
 PUT is used to update an object/entry in the database
+
+### delete
+DELETE is used to delete an object/entry in the database. 

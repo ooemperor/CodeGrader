@@ -1,4 +1,4 @@
-# Installtion 
+# Installation 
 This file will document the necessary steps to install and run this project. 
 
 ## Requirements
@@ -12,18 +12,18 @@ apt-get install -y python-dev libpq-dev
 apt-get install -y pip
 ```
 
-## Frontend
-### Python Packages
+# Frontend
+## Python Packages
 ```
 pip install -r requirements.txt
 ```
-## Backend
-### Python Packages
+# Backend
+## Python Packages
 ```
 pip install -r requirements.txt
 ```
 
-### PostgreSQL 15
+## PostgreSQL 15
 Installing PostgreSQL Version 15 (according to [PostgreSQL Installation](https://www.postgresql.org/download/linux/debian/))
 ```
 apt update && sudo apt upgrade -y
@@ -45,7 +45,7 @@ psql --username=postgres --dbname=codeGraderDB --command='GRANT SELECT ON pg_lar
 
 ```
 
-### Execution Service
+## Execution Service
 For the execution Service we do need some additional packages,so we can create containers and more. 
 ```
 apt-get install lxc libvirt0 libpam-cgfs bridge-utils uidmap
@@ -53,3 +53,6 @@ apt-get install lxc libvirt0 libpam-cgfs bridge-utils uidmap
 
 The installation of the lxc packages can be verified with the <code>lxc-ls</code> command. If the installation was succesful there should not be any output at this point.
 If there was some kind of error during the installation, an error message would be shown. 
+
+## Evaluation Service
+The Evaluation Service does not need any additional packages, than what is already specified in the requirements.txt of the backend package. 
