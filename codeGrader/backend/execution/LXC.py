@@ -114,7 +114,7 @@ class LXC:
         assert self._invariant_os()
         command = f"lxc-attach -n {self.name} -- {command}"
         output, returncode = self._run_cmd(command)
-        return output
+        return output, returncode
 
     def lxc_upload_file(self, fileName: str, fileContent):
         """
