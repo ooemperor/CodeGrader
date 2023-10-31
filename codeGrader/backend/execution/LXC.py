@@ -40,14 +40,18 @@ class LXC:
     def _run_cmd(self, command):
         """
         Runs a subprocess aka Command and only return the text output
-        @param command:
-        @return:
+        @param command: The command that shall be executed
+        @type command: str
+        @return: Output of the Execution, Returncode of the execution
+        @rtype: str, int
         """
         result = None
         assert self.name is not None
         p1 = subprocess.run(command, shell=True, text=True, capture_output=True)
-        result = p1.stdout
-        return result
+        output = p1.stdout
+        returncode = p1.returncode
+
+        return output, returncode
 
     def _lxc_get_status(self):
         """
@@ -55,7 +59,7 @@ class LXC:
         @return: No Return, updates the instance variable
         """
         assert self._invariant_os()
-        state = self._run_cmd(f"lxc-info -n {self.name} | grep State")
+        state, returncode = self._run_cmd(f"lxc-info -n {self.name} | grep State")
         self.status = state.replace(" ", "").strip().split(":")[1]
 
     def _lxc_setup(self):
@@ -109,7 +113,7 @@ class LXC:
         """
         assert self._invariant_os()
         command = f"lxc-attach -n {self.name} -- {command}"
-        output = self._run_cmd(command)
+        output, returncode = self._run_cmd(command)
         return output
 
     def lxc_upload_file(self, fileName: str, fileContent):

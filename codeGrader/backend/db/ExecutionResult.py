@@ -5,7 +5,7 @@ Database Model File for a ExecutionResult.
 from .Base import Base
 from .Submission import Submission
 from sqlalchemy import Column, DateTime, Integer, func, \
-    ForeignKey, UniqueConstraint, String
+    ForeignKey, UniqueConstraint, String, Double
 
 
 class ExecutionResult(Base):
@@ -35,6 +35,12 @@ class ExecutionResult(Base):
 
     execution_exit_code = Column(
         Integer,
+        nullable=False,
+        index=True
+    )
+
+    execution_duration = Column(
+        Double,
         nullable=False,
         index=True
     )

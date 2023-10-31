@@ -118,7 +118,3 @@ class Session:
         except Exception as e:
             session.rollback()
             raise
-
-
-
-

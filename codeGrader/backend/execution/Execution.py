@@ -8,7 +8,7 @@ import os
 from codeGrader.backend.config import config
 import time
 from .LXC import LXC
-from codeGrader.backend.db import Session, Submission, File
+from codeGrader.backend.db import Session, Submission, File, ExecutionResult
 
 
 class Execution:
@@ -33,6 +33,7 @@ class Execution:
 
         # parameters that we will set after the execution.
         self.output = None  # the output of the execution.
+        self.returncode = None # the returncode of the execution
         self.duration = 0.0  # the duration of the execution
         self.memory_usage = None  # how much memory has approximately been used for running the script
 
@@ -45,12 +46,13 @@ class Execution:
 
         self.lxc.lxc_upload_file(self.scriptFile.filename, self.scriptFile.getFileContent())
         start_time = time.time()
-        self.output = self.lxc.lxc_execute_command(f"python3 {self.scriptFile.filename}") # TODO make better execution function.
+        self.output, self.returncode = self.lxc.lxc_execute_command(f"python3 {self.scriptFile.filename}") # TODO make better execution function.
         end_time = time.time()
         self.duration = end_time - start_time
 
-        # since the execution is done we cleanup after and destroy the lxc.
+        # since the execution is done we cleanup after and destroy the lxc, create the Result entries in the database
         self._cleanup()
+        self._addExecutionResult()
 
     def _cleanup(self):
         """
@@ -60,3 +62,20 @@ class Execution:
         """
         self.lxc.lxc_stop()
         self.lxc.lxc_destroy()
+
+    def _addExecutionResult(self):
+        """
+        Creating a ExecutionResultentry in the database.
+        @return: Nothing
+        @rtype: None
+        """
+
+        data = dict()
+        data["execution_output"] = self.output
+        data["execution_exit_code"] = self.returncode
+        data["execution_duration"] = self.duration
+        data["submission_id"] = self.submissionId
+
+        exec_result = ExecutionResult(data)
+
+        self.sql_session.create(exec_result)
