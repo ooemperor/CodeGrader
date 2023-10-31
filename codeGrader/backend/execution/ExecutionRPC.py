@@ -25,7 +25,7 @@ class ExecutionRPC(Service):
         @rtype: None
         """
         # TODO: Enable this step in the final deployment
-        # self.evaluationRPC = rpyc.connect(config.evaluationHost, config.evaluationPort).root
+        self.evaluationRPC = rpyc.connect(config.evaluationHost, config.evaluationPort).root
 
     def start(self):
         """
@@ -45,11 +45,10 @@ class ExecutionRPC(Service):
         @rtype: Boolean
         """
         Execution(submission_id_).execute()
-        # TODO: write the result of the execution in the database for the given submission.
 
         # start the evaluation by signaling to the evaluationService, that a Execution has finished.
         self.evaluationRPC.evaluate(submission_id_)
 
 
 if __name__ == '__main__':
-    EvaluationRPC().start()
+    ExecutionRPC().start()

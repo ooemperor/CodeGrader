@@ -7,6 +7,7 @@ This RPC Server will be the providing interface for the communication between th
 from rpyc import Service, exposed, service
 from rpyc.utils.server import ThreadedServer
 from codeGrader.backend.config import config
+from Evaluation import Evaluation
 
 
 @service
@@ -37,7 +38,8 @@ class EvaluationRPC(Service):
         """
         Method to start an evaluation.
         This method will be used in the execution service to signal to the EvaluationService that there is something to evaluate.
-        @param executionResult_id: The id of the ExecutionResult
+        @param submission_id: The id of the ExecutionResult
+        @type submission_id: int
         @return:
         """
         raise NotImplementedError

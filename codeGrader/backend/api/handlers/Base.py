@@ -71,7 +71,7 @@ class BaseHandler:
 
     def post(self, dict_: dict):
         """
-        Creating a new user object and writing in the database
+        Creating a new object and writing in the database
         @param dict_: The dictionary/ key:value pair for the creation of the object
         @type dict_: dict
         @return: Dictionary Containing the error or the response data
@@ -129,9 +129,12 @@ class BaseHandler:
         """
         try:
             objects = self.sql_session.get_all(self.dbClass)
-            output = []
-            for object_ in objects:
-                output.append(object_.toJson())
-            return output
+            if len(objects) == 0:
+                return self.create_generic_response('GET', f"No Objects entries to display")
+            else:
+                output = []
+                for object_ in objects:
+                    output.append(object_.toJson())
+                return output
         except Exception as err:
             return self.create_generic_error_response('GET', err)
