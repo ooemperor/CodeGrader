@@ -58,6 +58,16 @@ def user(id_: int):
         return UserHandler().delete(id_)
 
 
+@app.route("/users", methods=['GET'])
+def users():
+    """
+    Getting all the users objects out of the database
+    @return: Custom Representation of all the user objects
+    @rtype: dict
+    """
+    return UserHandler().get_all()
+
+
 @app.route("/addUser", methods=['POST'])
 def addUser():
     """
@@ -87,6 +97,16 @@ def adminUser(id_: int):
 
     elif request.method == 'DELETE':
         return AdminUserHandler().delete(id_)
+
+
+@app.route("/adminUsers", methods=['GET'])
+def adminUsers():
+    """
+    Getting all the adminUsers objects out of the database
+    @return: Custom Representation of all the objects
+    @rtype: dict
+    """
+    return AdminUserHandler().get_all()
 
 
 @app.route("/addAdminUser", methods=['POST'])
@@ -131,6 +151,16 @@ def profile(id_: int):
         return ProfileHandler().delete(id_)
 
 
+@app.route("/profiles", methods=['GET'])
+def profiles():
+    """
+    Getting all the Profile objects out of the database
+    @return: Custom Representation of all the objects
+    @rtype: dict
+    """
+    return ProfileHandler().get_all()
+
+
 @app.route("/addSubject", methods=['POST'])
 def addSubject():
     """
@@ -160,6 +190,15 @@ def subject(id_: int):
 
     elif request.method == 'DELETE':
         return SubjectHandler().delete(id_)
+
+@app.route("/subjects", methods=['GET'])
+def subjects():
+    """
+    Getting all the Subject objects out of the database
+    @return: Custom Representation of all the objects
+    @rtype: dict
+    """
+    return SubjectHandler().get_all()
 
 
 # Task
@@ -193,6 +232,16 @@ def task(id_: int):
         return TaskHandler().delete(id_)
 
 
+@app.route("/tasks", methods=['GET'])
+def tasks():
+    """
+    Getting all the Task objects out of the database
+    @return: Custom Representation of all the objects
+    @rtype: dict
+    """
+    return TaskHandler().get_all()
+
+
 @app.route("/addExercise", methods=['POST'])
 def addExercise():
     """
@@ -221,6 +270,16 @@ def exercise(id_: int):
 
     elif request.method == 'DELETE':
         return ExerciseHandler().delete(id_)
+
+
+@app.route("/exercises", methods=['GET'])
+def exercises():
+    """
+    Getting all the Exercise objects out of the database
+    @return: Custom Representation of all the objects
+    @rtype: dict
+    """
+    return ExerciseHandler().get_all()
 
 
 @app.route("/uploadFile", methods=["POST"])
@@ -290,6 +349,16 @@ def submission(id_):
     """
     if request.method == 'GET':
         return SubmissionHandler().get(id_)
+
+
+@app.route("/submissions", methods=['GET'])
+def submissions():
+    """
+    Getting all the Submission objects out of the database
+    @return: Custom Representation of all the objects
+    @rtype: dict
+    """
+    return SubmissionHandler().get_all()
 
 
 # starting the web application

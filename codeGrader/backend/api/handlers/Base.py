@@ -23,28 +23,29 @@ class BaseHandler:
         self.errorResponseHandler = ErrorResponseHandler()  # adding errorhandler in case we need it
         self.genericResponseHandler = GenericResponseHandler()  # generic Response Handler when there are no errors
 
-    def create_generic_response(self, method: str, id_: int, response: str):
+    def create_generic_response(self, method: str, response: str, id_: int = None):
         """
         Generates a generic method for a response Body
         @param method: the request method
         @type method: String
-        @param id_: The identifier used in the operation
-        @type id_: int
         @param response: The response message that should be added
         @type: response: String
+        @param id_: The identifier used in the operation
+        @type id_: int
         @return: The response JSON
         @rtype: dict
         """
-        return self.genericResponseHandler.generate_response(method, id_, response)
+        return self.genericResponseHandler.generate_response(method, response, id_)
 
-    def create_generic_error_response(self, method: str, id_: int, exception: Exception):
+    def create_generic_error_response(self, method: str, exception: Exception, id_: int = None):
         """
         Generating a generic error response when there is some sort of a Problem.
         @param method: The method used to call the handler e.g. PUT, POST and more
         @type method: str
+        @param exception: The Exception Object that has gotten raised.
+        @type exception: Exception
         @param id_: The id_ of the object if provided
         @type id_: int or None
-        @param exception: The Exception Object that has gotten raised.
         @return: The custom error message that shall be provided to the user.
         @rtype: dict
         """
@@ -66,7 +67,7 @@ class BaseHandler:
             assert obj_ is not None
             return obj_.toJson()
         except Exception as err:
-            return self.create_generic_error_response('GET', id_, err)
+            return self.create_generic_error_response('GET', err, id_)
 
     def post(self, dict_: dict):
         """
@@ -82,9 +83,9 @@ class BaseHandler:
         try:
             obj_ = self.dbClass(**dict_)
             new_obj_id = self.sql_session.create(obj_)
-            return self.create_generic_response('POST', new_obj_id, f"{self.dbClass} has been successfully created")
+            return self.create_generic_response('POST', f"{self.dbClass} has been successfully created", new_obj_id)
         except Exception as err:
-            return self.create_generic_error_response('POST', new_obj_id, err)
+            return self.create_generic_error_response('POST', err, new_obj_id)
 
     def put(self, id_: int, dict_: dict):
         """
@@ -101,9 +102,9 @@ class BaseHandler:
         assert len(dict_.keys()) > 0
         try:
             self.sql_session.update(self.dbClass, id_, dict_)
-            return self.create_generic_response('PUT', id_, f"{self.dbClass} has been successfully updated")
+            return self.create_generic_response('PUT',f"{self.dbClass} has been successfully updated", id_)
         except Exception as err:
-            return self.create_generic_error_response('PUT', id_, err)
+            return self.create_generic_error_response('PUT', err, id_)
 
     def delete(self, id_: int):
         """
@@ -116,6 +117,21 @@ class BaseHandler:
         assert (id_ is not None) and (id_ > 0)
         try:
             self.sql_session.delete(self.dbClass, id_)
-            return self.create_generic_response('DELETE', id_, f"{self.dbClass} has been successfully deleted")
+            return self.create_generic_response('DELETE', f"{self.dbClass} has been successfully deleted", id_)
         except Exception as err:
-            return self.create_generic_error_response('DELETE', id_, err)
+            return self.create_generic_error_response('DELETE', err, id_)
+
+    def get_all(self):
+        """
+        Get all objects of a Class.
+        @return: List of all Objects
+        @rtype: list
+        """
+        try:
+            objects = self.sql_session.get_all(self.dbClass)
+            output = []
+            for object_ in objects:
+                output.append(object_.toJson())
+            return output
+        except Exception as err:
+            return self.create_generic_error_response('GET', err)

@@ -118,3 +118,21 @@ class Session:
         except Exception as e:
             session.rollback()
             raise
+
+    def get_all(self, cls: type):
+        """
+        Get all objects for a given instance.
+        @param cls: The class of the Object for the table mapping
+        @type cls: type(object)
+        @return: The objects from the database as a list
+        @rtype: list
+        """
+        try:
+            with self.session.begin() as session:
+                objects_ = session.query(cls).all()
+                session.expunge_all()
+                return objects_
+        except Exception as error:
+            print(error)
+            session.rollback()
+            raise

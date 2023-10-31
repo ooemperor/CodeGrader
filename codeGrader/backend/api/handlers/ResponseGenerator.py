@@ -26,7 +26,7 @@ class GenericResponseHandler:
         else:
             return 200
 
-    def generate_response(self, method: str, id_: int, response: str):
+    def generate_response(self, method: str, response: str, id_: int = None):
         """
         Generates a generic method for a response Body
         @param method: the request method
