@@ -62,10 +62,12 @@ class LXC:
         """
         assert self._invariant_os()
         state, returncode = self._run_cmd(f"lxc-info -n {self.name} -s")
-        ip, returncode = self._run_cmd(f"lxc-info -n {self.name} -i")
-
-        self.ip = ip.replace(" ", "").strip().split(":")[1]
         self.status = state.replace(" ", "").strip().split(":")[1]
+        try:
+            ip, returncode = self._run_cmd(f"lxc-info -n {self.name} -i")
+            self.ip = ip.replace(" ", "").strip().split(":")[1]
+        except IndexError as error:
+            self.ip = None
 
     def _lxc_setup(self):
         """
