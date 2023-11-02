@@ -25,8 +25,7 @@ class Execution:
         @rtype: None
         """
         self.submissionId = id_
-        self.sql_session = Session()
-        self.submission = self.sql_session.get_object(Submission, self.submissionId)
+        self.submission = Session().get_object(Submission, self.submissionId)
         self.scriptFile = self.submission.file
         self.lxc = LXC("container_name")
 
@@ -92,4 +91,4 @@ class Execution:
 
         exec_result = ExecutionResult(**data)
 
-        self.sql_session.create(exec_result)
+        Session().create(exec_result)
