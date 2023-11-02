@@ -71,3 +71,4 @@ class Config:
         # Configuration for the ExecutionService
         self.executionHost = conf["executionService"]["host"]
         self.executionPort = conf["executionService"]["port"]
+        self.executionFilePath = conf["executionService"]["PathToExecutionFiles"]

@@ -30,6 +30,7 @@ class Execution:
         self.scriptFile = self.submission.file
         self.lxc = LXC("container_name")
         self.lxc.lxc_start()
+        self._prepare()
 
         # parameters that we will set after the execution.
         self.output = None  # the output of the execution.
@@ -44,17 +45,15 @@ class Execution:
         @return: Nothing
         @rtype: None
         """
+        self.lxc.lxc_execute_command("apt install python3 -y") # TODO dont make this hardcoded
 
-        self.lxc.lxc_execute_command("apt install python3 -y")
-             
     def execute(self):
         """
         Start the execution of the provided code in the Sandbox and get the output of the evaluation.
         @return: No Return type at the moment
         @todo: implement this function
         """
-        self._prepare()
-        self.lxc.lxc_upload_file(self.scriptFile.filename, self.scriptFile.getFileContent())
+        self.lxc.lxc_upload_file("/opt", self.scriptFile.filename, self.scriptFile.getFileContent())
         start_time = time.time()
         self.output, self.returncode = self.lxc.lxc_execute_command(f"python3 {self.scriptFile.filename}") # TODO make better execution function.
         end_time = time.time()

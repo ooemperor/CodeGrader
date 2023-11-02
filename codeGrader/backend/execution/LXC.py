@@ -116,9 +116,11 @@ class LXC:
         output, returncode = self._run_cmd(command)
         return output, returncode
 
-    def lxc_upload_file(self, fileName: str, fileContent):
+    def lxc_upload_file(self, filePath: str, fileName: str, fileContent):
         """
         Upload/Copy/Create a file in the directory of the LXC.
+        @param filePath: The path where the file shall be stored.
+        @type filePath: str
         @param fileName: The name of the file that shall be written
         @type fileName: file
         @param fileContent: The content of the filename that has been converted to normal string and is not Bytes anymore
@@ -130,7 +132,7 @@ class LXC:
         assert type(fileName) is str
         assert fileContent is not None
 
-        nf = open(f'/var/lib/lxc/{self.name}/rootfs/opt/{fileName}', 'wb')
+        nf = open(f'/var/lib/lxc/{self.name}/rootfs{filePath}/{fileName}', 'wb')
         data = fileContent
         nf.write(data)
         nf.close()

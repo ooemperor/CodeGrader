@@ -12,7 +12,8 @@
   },
   "executionService": {
     "host": "127.0.0.1",
-    "port": 8003
+    "port": 8003,
+    "PathToExecutionFiles": "/opt"
   },
   "database": {
     "dialect": "postgresql",
