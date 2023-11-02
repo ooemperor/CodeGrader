@@ -61,13 +61,14 @@ class LXC:
         @return: No Return, updates the instance variable
         """
         assert self._invariant_os()
-        state, returncode = self._run_cmd(f"lxc-info -n {self.name} -s")
-        self.status = state.replace(" ", "").strip().split(":")[1]
+
         try:
+            state, returncode = self._run_cmd(f"lxc-info -n {self.name} -s")
             ip, returncode = self._run_cmd(f"lxc-info -n {self.name} -i")
+            self.status = state.replace(" ", "").strip().split(":")[1]
             self.ip = ip.replace(" ", "").strip().split(":")[1]
         except IndexError as error:
-            self.ip = None
+            pass  # do nothing
 
     def _lxc_setup(self):
         """
