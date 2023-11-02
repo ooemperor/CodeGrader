@@ -37,13 +37,23 @@ class Execution:
         self.duration = 0.0  # the duration of the execution
         self.memory_usage = None  # how much memory has approximately been used for running the script
 
+    def _prepare(self):
+        """
+        Prepare the lxc container for the execution
+        This includes installing the compilers/interpreters
+        @return: Nothing
+        @rtype: None
+        """
+
+        self.lxc.lxc_execute_command("apt install python3 -y")
+             
     def execute(self):
         """
         Start the execution of the provided code in the Sandbox and get the output of the evaluation.
         @return: No Return type at the moment
         @todo: implement this function
         """
-
+        self._prepare()
         self.lxc.lxc_upload_file(self.scriptFile.filename, self.scriptFile.getFileContent())
         start_time = time.time()
         self.output, self.returncode = self.lxc.lxc_execute_command(f"python3 {self.scriptFile.filename}") # TODO make better execution function.
@@ -76,6 +86,6 @@ class Execution:
         data["execution_duration"] = self.duration
         data["submission_id"] = self.submissionId
 
-        exec_result = ExecutionResult(data)
+        exec_result = ExecutionResult(**data)
 
         self.sql_session.create(exec_result)
