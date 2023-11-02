@@ -6,7 +6,9 @@ This file will later hold the RPC Service for the Execution Service.
 from rpyc import Service, exposed, service
 from rpyc.utils.server import ThreadedServer
 from codeGrader.backend.config import config
-from .Execution import Execution
+from codeGrader.backend.execution.Execution import Execution
+from codeGrader.backend.execution.Worker import Worker
+from multiprocessing import Queue
 import rpyc
 
 
@@ -17,6 +19,7 @@ class ExecutionRPC(Service):
     mkaiser 2023-10-12: just a POC at this point in time.
     """
     server: ThreadedServer
+    queue: Queue
 
     def __init__(self):
         """
@@ -25,7 +28,9 @@ class ExecutionRPC(Service):
         @rtype: None
         """
         # TODO: Enable this step in the final deployment
-        self.evaluationRPC = rpyc.connect(config.evaluationHost, config.evaluationPort).root
+        # self.evaluationRPC = rpyc.connect(config.evaluationHost, config.evaluationPort).root
+        self.queue = Queue()
+
 
     def start(self):
         """
@@ -44,10 +49,10 @@ class ExecutionRPC(Service):
         @return: True if successful
         @rtype: Boolean
         """
-        Execution(submission_id_).execute()
+        self.queue.put(Execution(submission_id_))
 
         # start the evaluation by signaling to the evaluationService, that a Execution has finished.
-        self.evaluationRPC.evaluate(submission_id_)
+        # self.evaluationRPC.evaluate(submission_id_)
 
 
 if __name__ == '__main__':

@@ -15,7 +15,8 @@
   "executionService": {
     "host": "127.0.0.1",
     "port": 8003,
-    "PathToExecutionFiles": "/opt"
+    "PathToExecutionFiles": "/opt",
+    "workers": 8
   },
 
   "database": {

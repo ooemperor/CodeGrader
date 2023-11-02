@@ -78,6 +78,7 @@ class Config:
         # Configuration for the ExecutionService
         self.executionHost = conf["executionService"]["host"]
         self.executionPort = conf["executionService"]["port"]
+        self.executionWorkers = conf["executionService"]["workers"]
         self.executionFilePath = conf["executionService"]["PathToExecutionFiles"]
 
     def getInstallationCommand(self, codeLanguage: str):
@@ -89,7 +90,7 @@ class Config:
         @rtype: str
         """
         return self.codeLanguages["codeLanguages"][codeLanguage]["installationCommand"]
-    
+
     def getExecutionCommand(self, codeLanguage: str):
         """
         Getting the execution command for the given codeLanguage

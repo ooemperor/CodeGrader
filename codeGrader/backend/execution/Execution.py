@@ -29,8 +29,7 @@ class Execution:
         self.submission = self.sql_session.get_object(Submission, self.submissionId)
         self.scriptFile = self.submission.file
         self.lxc = LXC("container_name")
-        self.lxc.lxc_start()
-        self._prepare()
+
 
         # parameters that we will set after the execution.
         self.output = None  # the output of the execution.
@@ -64,6 +63,9 @@ class Execution:
         @return: No Return type at the moment
         @todo: implement this function
         """
+        self.lxc.lxc_start()
+        self._prepare()
+
         self.lxc.lxc_upload_file("/opt", self.scriptFile.filename, self.scriptFile.getFileContent())
         start_time = time.time()
         self.output, self.returncode = self.lxc.lxc_execute_command(
