@@ -4,7 +4,7 @@ This file will later hold the RPC Service for the Execution Service.
 """
 
 from rpyc import Service, exposed, service
-from rpyc.utils.server import ThreadedServer
+from rpyc.utils.server import ThreadedServer, ForkingServer
 from codeGrader.backend.config import config
 from codeGrader.backend.execution.Execution import Execution
 import rpyc
@@ -34,6 +34,7 @@ class ExecutionRPC(Service):
         @return:
         """
         self.server = ThreadedServer(ExecutionRPC, port=config.executionPort)
+        self.server
         self.server.start()
 
     @exposed
