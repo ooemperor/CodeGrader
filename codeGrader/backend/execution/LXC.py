@@ -38,7 +38,7 @@ class LXC:
         assert int(os.system("lxc-ls")) == 0
         assert self.name is not None
         output, exitcode = self._run_cmd("lxc-ls")
-        assert output == 0
+        assert exitcode == 0
         return True
 
     def _run_cmd(self, command):
