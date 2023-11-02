@@ -1,0 +1,9 @@
+{
+  "codeLanguages": {
+    "python3.9": {
+      "name": "python3.9",
+      "installationCommand": "apt install python3 -y",
+      "runCommand": "python3"
+    }
+  }
+}

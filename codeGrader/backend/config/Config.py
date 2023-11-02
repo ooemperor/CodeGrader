@@ -19,15 +19,22 @@ class Config:
         """
         self.system = platform.system()
         if self.system == 'Windows':
-            f = open(os.path.join(os.path.dirname(__file__), "config.json"))
+            configFile = open(os.path.join(os.path.dirname(__file__), "config.json"))
+            code = open(os.path.join(os.path.dirname(__file__), "codeLanguages.json"))
         elif self.system == 'Linux':
-            f = open("/etc/codeGrader/config.json")
+            configFile = open("/etc/codeGrader/config.json")
+            code = open("/etc/codeGrader/codeLanguages.json")
         else:
             # For MAC OS there might be some changes needed here for the proper file path.
-            f = open(os.path.join(os.path.dirname(__file__), "config.json"))
+            configFile = open(os.path.join(os.path.dirname(__file__), "config.json"))
+            code = open(os.path.join(os.path.dirname(__file__), "codeLanguages.json"))
 
-        conf = json.load(f)
-        f.close()
+        conf = json.load(configFile)
+        codeLanguages = json.load(code)
+        configFile.close()
+        code.close()
+
+        self.codeLanguages = codeLanguages
 
         # Flask Application Configurations
         self.ApiPort = conf["api"]["port"]
@@ -72,3 +79,23 @@ class Config:
         self.executionHost = conf["executionService"]["host"]
         self.executionPort = conf["executionService"]["port"]
         self.executionFilePath = conf["executionService"]["PathToExecutionFiles"]
+
+    def getInstallationCommand(self, codeLanguage: str):
+        """
+        Getting the installation command for a given Programming language
+        @param codeLanguage: The name of the programming language
+        @type codeLanguage: str
+        @return: The Installation Command that needs to be executed in order to be able to run the codeLanguage in the LXC
+        @rtype: str
+        """
+        return self.codeLanguages["codeLanguages"][codeLanguage]["installationCommand"]
+    
+    def getExecutionCommand(self, codeLanguage: str):
+        """
+        Getting the execution command for the given codeLanguage
+        @param codeLanguage: The name of the programming language
+        @type codeLanguage: str
+        @return: The RunTime Command that needs to be executed in order to be able to run the codeLanguage in the LXC
+        @rtype: str
+        """
+        return self.codeLanguages["codeLanguages"][codeLanguage]["runCommand"]

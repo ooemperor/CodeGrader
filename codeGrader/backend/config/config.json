@@ -6,15 +6,18 @@
     "TokenAuthorization": 1,
     "tokenLength": 30
   },
+
   "evaluationService": {
     "host": "127.0.0.1",
     "port": 8002
   },
+
   "executionService": {
     "host": "127.0.0.1",
     "port": 8003,
     "PathToExecutionFiles": "/opt"
   },
+
   "database": {
     "dialect": "postgresql",
     "DBdriver": "psycopg2",
@@ -32,9 +35,11 @@
       ]
     }
   },
+
   "tests": {
     "apiHost": "127.0.0.1"
   },
+
   "logging": {
     "debug": 0,
     "useIntegratedLogging": 1
