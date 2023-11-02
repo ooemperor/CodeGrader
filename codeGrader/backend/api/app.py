@@ -47,7 +47,6 @@ def user(id_: int):
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
-    log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
         return UserHandler().get(id_)
 
@@ -75,7 +74,6 @@ def addUser():
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
-    log.info(f"{request.remote_addr} {request.method} {request.path}")
     return UserHandler().post(request.get_json())
 
 
@@ -88,7 +86,6 @@ def adminUser(id_: int):
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
-    log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
         return AdminUserHandler().get(id_)
 
@@ -116,7 +113,6 @@ def addAdminUser():
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
-    log.info(f"{request.remote_addr} {request.method} {request.path}")
     return AdminUserHandler().post(request.get_json())
 
 
@@ -127,7 +123,6 @@ def addProfile():
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
-    log.info(f"{request.remote_addr} {request.method} {request.path}")
     return ProfileHandler().post(request.get_json())
 
 
@@ -140,7 +135,6 @@ def profile(id_: int):
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
-    log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
         return ProfileHandler().get(id_)
 
@@ -165,10 +159,9 @@ def profiles():
 def addSubject():
     """
     Adding a new user in the database
-    @return: Custom Response messgae that we get from the handler class.
+    @return: Custom Response message that we get from the handler class.
     @rtype: dict
     """
-    log.info(f"{request.remote_addr} {request.method} {request.path}")
     return SubjectHandler().post(request.get_json())
 
 
@@ -181,7 +174,6 @@ def subject(id_: int):
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
-    log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
         return SubjectHandler().get(id_)
 
@@ -209,7 +201,6 @@ def addTask():
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
-    log.info(f"{request.remote_addr} {request.method} {request.path}")
     return TaskHandler().post(request.get_json())
 
 
@@ -261,7 +252,6 @@ def exercise(id_: int):
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
-    log.info(f"{request.remote_addr} {request.method} {request.path}")
     if request.method == 'GET':
         return ExerciseHandler().get(id_)
 
@@ -298,9 +288,6 @@ def uploadFile():
             data = {"filename": file_.filename, "fileExtension": file_type, "file": file_.read()}
             return FileHandler().post(data)
 
-    else:
-        # TODO: return error for wrong method.
-        return "Error", 500
 
 
 @app.route("/file/<int:id_>", methods=["GET", "DELETE"])
@@ -321,10 +308,6 @@ def file(id_: int):
 
     elif request.method == 'DELETE':
         return FileHandler().delete(id_)
-
-    else:
-        # TODO: return error for wrong method.
-        return "Error", 500
 
 
 @app.route("/addSubmission", methods=["POST"])

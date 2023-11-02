@@ -29,3 +29,5 @@ class ExerciseTest(unittest.TestCase):
             self.assertEqual("AFileForTesting.txt", file.filename)
             self.assertEqual(".txt", file.fileExtension)
             session.delete(file)
+
+        test_file.close()

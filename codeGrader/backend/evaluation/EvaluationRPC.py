@@ -7,7 +7,7 @@ This RPC Server will be the providing interface for the communication between th
 from rpyc import Service, exposed, service
 from rpyc.utils.server import ThreadedServer
 from codeGrader.backend.config import config
-from Evaluation import Evaluation
+from .Evaluation import Evaluation
 
 
 @service
