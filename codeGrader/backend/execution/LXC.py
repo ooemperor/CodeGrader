@@ -35,7 +35,6 @@ class LXC:
         @rtype: None
         """
         assert os.name == 'posix'
-        assert int(os.system("lxc-ls")) == 0
         assert self.name is not None
         output, exitcode = self._run_cmd("lxc-ls")
         assert exitcode == 0
@@ -112,7 +111,7 @@ class LXC:
         assert self._invariant_os()
         assert self.status != 'stopped'
         cmd = f"lxc-stop -n {self.name}"
-        os.system(cmd)
+        self._run_cmd(cmd)
         self.lxc_get_info()
 
     def lxc_execute_command(self, command: str):
