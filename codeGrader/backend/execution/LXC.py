@@ -40,6 +40,18 @@ class LXC:
         assert exitcode == 0
         return True
 
+    def lxc_execute_command(self, command: str):
+        """
+        Executes a command on a given LXC Container
+        @param command:
+        @return:
+        """
+        assert self._invariant_os()
+        command = f"lxc-attach -n {self.name} -- {command}"
+        output, returncode = self._run_cmd(command)
+        return output, returncode
+
+
     def _run_cmd(self, command):
         """
         Runs a subprocess aka Command and only return the text output
@@ -64,6 +76,8 @@ class LXC:
         assert self._invariant_os()
 
         try:
+            # if there is no ip or the container does not yet exist, we do not update the values
+            # needed so we can wait to install packages after the container has gotten an ip adress.
             state, returncode = self._run_cmd(f"lxc-info -n {self.name} -s")
             ip, returncode = self._run_cmd(f"lxc-info -n {self.name} -i")
             self.status = state.replace(" ", "").strip().split(":")[1]
@@ -113,17 +127,6 @@ class LXC:
         cmd = f"lxc-stop -n {self.name}"
         self._run_cmd(cmd)
         self.lxc_get_info()
-
-    def lxc_execute_command(self, command: str):
-        """
-        Executes a command on a given LXC Container
-        @param command:
-        @return:
-        """
-        assert self._invariant_os()
-        command = f"lxc-attach -n {self.name} -- {command}"
-        output, returncode = self._run_cmd(command)
-        return output, returncode
 
     def lxc_upload_file(self, filePath: str, fileName: str, fileContent):
         """

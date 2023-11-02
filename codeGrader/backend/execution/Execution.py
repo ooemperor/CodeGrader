@@ -34,7 +34,7 @@ class Execution:
 
         # parameters that we will set after the execution.
         self.output = None  # the output of the execution.
-        self.returncode = None # the returncode of the execution
+        self.returncode = None  # the returncode of the execution
         self.duration = 0.0  # the duration of the execution
         self.memory_usage = None  # how much memory has approximately been used for running the script
 
@@ -47,7 +47,16 @@ class Execution:
         """
         while self.lxc.ip is None:
             self.lxc.lxc_get_info()
-        self.lxc.lxc_execute_command("apt install python3 -y") # TODO dont make this hardcoded
+        self.lxc.lxc_execute_command("apt install python3 -y")  # TODO dont make this hardcoded
+
+    def cleanup(self):
+        """
+        Cleanup after the execution
+        @return: Nothing
+        @rtype: None
+        """
+        self.lxc.lxc_stop()
+        self.lxc.lxc_destroy()
 
     def execute(self):
         """
@@ -57,22 +66,14 @@ class Execution:
         """
         self.lxc.lxc_upload_file("/opt", self.scriptFile.filename, self.scriptFile.getFileContent())
         start_time = time.time()
-        self.output, self.returncode = self.lxc.lxc_execute_command(f"python3 {config.executionFilePath}/{self.scriptFile.filename}") # TODO make better execution function.
+        self.output, self.returncode = self.lxc.lxc_execute_command(
+            f"python3 {config.executionFilePath}/{self.scriptFile.filename}")  # TODO make better execution function.
         end_time = time.time()
         self.duration = end_time - start_time
 
         # since the execution is done we cleanup after and destroy the lxc, create the Result entries in the database
-        self._cleanup()
+        self.cleanup()
         self._addExecutionResult()
-
-    def _cleanup(self):
-        """
-        Cleanup after the execution
-        @return: Nothing
-        @rtype: None
-        """
-        self.lxc.lxc_stop()
-        self.lxc.lxc_destroy()
 
     def _addExecutionResult(self):
         """
