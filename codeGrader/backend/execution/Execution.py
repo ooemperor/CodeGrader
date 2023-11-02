@@ -45,6 +45,8 @@ class Execution:
         @return: Nothing
         @rtype: None
         """
+        while self.lxc.ip is None:
+            self.lxc.lxc_get_info()
         self.lxc.lxc_execute_command("apt install python3 -y") # TODO dont make this hardcoded
 
     def execute(self):
@@ -55,7 +57,7 @@ class Execution:
         """
         self.lxc.lxc_upload_file("/opt", self.scriptFile.filename, self.scriptFile.getFileContent())
         start_time = time.time()
-        self.output, self.returncode = self.lxc.lxc_execute_command(f"python3 {config.executionFilePath}{self.scriptFile.filename}") # TODO make better execution function.
+        self.output, self.returncode = self.lxc.lxc_execute_command(f"python3 {config.executionFilePath}/{self.scriptFile.filename}") # TODO make better execution function.
         end_time = time.time()
         self.duration = end_time - start_time
 

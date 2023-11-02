@@ -15,6 +15,7 @@ class LXC:
     """
     name: str
     status: str
+    ip: str
 
     def __init__(self, name: str):
         """
@@ -23,6 +24,7 @@ class LXC:
         """
         self.name = name
         self.status = "stopped"
+        self.ip = None
         self._lxc_setup()  # creating the lxc
 
     def _invariant_os(self):
@@ -53,13 +55,16 @@ class LXC:
 
         return output, returncode
 
-    def _lxc_get_status(self):
+    def lxc_get_info(self):
         """
         Getting the status of the LXC and updating the instance variable
         @return: No Return, updates the instance variable
         """
         assert self._invariant_os()
-        state, returncode = self._run_cmd(f"lxc-info -n {self.name} | grep State")
+        state, returncode = self._run_cmd(f"lxc-info -n {self.name} -s")
+        ip, returncode = self._run_cmd(f"lxc-info -n {self.name} -i")
+
+        self.ip = ip.replace(" ", "").strip().split(":")[1]
         self.status = state.replace(" ", "").strip().split(":")[1]
 
     def _lxc_setup(self):
@@ -91,7 +96,7 @@ class LXC:
         assert self._invariant_os()
         command = f"lxc-start -n {self.name}"
         self._run_cmd(command)
-        self._lxc_get_status()
+        self.lxc_get_info()
 
     def lxc_stop(self):
         """
@@ -103,7 +108,7 @@ class LXC:
         assert self.status != 'stopped'
         cmd = f"lxc-stop -n {self.name}"
         os.system(cmd)
-        self._lxc_get_status()
+        self.lxc_get_info()
 
     def lxc_execute_command(self, command: str):
         """
