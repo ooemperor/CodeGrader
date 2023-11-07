@@ -22,7 +22,7 @@ class Config:
             configFile = open(os.path.join(os.path.dirname(__file__), "config.json"))
             code = open(os.path.join(os.path.dirname(__file__), "codeLanguages.json"))
         elif self.system == 'Linux':
-            configFile = open("/etc/codeGrader/config.json")
+            configFile = open("/etc/codeGrader/backendConfig.json")
             code = open("/etc/codeGrader/codeLanguages.json")
         else:
             # For MAC OS there might be some changes needed here for the proper file path.
