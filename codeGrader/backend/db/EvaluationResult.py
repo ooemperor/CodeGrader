@@ -4,8 +4,9 @@ Database Model File for the EvaluationResult
 """
 from .Base import Base
 from .Submission import Submission
+from .ExecutionResult import ExecutionResult
 from sqlalchemy import Column, DateTime, Integer, func, \
-    ForeignKey, UniqueConstraint, String
+    ForeignKey, UniqueConstraint, String, Float
 
 
 class EvaluationResult(Base):
@@ -13,7 +14,7 @@ class EvaluationResult(Base):
     Class to store the EvaluationResult for a given
     Membership is link table between User and Subject.
     """
-    __tablename__ = 'EvaluationResult'
+    __tablename__ = 'evaluationresult'
 
     id = Column(
         Integer, primary_key=True, index=True
@@ -28,7 +29,7 @@ class EvaluationResult(Base):
     )
 
     evaluation_score = Column(
-        String, # TODO: change to the proper data type after implementation
+        Float, # TODO: change to the proper data type after implementation
         nullable=False,
         index=False
     )

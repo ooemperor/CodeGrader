@@ -72,7 +72,7 @@ class Submission(Base):
         lazy="joined"
     )
 
-    executionResult = relationship(
+    executionresult = relationship(
         "ExecutionResult",
         collection_class=ordering_list("id"),
         order_by="[ExecutionResult.id]",
@@ -81,7 +81,7 @@ class Submission(Base):
         lazy="joined"
     )
 
-    evaluationResult = relationship(
+    evaluationresult = relationship(
         "EvaluationResult",
         collection_class=ordering_list("id"),
         order_by="[EvaluationResult.id]",

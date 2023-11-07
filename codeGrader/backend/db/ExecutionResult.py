@@ -4,6 +4,7 @@ Database Model File for a ExecutionResult.
 """
 from .Base import Base
 from .Submission import Submission
+from .TestCase import TestCase
 from sqlalchemy import Column, DateTime, Integer, func, \
     ForeignKey, UniqueConstraint, String, Double
 
@@ -13,7 +14,7 @@ class ExecutionResult(Base):
     Class to represent a membership of a user to a given Subject.
     Membership is link table between User and Subject.
     """
-    __tablename__ = 'ExecutionResult'
+    __tablename__ = 'executionresult'
 
     id = Column(
         Integer, primary_key=True, index=True
@@ -49,6 +50,13 @@ class ExecutionResult(Base):
     submission_id = Column(
         Integer,
         ForeignKey(Submission.id, onupdate="CASCADE", ondelete="CASCADE"),
+        nullable=True,
+        index=True
+    )
+
+    testcase_id = Column(
+        Integer,
+        ForeignKey(TestCase.id, onupdate="CASCADE", ondelete="CASCADE"),
         nullable=True,
         index=True
     )

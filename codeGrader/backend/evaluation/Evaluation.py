@@ -31,6 +31,9 @@ class Evaluation:
         @return: True if identical, else false
         @rtype: Boolean.
         """
+
+        expectedSolution
+        actualSolution
         assert actualSolution is not None
         assert self.evaluation_type is not None
         if self.evaluation_type == "basic":
@@ -41,7 +44,6 @@ class Evaluation:
             evaluation = self._line_compare_without_blanks_evaluation(expectedSolution, actualSolution)
         else:
             raise AttributeError("")
-        # TODO: create new evaluationResult in the database.
         return evaluation
 
     def _basic_full_compare_evaluation(self, expectedSolution: list, actualSolution: list):

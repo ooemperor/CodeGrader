@@ -10,7 +10,7 @@ from functools import wraps
 from flask import Flask, request, send_file
 from codeGrader.backend.config import config
 from codeGrader.backend.api.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, \
-    ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler, authentication
+    ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler, TestCaseHandler, authentication
 from codeGrader.backend.api.logger import Logger
 import logging
 
@@ -342,6 +342,40 @@ def submissions():
     @rtype: dict
     """
     return SubmissionHandler().get_all()
+
+
+@app.route("/addTestCase", methods=["POST"])
+def addTestCase():
+    """
+    Add a TestCase to the DB
+    @return: Response in form of dictionary
+    @rtype: dict
+    """
+    if request.method == 'POST':
+        return TestCaseHandler().post(request.get_json())
+
+
+@app.route("/testcase/<int:id_>", methods=["GET"])
+def testcase(id_):
+    """
+    Handler for get of a TestCase
+    @param id_: The id_ of the TestCase to get
+    @type  id_: int
+    @return: The JSON representation of the TestCase
+    @rtype: dict
+    """
+    if request.method == 'GET':
+        return TestCaseHandler().get(id_)
+
+
+@app.route("/testcases", methods=['GET'])
+def testcases():
+    """
+    Getting all the TestCases objects out of the database
+    @return: Custom Representation of all the objects
+    @rtype: dict
+    """
+    return TestCaseHandler().get_all()
 
 
 # starting the web application

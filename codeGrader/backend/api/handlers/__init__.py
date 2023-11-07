@@ -13,6 +13,7 @@ from .File import FileHandler
 from .Submission import SubmissionHandler
 from .Exceptions import AuthorizationFail
 from .Authentication import authentication
+from .TestCase import TestCaseHandler
 
 __all__ = ["BaseHandler", "UserHandler", "AdminUserHandler", "ProfileHandler", "SubjectHandler", "TaskHandler",
-           "ExerciseHandler", "FileHandler", "SubmissionHandler", "authentication", "AuthorizationFail"]
+           "ExerciseHandler", "FileHandler", "SubmissionHandler", "authentication", "AuthorizationFail", "TestCaseHandler"]
