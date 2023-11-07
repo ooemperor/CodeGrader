@@ -29,7 +29,7 @@ class EvaluationResult(Base):
     )
 
     evaluation_score = Column(
-        Float, # TODO: change to the proper data type after implementation
+        Float,
         nullable=False,
         index=False
     )
