@@ -18,6 +18,10 @@ apt-get install -y pip
 pip install -r requirements.txt
 ```
 # Backend
+Running the gunicorn wsgi:
+```
+gunicorn -w 4 codeGrader.backend.api.app:app
+```
 ## Python Packages
 ```
 pip install -r requirements.txt
