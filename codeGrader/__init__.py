@@ -3,4 +3,4 @@ Init file for the codeGrader package. Everything that shall be provided needs to
 @author: mkaiser
 """
 
-from . import backend
+
