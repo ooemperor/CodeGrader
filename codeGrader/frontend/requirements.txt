@@ -1,4 +1,0 @@
-flask >=2.3, <2.4
-setuptools ==56.0.0
-requests >=2.31, <2.32
-gunicorn >=21.2.0, <21.3
