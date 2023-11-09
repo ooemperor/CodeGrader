@@ -1,5 +1,5 @@
 """
-Route defintion and main File for the Admin Frontend of the CodeGrader
+Route definition and main File for the Admin Frontend of the CodeGrader
 @author: mkaiser
 @version: 1.0
 """
@@ -19,6 +19,11 @@ app = Flask(config.adminAppName)
 @app.route("/")
 def home():
     return render_template("base.html")
+
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
 
 
 if __name__ == "__main__":
