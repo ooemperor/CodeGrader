@@ -14,6 +14,8 @@ from .Submission import SubmissionHandler
 from .Exceptions import AuthorizationFail
 from .Authentication import authentication
 from .TestCase import TestCaseHandler
+from .LoginHandler import LoginHandler
 
 __all__ = ["BaseHandler", "UserHandler", "AdminUserHandler", "ProfileHandler", "SubjectHandler", "TaskHandler",
-           "ExerciseHandler", "FileHandler", "SubmissionHandler", "authentication", "AuthorizationFail", "TestCaseHandler"]
+           "ExerciseHandler", "FileHandler", "SubmissionHandler", "authentication", "AuthorizationFail",
+           "TestCaseHandler", "LoginHandler"]
