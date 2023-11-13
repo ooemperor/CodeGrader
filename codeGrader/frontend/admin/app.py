@@ -13,8 +13,7 @@ from flask_login import LoginManager
 from codeGrader.frontend.config import config
 
 templatesDir = os.path.abspath('./templates')
-app = Flask("3DBoK", template_folder=templatesDir)
-app = Flask(config.adminAppName)
+app = Flask(config.adminAppName, template_folder=templatesDir)
 
 login_manager = LoginManager()
 
