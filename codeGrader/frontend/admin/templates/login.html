@@ -8,17 +8,19 @@
 </head>
 
 <body>
-    <div id="div_login" class="center">
-        <label class="label_input">Username</label>
-        <br>
-        <input id="input_username" class="input">
-        <br>
-        <label class="label_input">Password</label>
-        <br>
-        <input id="input_password" type="password" class="input">
-        <br>
-        <button id="btn_login" class="btn_login">Login</button>
-    </div>
+    <form action="{{ url_for("login") }}" method="POST">
+        <div id="div_login" class="center">
+            <label class="label_input">Username</label>
+            <br>
+            <input id="input_username" class="input">
+            <br>
+            <label class="label_input">Password</label>
+            <br>
+            <input id="input_password" type="password" class="input">
+            <br>
+            <button id="btn_login" class="btn_login">Login</button>
+        </div>
+    </form>
 </body>
 
 </html>

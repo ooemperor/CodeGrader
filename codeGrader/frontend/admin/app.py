@@ -9,11 +9,15 @@ import mimetypes
 from functools import wraps
 
 from flask import Flask, request, render_template, url_for, redirect
+from flask_login import LoginManager
 from codeGrader.frontend.config import config
 
 templatesDir = os.path.abspath('./templates')
 app = Flask("3DBoK", template_folder=templatesDir)
 app = Flask(config.adminAppName)
+
+login_manager = LoginManager()
+
 
 
 @app.route("/")
@@ -21,7 +25,7 @@ def home():
     return render_template("base.html")
 
 
-@app.route("/login")
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     return render_template("login.html")
 
