@@ -1,5 +1,12 @@
 from setuptools import setup, find_packages
 
+PACKAGE_DATA = {
+    "codeGrader.frontend.admin":[
+        "/static/*.*",
+        "/templates/*.*"
+    ]
+}
+
 setup(
     name='codeGrader',
     version='1.0',
