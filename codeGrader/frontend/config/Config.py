@@ -21,8 +21,10 @@ class Config:
         self.system = platform.system()
         if self.system == 'Windows':
             configFile = open(os.path.join(os.path.dirname(__file__), "config.json"))
+            self.templatesDir = os.path.abspath('./templates')
         elif self.system == 'Linux':
             configFile = open("/etc/codeGrader/frontendConfig.json")
+            self.templatesDir = './templates'
         else:
             # For MAC OS there might be some changes needed here for the proper file path.
             configFile = open(os.path.join(os.path.dirname(__file__), "config.json"))
