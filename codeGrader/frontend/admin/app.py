@@ -18,7 +18,6 @@ app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 login_manager = LoginManager()
 
 
-
 @app.route("/")
 def home():
     return render_template("base.html")

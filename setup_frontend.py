@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 PACKAGE_DATA = {
     "codeGrader.frontend": [
-        "admin/static/*",
+        "admin/static/css/*",
         "admin/templates/*.*"
     ]
 }
