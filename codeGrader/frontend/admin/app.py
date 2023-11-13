@@ -11,9 +11,9 @@ from functools import wraps
 from flask import Flask, request, render_template, url_for, redirect
 from flask_login import LoginManager
 from codeGrader.frontend.config import config
+from codeGrader.frontend.admin import templates
 
-templatesDir = os.path.abspath('./templates')
-app = Flask(config.adminAppName, template_folder=config.templatesDir)
+app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 
 login_manager = LoginManager()
 
