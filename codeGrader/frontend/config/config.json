@@ -1,14 +1,16 @@
 {
   "admin": {
     "applicationName": "AdminCodeGrader",
+    "secret_key": "ADD_A_GOOD_SECRET_KEY_HERE",
     "port": 8101
   },
   "user": {
     "applicationName": "CodeGrader",
+    "secret_key": "ADD_A_GOOD_SECRET_KEY_HERE",
     "port": 8102
   },
   "api": {
-    "host": "http://127.0.0.1",
+    "host": "http://127.0.0.1:8001",
     "port": "8001",
     "authentication_type": "Bearer",
     "authentication_token": "NO_TOKEN_YET"

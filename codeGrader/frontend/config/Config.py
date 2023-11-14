@@ -34,9 +34,11 @@ class Config:
 
         self.adminPort = conf["admin"]["port"]
         self.adminAppName = conf["admin"]["applicationName"]
+        self.adminSecretKey = conf["admin"]["secret_key"]
 
         self.userPort = conf["user"]["port"]
         self.userAppName = conf["user"]["applicationName"]
+        self.userSecretKey = conf["user"]["secret_key"]
 
         self.apiHost = conf["api"]["host"]
         self.apiPort = conf["api"]["port"]

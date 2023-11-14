@@ -10,7 +10,7 @@ from functools import wraps
 from flask import Flask, request, send_file
 from codeGrader.backend.config import config
 from codeGrader.backend.api.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, \
-    ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler, TestCaseHandler, LoginHandler, authentication
+    ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler, TestCaseHandler, AdminUserLoginHandler, authentication
 from codeGrader.backend.api.logger import Logger
 import logging
 
@@ -38,7 +38,7 @@ def home():
     return response
 
 
-@app.route("/login", methods=['GET'])
+@app.route("/login", methods=['POST'])
 def login():
     """
     Login for a provided user
@@ -46,7 +46,7 @@ def login():
     data = request.get_json()
     username = data["username"]
     password = data["password"]
-    return LoginHandler().login(username, password)
+    return AdminUserLoginHandler().login(username, password)
 
 
 @app.route("/user/<int:id_>", methods=['GET', 'PUT', 'DELETE'])

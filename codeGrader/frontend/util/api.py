@@ -50,7 +50,7 @@ class ApiHandler:
             response = requests.get(path, headers=headers)
 
         elif method == 'POST':
-            assert body is not  None
+            assert body is not None
             response = requests.post(path, headers=headers, json=body)
 
         elif method == 'PUT':
@@ -69,10 +69,11 @@ class ApiHandler:
         """
         use GET Method on the API
         @param path: the path on which to call the request
-        @return:
+        @return: The response text of the API response
+        @rtype: str
         """
         response = self._make_request('GET', path)
-        assert response.response_code == 200
+        assert response.status_code == 200
         assert response.text is not None
 
         return response.text
@@ -82,7 +83,8 @@ class ApiHandler:
         use POST method on the API
         @param path: the path on which to call the request
         @param body: The body taht shall be attached to the request
-        @return: The response of the API
+        @return: The response text of the API response
+        @rtype: str
         """
         assert body is not None
         response = self._make_request('POST', path, body)
@@ -97,7 +99,8 @@ class ApiHandler:
         use PUT method on the API
         @param path: the path on which to call the request
         @param body: The body taht shall be attached to the request
-        @return: The response of the API
+        @return: The response text of the API response
+        @rtype: str
         """
         assert body is not None
 
@@ -112,7 +115,8 @@ class ApiHandler:
         """
         use DELETE Method on the API
         @param path: the path on which to call the request
-        @return: The response of the API
+        @return: The response text of the API response
+        @rtype: str
         """
         response = self._make_request('DELETE', path)
 

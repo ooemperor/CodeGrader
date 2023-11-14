@@ -2,17 +2,18 @@
 Handler for the Login
 @author: mkaiser
 """
+import sqlalchemy.exc
 
 from .Base import BaseHandler
-from codeGrader.backend.db.User import User
+from codeGrader.backend.db.User import AdminUser
 from .Exceptions import AuthorizationException
 from sqlalchemy import select
 
 
-class LoginHandler(BaseHandler):
+class AdminUserLoginHandler(BaseHandler):
     """
     Class for the login Handler
-    Used by the frontend to check the login status of a user.
+    Used by the frontend to check the login status of a AdminUser.
     """
 
     def __init__(self):
@@ -20,7 +21,7 @@ class LoginHandler(BaseHandler):
         Constructor of the
         """
         super().__init__()
-        self.dbClass = User
+        self.dbClass = AdminUser
 
     def login(self, username: str, password: str):
         """
@@ -32,10 +33,16 @@ class LoginHandler(BaseHandler):
         @return: Generic Response that gets generated.
         @rtype: dict
         """
-        user_id = self.sql_session.session.begin().scalars(select(User.id).where(User.username == username)).one()
-        user = self.sql_session.get_object(User, user_id)
-        if user.username == username and user.password == password:
-            return self.create_generic_response('GET', "Authentication successful for User", user.id)
-        else:
-            return self.create_generic_response('GET', "Authentication failed for User")
+        try:
+            with self.sql_session.session.begin() as session:
+                adminUser_id = session.scalars(select(AdminUser.id).where(AdminUser.username == username)).one()
 
+            user = self.sql_session.get_object(AdminUser, adminUser_id)
+            if user.username == username and user.password == password:
+                return self.create_generic_response('GET', "Authentication successful for User", user.id)
+            else:
+                return self.create_generic_response('GET', "Authentication failed for User")
+
+        except sqlalchemy.exc.NoResultFound as err:
+            # incase we do not find a user with the given credentials
+            return self.create_generic_error_response('POST', err)
