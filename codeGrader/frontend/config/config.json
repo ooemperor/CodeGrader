@@ -8,8 +8,9 @@
     "port": 8102
   },
   "api": {
-    "host": "127.0.0.1",
+    "host": "http://127.0.0.1",
     "port": "8001",
-    "token": "NO_TOKEN_YET"
+    "authentication_type": "Bearer",
+    "authentication_token": "NO_TOKEN_YET"
   }
 }

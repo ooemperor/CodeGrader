@@ -40,4 +40,5 @@ class Config:
 
         self.apiHost = conf["api"]["host"]
         self.apiPort = conf["api"]["port"]
-        self.apiToken = conf["api"]["token"]
+        self.apiAuthentication = conf["api"]["authentication_type"]
+        self.apiToken = conf["api"]["authentication_token"]

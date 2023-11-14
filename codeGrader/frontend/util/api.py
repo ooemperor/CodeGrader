@@ -7,7 +7,7 @@ from codeGrader.frontend.config import config
 import requests
 
 
-class ApiHandler():
+class ApiHandler:
     """
     Handler for a API
     Calls and makes calls to a specific api handling authentication and more

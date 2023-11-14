@@ -2,7 +2,10 @@
 Base Handler for the admin part of the CodeGrader Frontend
 @author: mkaiser
 """
+import flask
+
 from codeGrader.frontend.config import config
+from codeGrader.frontend.util import ApiHandler
 from flask import request
 
 
@@ -12,12 +15,12 @@ class BaseHandler:
     Other Handlers will inherit from this class
     """
 
-    def __init__(self, request):
+    def __init__(self, requests: flask.Request):
         """
         Constructor of the BaseHandler
         """
-        self.request = request
-        # self.apiRequest = ''
+        self.request = requests
+        self.api = ApiHandler(config.apiHost, config.apiAuthentication, config.apiToken)
 
     def get_value(self, value: str):
         """

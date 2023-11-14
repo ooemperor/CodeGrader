@@ -2,7 +2,7 @@
 Login Page Handler
 @author: mkaiser
 """
-from flask import request
+import flask
 from .Base import BaseHandler
 
 
@@ -17,4 +17,4 @@ class LoginHandler(BaseHandler):
         @param request: The request from the app route of flask
         @type request: flask.request
         """
-        super.__init__(request)
+        super().__init__(request)
