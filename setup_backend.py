@@ -13,7 +13,8 @@ setup(
         'console_scripts': [
             'cgDeployDB = codeGrader.scripts.deployDB:main',
             'cgEvaluationService = codeGrader.scripts.cgEvaluationService:main',
-            'cgExecutionService = codeGrader.scripts.cgExecutionService:main'
+            'cgExecutionService = codeGrader.scripts.cgExecutionService:main',
+            'cgAddApiToken = codeGrader.scripts.cgAddApiToken:main'
         ]
     }
 )
