@@ -3,6 +3,7 @@ Holds all kind of functionality used by the frontend that needs to implement fun
 @author: mkaiser
 """
 
+import json
 from codeGrader.frontend.config import config
 import requests
 
@@ -65,6 +66,20 @@ class ApiHandler:
 
         return response
 
+    def _cast_dict(self, dictionary: str):
+        """
+        Try casting an string to a Dictionary
+        @param dictionary: The string that shall be casted to a dictionary
+        @type dictionary: str
+        @return: The dictionary or the orginal string
+        @rtype: dict or str
+        """
+        try:
+            return json.loads(dictionary)
+
+        except json.JSONDecodeError as err:
+            return dictionary
+
     def get(self, path: str):
         """
         use GET Method on the API
@@ -76,7 +91,7 @@ class ApiHandler:
         assert response.status_code == 200
         assert response.text is not None
 
-        return response.text
+        return self._cast_dict(response.text)
 
     def post(self, path: str, body: str = None):
         """
@@ -92,7 +107,7 @@ class ApiHandler:
         assert (response.status_code == 200 or response.status_code == 201)
         assert response.text is not None
 
-        return response.text
+        return self._cast_dict(response.text)
 
     def put(self, path: str, body: str = None):
         """
@@ -109,7 +124,7 @@ class ApiHandler:
         assert (response.status_code == 200 or response.status_code == 204)
         assert response.text is not None
 
-        return response.text
+        return self._cast_dict(response.text)
 
     def delete(self, path: str):
         """
@@ -123,4 +138,4 @@ class ApiHandler:
         assert response.status_code == 200
         assert response.text is not None
 
-        return response.text
+        return self._cast_dict(response.text)

@@ -19,7 +19,7 @@ class SessionAdminUser(UserMixin):
         @param adminUser_id: The
         """
 
-        user_dict = json.loads(AdminUserHandler().get(adminUser_id))
+        user_dict = AdminUserHandler().get(adminUser_id)
         self.id = user_dict["id"]
         self.username = user_dict["username"]
 

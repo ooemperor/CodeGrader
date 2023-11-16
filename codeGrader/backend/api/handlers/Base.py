@@ -132,9 +132,11 @@ class BaseHandler:
             if len(objects) == 0:
                 return self.create_generic_response('GET', f"No Objects entries to display")
             else:
-                output = []
+                object_list = []
                 for object_ in objects:
-                    output.append(object_.toJson())
+                    object_list.append(object_.toJson())
+                output = dict()
+                output[str(self.dbClass.__table__)] = object_list
                 return output
         except Exception as err:
             return self.create_generic_error_response('GET', err)
