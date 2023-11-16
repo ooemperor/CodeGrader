@@ -92,12 +92,16 @@ class Base(object):
             if object_var.key not in attributes and fill_with_defaults:
                 # no data has been provided for this variable
                 # must check if column can be null when no default is set.
-                if column.default is None and column.nullable is False:
+                attr = object_var.key
+                if column.default is None and column.nullable is False and getattr(self, object_var.key) is None:
                     raise AttributeError(
                         "Columns is not nullable. No data data has been provided for the Variable '%s' and there is no default value"
                         % object_var.key
                     )
-                setattr(self, object_var.key, column.default)
+                elif getattr(self, object_var.key) is not None:
+                    continue
+                else:
+                    setattr(self, object_var.key, column.default)
 
             elif object_var.key in attributes:
                 value = attributes.pop(object_var.key)
@@ -105,10 +109,14 @@ class Base(object):
 
             else:
                 # no value specified or shall not fill with default
-                if column.nullable is False:
-                    raise AttributeError(
-                        "Columns is not nullable. No data data has been provided for the Column '%s'" % object_var.key
-                    )
+
+                if getattr(self, object_var.key) is not None:
+                    continue
+                else:
+                    if column.nullable is False:
+                        raise AttributeError(
+                            "Columns is not nullable. No data data has been provided for the Column '%s'" % object_var.key
+                        )
 
         # updating the relationships
         for relationship in self.relationship_properties:

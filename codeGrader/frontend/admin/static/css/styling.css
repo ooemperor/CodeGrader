@@ -83,6 +83,8 @@ body {
   background-color: white;
   color: black;
 }
+
+
 /*Containers start*/
 .center {
   width: 200px;
@@ -91,7 +93,19 @@ body {
 }
 /*Containers end*/
 
+
+/*Core Content start*/
+.core_content {
+  margin-left: 35px;
+}
+/*Core content end*/
+
+
 /*Buttons btn start*/
+.btn {
+  color: #818181;
+}
+
 .btn-menu {
   position: absolute;
   color: #818181;
@@ -103,6 +117,7 @@ body {
   visibility: hidden;
   transition: visiblity 500ms;
 }
+
 
 .btn_login {
   margin: 10px;
@@ -132,7 +147,24 @@ body {
 }
 /*Headers end*/
 
-/*Core Content start*/
-.core_content {
-  margin-left: 35px;
+/* Table Styling start*/
+
+.table {
+  padding: 10px;
 }
+
+.table .head, .data {
+  padding: 10px;
+  text-align: center;
+}
+
+.vertical_table {
+  padding: 10px;
+}
+
+.vertical_table .head, .data {
+  padding: 5px;
+  text-align: center;
+}
+
+/* Table Styling end*/

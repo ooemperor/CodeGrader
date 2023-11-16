@@ -7,8 +7,8 @@ from flask import Flask, request, render_template, url_for, redirect
 from flask_login import LoginManager, login_user, login_required, logout_user
 from codeGrader.frontend.config import config
 from codeGrader.frontend.admin import templates
-from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminUserHandler, SessionAdminUser, UsersHandler, HomeHandler
-
+from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminUserHandler, SessionAdminUser, \
+    UserListHandler, UserHandler, HomeHandler
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 
@@ -69,6 +69,7 @@ def unauthorized():
     """
     return redirect(url_for("login"))
 
+
 @app.route("/")
 @login_required
 def home():
@@ -88,7 +89,9 @@ def user(id_):
     @type id_: int
     @return: The rendered User
     """
-    return redirect("/")
+    return UserHandler(request).get(id_)
+
+
 @app.route("/users")
 @login_required
 def users():
@@ -96,7 +99,7 @@ def users():
     Site to display all users
     @return: Rendered Users Site
     """
-    return UsersHandler(request).get()
+    return UserListHandler(request).get()
 
 
 if __name__ == "__main__":

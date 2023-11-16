@@ -5,7 +5,7 @@ Init File for the handlers of the admin WebServer.
 
 from .Login import AdminUserLoginHandler
 from .SessionAdminUser import AdminUserHandler, SessionAdminUser
-from .User import UsersHandler
+from .User import UserListHandler, UserHandler
 from .Home import HomeHandler
 
-__all__ = ["AdminUserLoginHandler", "AdminUserHandler", "SessionAdminUser", "UsersHandler", "HomeHandler"]
+__all__ = ["AdminUserLoginHandler", "AdminUserHandler", "SessionAdminUser", "UserListHandler", "UserHandler", "HomeHandler"]
