@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block core %}
+    <div id="main" class="main">
+        <span id="main-menu-button" class="btn-menu" onclick="openNav()">&equiv;</span>
+        <div>
+            <h1 class="header1 core_content">Admin User {{ username }}</h1>
+        </div>
+        <p class="core_content">Admin User {{ username }}</p>
+        
+        <form action="{{url_for('adminUser', id_ = id)}}" method="POST" class="core_content">
+            <div id="user_data">
+                <table class="vertical_table">
+                    <tr>
+                        <td class="data">Username</td>
+                        <td class="data">
+                            <input type="text" id="input_username" name="username" value="{{ username }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="data">First Name</td>
+                        <td class="data">
+                            <input type="text" id="input_first_name" name="first_name" value="{{ first_name }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="data">Last Name</td>
+                        <td class="data">
+                            <input type="text" id="input_last_name" name="last_name" value="{{ last_name }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="data">E-Mail</td>
+                        <td class="data">
+                            <input type="text" id="input_email" name="email" value="{{ email }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="data">Profile</td>
+                        <td class="data">
+                            <input type="text" id="input_profile" name="profile" value="{{ profile }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="data">Tag</td>
+                        <td class="data">
+                            <input type="text" id="input_tag" name="tag" value="{{ tag }}">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="control_buttons">
+                <button id="btn_submit" class="btn_submit" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+{% endblock core %}
