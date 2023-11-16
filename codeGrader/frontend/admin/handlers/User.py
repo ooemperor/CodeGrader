@@ -1,10 +1,10 @@
 """
-Handler Classes for the Users
+Handler Classes for the Users in the admin frontend
 @author: mkaiser
 """
 import flask
 import json
-from flask import request, render_template, redirect
+from flask import request, render_template, redirect, url_for
 from .Base import BaseHandler
 
 
@@ -53,5 +53,25 @@ class UserHandler(BaseHandler):
         @rtype: HTML
         """
         user = self.api.get(f"/user/{id_}")
-        print(user)
         return render_template("user.html", **user)
+
+    def post(self, id_: int):
+        """
+        Handler for the update of a user
+        @param id_:
+        @param data:
+        @return:
+        """
+        assert self.request.form is not None
+        user_data = dict()
+
+        # getting the data from the form provided in the request
+        user_data["username"] = self.get_value("username")
+        user_data["first_name"] = self.get_value("first_name")
+        user_data["last_name"] = self.get_value("last_name")
+        user_data["email"] = self.get_value("email")
+        user_data["tag"] = self.get_value("tag")
+        print(user_data)
+        self.api.put(f"/user/{id_}", body=user_data)
+
+        return redirect(url_for("user", id_=id_))

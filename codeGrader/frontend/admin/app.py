@@ -80,7 +80,7 @@ def home():
     return HomeHandler(request).get()
 
 
-@app.route("/user/<int:id_>")
+@app.route("/user/<int:id_>", methods=['GET', 'POST', 'DELETE'])
 @login_required
 def user(id_):
     """
@@ -89,7 +89,10 @@ def user(id_):
     @type id_: int
     @return: The rendered User
     """
-    return UserHandler(request).get(id_)
+    if request.method == 'GET':
+        return UserHandler(request).get(id_)
+    elif request.method == 'POST':
+        return UserHandler(request).post(id_)
 
 
 @app.route("/users")
