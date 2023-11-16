@@ -1,5 +1,5 @@
 flask >=2.3, <2.4
 requests >=2.31, <2.32
-setuptools ==56.0.0
+setuptools >=68.0.0
 gunicorn >=21.2.0, <21.3
 flask_login >=0.6.2, <0.7
