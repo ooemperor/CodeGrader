@@ -5,23 +5,23 @@
     <div id="main" class="main">
         <span id="main-menu-button" class="btn-menu" onclick="openNav()">&equiv;</span>
         <div>
-            <h1 class="header1 core_content">Profile</h1>
+            <h1 class="header1 core_content">Exercise</h1>
         </div>
-        <p class="core_content">Profile</p>
+        <p class="core_content">Exercise</p>
 
         <table class="core_content table">
             <tr>
                 <th class="head">Name</th>
                 <th class="head">Tag</th>
             </tr>
-            {% for prof in profile %}
+            {% for ex in exercise %}
                 <tr>
                     <td class="data">
-                        <a href="{{ url_for('profile', id_ = prof['id']|string) }}">
-                            {{ prof["name"] }}
+                        <a href="{{ url_for('exercise', id_ = ex['id']|string) }}">
+                            {{ ex["name"] }}
                         </a>
                     </td>
-                    <td class="data">{{ prof["tag"] }}</td>
+                    <td class="data">{{ ex["tag"] }}</td>
                 </tr>
             {% endfor %}
 

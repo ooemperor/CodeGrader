@@ -40,9 +40,9 @@
         <a href="{{ url_for('adminUsers') }}">Admins</a>
         <a href="{{ url_for('users') }}">Users</a>
         <a href="{{ url_for('profiles') }}">Profiles</a>
-        <a href="#">Subjects</a>
-        <a href="#">Exercises</a>
-        <a href="#">Tasks</a>
+        <a href="{{ url_for('subjects') }}">Subjects</a>
+        <a href="{{ url_for('exercises') }}">Exercises</a>
+        <a href="{{ url_for('tasks') }}">Tasks</a>
         <br>
         <div>
             <a href="{{ url_for('logout') }}" class="btn_logout" >

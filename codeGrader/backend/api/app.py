@@ -194,6 +194,7 @@ def subject(id_: int):
     elif request.method == 'DELETE':
         return SubjectHandler().delete(id_)
 
+
 @app.route("/subjects", methods=['GET'])
 def subjects():
     """
@@ -300,7 +301,6 @@ def uploadFile():
             return FileHandler().post(data)
 
 
-
 @app.route("/file/<int:id_>", methods=["GET", "DELETE"])
 def file(id_: int):
     """
@@ -387,6 +387,7 @@ def testcases():
     @rtype: dict
     """
     return TestCaseHandler().get_all()
+
 
 @app.route("/adminTypes")
 def admin_types():

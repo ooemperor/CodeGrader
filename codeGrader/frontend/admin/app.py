@@ -8,7 +8,9 @@ from flask_login import LoginManager, login_user, login_required, logout_user
 from codeGrader.frontend.config import config
 from codeGrader.frontend.admin import templates
 from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminUserSessionHandler, SessionAdminUser, \
-    UserListHandler, UserHandler, HomeHandler, AdminUserListHandler, AdminUserHandler, ProfileListHandler, ProfileHandler
+    UserListHandler, UserHandler, HomeHandler, AdminUserListHandler, AdminUserHandler, ProfileListHandler, \
+    ProfileHandler, SubjectListHandler, SubjectHandler, TaskHandler, TaskListHandler, ExerciseHandler, \
+    ExerciseListHandler
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 
@@ -152,6 +154,81 @@ def profiles():
     @return: The rendered Profiles site
     """
     return ProfileListHandler(request).get()
+
+
+@app.route("/subject/<int:id_>", methods=['GET', 'POST'])
+@login_required
+def subject(id_):
+    """
+    Site to display a single subject
+    @param id_: The id of the subject
+    @type id_: int
+    @return: The rendered Subject site
+    """
+    if request.method == 'GET':
+        return SubjectHandler(request).get(id_)
+    elif request.method == 'POST':
+        return SubjectHandler(request).post(id_)
+
+
+@app.route("/subjects")
+@login_required
+def subjects():
+    """
+    Site for a list of all the subjects
+    @return: The rendered Subjects site
+    """
+    return SubjectListHandler(request).get()
+
+
+@app.route("/exercise/<int:id_>", methods=['GET', 'POST'])
+@login_required
+def exercise(id_):
+    """
+    Site to display a single exercise
+    @param id_: The id of the exercise
+    @type id_: int
+    @return: The rendered exercise site
+    """
+    if request.method == 'GET':
+        return ExerciseHandler(request).get(id_)
+    elif request.method == 'POST':
+        return ExerciseHandler(request).post(id_)
+
+
+@app.route("/exercises")
+@login_required
+def exercises():
+    """
+    Site for a list of all the exercises
+    @return: The rendered exercises site
+    """
+    return ExerciseListHandler(request).get()
+
+
+@app.route("/task/<int:id_>", methods=['GET', 'POST'])
+@login_required
+def task(id_):
+    """
+    Site to display a single task
+    @param id_: The id of the task
+    @type id_: int
+    @return: The rendered task site
+    """
+    if request.method == 'GET':
+        return TaskHandler(request).get(id_)
+    elif request.method == 'POST':
+        return TaskHandler(request).post(id_)
+
+
+@app.route("/tasks")
+@login_required
+def tasks():
+    """
+    Site for a list of all the tasks
+    @return: The rendered tasks site
+    """
+    return TaskListHandler(request).get()
 
 
 if __name__ == "__main__":
