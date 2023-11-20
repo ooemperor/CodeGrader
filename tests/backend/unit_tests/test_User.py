@@ -50,7 +50,8 @@ class UserTest(unittest.TestCase):
             "last_name": "user",
             "email": "admin.user@mail.com",
             "password": "myPassword",
-            "tag": "adminUserTag"
+            "tag": "adminUserTag",
+            "admin_type": 1
         }
 
         adminuser = AdminUser(**adminuserdict)

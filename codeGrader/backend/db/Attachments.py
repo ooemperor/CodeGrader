@@ -33,7 +33,7 @@ class Instruction(Base):
     # ForeignKeys
     task_id = Column(
         BIGINT,
-        ForeignKey(Task.id, onupdate="CASCADE", ondelete="CASCADE"),
+        ForeignKey(Task.id, onupdate="CASCADE"),
         nullable=True,
         index=True
     )
@@ -80,7 +80,7 @@ class Attachment(Base):
     # ForeignKeys
     task_id = Column(
         BIGINT,
-        ForeignKey(Task.id, onupdate="CASCADE", ondelete="CASCADE"),
+        ForeignKey(Task.id, onupdate="CASCADE"),
         nullable=True,
         index=True
     )

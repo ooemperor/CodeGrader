@@ -32,14 +32,14 @@ class Membership(Base):
     # Foreign Keys:
     user_id = Column(
         Integer,
-        ForeignKey(User.id, onupdate="CASCADE", ondelete="CASCADE"),
+        ForeignKey(User.id, onupdate="CASCADE"),
         nullable=True,
         index=True
     )
 
     subject_id = Column(
         Integer,
-        ForeignKey(Subject.id, onupdate="CASCADE", ondelete="CASCADE"),
+        ForeignKey(Subject.id, onupdate="CASCADE"),
         nullable=True,
         index=True
     )

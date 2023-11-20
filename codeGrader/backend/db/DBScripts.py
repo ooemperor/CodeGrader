@@ -3,6 +3,8 @@ File for mulitple helper functions, that are associated with the Database
 @author: mkaiser
 """
 from codeGrader.backend.config import config
+from .AdminType import AdminType
+from .Session import Session
 import psycopg2
 
 from . import Base, dbEngine
@@ -42,6 +44,9 @@ def create_DB():
     print("The following tables have been deployed: ")
     for table in Base.metadata.tables.keys():
         print("\t" + table)
+    print("Setting up the default table values:")
+    init_DB_Data()
+    print("Data has bee inserted")
 
     return True
 
@@ -54,4 +59,25 @@ def delete_DB():
     __executeSqlOnDB("DROP SCHEMA public CASCADE;")
     __executeSqlOnDB("CREATE SCHEMA public;")
     print("Schema has been deleted and recreated!")
+    return True
+
+
+def init_DB_Data():
+    """
+    Initialize the basic values in the database that need to be defined from the start on.
+    @return: True on success else raises an error
+    """
+    # the definition of the admin types
+    admin_types = [
+        {"name": "Super Admin", "description": "The Super Admin that has every right on every object"},
+        {"name": "Profile Admin", "description": "The Profile Admin only has rights on its Profile"},
+        {"name": "Read Only Full Admin", "description": "The Read Only Full Admin can only read but cannot make changes to any object"},
+        {"name": "Read Only Profile Admin", "description": "The Read Only Profile Admin can only read on the profiles objects but cannot make changes to any object"}
+     ]
+
+    session = Session()
+    for admin_type in admin_types:
+        at = AdminType(**admin_type)
+        session.create(at)
+
     return True

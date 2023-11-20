@@ -9,15 +9,17 @@ from codeGrader.backend.config import (config)
 
 __all__ = ["User", "AdminUser", "Profile", "Task", "Base", "dbEngine", "Session", "Subject", "Exercise", "File",
            "Attachment", "Instruction", "test_DB", "delete_DB", "create_DB", "Submission", "APIToken",
-           "ExecutionResult", "EvaluationResult", "TestCase"]
+           "ExecutionResult", "EvaluationResult", "TestCase", "AdminType"]
 
 # creation of the db engine
 dbEngine = sql.create_engine(config.dbConnectionString)
 
 # import of all the datamodels.
 # import cannot not be on top of file because of the dbEngine
+from .Admin import AdminUser
+from .AdminType import AdminType
 from .Profile import Profile
-from .User import User, AdminUser
+from .User import User
 from .Subject import Subject
 from .Membership import Membership
 from .Exercise import Exercise

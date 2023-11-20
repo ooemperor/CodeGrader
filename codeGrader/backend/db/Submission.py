@@ -42,14 +42,14 @@ class Submission(Base):
 
     user_id = Column(
         Integer,
-        ForeignKey(User.id, onupdate="CASCADE", ondelete="CASCADE"),
+        ForeignKey(User.id, onupdate="CASCADE"),
         nullable=False,
         index=True
     )
 
     task_id = Column(
         Integer,
-        ForeignKey(Task.id, onupdate="CASCADE", ondelete="CASCADE"),
+        ForeignKey(Task.id, onupdate="CASCADE"),
         nullable=False
     )
 
@@ -58,6 +58,7 @@ class Submission(Base):
         "File",
         collection_class=ordering_list("id"),
         order_by="[File.id]",
+        # cascade is on, so the file will get deleted
         cascade="all",
         passive_deletes=True,
         lazy="joined"
@@ -67,7 +68,7 @@ class Submission(Base):
         "User",
         collection_class=ordering_list("id"),
         order_by="[User.id]",
-        cascade="all",
+        # cascade="all",
         passive_deletes=True,
         lazy="joined"
     )
@@ -76,6 +77,7 @@ class Submission(Base):
         "ExecutionResult",
         collection_class=ordering_list("id"),
         order_by="[ExecutionResult.id]",
+        # cascade is on, so the result will get deleted
         cascade="all",
         passive_deletes=True,
         lazy="joined"
@@ -85,6 +87,7 @@ class Submission(Base):
         "EvaluationResult",
         collection_class=ordering_list("id"),
         order_by="[EvaluationResult.id]",
+        # cascade is on, so the result will get deleted
         cascade="all",
         passive_deletes=True,
         lazy="joined"

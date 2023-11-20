@@ -5,7 +5,7 @@ Handler for the Login
 import sqlalchemy.exc
 
 from .Base import BaseHandler
-from codeGrader.backend.db.User import AdminUser
+from codeGrader.backend.db.Admin import AdminUser
 from .Exceptions import AuthorizationException
 from sqlalchemy import select
 

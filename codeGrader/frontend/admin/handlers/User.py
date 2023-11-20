@@ -71,7 +71,6 @@ class UserHandler(BaseHandler):
         user_data["last_name"] = self.get_value("last_name")
         user_data["email"] = self.get_value("email")
         user_data["tag"] = self.get_value("tag")
-        print(user_data)
         self.api.put(f"/user/{id_}", body=user_data)
 
         return redirect(url_for("user", id_=id_))

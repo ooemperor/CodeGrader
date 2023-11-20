@@ -40,7 +40,7 @@ class Subject(Base):
     # Foreign key to the Profile Table
     profile_id = Column(
         Integer,
-        ForeignKey(Profile.id, onupdate="CASCADE", ondelete="CASCADE"),
+        ForeignKey(Profile.id, onupdate="CASCADE"),
         nullable=True,
         index=True
     )
@@ -50,7 +50,7 @@ class Subject(Base):
         "Exercise",
         collection_class=ordering_list("name"),
         order_by="[Exercise.name]",
-        cascade="all",
+        # cascade="all",
         passive_deletes=True,
         lazy="joined",
         backref=backref("ExerciseSubject", lazy="noload")
@@ -60,6 +60,7 @@ class Subject(Base):
         "Membership",
         collection_class=ordering_list("id"),
         order_by="[Membership.id]",
+        # cascade needs to be acitve so when a Subject is deleted the membership is too
         cascade="all",
         passive_deletes=True,
         lazy="joined",

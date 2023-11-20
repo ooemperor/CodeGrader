@@ -33,5 +33,5 @@ class AdminUserLoginHandler(BaseHandler):
         body["password"] = password
         body["username"] = username
         response = self.api.post('/login', body)
-        id_ = json.loads(response)["response"]["id"]
+        id_ = response["response"]["id"]
         return id_

@@ -35,13 +35,20 @@
     </script>
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&equiv;</a>
-        <a href="javascript:void(0)"  onclick="toggleMode()">Light/Dark Mode</a>
+        <a href="javascript:void(0)" onclick="toggleMode()">Light/Dark Mode</a>
         <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('adminUsers') }}">Admins</a>
         <a href="{{ url_for('users') }}">Users</a>
+        <a href="#">Subjects</a>
         <a href="#">Exercises</a>
         <a href="#">Tasks</a>
         <br>
-        <a href="{{ url_for('logout') }}">Logout</a>
+        <div>
+            <a href="{{ url_for('logout') }}" class="btn_logout" >
+                Logout
+            </a>
+        </div>
+
     </div>
     {% block core %}
     {% endblock %}

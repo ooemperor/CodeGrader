@@ -50,6 +50,15 @@ side nav part was taken from w3schools and then adapted for the codeGrader needs
   margin-left: 0;
 }
 
+.sidenav .btn_logout {
+  position: absolute;
+  padding: 20px 20px 8px 8px;
+  top: 0;
+  right: 0;
+  font-size: 20px;
+  margin-left: 0;
+}
+
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
   .sidenav {
@@ -108,7 +117,7 @@ body {
 
 .btn-menu {
   position: absolute;
-  color: #818181;
+  color: #FFFFFF;
   top: 0;
   margin-left: 32px;
   font-size: 36px;

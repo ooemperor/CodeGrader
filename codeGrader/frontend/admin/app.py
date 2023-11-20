@@ -7,8 +7,8 @@ from flask import Flask, request, render_template, url_for, redirect
 from flask_login import LoginManager, login_user, login_required, logout_user
 from codeGrader.frontend.config import config
 from codeGrader.frontend.admin import templates
-from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminUserHandler, SessionAdminUser, \
-    UserListHandler, UserHandler, HomeHandler
+from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminUserSessionHandler, SessionAdminUser, \
+    UserListHandler, UserHandler, HomeHandler, AdminUserListHandler, AdminUserHandler
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 
@@ -80,7 +80,7 @@ def home():
     return HomeHandler(request).get()
 
 
-@app.route("/user/<int:id_>", methods=['GET', 'POST', 'DELETE'])
+@app.route("/user/<int:id_>", methods=['GET', 'POST'])
 @login_required
 def user(id_):
     """
@@ -103,6 +103,32 @@ def users():
     @return: Rendered Users Site
     """
     return UserListHandler(request).get()
+
+
+@app.route("/adminUser/<int:id_>", methods=['GET', 'POST'])
+@login_required
+def adminUser(id_):
+    """
+    TODO: correct this representation
+    @param id_: The identifier of the user
+    @type id_: int
+    @return: The rendered User
+    """
+    if request.method == 'GET':
+        return AdminUserHandler(request).get(id_)
+    elif request.method == 'POST':
+        return AdminUserHandler(request).post(id_)
+
+
+@app.route("/adminUsers")
+@login_required
+def adminUsers():
+    """
+    Site to display all Admins
+    @return: Rendered AdminUsers Site
+    """
+    return AdminUserListHandler(request).get()
+
 
 
 if __name__ == "__main__":

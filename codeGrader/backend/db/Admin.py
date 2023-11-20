@@ -1,35 +1,33 @@
 """
-Database Model File for a user with its given column properties.
+Database Model File for a AdminUser with its given column properties.
 @author: mkaiser
 """
+
 from .Base import Base
 from .Profile import Profile
+from .AdminType import AdminType
 from sqlalchemy import String, Column, DateTime, BIGINT, func, \
     ForeignKey, Integer, CheckConstraint
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
 
 
-class User(Base):
+class AdminUser(Base):
     """
-    Class to represent a User in the database
-    @see: db.Base
+    Class to store all the administrator users
     """
-
-    __tablename__ = "user"
+    __tablename__ = 'adminuser'
     # primary key
     id = Column(
         Integer, primary_key=True, index=True
     )
-    # Datetimestamp of creation in the database
     creation_dts = Column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False
+        DateTime(timezone=True), nullable=False, server_default=func.now()
     )
     # Datetimestamp of the last update in the database
     updated_dts = Column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
     )
-    # username for login
     username = Column(
         String, nullable=False, unique=True, index=True
     )
@@ -39,11 +37,9 @@ class User(Base):
     last_name = Column(
         String, nullable=False
     )
-    # email adress for password reset and more
     email = Column(
         String, nullable=False
     )
-    # password stored in hash
     password = Column(
         String, nullable=False  # password will be stored in hash form in database
     )
@@ -51,7 +47,16 @@ class User(Base):
     tag = Column(
         String, nullable=True
     )
-    # Foreign Keys
+
+    # Foreign Key to the Admin Type Table
+    admin_type = Column(
+        Integer,
+        ForeignKey(AdminType.id),
+        nullable=False,
+        index=True
+    )
+
+
     # Foreign key to the Profile Table
     profile_id = Column(
         Integer,
@@ -60,21 +65,18 @@ class User(Base):
         index=True
     )
 
-    # Relationships
-    memberships = relationship(
-        "Membership",
+    type = relationship(
+        "AdminType",
         collection_class=ordering_list("id"),
-        order_by="[Membership.id]",
-        cascade="all",
+        order_by="[AdminType.id]",
         passive_deletes=True,
-        lazy="joined",
-        backref=backref("MembershipUser", lazy="joined")
+        lazy="joined"
     )
 
     def toJson(self):
         """
-        Render the json representation of a user
-        @return: JSON representation of a user
+        Render the json representation of a admin user
+        @return: JSON representation of a admin user
         @rtype: String
         """
         out = dict()
@@ -84,8 +86,12 @@ class User(Base):
         out["last_name"] = self.last_name
         out["email"] = self.email
         out["tag"] = self.tag
-        if self.UserProfile is None:
+
+        out["admin_type"] = self.type.toJson()
+
+        if self.AdminUserProfile is None:
             out["profile"] = None
         else:
-            out["profile"] = self.UserProfile.toJson()
+            out["profile"] = self.AdminUserProfile.toJson()
+
         return out

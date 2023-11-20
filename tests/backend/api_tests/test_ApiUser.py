@@ -117,7 +117,8 @@ class ApiAdminUserTest(unittest.TestCase):
             "last_name": "user",
             "email": "test.user@mail.com",
             "password": "myPassword",
-            "tag": "usertag"
+            "tag": "usertag",
+            "admin_type": 1
         }
 
         # creating the user
@@ -140,7 +141,7 @@ class ApiAdminUserTest(unittest.TestCase):
         self.assertEqual(204, r.status_code)
         self.assertIsNotNone(r)
 
-    def test_createUpdateAndDeleteUser(self):
+    def test_createUpdateAndDeleteAdminUser(self):
         """
         Test Case for creating, updating and then deleting the user again via API
         Covers post, get, put and delete for the api/user
@@ -155,7 +156,8 @@ class ApiAdminUserTest(unittest.TestCase):
             "last_name": "user",
             "email": "test.user@mail.com",
             "password": "myPassword",
-            "tag": "usertag"
+            "tag": "usertag",
+            "admin_type": 1
         }
 
         # creating the user

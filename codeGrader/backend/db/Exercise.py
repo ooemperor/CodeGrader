@@ -41,7 +41,7 @@ class Exercise(Base):
     # Foreign Keys
     subject_id = Column(
         Integer,
-        ForeignKey(Subject.id, onupdate="CASCADE", ondelete="CASCADE"),
+        ForeignKey(Subject.id, onupdate="CASCADE"),
         nullable=True,
         index=True
     )
@@ -50,7 +50,7 @@ class Exercise(Base):
         "Task",
         collection_class=ordering_list("name"),
         order_by="[Task.name]",
-        cascade="all",
+        # cascade="all",
         passive_deletes=True,
         lazy="joined",
         backref=backref("TaskExercise", lazy="noload")
