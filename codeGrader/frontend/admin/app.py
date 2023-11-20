@@ -8,7 +8,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user
 from codeGrader.frontend.config import config
 from codeGrader.frontend.admin import templates
 from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminUserSessionHandler, SessionAdminUser, \
-    UserListHandler, UserHandler, HomeHandler, AdminUserListHandler, AdminUserHandler
+    UserListHandler, UserHandler, HomeHandler, AdminUserListHandler, AdminUserHandler, ProfileListHandler, ProfileHandler
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 
@@ -109,10 +109,9 @@ def users():
 @login_required
 def adminUser(id_):
     """
-    TODO: correct this representation
-    @param id_: The identifier of the user
+    @param id_: The identifier of the adminuser
     @type id_: int
-    @return: The rendered User
+    @return: The rendered adminUser
     """
     if request.method == 'GET':
         return AdminUserHandler(request).get(id_)
@@ -129,6 +128,30 @@ def adminUsers():
     """
     return AdminUserListHandler(request).get()
 
+
+@app.route("/profile/<int:id_>", methods=['GET', 'POST'])
+@login_required
+def profile(id_):
+    """
+    Site to diplay a single
+    @param id_: The id of the profile
+    @type id_: int
+    @return: The rendered Profile site
+    """
+    if request.method == 'GET':
+        return ProfileHandler(request).get(id_)
+    elif request.method == 'POST':
+        return ProfileHandler(request).post(id_)
+
+
+@app.route("/profiles")
+@login_required
+def profiles():
+    """
+    Site for a list of all the profiles
+    @return: The rendered Profiles site
+    """
+    return ProfileListHandler(request).get()
 
 
 if __name__ == "__main__":

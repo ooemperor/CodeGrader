@@ -52,7 +52,7 @@ class Base(object):
         for prop in class_mapper(cls).iterate_properties:
             if isinstance(prop, ColumnProperty):
                 col = prop.columns[0]
-                if col.primary_key or col.foreign_keys or col.name in config.columnIgnoreList:
+                if col.primary_key or col.name in config.columnIgnoreList:
                     continue
 
                 cls.column_properties.append(prop)

@@ -12,6 +12,7 @@
         <table class="core_content table">
             <tr>
                 <th class="head">Username</th>
+                <th class="head">Admin Type</th>
                 <th class="head">First Name</th>
                 <th class="head">Last Name</th>
                 <th class="head">E-Mail</th>
@@ -25,6 +26,7 @@
                             {{ user["username"] }}
                         </a>
                     </td>
+                    <td class="data">{{ user["admin_type"]["name"] }}</td>
                     <td class="data">{{ user["first_name"] }}</td>
                     <td class="data">{{ user["last_name"] }}</td>
                     <td class="data">{{ user["email"] }}</td>

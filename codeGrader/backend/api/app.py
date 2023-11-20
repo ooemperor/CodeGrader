@@ -10,7 +10,7 @@ from functools import wraps
 from flask import Flask, request, send_file
 from codeGrader.backend.config import config
 from codeGrader.backend.api.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, \
-    ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler, TestCaseHandler, AdminUserLoginHandler, authentication
+    ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler, TestCaseHandler, AdminUserLoginHandler, authentication, AdminTypeHandler
 from codeGrader.backend.api.logger import Logger
 import logging
 
@@ -387,6 +387,15 @@ def testcases():
     @rtype: dict
     """
     return TestCaseHandler().get_all()
+
+@app.route("/adminTypes")
+def admin_types():
+    """
+    Getting all the admin_types out of the database
+    @@return: Custom Representation of all the objects
+    @rtype: dict
+    """
+    return AdminTypeHandler().get_all()
 
 
 # starting the web application

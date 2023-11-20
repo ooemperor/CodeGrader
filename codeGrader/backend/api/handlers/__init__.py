@@ -4,7 +4,9 @@ Imports all the classes and functions in this directory
 @author: mkaiser
 """
 from .Base import BaseHandler
-from .User import UserHandler, AdminUserHandler
+from .User import UserHandler
+from .Admin import AdminUserHandler
+from .AdminType import AdminTypeHandler
 from .Profile import ProfileHandler
 from .Subject import SubjectHandler
 from .Task import TaskHandler
@@ -18,4 +20,4 @@ from .LoginHandler import AdminUserLoginHandler
 
 __all__ = ["BaseHandler", "UserHandler", "AdminUserHandler", "ProfileHandler", "SubjectHandler", "TaskHandler",
            "ExerciseHandler", "FileHandler", "SubmissionHandler", "authentication", "AuthorizationFail",
-           "TestCaseHandler", "AdminUserLoginHandler"]
+           "TestCaseHandler", "AdminUserLoginHandler", "AdminTypeHandler"]

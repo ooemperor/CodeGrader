@@ -50,7 +50,19 @@
                     <tr>
                         <td class="data">Admin Type</td>
                         <td class="data">
-                            <input type="text" id="input_admin_type" name="admin_type" value="{{ admin_type }}">
+                            <select id="sel_admin_type" name="admin_type">
+                                {% for type in types %}
+                                    {% if admin_type['id'] == type['id'] %}
+                                        <option value="{{ type['id'] }}" selected>
+                                            {{ type['name'] }}
+                                        </option>
+                                    {% else %}
+                                        <option value="{{ type['id'] }}">
+                                            {{ type['name'] }}
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
                         </td>
                     </tr>
                 </table>

@@ -52,6 +52,10 @@ class AdminUserHandler(BaseHandler):
         @rtype: HTML
         """
         admin = self.api.get(f"/adminUser/{id_}")
+
+        admin_types = self.api.get(f"/adminTypes")
+        admin["types"] = admin_types["admin_type"]
+
         return render_template("adminUser.html", **admin)
 
     def post(self, id_: int):
@@ -72,7 +76,9 @@ class AdminUserHandler(BaseHandler):
         admin_data["email"] = self.get_value("email")
         admin_data["tag"] = self.get_value("tag")
         admin_data["admin_type"] = self.get_value("admin_type")
+        print(admin_data)
+
 
         self.api.put(f"/adminUser/{id_}", body=admin_data)
 
-        return redirect(url_for("admin", id_=id_))
+        return redirect(url_for("adminUser", id_=id_))

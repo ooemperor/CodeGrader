@@ -7,9 +7,9 @@ from codeGrader.backend.api.handlers.Base import BaseHandler
 from codeGrader.backend.db import User, AdminUser
 
 
-class UserHandler(BaseHandler):
+class AdminUserHandler(BaseHandler):
     """
-    Handler for a UserObject
+    Handler for the AdminUser
     """
 
     def __init__(self):
@@ -17,4 +17,4 @@ class UserHandler(BaseHandler):
         Constructor for the UserHandlerClass
         """
         super().__init__()
-        self.dbClass = User
+        self.dbClass = AdminUser
