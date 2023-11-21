@@ -56,6 +56,9 @@ class AdminUserHandler(BaseHandler):
         admin_types = self.api.get(f"/adminTypes")
         admin["types"] = admin_types["admin_type"]
 
+        profiles = self.api.get(f"/profiles")
+        admin["profiles"] = profiles["profile"]
+
         return render_template("adminUser.html", **admin)
 
     def post(self, id_: int):
@@ -76,7 +79,7 @@ class AdminUserHandler(BaseHandler):
         admin_data["email"] = self.get_value("email")
         admin_data["tag"] = self.get_value("tag")
         admin_data["admin_type"] = self.get_value("admin_type")
-        print(admin_data)
+
 
 
         self.api.put(f"/adminUser/{id_}", body=admin_data)

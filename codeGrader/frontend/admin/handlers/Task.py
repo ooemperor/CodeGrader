@@ -66,3 +66,23 @@ class TaskHandler(BaseHandler):
         self.api.put(f"/task/{id_}", body=task_data)
 
         return redirect(url_for("task", id_=id_))
+
+    def create(self):
+        """
+        Create a User in the database
+        @return:
+        """
+        user_data = dict()
+
+        user_data["username"] = self.get_value("username")
+        user_data["first_name"] = self.get_value("first_name")
+        user_data["last_name"] = self.get_value("last_name")
+        user_data["email"] = self.get_value("email")
+        user_data["tag"] = self.get_value("tag")
+        user_data["profile"] = self.get_value("profile")
+
+        response_text = self.api.post("/addUser", body=user_data)
+
+        id_ = response_text["response"]["id"]
+
+        return redirect(url_for("user", id_=id_))

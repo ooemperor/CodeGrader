@@ -65,6 +65,24 @@
                             </select>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="data">Admin Profile</td>
+                        <td class="data">
+                            <select id="sel_profile" name="profile">
+                                {% for prof in profiles %}
+                                    {% if prof['id'] == profile['id'] %}
+                                        <option value="{{ prof['id'] }}" selected>
+                                            {{ prof['name'] }}
+                                        </option>
+                                    {% else %}
+                                        <option value="{{ prof['id'] }}">
+                                            {{ prof['name'] }}
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
                 </table>
             </div>
             <div id="control_buttons">
