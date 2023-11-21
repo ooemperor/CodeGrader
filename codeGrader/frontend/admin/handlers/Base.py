@@ -32,7 +32,11 @@ class BaseHandler:
         @rtype: str
         """
         try:
-            return self.request.form[value]
+            value = self.request.form[value]
+            if value == '':
+                return None
+            else:
+                return value
         except Exception as err:
             print(err)
             return ''  # TODO: check if this makes sense.

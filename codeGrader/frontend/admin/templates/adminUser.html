@@ -36,12 +36,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="data">Profile</td>
-                        <td class="data">
-                            <input type="text" id="input_profile" name="profile" value="{{ profile }}">
-                        </td>
-                    </tr>
-                    <tr>
                         <td class="data">Tag</td>
                         <td class="data">
                             <input type="text" id="input_tag" name="tag" value="{{ tag }}">
@@ -69,6 +63,11 @@
                         <td class="data">Admin Profile</td>
                         <td class="data">
                             <select id="sel_profile" name="profile">
+                                {% if not profile[id] %}
+                                    <option value="" selected>
+                                        -----
+                                    </option>
+                                {% endif %}
                                 {% for prof in profiles %}
                                     {% if prof['id'] == profile['id'] %}
                                         <option value="{{ prof['id'] }}" selected>

@@ -80,8 +80,10 @@ class AdminUserHandler(BaseHandler):
         admin_data["tag"] = self.get_value("tag")
         admin_data["admin_type"] = self.get_value("admin_type")
 
-
+        admin_data["profile_id"] = self.get_value("profile")
+        print(admin_data)
 
         self.api.put(f"/adminUser/{id_}", body=admin_data)
+        print(self.api.get(f"/adminUser/{id_}"))
 
         return redirect(url_for("adminUser", id_=id_))
