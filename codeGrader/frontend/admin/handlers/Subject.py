@@ -66,3 +66,41 @@ class SubjectHandler(BaseHandler):
         self.api.put(f"/subject/{id_}", body=subject_data)
 
         return redirect(url_for("subject", id_=id_))
+
+
+class AddSubjectHandler(BaseHandler):
+    """
+    Class to handle the operations of creating a user.
+    """
+
+    def __init__(self, request: flask.Request):
+        """
+        Constructor of the AddSubject Handler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+
+    def get(self):
+        """
+        Render the template for adding
+        @return: The rendered page
+        """
+
+        return render_template("addSubject.html")
+
+    def post(self):
+        """
+        Post Operation
+        get the data out of the request and create the subject in the backend via api
+        @return: redirect to another page
+        """
+
+        subject_data = dict()
+
+        subject_data["name"] = self.get_value("name")
+        subject_data["tag"] = self.get_value("tag")
+
+        self.api.post("/addSubject", body=subject_data)
+
+        return redirect("subjects")

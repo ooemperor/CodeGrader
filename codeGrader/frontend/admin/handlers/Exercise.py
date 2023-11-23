@@ -66,3 +66,41 @@ class ExerciseHandler(BaseHandler):
         self.api.put(f"/exercise/{id_}", body=exercise_data)
 
         return redirect(url_for("exercise", id_=id_))
+
+
+class AddExerciseHandler(BaseHandler):
+    """
+    Class to handle the operations of creating a user.
+    """
+
+    def __init__(self, request: flask.Request):
+        """
+        Constructor of the addExercise Handler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+
+    def get(self):
+        """
+        Render the template for adding
+        @return: The rendered page
+        """
+
+        return render_template("addExercise.html")
+
+    def post(self):
+        """
+        Post Operation
+        get the data out of the request and create the exercise in the backend via api
+        @return: redirect to another page
+        """
+
+        exercise_data = dict()
+
+        exercise_data["name"] = self.get_value("name")
+        exercise_data["tag"] = self.get_value("tag")
+
+        self.api.post("/addExercise", body=exercise_data)
+
+        return redirect("exercises")

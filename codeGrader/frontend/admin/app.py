@@ -10,7 +10,8 @@ from codeGrader.frontend.admin import templates
 from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminUserSessionHandler, SessionAdminUser, \
     UserListHandler, UserHandler, HomeHandler, AdminUserListHandler, AdminUserHandler, ProfileListHandler, \
     ProfileHandler, SubjectListHandler, SubjectHandler, TaskHandler, TaskListHandler, ExerciseHandler, \
-    ExerciseListHandler, AddAdminUserHandler, AddProfileHandler, AddUserHandler
+    ExerciseListHandler, AddAdminUserHandler, AddProfileHandler, AddUserHandler, AddTaskHandler, AddExerciseHandler, \
+    AddSubjectHandler
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 
@@ -157,7 +158,6 @@ def addAdminUser():
         return AddAdminUserHandler(request).post()
 
 
-
 @app.route("/profile/<int:id_>", methods=['GET', 'POST'])
 @login_required
 def profile(id_):
@@ -221,6 +221,19 @@ def subjects():
     return SubjectListHandler(request).get()
 
 
+@app.route("/addSubject", methods=['GET', 'POST'])
+@login_required
+def addSubject():
+    """
+    Site to add a Subject
+    @return: Rendered Subject site or redirect
+    """
+    if request.method == 'GET':
+        return AddSubjectHandler(request).get()
+    elif request.method == 'POST':
+        return AddSubjectHandler(request).post()
+
+
 @app.route("/exercise/<int:id_>", methods=['GET', 'POST'])
 @login_required
 def exercise(id_):
@@ -246,6 +259,19 @@ def exercises():
     return ExerciseListHandler(request).get()
 
 
+@app.route("/addExercise", methods=['GET', 'POST'])
+@login_required
+def addExercise():
+    """
+    Site to add a Exercise
+    @return: Rendered Exercise site or redirect
+    """
+    if request.method == 'GET':
+        return AddExerciseHandler(request).get()
+    elif request.method == 'POST':
+        return AddExerciseHandler(request).post()
+
+
 @app.route("/task/<int:id_>", methods=['GET', 'POST'])
 @login_required
 def task(id_):
@@ -269,6 +295,19 @@ def tasks():
     @return: The rendered tasks site
     """
     return TaskListHandler(request).get()
+
+
+@app.route("/addTask", methods=['GET', 'POST'])
+@login_required
+def addTask():
+    """
+    Site to add a Task
+    @return: Rendered Task site or redirect
+    """
+    if request.method == 'GET':
+        return AddTaskHandler(request).get()
+    elif request.method == 'POST':
+        return AddTaskHandler(request).post()
 
 
 if __name__ == "__main__":

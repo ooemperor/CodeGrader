@@ -8,6 +8,12 @@
             <h1 class="header1 core_content">Exercise</h1>
         </div>
         <p class="core_content">Exercise</p>
+        <div>
+            <form action="{{ url_for('addExercise') }}" method="GET">
+                <button class="btn btn_create" type="submit">New Exercise</button>
+            </form>
+            
+        </div>
 
         <table class="core_content table">
             <tr>

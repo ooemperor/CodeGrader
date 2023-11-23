@@ -98,7 +98,7 @@ class AddProfileHandler(BaseHandler):
 
         profile_data = dict()
 
-        profile_data["name"] = self.get("name")
+        profile_data["name"] = self.get_value("name")
         profile_data["tag"] = self.get_value("tag")
 
         self.api.post("/addProfile", body=profile_data)

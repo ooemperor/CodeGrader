@@ -86,3 +86,41 @@ class TaskHandler(BaseHandler):
         id_ = response_text["response"]["id"]
 
         return redirect(url_for("user", id_=id_))
+
+
+class AddTaskHandler(BaseHandler):
+    """
+    Class to handle the operations of creating a user.
+    """
+
+    def __init__(self, request: flask.Request):
+        """
+        Constructor of the AddTask Handler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+
+    def get(self):
+        """
+        Render the template for adding
+        @return: The rendered page
+        """
+
+        return render_template("addTask.html")
+
+    def post(self):
+        """
+        Post Operation
+        get the data out of the request and create the task in the backend via api
+        @return: redirect to another page
+        """
+
+        task_data = dict()
+
+        task_data["name"] = self.get_value("name")
+        task_data["tag"] = self.get_value("tag")
+
+        self.api.post("/addTask", body=task_data)
+
+        return redirect("tasks")
