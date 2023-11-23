@@ -112,7 +112,7 @@ body {
 
 /*Buttons btn start*/
 .btn {
-  background-color: #04AA6D; /* Green */
+  background-color: #04AA6D;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -120,6 +120,12 @@ body {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  color: rgb(32,33,36);
+}
+
+.btn:hover {
+  background-color: #808080; 
+  color: rgb(32,33,36);
 }
 
 .btn-menu {

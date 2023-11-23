@@ -66,3 +66,41 @@ class ProfileHandler(BaseHandler):
         self.api.put(f"/profile/{id_}", body=profile_data)
 
         return redirect(url_for("profile", id_=id_))
+
+
+class AddProfileHandler(BaseHandler):
+    """
+    Class to handle the operations of creating a user.
+    """
+
+    def __init__(self, request: flask.Request):
+        """
+        Constructor of the AddProfile Handler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+
+    def get(self):
+        """
+        Render the template for adding
+        @return: The rendered page
+        """
+
+        return render_template("addProfile.html")
+
+    def post(self):
+        """
+        Post Operation
+        get the data out of the request and create the profile in the backend via api
+        @return: redirect to another page
+        """
+
+        profile_data = dict()
+
+        profile_data["name"] = self.get("name")
+        profile_data["tag"] = self.get_value("tag")
+
+        self.api.post("/addProfile", body=profile_data)
+
+        return redirect("profiles")
