@@ -10,7 +10,7 @@ class ApiUserTest(unittest.TestCase):
         Covers post, get and delete for the api/user
         @return: No return
         """
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addUser"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/user/add"
         user_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/user/"
         user_dict = {
             "username": "tuser",
@@ -48,7 +48,7 @@ class ApiUserTest(unittest.TestCase):
         @return: No return
         """
 
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addUser"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/user/add"
         user_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/user/"
         user_dict = {
             "username": "tuser",
@@ -109,8 +109,8 @@ class ApiAdminUserTest(unittest.TestCase):
         Covers post, get and delete for the api/user
         @return: No return
         """
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addAdminUser"
-        adminUser_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/adminUser/"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/admin/add"
+        adminUser_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/admin/"
         adminUser_dict = {
             "username": "admin_test",
             "first_name": "admin",
@@ -148,8 +148,8 @@ class ApiAdminUserTest(unittest.TestCase):
         @return: No return
         """
 
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addAdminUser"
-        adminUser_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/adminUser/"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/admin/add"
+        adminUser_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/admin/"
         user_dict = {
             "username": "admin_test",
             "first_name": "admin",

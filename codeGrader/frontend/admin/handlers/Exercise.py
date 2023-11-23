@@ -101,6 +101,6 @@ class AddExerciseHandler(BaseHandler):
         exercise_data["name"] = self.get_value("name")
         exercise_data["tag"] = self.get_value("tag")
 
-        self.api.post("/addExercise", body=exercise_data)
+        self.api.post("/exercise/add", body=exercise_data)
 
-        return redirect("exercises")
+        return redirect(url_for("exercises"))

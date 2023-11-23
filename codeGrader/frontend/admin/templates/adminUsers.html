@@ -9,7 +9,7 @@
         </div>
         <p class="core_content">Admin Users</p>
         <div>
-            <form action="{{ url_for('addAdminUser') }}" method="GET">
+            <form action="{{ url_for('addAdmin') }}" method="GET">
                 <button class="btn btn_create" type="submit">New Admin User</button>
             </form>
             
@@ -28,7 +28,7 @@
             {% for user in adminuser %}
                 <tr>
                     <td class="data">
-                        <a href="{{ url_for('adminUser', id_ = user['id']) }}">
+                        <a href="{{ url_for('admin', id_ = user['id']) }}">
                             {{ user["username"] }}
                         </a>
                     </td>

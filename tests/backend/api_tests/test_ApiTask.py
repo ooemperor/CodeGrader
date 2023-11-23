@@ -10,7 +10,7 @@ class ApiTaskTest(unittest.TestCase):
         Covers post, get and delete for the api/user
         @return: No return
         """
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addTask"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/task/add"
         task_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/task/"
 
         task_dict = {
@@ -39,7 +39,7 @@ class ApiTaskTest(unittest.TestCase):
         Covers post, get and delete for the api/user
         @return: No return
         """
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addTask"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/task/add"
         task_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/task/"
 
         task_dict = {

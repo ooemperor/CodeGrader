@@ -78,7 +78,7 @@ def users():
     return UserHandler().get_all()
 
 
-@app.route("/addUser", methods=['POST'])
+@app.route("/user/add", methods=['POST'])
 def addUser():
     """
     Adding a new user in the database
@@ -88,8 +88,8 @@ def addUser():
     return UserHandler().post(request.get_json())
 
 
-@app.route("/adminUser/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
-def adminUser(id_: int):
+@app.route("/admin/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
+def admin(id_: int):
     """
     Route for get, post, put of user elements.
     @param id_: The identifier of the user
@@ -107,8 +107,8 @@ def adminUser(id_: int):
         return AdminUserHandler().delete(id_)
 
 
-@app.route("/adminUsers", methods=['GET'])
-def adminUsers():
+@app.route("/admins", methods=['GET'])
+def admins():
     """
     Getting all the adminUsers objects out of the database
     @return: Custom Representation of all the objects
@@ -117,8 +117,8 @@ def adminUsers():
     return AdminUserHandler().get_all()
 
 
-@app.route("/addAdminUser", methods=['POST'])
-def addAdminUser():
+@app.route("/admin/add", methods=['POST'])
+def addAdmin():
     """
     Adding a new user in the database
     @return: Custom Response messgae that we get from the handler class.
@@ -127,7 +127,7 @@ def addAdminUser():
     return AdminUserHandler().post(request.get_json())
 
 
-@app.route("/addProfile", methods=['POST'])
+@app.route("/profile/add", methods=['POST'])
 def addProfile():
     """
     Adding a new user in the database
@@ -166,7 +166,7 @@ def profiles():
     return ProfileHandler().get_all()
 
 
-@app.route("/addSubject", methods=['POST'])
+@app.route("/subject/add", methods=['POST'])
 def addSubject():
     """
     Adding a new user in the database
@@ -206,7 +206,7 @@ def subjects():
 
 
 # Task
-@app.route("/addTask", methods=['POST'])
+@app.route("/task/add", methods=['POST'])
 def addTask():
     """
     Adding a new Task in the database
@@ -245,7 +245,7 @@ def tasks():
     return TaskHandler().get_all()
 
 
-@app.route("/addExercise", methods=['POST'])
+@app.route("/exercise/add", methods=['POST'])
 def addExercise():
     """
     Adding a new Exercise in the database
@@ -321,7 +321,7 @@ def file(id_: int):
         return FileHandler().delete(id_)
 
 
-@app.route("/addSubmission", methods=["POST"])
+@app.route("/submission/add", methods=["POST"])
 def addSubmission():
     """
     Add a submission to the DB
@@ -355,7 +355,7 @@ def submissions():
     return SubmissionHandler().get_all()
 
 
-@app.route("/addTestCase", methods=["POST"])
+@app.route("/testcase/add", methods=["POST"])
 def addTestCase():
     """
     Add a TestCase to the DB

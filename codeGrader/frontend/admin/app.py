@@ -8,9 +8,9 @@ from flask_login import LoginManager, login_user, login_required, logout_user
 from codeGrader.frontend.config import config
 from codeGrader.frontend.admin import templates
 from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminUserSessionHandler, SessionAdminUser, \
-    UserListHandler, UserHandler, HomeHandler, AdminUserListHandler, AdminUserHandler, ProfileListHandler, \
+    UserListHandler, UserHandler, HomeHandler, AdminListHandler, AdminHandler, ProfileListHandler, \
     ProfileHandler, SubjectListHandler, SubjectHandler, TaskHandler, TaskListHandler, ExerciseHandler, \
-    ExerciseListHandler, AddAdminUserHandler, AddProfileHandler, AddUserHandler, AddTaskHandler, AddExerciseHandler, \
+    ExerciseListHandler, AddAdminHandler, AddProfileHandler, AddUserHandler, AddTaskHandler, AddExerciseHandler, \
     AddSubjectHandler
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
@@ -121,41 +121,41 @@ def addUser():
         return AddUserHandler(request).post()
 
 
-@app.route("/adminUser/<int:id_>", methods=['GET', 'POST'])
+@app.route("/admin/<int:id_>", methods=['GET', 'POST'])
 @login_required
-def adminUser(id_):
+def admin(id_):
     """
     @param id_: The identifier of the adminuser
     @type id_: int
     @return: The rendered adminUser
     """
     if request.method == 'GET':
-        return AdminUserHandler(request).get(id_)
+        return AdminHandler(request).get(id_)
     elif request.method == 'POST':
-        return AdminUserHandler(request).post(id_)
+        return AdminHandler(request).post(id_)
 
 
-@app.route("/adminUsers")
+@app.route("/admins")
 @login_required
-def adminUsers():
+def admins():
     """
     Site to display all Admins
     @return: Rendered AdminUsers Site
     """
-    return AdminUserListHandler(request).get()
+    return AdminListHandler(request).get()
 
 
-@app.route("/adminUser/add", methods=['GET', 'POST'])
+@app.route("/admin/add", methods=['GET', 'POST'])
 @login_required
-def addAdminUser():
+def addAdmin():
     """
     Site to add an Admin User
     @return: Rendered Admin Users site or redirect
     """
     if request.method == 'GET':
-        return AddAdminUserHandler(request).get()
+        return AddAdminHandler(request).get()
     elif request.method == 'POST':
-        return AddAdminUserHandler(request).post()
+        return AddAdminHandler(request).post()
 
 
 @app.route("/profile/<int:id_>", methods=['GET', 'POST'])

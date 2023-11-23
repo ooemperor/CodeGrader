@@ -101,6 +101,6 @@ class AddProfileHandler(BaseHandler):
         profile_data["name"] = self.get_value("name")
         profile_data["tag"] = self.get_value("tag")
 
-        self.api.post("/addProfile", body=profile_data)
+        self.api.post("/profile/add", body=profile_data)
 
-        return redirect("profiles")
+        return redirect(url_for("profiles"))

@@ -101,6 +101,6 @@ class AddSubjectHandler(BaseHandler):
         subject_data["name"] = self.get_value("name")
         subject_data["tag"] = self.get_value("tag")
 
-        self.api.post("/addSubject", body=subject_data)
+        self.api.post("/subject/add", body=subject_data)
 
-        return redirect("subjects")
+        return redirect(url_for("subjects"))

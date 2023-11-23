@@ -10,7 +10,7 @@ class ApiProfileTest(unittest.TestCase):
         Covers post, get and delete for the api/user
         @return: No return
         """
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addProfile"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/profile/add"
         profile_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/profile/"
 
         profile_dict = {
@@ -37,7 +37,7 @@ class ApiProfileTest(unittest.TestCase):
         Covers post, get and delete for the api/user
         @return: No return
         """
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addProfile"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/profile/add"
         profile_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/profile/"
 
         profile_dict = {

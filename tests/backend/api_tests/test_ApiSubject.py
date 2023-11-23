@@ -10,7 +10,7 @@ class ApiSubjectTest(unittest.TestCase):
         Covers post, get and delete for the api/user
         @return: No return
         """
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addSubject"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/subject/add"
         subject_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/subject/"
 
         subject_dict = {
@@ -37,7 +37,7 @@ class ApiSubjectTest(unittest.TestCase):
         Covers post, get and delete for the api/user
         @return: No return
         """
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addExercise"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/exercise/add"
         subject_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/exercise/"
 
         subject_dict = {

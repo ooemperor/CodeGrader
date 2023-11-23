@@ -7,7 +7,7 @@ from flask import Request, render_template, redirect, url_for
 import flask
 
 
-class AdminUserListHandler(BaseHandler):
+class AdminListHandler(BaseHandler):
     """
     Handles Operations for the Users site
     """
@@ -26,11 +26,11 @@ class AdminUserListHandler(BaseHandler):
         @return: The rendered template
         @rtype: HTML
         """
-        admins = self.api.get("/adminUsers")
+        admins = self.api.get("/admins")
         return render_template("adminUsers.html", **admins)
 
 
-class AdminUserHandler(BaseHandler):
+class AdminHandler(BaseHandler):
     """
     Handles the operation on a single adminuser
     """
@@ -82,12 +82,12 @@ class AdminUserHandler(BaseHandler):
 
         admin_data["profile_id"] = self.get_value("profile")
 
-        self.api.put(f"/adminUser/{id_}", body=admin_data)
+        self.api.put(f"/admin/{id_}", body=admin_data)
 
         return redirect(url_for("adminUser", id_=id_))
 
 
-class AddAdminUserHandler(BaseHandler):
+class AddAdminHandler(BaseHandler):
     """
     Handler Class for the creation of an admin user
     """
@@ -137,6 +137,6 @@ class AddAdminUserHandler(BaseHandler):
 
         admin_data["profile_id"] = self.get_value("profile")
 
-        self.api.post(f"/addAdminUser", body=admin_data)
+        self.api.post(f"/admin/add", body=admin_data)
 
-        return redirect(url_for("adminUsers"))
+        return redirect(url_for("admins"))

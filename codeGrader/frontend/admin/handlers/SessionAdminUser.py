@@ -44,7 +44,7 @@ class AdminUserSessionHandler(BaseHandler):
         @type id_: int
         @return: The User as a json representation
         """
-        return self.api.get(f"/adminUser/{id_}")
+        return self.api.get(f"/admin/{id_}")
 
 
 

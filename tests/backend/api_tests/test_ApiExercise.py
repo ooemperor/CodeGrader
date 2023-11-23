@@ -10,7 +10,7 @@ class ApiExerciseTest(unittest.TestCase):
         Covers post, get and delete for the api/user
         @return: No return
         """
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addExercise"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/exercise/add"
         exercise_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/exercise/"
 
         exercise_dict = {
@@ -37,7 +37,7 @@ class ApiExerciseTest(unittest.TestCase):
         Covers post, get and delete for the api/user
         @return: No return
         """
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addExercise"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/exercise/add"
         exercise_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/exercise/"
 
         exercise_dict = {

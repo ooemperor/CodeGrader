@@ -125,6 +125,6 @@ class AddUserHandler(BaseHandler):
 
         user_data["profile_id"] = self.get_value("profile")
 
-        self.api.post(f"/addUser", body=user_data)
+        self.api.post(f"/user/add", body=user_data)
 
         return redirect(url_for("users"))

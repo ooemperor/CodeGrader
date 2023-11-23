@@ -121,6 +121,6 @@ class AddTaskHandler(BaseHandler):
         task_data["name"] = self.get_value("name")
         task_data["tag"] = self.get_value("tag")
 
-        self.api.post("/addTask", body=task_data)
+        self.api.post("/task/add", body=task_data)
 
-        return redirect("tasks")
+        return redirect(url_for("tasks"))
