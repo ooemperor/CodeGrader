@@ -15,6 +15,7 @@
         function openNav() {
             document.getElementById("mySidenav").style.width = "250px";
             document.getElementById("main").style.marginLeft = "250px";
+            document.getElementById("flash").style.marginLeft = "250px";
             document.getElementById("main-menu-button").style.visibility = "hidden";
 
         }
@@ -23,6 +24,7 @@
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0";
             document.getElementById("main").style.marginLeft = "0";
+            document.getElementById("flash").style.marginLeft = "0";
             document.getElementById("main-menu-button").style.visibility = "visible";
         }
     </script>
@@ -51,8 +53,26 @@
         </div>
 
     </div>
+    <div id="btn_sidenav_close">
+        <span id="main-menu-button" class="btn-menu" onclick="openNav()">&equiv;</span>
+    </div>
+    {% with msgs = get_flashed_messages() %}
+        {% if msgs %}
+            <div id="flash" class="main flash">
+            {% if msgs %}
+                <ul class="list">
+                {% for msg in msgs %}
+                    <li class="item">{{ msg }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
     {% block core %}
     {% endblock %}
+    
 </body>
 
 </html>

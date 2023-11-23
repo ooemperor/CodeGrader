@@ -86,6 +86,7 @@ body {
 .main {
   margin-left: 250px;
   transition: margin-left 500ms;
+  position:relative;
 }
 
 .light-mode {
@@ -210,3 +211,8 @@ body {
 }
 
 /* Table Styling end*/
+
+.flash {
+  background-color: red;
+  padding: 10px;
+}
