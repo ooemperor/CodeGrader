@@ -8,7 +8,12 @@
             <h1 class="header1 core_content">Users</h1>
         </div>
         <p class="core_content">Users</p>
-        
+        <div>
+            <form action="{{ url_for('addUser') }}" method="GET">
+                <button class="btn btn_create" type="submit">New User</button>
+            </form>
+            
+        </div>
         <table class="core_content table">
             <tr>
                 <th class="head">Username</th>

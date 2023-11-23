@@ -10,7 +10,7 @@ from codeGrader.frontend.admin import templates
 from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminUserSessionHandler, SessionAdminUser, \
     UserListHandler, UserHandler, HomeHandler, AdminUserListHandler, AdminUserHandler, ProfileListHandler, \
     ProfileHandler, SubjectListHandler, SubjectHandler, TaskHandler, TaskListHandler, ExerciseHandler, \
-    ExerciseListHandler, AddAdminUserHandler, AddProfileHandler
+    ExerciseListHandler, AddAdminUserHandler, AddProfileHandler, AddUserHandler
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 
@@ -105,6 +105,19 @@ def users():
     @return: Rendered Users Site
     """
     return UserListHandler(request).get()
+
+
+@app.route("/addUser", methods=['GET', 'POST'])
+@login_required
+def addUser():
+    """
+    Site to add an User
+    @return: Rendered Users site or redirect
+    """
+    if request.method == 'GET':
+        return AddUserHandler(request).get()
+    elif request.method == 'POST':
+        return AddUserHandler(request).post()
 
 
 @app.route("/adminUser/<int:id_>", methods=['GET', 'POST'])

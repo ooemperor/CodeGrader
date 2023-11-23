@@ -5,7 +5,7 @@ Init File for the handlers of the admin WebServer.
 
 from .Login import AdminUserLoginHandler
 from .SessionAdminUser import AdminUserSessionHandler, SessionAdminUser
-from .User import UserListHandler, UserHandler
+from .User import UserListHandler, UserHandler, AddUserHandler
 from .Home import HomeHandler
 from .AdminUser import AdminUserListHandler, AdminUserHandler, AddAdminUserHandler
 from .Profile import ProfileHandler, ProfileListHandler, AddProfileHandler

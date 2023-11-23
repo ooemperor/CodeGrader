@@ -132,7 +132,8 @@ class AddAdminUserHandler(BaseHandler):
         admin_data["email"] = self.get_value("email")
         admin_data["tag"] = self.get_value("tag")
         admin_data["admin_type"] = self.get_value("admin_type")
-        admin_data["password"] = "blabla"
+        admin_data["password"] = self.get_value("password")
+
 
         admin_data["profile_id"] = self.get_value("profile")
 

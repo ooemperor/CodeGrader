@@ -5,62 +5,60 @@
     <div id="main" class="main">
         <span id="main-menu-button" class="btn-menu" onclick="openNav()">&equiv;</span>
         <div>
-            <h1 class="header1 core_content">User {{ username }}</h1>
+            <h1 class="header1 core_content">Add User</h1>
         </div>
-        <p class="core_content">User {{ username }}</p>
+        <p class="core_content">Add User</p>
         
-        <form action="{{url_for('user', id_ = id)}}" method="POST" class="core_content">
+        <form action="{{url_for('addUser')}}" method="POST" class="core_content">
             <div id="user_data">
                 <table class="vertical_table">
                     <tr>
                         <td class="data">Username</td>
                         <td class="data">
-                            <input class="input" type="text" id="input_username" name="username" value="{{ username }}">
+                            <input class="input" type="text" id="input_username" name="username" placeholder="Username">
                         </td>
                     </tr>
                     <tr>
                         <td class="data">First Name</td>
                         <td class="data">
-                            <input class="input" type="text" id="input_first_name" name="first_name" value="{{ first_name }}">
+                            <input class="input" type="text" id="input_first_name" name="first_name" placeholder="First Name">
                         </td>
                     </tr>
                     <tr>
                         <td class="data">Last Name</td>
                         <td class="data">
-                            <input class="input" type="text" id="input_last_name" name="last_name" value="{{ last_name }}">
+                            <input class="input" type="text" id="input_last_name" name="last_name" placeholder="Last Name">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="data">Password</td>
+                        <td class="data">
+                            <input class="input" type="text" id="input_password" name="password" placeholder="Password">
                         </td>
                     </tr>
                     <tr>
                         <td class="data">E-Mail</td>
                         <td class="data">
-                            <input class="input" type="text" id="input_email" name="email" value="{{ email }}">
+                            <input class="input" type="text" id="input_email" name="email" placeholder="E-Mail">
                         </td>
                     </tr>
                     <tr>
                         <td class="data">Tag</td>
                         <td class="data">
-                            <input class="input" type="text" id="input_tag" name="tag" value="{{ tag }}">
+                            <input class="input" type="text" id="input_tag" name="tag" placeholder="Tag">
                         </td>
                     </tr>
                     <tr>
                         <td class="data">Profile</td>
                         <td class="data">
                             <select id="sel_profile" name="profile">
-                                {% if not profile[id] %}
-                                    <option value="" selected>
-                                        -----
-                                    </option>
-                                {% endif %}
+                                <option value="" selected>
+                                    -----
+                                </option>
                                 {% for prof in profiles %}
-                                    {% if prof['id'] == profile['id'] %}
-                                        <option value="{{ prof['id'] }}" selected>
-                                            {{ prof['name'] }}
-                                        </option>
-                                    {% else %}
-                                        <option value="{{ prof['id'] }}">
-                                            {{ prof['name'] }}
-                                        </option>
-                                    {% endif %}
+                                    <option value="{{ prof['id'] }}">
+                                        {{ prof['name'] }}
+                                    </option>
                                 {% endfor %}
                             </select>
                         </td>
