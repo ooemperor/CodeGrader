@@ -108,7 +108,7 @@ def users():
     return UserListHandler(request).get()
 
 
-@app.route("/addUser", methods=['GET', 'POST'])
+@app.route("/user/add", methods=['GET', 'POST'])
 @login_required
 def addUser():
     """
@@ -145,7 +145,7 @@ def adminUsers():
     return AdminUserListHandler(request).get()
 
 
-@app.route("/addAdminUser", methods=['GET', 'POST'])
+@app.route("/adminUser/add", methods=['GET', 'POST'])
 @login_required
 def addAdminUser():
     """
@@ -183,7 +183,7 @@ def profiles():
     return ProfileListHandler(request).get()
 
 
-@app.route("/addProfile", methods=['GET', 'POST'])
+@app.route("/profile/add", methods=['GET', 'POST'])
 @login_required
 def addProfile():
     """
@@ -221,7 +221,7 @@ def subjects():
     return SubjectListHandler(request).get()
 
 
-@app.route("/addSubject", methods=['GET', 'POST'])
+@app.route("/subject/add", methods=['GET', 'POST'])
 @login_required
 def addSubject():
     """
@@ -259,7 +259,7 @@ def exercises():
     return ExerciseListHandler(request).get()
 
 
-@app.route("/addExercise", methods=['GET', 'POST'])
+@app.route("/exercise/add", methods=['GET', 'POST'])
 @login_required
 def addExercise():
     """
@@ -297,7 +297,7 @@ def tasks():
     return TaskListHandler(request).get()
 
 
-@app.route("/addTask", methods=['GET', 'POST'])
+@app.route("/task/add", methods=['GET', 'POST'])
 @login_required
 def addTask():
     """
