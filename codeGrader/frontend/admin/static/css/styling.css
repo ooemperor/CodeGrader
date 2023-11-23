@@ -112,7 +112,14 @@ body {
 
 /*Buttons btn start*/
 .btn {
-  color: #818181;
+  background-color: #04AA6D; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }
 
 .btn-menu {
@@ -131,13 +138,28 @@ body {
 .btn_login {
   margin: 10px;
 }
+
+.btn_create {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 10px;
+  margin-right: 10px;
+}
 /*Buttons btn end*/
 
 
 /*Input start*/
 .input {
-  margin: 10px;
+  margin: 2px;
   align-items: center;
+  width: 100%;
+
+}
+
+.input_login {
+  margin: 10px;
+  padding: 10px;
 }
 /*Input end*/
 
@@ -145,6 +167,7 @@ body {
 /*Label start*/
 .label_input {
   margin: 10px;
+  font-size: 20px;
 }
 /*label end*/
 

@@ -8,6 +8,12 @@
             <h1 class="header1 core_content">Administrators</h1>
         </div>
         <p class="core_content">Admin Users</p>
+        <div>
+            <form action="{{ url_for('addAdminUser') }}" method="GET">
+                <button class="btn btn_create" type="submit">New Admin User</button>
+            </form>
+            
+        </div>
         
         <table class="core_content table">
             <tr>
@@ -30,7 +36,7 @@
                     <td class="data">{{ user["first_name"] }}</td>
                     <td class="data">{{ user["last_name"] }}</td>
                     <td class="data">{{ user["email"] }}</td>
-                    <td class="data">{{ user["profile"] }}</td>
+                    <td class="data">{{ user["profile"]["name"] }}</td>
                     <td class="data">{{ user["tag"] }}</td>
                 </tr>
             {% endfor %}
