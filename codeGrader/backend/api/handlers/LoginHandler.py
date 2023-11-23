@@ -8,6 +8,7 @@ from .Base import BaseHandler
 from codeGrader.backend.db.Admin import AdminUser
 from .Exceptions import AuthorizationException
 from sqlalchemy import select
+import hashlib
 
 
 class AdminUserLoginHandler(BaseHandler):
@@ -38,6 +39,9 @@ class AdminUserLoginHandler(BaseHandler):
                 adminUser_id = session.scalars(select(AdminUser.id).where(AdminUser.username == username)).one()
 
             user = self.sql_session.get_object(AdminUser, adminUser_id)
+            password = password.encode('utf-8')
+            password = hashlib.sha256(password)
+            password = password.hexdigest()
             if user.username == username and user.password == password:
                 return self.create_generic_response('GET', "Authentication successful for User", user.id)
             else:

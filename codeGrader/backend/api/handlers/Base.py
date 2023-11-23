@@ -51,6 +51,19 @@ class BaseHandler:
         """
         return self.errorResponseHandler.generate_response(method, exception, id_)
 
+    def _preprocess_data_dict(self, dict_: dict):
+        """
+        Makes a preprocessing on the dict_ provided for post and put methods.
+        This method will be overwritten in the child classes to adapt for special use cases.
+        @param dict_: The data dictionary with the object data for put and post
+        @type dict_: dict
+        @return: The preprocessed data dict_
+        @rtype: dict
+        """
+        # in the base method we do not do any preprocessing
+        # this allows to overwrite the method in child classes
+        return dict_
+
     def get(self, id_: int):
         """
         Get a specific Object from the database from the corresponding table
@@ -79,6 +92,7 @@ class BaseHandler:
         """
         assert dict_ is not None
         assert len(dict_.keys()) >= 0
+        dict_ = self._preprocess_data_dict(dict_)
         new_obj_id = None
         try:
             obj_ = self.dbClass(**dict_)
@@ -100,6 +114,7 @@ class BaseHandler:
         assert (id_ is not None) and (id_ > 0)
         assert dict_ is not None
         assert len(dict_.keys()) > 0
+        dict_ = self._preprocess_data_dict(dict_)
         try:
             self.sql_session.update(self.dbClass, id_, dict_)
             return self.create_generic_response('PUT',f"{self.dbClass} has been successfully updated", id_)

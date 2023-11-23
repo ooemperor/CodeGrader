@@ -112,7 +112,7 @@ class ApiAdminUserTest(unittest.TestCase):
         create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addAdminUser"
         adminUser_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/adminUser/"
         adminUser_dict = {
-            "username": "admin",
+            "username": "admin_test",
             "first_name": "admin",
             "last_name": "user",
             "email": "test.user@mail.com",
@@ -130,7 +130,7 @@ class ApiAdminUserTest(unittest.TestCase):
         # checks after creation
         r = requests.get(f"{adminUser_url}{adminUser_id}")
         self.assertEqual(200, r.status_code)
-        self.assertEqual("admin", json.loads(r.text)["username"])
+        self.assertEqual("admin_test", json.loads(r.text)["username"])
         self.assertEqual("admin", json.loads(r.text)["first_name"])
         self.assertEqual("user", json.loads(r.text)["last_name"])
         self.assertEqual("test.user@mail.com", json.loads(r.text)["email"])
@@ -151,7 +151,7 @@ class ApiAdminUserTest(unittest.TestCase):
         create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/addAdminUser"
         adminUser_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/adminUser/"
         user_dict = {
-            "username": "admin",
+            "username": "admin_test",
             "first_name": "admin",
             "last_name": "user",
             "email": "test.user@mail.com",
@@ -169,7 +169,7 @@ class ApiAdminUserTest(unittest.TestCase):
         # checks after creation
         r = requests.get(f"{adminUser_url}{adminUser_id}")
         self.assertEqual(200, r.status_code)
-        self.assertEqual("admin", json.loads(r.text)["username"])
+        self.assertEqual("admin_test", json.loads(r.text)["username"])
         self.assertEqual("admin", json.loads(r.text)["first_name"])
         self.assertEqual("user", json.loads(r.text)["last_name"])
         self.assertEqual("test.user@mail.com", json.loads(r.text)["email"])
