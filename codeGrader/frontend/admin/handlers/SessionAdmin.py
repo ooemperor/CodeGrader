@@ -8,7 +8,7 @@ from flask_login import UserMixin
 import json
 
 
-class SessionAdminUser(UserMixin):
+class SessionAdmin(UserMixin):
     """
     Representation of a AdminUser used for the CookieGeneration.
     """
@@ -19,13 +19,13 @@ class SessionAdminUser(UserMixin):
         @param adminUser_id: The
         """
 
-        user_dict = AdminUserSessionHandler().get(adminUser_id)
+        user_dict = AdminSessionHandler().get(adminUser_id)
         self.id = user_dict["id"]
         self.username = user_dict["username"]
         profile = user_dict["profile"]
 
 
-class AdminUserSessionHandler(BaseHandler):
+class AdminSessionHandler(BaseHandler):
     """
     UserHandler
     Handles all the operations that can be done on a User in the backend

@@ -4,7 +4,7 @@ Init File for the handlers of the admin WebServer.
 """
 
 from .Login import AdminUserLoginHandler
-from .SessionAdminUser import AdminUserSessionHandler, SessionAdminUser
+from .SessionAdmin import AdminSessionHandler, SessionAdmin
 from .User import UserListHandler, UserHandler, AddUserHandler
 from .Home import HomeHandler
 from .AdminUser import AdminListHandler, AdminHandler, AddAdminHandler
@@ -13,7 +13,7 @@ from .Subject import SubjectHandler, SubjectListHandler, AddSubjectHandler
 from .Task import TaskHandler, TaskListHandler, AddTaskHandler
 from .Exercise import ExerciseHandler, ExerciseListHandler, AddExerciseHandler
 
-__all__ = ["AdminUserLoginHandler", "AdminUserSessionHandler", "SessionAdminUser", "UserListHandler", "UserHandler",
+__all__ = ["AdminUserLoginHandler", "AdminSessionHandler", "SessionAdmin", "UserListHandler", "UserHandler",
            "HomeHandler", "AdminHandler", "AdminListHandler", "ProfileListHandler", "ProfileHandler",
            "SubjectListHandler", "SubjectHandler", "ExerciseListHandler", "ExerciseHandler", "TaskHandler",
            "TaskListHandler", "AddAdminHandler", "AddProfileHandler", "AddExerciseHandler", "AddTaskHandler",
