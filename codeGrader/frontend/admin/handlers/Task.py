@@ -67,26 +67,6 @@ class TaskHandler(BaseHandler):
 
         return redirect(url_for("task", id_=id_))
 
-    def create(self):
-        """
-        Create a User in the database
-        @return:
-        """
-        user_data = dict()
-
-        user_data["username"] = self.get_value("username")
-        user_data["first_name"] = self.get_value("first_name")
-        user_data["last_name"] = self.get_value("last_name")
-        user_data["email"] = self.get_value("email")
-        user_data["tag"] = self.get_value("tag")
-        user_data["profile"] = self.get_value("profile")
-
-        response_text = self.api.post("/addUser", body=user_data)
-
-        id_ = response_text["response"]["id"]
-
-        return redirect(url_for("user", id_=id_))
-
 
 class AddTaskHandler(BaseHandler):
     """
@@ -124,3 +104,48 @@ class AddTaskHandler(BaseHandler):
         self.api.post("/task/add", body=task_data)
 
         return redirect(url_for("tasks"))
+
+
+class DeleteTaskHandler(BaseHandler):
+    """
+    Handler to delete a Task from the api backend
+    """
+
+    def __init__(self, request: flask.Request):
+        """
+        Constructor of the DeleteTaskHandler Handler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+
+    def get(self, id_: int):
+        """
+        Get Handler to render the site for confirmation for deletion of a Task
+        @param id_: The id_ of the user
+        @type id_: int
+        @return: Rendered Template
+        """
+        task = self.api.get(f"/task/{id_}")
+
+        return render_template("deleteTask.html", **task)
+
+    def post(self, id_: int):
+        """
+        Post Operation for Task Deletion
+        Deletes the task in the backend via an API Call
+        @param id_: The idnentifier of the Task
+        @type id_: int
+        @return: Redirection to the Task table
+        """
+        if self.get_value("action_button") == "Submit":
+            response = self.api.delete(f"/task/{id_}")
+
+            return redirect(url_for("tasks"))
+
+        elif self.get_value("action_button") == "Cancel":
+            return redirect(url_for("task", id_=id_))
+
+        else:
+            pass
+            # TODO Implement Error

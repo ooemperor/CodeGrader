@@ -88,7 +88,7 @@ class AddUserHandler(BaseHandler):
 
     def __init__(self, request: flask.Request):
         """
-        Constructor of the AddAdminUser Handler
+        Constructor of the AddUser Handler
         @param request: The request from the app route of flask
         @type request: flask.Request
         """
@@ -128,3 +128,48 @@ class AddUserHandler(BaseHandler):
         self.api.post(f"/user/add", body=user_data)
 
         return redirect(url_for("users"))
+
+
+class DeleteUserHandler(BaseHandler):
+    """
+    Handler to delete a user from the api backend
+    """
+
+    def __init__(self, request: flask.Request):
+        """
+        Constructor of the DeleteuserHandler Handler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+
+    def get(self, id_: int):
+        """
+        Get Handler to render the site for confirmation for deletion of an user
+        @param id_: The id_ of the user
+        @type id_: int
+        @return: Rendered Template
+        """
+        user = self.api.get(f"/user/{id_}")
+
+        return render_template("deleteUser.html", **user)
+
+    def post(self, id_: int):
+        """
+        Post Operation for User Deletion
+        Deletes the user in the backend via an API Call
+        @param id_: The idnentifier of the user
+        @type id_: int
+        @return: Redirection to the users table
+        """
+        if self.get_value("action_button") == "Submit":
+            response = self.api.delete(f"/user/{id_}")
+
+            return redirect(url_for("users"))
+
+        elif self.get_value("action_button") == "Cancel":
+            return redirect(url_for("user", id_=id_))
+
+        else:
+            pass
+            # TODO Implement Error

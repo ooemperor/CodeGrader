@@ -104,3 +104,48 @@ class AddProfileHandler(BaseHandler):
         self.api.post("/profile/add", body=profile_data)
 
         return redirect(url_for("profiles"))
+
+
+class DeleteProfileHandler(BaseHandler):
+    """
+    Handler to delete a Profile from the api backend
+    """
+
+    def __init__(self, request: flask.Request):
+        """
+        Constructor of the DeleteProfileHandler Handler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+
+    def get(self, id_: int):
+        """
+        Get Handler to render the site for confirmation for deletion of a Profile
+        @param id_: The id_ of the Profile
+        @type id_: int
+        @return: Rendered Template
+        """
+        task = self.api.get(f"/profile/{id_}")
+
+        return render_template("deleteProfile.html", **task)
+
+    def post(self, id_: int):
+        """
+        Post Operation for Profile Deletion
+        Deletes the task in the backend via an API Call
+        @param id_: The idnentifier of the Profile
+        @type id_: int
+        @return: Redirection to the Profile table
+        """
+        if self.get_value("action_button") == "Submit":
+            response = self.api.delete(f"/profile/{id_}")
+
+            return redirect(url_for("profiles"))
+
+        elif self.get_value("action_button") == "Cancel":
+            return redirect(url_for("profile", id_=id_))
+
+        else:
+            pass
+            # TODO Implement Error

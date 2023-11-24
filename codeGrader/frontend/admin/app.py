@@ -11,7 +11,8 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
     UserListHandler, UserHandler, HomeHandler, AdminListHandler, AdminHandler, ProfileListHandler, \
     ProfileHandler, SubjectListHandler, SubjectHandler, TaskHandler, TaskListHandler, ExerciseHandler, \
     ExerciseListHandler, AddAdminHandler, AddProfileHandler, AddUserHandler, AddTaskHandler, AddExerciseHandler, \
-    AddSubjectHandler
+    AddSubjectHandler, DeleteUserHandler, DeleteSubjectHandler, DeleteAdminHandler, DeleteTaskHandler, \
+    DeleteExerciseHandler, DeleteProfileHandler
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 
@@ -121,6 +122,21 @@ def addUser():
         return AddUserHandler(request).post()
 
 
+@app.route("/user/delete/<int:id_>", methods=['GET', 'POST'])
+@login_required
+def deleteUser(id_: int):
+    """
+    Deleting a user from the database
+    @param id_: The identifier of the user
+    @type id_: int
+    @return: Redirect to another view.
+    """
+    if request.method == 'GET':
+        return DeleteUserHandler(request).get(id_)
+    elif request.method == 'POST':
+        return DeleteUserHandler(request).post(id_)
+
+
 @app.route("/admin/<int:id_>", methods=['GET', 'POST'])
 @login_required
 def admin(id_):
@@ -156,6 +172,21 @@ def addAdmin():
         return AddAdminHandler(request).get()
     elif request.method == 'POST':
         return AddAdminHandler(request).post()
+
+
+@app.route("/admin/delete/<int:id_>", methods=['GET', 'POST'])
+@login_required
+def deleteAdmin(id_: int):
+    """
+    Deleting a Admin from the database
+    @param id_: The identifier of the Admin
+    @type id_: int
+    @return: Redirect to another view.
+    """
+    if request.method == 'GET':
+        return DeleteAdminHandler(request).get(id_)
+    elif request.method == 'POST':
+        return DeleteAdminHandler(request).post(id_)
 
 
 @app.route("/profile/<int:id_>", methods=['GET', 'POST'])
@@ -196,6 +227,21 @@ def addProfile():
         return AddProfileHandler(request).post()
 
 
+@app.route("/profile/delete/<int:id_>", methods=['GET', 'POST'])
+@login_required
+def deleteProfile(id_: int):
+    """
+    Deleting a profile from the database
+    @param id_: The identifier of the profile
+    @type id_: int
+    @return: Redirect to another view.
+    """
+    if request.method == 'GET':
+        return DeleteProfileHandler(request).get(id_)
+    elif request.method == 'POST':
+        return DeleteProfileHandler(request).post(id_)
+
+
 @app.route("/subject/<int:id_>", methods=['GET', 'POST'])
 @login_required
 def subject(id_):
@@ -232,6 +278,21 @@ def addSubject():
         return AddSubjectHandler(request).get()
     elif request.method == 'POST':
         return AddSubjectHandler(request).post()
+
+
+@app.route("/subject/delete/<int:id_>", methods=['GET', 'POST'])
+@login_required
+def deleteSubject(id_: int):
+    """
+    Deleting a subject from the database
+    @param id_: The identifier of the subject
+    @type id_: int
+    @return: Redirect to another view.
+    """
+    if request.method == 'GET':
+        return DeleteSubjectHandler(request).get(id_)
+    elif request.method == 'POST':
+        return DeleteSubjectHandler(request).post(id_)
 
 
 @app.route("/exercise/<int:id_>", methods=['GET', 'POST'])
@@ -272,6 +333,21 @@ def addExercise():
         return AddExerciseHandler(request).post()
 
 
+@app.route("/exercise/delete/<int:id_>", methods=['GET', 'POST'])
+@login_required
+def deleteExercise(id_: int):
+    """
+    Deleting a exercise from the database
+    @param id_: The identifier of the exercise
+    @type id_: int
+    @return: Redirect to another view.
+    """
+    if request.method == 'GET':
+        return DeleteExerciseHandler(request).get(id_)
+    elif request.method == 'POST':
+        return DeleteExerciseHandler(request).post(id_)
+
+
 @app.route("/task/<int:id_>", methods=['GET', 'POST'])
 @login_required
 def task(id_):
@@ -308,6 +384,21 @@ def addTask():
         return AddTaskHandler(request).get()
     elif request.method == 'POST':
         return AddTaskHandler(request).post()
+
+
+@app.route("/task/delete/<int:id_>", methods=['GET', 'POST'])
+@login_required
+def deleteTask(id_: int):
+    """
+    Deleting a exercise from the database
+    @param id_: The identifier of the exercise
+    @type id_: int
+    @return: Redirect to another view.
+    """
+    if request.method == 'GET':
+        return DeleteTaskHandler(request).get(id_)
+    elif request.method == 'POST':
+        return DeleteTaskHandler(request).post(id_)
 
 
 if __name__ == "__main__":

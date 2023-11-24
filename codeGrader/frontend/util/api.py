@@ -135,7 +135,7 @@ class ApiHandler:
         """
         response = self._make_request('DELETE', path)
 
-        assert response.status_code == 200
+        assert response.status_code == 200 or response.status_code == 204
         assert response.text is not None
 
         return self._cast_dict(response.text)

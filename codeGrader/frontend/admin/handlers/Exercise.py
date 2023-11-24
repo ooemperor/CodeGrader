@@ -104,3 +104,48 @@ class AddExerciseHandler(BaseHandler):
         self.api.post("/exercise/add", body=exercise_data)
 
         return redirect(url_for("exercises"))
+
+
+class DeleteExerciseHandler(BaseHandler):
+    """
+    Handler to delete a Exercise from the api backend
+    """
+
+    def __init__(self, request: flask.Request):
+        """
+        Constructor of the DeleteExerciseHandler Handler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+
+    def get(self, id_: int):
+        """
+        Get Handler to render the site for confirmation for deletion of a Exercise
+        @param id_: The id_ of the Exercise
+        @type id_: int
+        @return: Rendered Template
+        """
+        task = self.api.get(f"/exercise/{id_}")
+
+        return render_template("deleteExercise.html", **task)
+
+    def post(self, id_: int):
+        """
+        Post Operation for Exercise Deletion
+        Deletes the task in the backend via an API Call
+        @param id_: The idnentifier of the Exercise
+        @type id_: int
+        @return: Redirection to the Exercise table
+        """
+        if self.get_value("action_button") == "Submit":
+            response = self.api.delete(f"/exercise/{id_}")
+
+            return redirect(url_for("exercises"))
+
+        elif self.get_value("action_button") == "Cancel":
+            return redirect(url_for("exercise", id_=id_))
+
+        else:
+            pass
+            # TODO Implement Error

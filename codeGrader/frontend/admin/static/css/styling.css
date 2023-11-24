@@ -145,6 +145,10 @@ body {
   padding: 5px 10px;
 }
 
+.btn_delete {
+  padding: 5px 10px;
+  background-color: red;
+}
 
 .btn_login {
   margin: 10px;

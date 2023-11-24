@@ -87,5 +87,8 @@
                 <button id="btn_submit" class="btn btn_submit" type="submit">Submit</button>
             </div>
         </form>
+        <form action="{{ url_for('deleteAdmin', id_=id) }}" method="GET">
+            <button class="btn btn_delete" type="submit">Delete Admin</button>
+        </form>
     </div>
 {% endblock core %}

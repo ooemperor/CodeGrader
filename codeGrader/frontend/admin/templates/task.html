@@ -29,5 +29,8 @@
                 <button id="btn_submit" class="btn btn_submit" type="submit">Submit</button>
             </div>
         </form>
+        <form action="{{ url_for('deleteTask', id_=id) }}" method="GET">
+            <button class="btn btn_delete" type="submit">Delete Task</button>
+        </form>
     </div>
 {% endblock core %}

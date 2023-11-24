@@ -51,7 +51,7 @@ class AdminHandler(BaseHandler):
         @return: The rendered page of the AdminUser
         @rtype: HTML
         """
-        admin = self.api.get(f"/adminUser/{id_}")
+        admin = self.api.get(f"/admin/{id_}")
 
         admin_types = self.api.get(f"/adminTypes")
         admin["types"] = admin_types["admin_type"]
@@ -140,3 +140,48 @@ class AddAdminHandler(BaseHandler):
         self.api.post(f"/admin/add", body=admin_data)
 
         return redirect(url_for("admins"))
+
+
+class DeleteAdminHandler(BaseHandler):
+    """
+    Handler to delete a Task from the api backend
+    """
+
+    def __init__(self, request: flask.Request):
+        """
+        Constructor of the DeleteAdminHandler Handler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+
+    def get(self, id_: int):
+        """
+        Get Handler to render the site for confirmation for deletion of an Admin
+        @param id_: The id_ of the Admin
+        @type id_: int
+        @return: Rendered Template
+        """
+        task = self.api.get(f"/admin/{id_}")
+
+        return render_template("deleteAdmin.html", **task)
+
+    def post(self, id_: int):
+        """
+        Post Operation for Admin Deletion
+        Deletes the task in the backend via an API Call
+        @param id_: The idnentifier of the Admin
+        @type id_: int
+        @return: Redirection to the Admin table
+        """
+        if self.get_value("action_button") == "Submit":
+            response = self.api.delete(f"/admin/{id_}")
+
+            return redirect(url_for("admins"))
+
+        elif self.get_value("action_button") == "Cancel":
+            return redirect(url_for("admin", id_=id_))
+
+        else:
+            pass
+            # TODO Implement Error

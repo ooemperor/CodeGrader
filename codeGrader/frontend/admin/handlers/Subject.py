@@ -104,3 +104,48 @@ class AddSubjectHandler(BaseHandler):
         self.api.post("/subject/add", body=subject_data)
 
         return redirect(url_for("subjects"))
+
+
+class DeleteSubjectHandler(BaseHandler):
+    """
+    Handler to delete a Subject from the api backend
+    """
+
+    def __init__(self, request: flask.Request):
+        """
+        Constructor of the DeleteSubjectHandler Handler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+
+    def get(self, id_: int):
+        """
+        Get Handler to render the site for confirmation for deletion of a Subject
+        @param id_: The id_ of the Subject
+        @type id_: int
+        @return: Rendered Template
+        """
+        subject = self.api.get(f"/subject/{id_}")
+
+        return render_template("deleteSubject.html", **subject)
+
+    def post(self, id_: int):
+        """
+        Post Operation for Subject Deletion
+        Deletes the subject in the backend via an API Call
+        @param id_: The idnentifier of the Subject
+        @type id_: int
+        @return: Redirection to the Subject table
+        """
+        if self.get_value("action_button") == "Submit":
+            response = self.api.delete(f"/subject/{id_}")
+
+            return redirect(url_for("subjects"))
+
+        elif self.get_value("action_button") == "Cancel":
+            return redirect(url_for("subject", id_=id_))
+
+        else:
+            pass
+            # TODO Implement Error
