@@ -3,7 +3,7 @@ File for all the admin handlers
 """
 
 from .Base import BaseHandler
-from flask import Request, render_template, redirect, url_for
+from flask import Request, render_template, redirect, url_for, flash
 import flask
 
 
@@ -177,6 +177,8 @@ class DeleteAdminHandler(BaseHandler):
         if self.get_value("action_button") == "Submit":
             response = self.api.delete(f"/admin/{id_}")
 
+            # display message that Admin has been deleted on the returned page.
+            flash("Admin has been deleted")
             return redirect(url_for("admins"))
 
         elif self.get_value("action_button") == "Cancel":

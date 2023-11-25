@@ -4,7 +4,7 @@ Handlers for the rendering of profiles
 """
 
 import flask
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, flash
 from .Base import BaseHandler
 
 
@@ -141,6 +141,8 @@ class DeleteProfileHandler(BaseHandler):
         if self.get_value("action_button") == "Submit":
             response = self.api.delete(f"/profile/{id_}")
 
+            # display message that Profile has been deleted on the returned page.
+            flash("Profile has been deleted")
             return redirect(url_for("profiles"))
 
         elif self.get_value("action_button") == "Cancel":

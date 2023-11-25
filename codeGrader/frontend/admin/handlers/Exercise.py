@@ -4,7 +4,7 @@ Handlers for the rendering of exercise
 """
 
 import flask
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, flash
 from .Base import BaseHandler
 
 
@@ -141,6 +141,8 @@ class DeleteExerciseHandler(BaseHandler):
         if self.get_value("action_button") == "Submit":
             response = self.api.delete(f"/exercise/{id_}")
 
+            # display message that exercise has been deleted on the returned page.
+            flash("Exercise has been deleted")
             return redirect(url_for("exercises"))
 
         elif self.get_value("action_button") == "Cancel":

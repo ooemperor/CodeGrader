@@ -4,7 +4,7 @@ Handlers for the rendering of Subjects
 """
 
 import flask
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, flash
 from .Base import BaseHandler
 
 
@@ -141,6 +141,8 @@ class DeleteSubjectHandler(BaseHandler):
         if self.get_value("action_button") == "Submit":
             response = self.api.delete(f"/subject/{id_}")
 
+            # display message that Subject has been deleted on the returned page.
+            flash("Subject has been deleted")
             return redirect(url_for("subjects"))
 
         elif self.get_value("action_button") == "Cancel":

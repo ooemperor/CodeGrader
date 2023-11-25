@@ -4,7 +4,7 @@ Handler Classes for the Users in the admin frontend
 """
 import flask
 import json
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, flash
 from .Base import BaseHandler
 
 
@@ -165,6 +165,8 @@ class DeleteUserHandler(BaseHandler):
         if self.get_value("action_button") == "Submit":
             response = self.api.delete(f"/user/{id_}")
 
+            # display message that user has been deleted on the returned page.
+            flash("User has been deleted")
             return redirect(url_for("users"))
 
         elif self.get_value("action_button") == "Cancel":
