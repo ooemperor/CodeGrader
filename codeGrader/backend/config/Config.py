@@ -5,6 +5,7 @@ Configuration Class for the backend of the codeGrader
 import json
 import os
 import platform
+import configparser
 
 
 class Config:
@@ -19,66 +20,66 @@ class Config:
         """
         self.system = platform.system()
         if self.system == 'Windows':
-            configFile = open(os.path.join(os.path.dirname(__file__), "config.json"))
+            configFile = os.path.join(os.path.dirname(__file__), "config.conf")
             code = open(os.path.join(os.path.dirname(__file__), "codeLanguages.json"))
         elif self.system == 'Linux':
-            configFile = open("/etc/codeGrader/backendConfig.json")
+            configFile = "/etc/codeGrader/backendConfig.conf"
             code = open("/etc/codeGrader/codeLanguages.json")
         else:
             # For MAC OS there might be some changes needed here for the proper file path.
-            configFile = open(os.path.join(os.path.dirname(__file__), "config.json"))
+            configFile = os.path.join(os.path.dirname(__file__), "config.conf")
             code = open(os.path.join(os.path.dirname(__file__), "codeLanguages.json"))
 
-        conf = json.load(configFile)
+        self.config = configparser.ConfigParser()
+        self.config.read(configFile)
         codeLanguages = json.load(code)
-        configFile.close()
         code.close()
 
         self.codeLanguages = codeLanguages
 
         # Flask Application Configurations
-        self.ApiPort = conf["api"]["port"]
-        self.debug = conf["logging"]["debug"]
-        self.useIntegratedLogin = conf["logging"]["useIntegratedLogging"]
-        self.appName = conf["api"]["applicationName"]
-        self.tokenAuthorization = conf["api"]["TokenAuthorization"]
-        self.tokenLength = conf["api"]["tokenLength"]
+        self.ApiPort = self.config["API"]["Port"]
+        self.debug = self.config["Logging"]["Debug"]
+        self.useIntegratedLogin = self.config["Logging"]["UseIntegratedLogging"]
+        self.appName = self.config["API"]["Name"]
+        self.tokenAuthorization = self.config["API"]["TokenAuthorization"]
+        self.tokenLength = int(self.config["API"]["TokenLength"])
 
         # Configuration for database Connection
-        self.DBName = conf["database"]["database"]
-        self.DBUser = conf["database"]["username"]
-        self.DBPassword = conf["database"]["password"]
-        self.DBHost = conf["database"]["host"]
-        self.DBPort = conf["database"]["port"]
-        self.dbConnectionString = (conf["database"]["dialect"] +
+        self.DBName = self.config["Database"]["Database"]
+        self.DBUser = self.config["Database"]["Username"]
+        self.DBPassword = self.config["Database"]["Password"]
+        self.DBHost = self.config["Database"]["Host"]
+        self.DBPort = self.config["Database"]["Port"]
+        self.dbConnectionString = (self.config["Database"]["Dialect"] +
                                    "+" +
-                                   conf["database"]["DBdriver"] +
+                                   self.config["Database"]["DBDriver"] +
                                    "://" +
-                                   conf["database"]["username"] +
+                                   self.config["Database"]["Username"] +
                                    ":" +
-                                   conf["database"]["password"] +
+                                   self.config["Database"]["Password"] +
                                    "@" +
-                                   conf["database"]["host"] +
+                                   self.config["Database"]["Host"] +
                                    ":" +
-                                   conf["database"]["port"] +
+                                   self.config["Database"]["Port"] +
                                    "/" +
-                                   conf["database"]["database"]
+                                   self.config["Database"]["Database"]
                                    )
-        self.metadataColumnsAmount = conf["database"]["datamodel"]["metadataColumnsCount"]
-        self.columnIgnoreList = conf["database"]["datamodel"]["columnIgnoreList"]
+        self.metadataColumnsAmount = self.config["Database"]["MetaDataColumnsCount"]
+        self.columnIgnoreList = self.config["Database"]["ColumnIgnoreList"]
 
         # Configurations for Testing purposes
-        self.tests_ApiHost = conf["tests"]["apiHost"]
+        self.tests_ApiHost = self.config["Tests"]["ApiHost"]
         self.tests_ApiPort = self.ApiPort
 
         # Configuration for EvaluationService
-        self.evaluationHost = conf["evaluationService"]["host"]
-        self.evaluationPort = conf["evaluationService"]["port"]
+        self.evaluationHost = self.config["EvaluationService"]["Host"]
+        self.evaluationPort = self.config["EvaluationService"]["Port"]
 
         # Configuration for the ExecutionService
-        self.executionHost = conf["executionService"]["host"]
-        self.executionPort = conf["executionService"]["port"]
-        self.executionFilePath = conf["executionService"]["PathToExecutionFiles"]
+        self.executionHost = self.config["ExecutionService"]["Host"]
+        self.executionPort = self.config["ExecutionService"]["Port"]
+        self.executionFilePath = self.config["ExecutionService"]["PathToExecutionFiles"]
 
     def getInstallationCommand(self, codeLanguage: str):
         """
