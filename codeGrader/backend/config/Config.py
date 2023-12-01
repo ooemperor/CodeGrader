@@ -39,7 +39,7 @@ class Config:
 
         # Flask Application Configurations
         self.ApiPort = self.config["API"]["Port"]
-        self.debug = self.config["Logging"]["Debug"]
+        self.debug = True if self.config["Logging"]["Debug"] == 0 else False
         self.useIntegratedLogin = self.config["Logging"]["UseIntegratedLogging"]
         self.appName = self.config["API"]["Name"]
         self.tokenAuthorization = self.config["API"]["TokenAuthorization"]

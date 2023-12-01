@@ -3,7 +3,8 @@ Route definition and main File for the Admin Frontend of the CodeGrader
 @author: mkaiser
 @version: 1.0
 """
-from flask import Flask, request, render_template, url_for, redirect, flash
+import flask_login
+from flask import Flask, request, render_template, url_for, redirect, flash, session
 from flask_login import LoginManager, login_user, login_required, logout_user
 from codeGrader.frontend.config import config
 from codeGrader.frontend.admin import templates
@@ -51,6 +52,8 @@ def login():
         if user_id:
             user = adminUser_login(user_id)
             login_user(user)
+        else:
+            flash("The provided Credentials are not valid")
         return redirect(url_for("home"))
 
 

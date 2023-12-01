@@ -22,7 +22,7 @@ class SessionAdmin(UserMixin):
         user_dict = AdminSessionHandler().get(adminUser_id)
         self.id = user_dict["id"]
         self.username = user_dict["username"]
-        profile = user_dict["profile"]
+        self.profile = user_dict["profile"]
 
 
 class AdminSessionHandler(BaseHandler):

@@ -84,7 +84,7 @@ class AdminHandler(BaseHandler):
 
         self.api.put(f"/admin/{id_}", body=admin_data)
 
-        return redirect(url_for("adminUser", id_=id_))
+        return redirect(url_for("admin", id_=id_))
 
 
 class AddAdminHandler(BaseHandler):

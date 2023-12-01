@@ -49,4 +49,4 @@ class AdminUserLoginHandler(BaseHandler):
 
         except sqlalchemy.exc.NoResultFound as err:
             # incase we do not find a user with the given credentials
-            return self.create_generic_error_response('POST', err)
+            return self.create_generic_response('GET', "Authentication failed for User")

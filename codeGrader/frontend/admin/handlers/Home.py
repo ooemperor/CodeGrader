@@ -2,6 +2,7 @@
 Handler Classes for the Users
 """
 import flask
+import flask_login
 from flask import request, render_template, redirect
 from .Base import BaseHandler
 
