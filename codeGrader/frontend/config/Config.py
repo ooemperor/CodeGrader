@@ -6,6 +6,7 @@ Config Class for the frontend of the codeGrader
 import json
 import os
 import platform
+import configparser
 
 
 class Config:
@@ -20,27 +21,29 @@ class Config:
 
         self.system = platform.system()
         if self.system == 'Windows':
-            configFile = open(os.path.join(os.path.dirname(__file__), "config.json"))
+            configFile = os.path.join(os.path.dirname(__file__), "config.conf")
             self.templatesDir = os.path.abspath('./templates')
         elif self.system == 'Linux':
-            configFile = open("/etc/codeGrader/frontendConfig.json")
+            configFile = "/etc/codeGrader/frontendConfig.conf"
             self.templatesDir = './templates'
         else:
             # For MAC OS there might be some changes needed here for the proper file path.
-            configFile = open(os.path.join(os.path.dirname(__file__), "config.json"))
+            configFile = os.path.join(os.path.dirname(__file__), "config.conf")
 
-        conf = json.load(configFile)
-        configFile.close()
+        self.config = configparser.ConfigParser()
+        self.config.read(configFile)
+        print(self.config.sections())
 
-        self.adminPort = conf["admin"]["port"]
-        self.adminAppName = conf["admin"]["applicationName"]
-        self.adminSecretKey = conf["admin"]["secret_key"]
 
-        self.userPort = conf["user"]["port"]
-        self.userAppName = conf["user"]["applicationName"]
-        self.userSecretKey = conf["user"]["secret_key"]
+        self.adminPort = self.config["Admin"]["Port"]
+        self.adminAppName = self.config["Admin"]["Name"]
+        self.adminSecretKey = self.config["Admin"]["Secret_Key"]
 
-        self.apiHost = conf["api"]["host"]
-        self.apiPort = conf["api"]["port"]
-        self.apiAuthentication = conf["api"]["authentication_type"]
-        self.apiToken = conf["api"]["authentication_token"]
+        self.userPort = self.config["User"]["Port"]
+        self.userAppName = self.config["User"]["Name"]
+        self.userSecretKey = self.config["User"]["Secret_Key"]
+
+        self.apiHost = self.config["API"]["Host"]
+        self.apiPort = self.config["API"]["Port"]
+        self.apiAuthentication = self.config["API"]["Authentication_Type"]
+        self.apiToken = self.config["API"]["Authentication_Token"]
