@@ -1,5 +1,5 @@
 """
-Base Handler for the admin part of the CodeGrader Frontend
+Base Handler for the User part of the CodeGrader Frontend
 @author: mkaiser
 """
 import flask

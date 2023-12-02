@@ -3,13 +3,12 @@ Login Page Handler
 @author: mkaiser
 """
 import flask
-import json
 from .Base import BaseHandler
 
 
-class AdminUserLoginHandler(BaseHandler):
+class UserLoginHandler(BaseHandler):
     """
-    Login Handler for the admin frontend
+    Login Handler for the user frontend
     """
 
     def __init__(self, request: flask.Request):
@@ -32,6 +31,6 @@ class AdminUserLoginHandler(BaseHandler):
         body = dict()
         body["password"] = password
         body["username"] = username
-        response = self.api.post('/admin/login', body)
-        id_ = response["response"]["id"]  # is None when the Authentication failed
+        response = self.api.post('/user/login', body)
+        id_ = response["response"]["id"] # is None when the Authentication failed
         return id_

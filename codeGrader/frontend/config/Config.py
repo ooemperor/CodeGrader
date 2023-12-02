@@ -32,7 +32,6 @@ class Config:
 
         self.config = configparser.ConfigParser()
         self.config.read(configFile)
-        print(self.config.sections())
 
 
         self.adminPort = self.config["Admin"]["Port"]

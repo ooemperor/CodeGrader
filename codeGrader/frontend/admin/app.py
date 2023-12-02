@@ -3,7 +3,6 @@ Route definition and main File for the Admin Frontend of the CodeGrader
 @author: mkaiser
 @version: 1.0
 """
-import flask_login
 from flask import Flask, request, render_template, url_for, redirect, flash, session
 from flask_login import LoginManager, login_user, login_required, logout_user
 from codeGrader.frontend.config import config
@@ -27,7 +26,7 @@ login_manager.init_app(app)
 def adminUser_login(admin_id):
     """
     User load of the login_manager
-    Returns the frontend represenation of the user
+    Returns the frontend represenation of the admin user
     @param admin_id: the id of the user
     @type admin_id: int
     @return: The frontend User Object

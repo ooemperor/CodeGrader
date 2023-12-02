@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!--
+    <link rel="stylesheet" href="../static/css/styling.css">
+    -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styling.css') }}">
+    <title>CodeGrader Login</title>
+</head>
+
+<body>
+    {% with msgs = get_flashed_messages() %}
+        {% if msgs %}
+            <div id="flash" class="main flash">
+            {% if msgs %}
+                <ul class="list">
+                {% for msg in msgs %}
+                    <li class="item">{{ msg }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <form action="{{ url_for("login") }}" method="POST">
+        <div id="div_login" class="center">
+            
+            <input id="input_username" class="input input_login" name="username" placeholder="Username">
+            <br>
+            <input id="input_password" type="password" class="input input_login" name="password" placeholder="Password">
+            <br>
+            <button id="btn_login" class="btn btn_login">Login</button>
+        </div>
+    </form>
+</body>
+
+</html>

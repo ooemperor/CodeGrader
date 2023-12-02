@@ -1,5 +1,5 @@
 """
-Handler Classes for the home site of the admin panel.
+Handler Classes for the Home site of the user panel
 """
 import flask
 import flask_login
