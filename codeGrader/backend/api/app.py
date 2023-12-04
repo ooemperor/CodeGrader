@@ -87,7 +87,7 @@ def users():
     @return: Custom Representation of all the user objects
     @rtype: dict
     """
-    return UserHandler().get_all()
+    return UserHandler().get_all(request.args)
 
 
 @app.route("/user/add", methods=['POST'])
@@ -126,7 +126,7 @@ def admins():
     @return: Custom Representation of all the objects
     @rtype: dict
     """
-    return AdminUserHandler().get_all()
+    return AdminUserHandler().get_all(request.args)
 
 
 @app.route("/admin/add", methods=['POST'])
@@ -175,7 +175,7 @@ def profiles():
     @return: Custom Representation of all the objects
     @rtype: dict
     """
-    return ProfileHandler().get_all()
+    return ProfileHandler().get_all(request.args)
 
 
 @app.route("/subject/add", methods=['POST'])
@@ -214,7 +214,7 @@ def subjects():
     @return: Custom Representation of all the objects
     @rtype: dict
     """
-    return SubjectHandler().get_all()
+    return SubjectHandler().get_all(request.args)
 
 
 # Task
@@ -254,7 +254,7 @@ def tasks():
     @return: Custom Representation of all the objects
     @rtype: dict
     """
-    return TaskHandler().get_all()
+    return TaskHandler().get_all(request.args)
 
 
 @app.route("/exercise/add", methods=['POST'])
@@ -293,7 +293,7 @@ def exercises():
     @return: Custom Representation of all the objects
     @rtype: dict
     """
-    return ExerciseHandler().get_all()
+    return ExerciseHandler().get_all(request.args)
 
 
 @app.route("/uploadFile", methods=["POST"])
@@ -364,7 +364,7 @@ def submissions():
     @return: Custom Representation of all the objects
     @rtype: dict
     """
-    return SubmissionHandler().get_all()
+    return SubmissionHandler().get_all(request.args)
 
 
 @app.route("/testcase/add", methods=["POST"])
@@ -398,7 +398,7 @@ def testcases():
     @return: Custom Representation of all the objects
     @rtype: dict
     """
-    return TestCaseHandler().get_all()
+    return TestCaseHandler().get_all(request.args)
 
 
 @app.route("/adminTypes")
@@ -408,7 +408,7 @@ def admin_types():
     @@return: Custom Representation of all the objects
     @rtype: dict
     """
-    return AdminTypeHandler().get_all()
+    return AdminTypeHandler().get_all(request.args)
 
 
 # starting the web application

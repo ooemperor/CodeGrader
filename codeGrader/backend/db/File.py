@@ -60,15 +60,15 @@ class File(Base):
         backref=backref("AttachmentFile", lazy="joined")
     )
 
-    def getFileContent(self):
+    def getFileContent(self) -> memoryview:
         """
         Getting the content of a file a returning it
         @return: Content of file
-        @rtype: file content
+        @rtype: memoryview
         """
         return io.BytesIO(self.file).getbuffer()
 
-    def toJson(self, include_binary=True):
+    def toJson(self, include_binary=True) -> dict:
         """
         Render the json representation of a File
         @param include_binary: if the Binary Data of the file should also be provided or not.

@@ -4,19 +4,19 @@ Handlers for the rendering of profiles
 """
 
 import flask
-from flask import request, render_template, redirect, url_for, flash
+from flask import request, render_template, redirect, url_for, flash, Response
 from .Base import BaseHandler
 
 
 class ProfileListHandler(BaseHandler):
-    def __init(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the ProfileListHandler
         Will Render the HTML Template for all the profiles.
         """
         super().__init__(request)
 
-    def get(self):
+    def get(self) -> str:
         """
         Renders the template for the Profiles site.
         @return: The rendered template
@@ -31,7 +31,7 @@ class ProfileHandler(BaseHandler):
     Handles the operation on a single Profile
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the Profile Handler
         @param request: The request from the app route of flask
@@ -39,7 +39,7 @@ class ProfileHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int):
+    def get(self, id_: int) -> str:
         """
         Get and render the page for a given profile by its id
         @param id_: The id of the profile
@@ -50,7 +50,7 @@ class ProfileHandler(BaseHandler):
         profile = self.api.get(f"/profile/{id_}")
         return render_template("profile.html", **profile)
 
-    def post(self, id_: int):
+    def post(self, id_: int) -> Response:
         """
         Handler for the update of a Profile
         @param id_: The identifier of the profile
@@ -73,7 +73,7 @@ class AddProfileHandler(BaseHandler):
     Class to handle the operations of creating a user.
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the AddProfile Handler
         @param request: The request from the app route of flask
@@ -81,7 +81,7 @@ class AddProfileHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self):
+    def get(self) -> str:
         """
         Render the template for adding
         @return: The rendered page
@@ -89,7 +89,7 @@ class AddProfileHandler(BaseHandler):
 
         return render_template("addProfile.html")
 
-    def post(self):
+    def post(self) -> Response:
         """
         Post Operation
         get the data out of the request and create the profile in the backend via api
@@ -111,7 +111,7 @@ class DeleteProfileHandler(BaseHandler):
     Handler to delete a Profile from the api backend
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the DeleteProfileHandler Handler
         @param request: The request from the app route of flask
@@ -119,7 +119,7 @@ class DeleteProfileHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int):
+    def get(self, id_: int) -> str:
         """
         Get Handler to render the site for confirmation for deletion of a Profile
         @param id_: The id_ of the Profile
@@ -130,7 +130,7 @@ class DeleteProfileHandler(BaseHandler):
 
         return render_template("deleteProfile.html", **task)
 
-    def post(self, id_: int):
+    def post(self, id_: int) -> Response:
         """
         Post Operation for Profile Deletion
         Deletes the task in the backend via an API Call

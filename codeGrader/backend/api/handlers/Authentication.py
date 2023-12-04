@@ -13,7 +13,7 @@ from sqlalchemy import select
 from flask import request
 
 
-def _check_authentication(api_token: str):
+def _check_authentication(api_token: str) -> None:
     """
     Checking if the provided api_token is valid
     @param api_token: The Bearer Token used in the authentication.

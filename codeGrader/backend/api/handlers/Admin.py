@@ -13,14 +13,14 @@ class AdminUserHandler(BaseHandler):
     Handler for the AdminUser
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor for the UserHandlerClass
         """
         super().__init__()
         self.dbClass = AdminUser
 
-    def _preprocess_data_dict(self, dict_: dict):
+    def _preprocess_data_dict(self, dict_: dict) -> dict:
         """
         Preprocessing of the data dictionary for the Admin UserHandler
         Overwrites the method from the parent class

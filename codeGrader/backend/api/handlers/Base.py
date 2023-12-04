@@ -2,6 +2,8 @@
 Base Handler for the backend API. Setting basic properties like a session.
 @author: mkaiser
 """
+import sqlalchemy.orm.decl_api
+
 from codeGrader.backend.db import Session
 from .ResponseGenerator import ErrorResponseHandler, GenericResponseHandler
 
@@ -11,6 +13,9 @@ class BaseHandler:
     The Class for the Basic Handler of the backend API.
     This Handler will be the parent class for all the other handlers.
     """
+    # defintion of non present instance variable in the parent class
+    # these variables will be defined in the child classes
+    dbClass: sqlalchemy.orm.decl_api.DeclarativeMeta
 
     def __init__(self):
         """
@@ -136,20 +141,35 @@ class BaseHandler:
         except Exception as err:
             return self.create_generic_error_response('DELETE', err, id_)
 
-    def get_all(self):
+    def get_all(self, arguments={}):
         """
         Get all objects of a Class.
+        @param arguments: The arguments provided in the API Call as URL arguments
+        @type arguments: str
         @return: List of all Objects
         @rtype: list
         """
+        if arguments is None:
+            arguments = dict()
         try:
             objects = self.sql_session.get_all(self.dbClass)
             if len(objects) == 0:
                 return self.create_generic_response('GET', f"No Objects entries to display")
+
             else:
                 object_list = []
+
                 for object_ in objects:
-                    object_list.append(object_.toJson())
+                    object_dict = object_.toJson()
+
+                    if len(arguments.keys()) == 0:
+                        object_list.append(object_dict)
+                        continue
+
+                    for key in arguments.keys():
+                        if object_dict[key] == arguments.get(key):
+                            object_list.append(object_dict)
+
                 output = dict()
                 output[str(self.dbClass.__table__)] = object_list
                 return output

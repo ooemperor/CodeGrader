@@ -12,7 +12,7 @@ class ExerciseHandler(BaseHandler):
     Using the default get, post, delete and put methods defined in the BaseHandler
     @see: BaseHandler
     """
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor for the ExerciseHandler
         """

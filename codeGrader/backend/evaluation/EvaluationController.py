@@ -12,7 +12,7 @@ class EvaluationController:
     A Custom Controller to evaluate the result of all the TestCases for a given Submission/Task
     Runs an evaluation for every TestCase/ExecutionResult that we have
     """
-    def __init__(self, submission_id: int):
+    def __init__(self, submission_id: int) -> None:
         """
         The constructor for the Controller
         """
@@ -32,7 +32,7 @@ class EvaluationController:
 
         self.evaluation = Evaluation("basic")
 
-    def evaluate(self):
+    def evaluate(self) -> None:
         """
         Starts the evaluation for each TestCase/ExecutionResult
         @return:
@@ -63,7 +63,7 @@ class EvaluationController:
         self._addEvaluationResult(score)
 
     @staticmethod
-    def _prepareFileContent(file_content: str):
+    def _prepareFileContent(file_content: str) -> str:
         """
         Preparing the given File Content into a list of lines.
         @param file_content: The content of a file to be prepared
@@ -74,7 +74,7 @@ class EvaluationController:
         assert file_content is not None
         return file_content.splitlines(False)
 
-    def _addEvaluationResult(self, score: float):
+    def _addEvaluationResult(self, score: float) -> None:
         """
         Adding an EvaluationResult to the database.
         @param score: The score of the evaluation

@@ -13,7 +13,7 @@ class TaskHandler(BaseHandler):
     # TODO: integrate the files to be added.
     @see: BaseHandler
     """
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor for the ProfileHandler
         """

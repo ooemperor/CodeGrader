@@ -10,7 +10,7 @@ class FileHandler(BaseHandler):
     """
     Handler for the File class.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor for the FileHandler
         """

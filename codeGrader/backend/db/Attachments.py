@@ -45,7 +45,7 @@ class Instruction(Base):
         index=True
     )
 
-    def toJson(self):
+    def toJson(self) -> dict:
         """
         Render the json representation of a Instruction
         This is a relation table, so we get just the values of the related tables.
@@ -92,7 +92,7 @@ class Attachment(Base):
         index=True
     )
 
-    def toJson(self):
+    def toJson(self) -> dict:
         """
         Render the json representation of a Attachment
         This is a relation table, so we get just the values of the related tables.

@@ -3,7 +3,7 @@ File for all the admin handlers
 """
 
 from .Base import BaseHandler
-from flask import Request, render_template, redirect, url_for, flash
+from flask import Request, render_template, redirect, url_for, flash, Response
 import flask
 
 
@@ -12,7 +12,7 @@ class AdminListHandler(BaseHandler):
     Handles Operations for the Users site
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the AdminUserList Handler
         @param request: The request from the app route of flask
@@ -20,7 +20,7 @@ class AdminListHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self):
+    def get(self) -> str:
         """
         Renders the template for the Users site.
         @return: The rendered template
@@ -35,7 +35,7 @@ class AdminHandler(BaseHandler):
     Handles the operation on a single adminuser
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the AdminUser Handler
         @param request: The request from the app route of flask
@@ -43,7 +43,7 @@ class AdminHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int):
+    def get(self, id_: int) -> str:
         """
         Get and render the page for a given AdminUser by its id
         @param id_: The id of the AdminUser
@@ -61,7 +61,7 @@ class AdminHandler(BaseHandler):
 
         return render_template("adminUser.html", **admin)
 
-    def post(self, id_: int):
+    def post(self, id_: int) -> Response:
         """
         Handler for the update of a AdminUser
         @param id_: The id of the admin user in the database
@@ -92,7 +92,7 @@ class AddAdminHandler(BaseHandler):
     Handler Class for the creation of an admin user
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the AddAdminUser Handler
         @param request: The request from the app route of flask
@@ -100,7 +100,7 @@ class AddAdminHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self):
+    def get(self) -> str:
         """
         Get and render the site to create an admin user
         @return: The rendered page.
@@ -115,7 +115,7 @@ class AddAdminHandler(BaseHandler):
 
         return render_template("addAdminUser.html", **admin_data)
 
-    def post(self):
+    def post(self) -> Response:
         """
         Post Operation
         Creates the admin user specified by the parameters in the backend.
@@ -147,7 +147,7 @@ class DeleteAdminHandler(BaseHandler):
     Handler to delete a Task from the api backend
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the DeleteAdminHandler Handler
         @param request: The request from the app route of flask
@@ -155,7 +155,7 @@ class DeleteAdminHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int):
+    def get(self, id_: int) -> str:
         """
         Get Handler to render the site for confirmation for deletion of an Admin
         @param id_: The id_ of the Admin
@@ -166,7 +166,7 @@ class DeleteAdminHandler(BaseHandler):
 
         return render_template("deleteAdmin.html", **task)
 
-    def post(self, id_: int):
+    def post(self, id_: int) -> Response:
         """
         Post Operation for Admin Deletion
         Deletes the task in the backend via an API Call

@@ -4,6 +4,9 @@ Login Page Handler
 """
 import flask
 import json
+
+from flask import Response
+
 from .Base import BaseHandler
 
 
@@ -12,7 +15,7 @@ class AdminUserLoginHandler(BaseHandler):
     Login Handler for the admin frontend
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the AdminUser Login Handler
         @param request: The request from the app route of flask
@@ -20,7 +23,7 @@ class AdminUserLoginHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def post(self):
+    def post(self) -> Response:
         """
         Trying the authentication of the AdminUser via BackendAPI
         @return: User id_ if the credentials have been correct

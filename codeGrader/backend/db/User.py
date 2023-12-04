@@ -71,7 +71,7 @@ class User(Base):
         backref=backref("MembershipUser", lazy="joined")
     )
 
-    def toJson(self):
+    def toJson(self) -> dict:
         """
         Render the json representation of a user
         @return: JSON representation of a user

@@ -56,7 +56,7 @@ class Exercise(Base):
         backref=backref("TaskExercise", lazy="noload")
     )
 
-    def toJson(self):
+    def toJson(self) -> dict:
         """
         Render the json representation of a Task
         @return: JSON representation of a Task

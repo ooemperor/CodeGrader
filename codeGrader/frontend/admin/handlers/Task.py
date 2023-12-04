@@ -4,19 +4,19 @@ Handlers for the rendering of Task
 """
 
 import flask
-from flask import request, render_template, redirect, url_for, flash
+from flask import request, render_template, redirect, url_for, flash, Response
 from .Base import BaseHandler
 
 
 class TaskListHandler(BaseHandler):
-    def __init(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the TaskListHandler
         Will Render the HTML Template for all the tasks.
         """
         super().__init__(request)
 
-    def get(self):
+    def get(self) -> str:
         """
         Renders the template for the tasks site.
         @return: The rendered template
@@ -31,7 +31,7 @@ class TaskHandler(BaseHandler):
     Handles the operation on a single task
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the task Handler
         @param request: The request from the app route of flask
@@ -39,7 +39,7 @@ class TaskHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int):
+    def get(self, id_: int) -> str:
         """
         Get and render the page for a given task by its id
         @param id_: The id of the task
@@ -50,7 +50,7 @@ class TaskHandler(BaseHandler):
         task = self.api.get(f"/task/{id_}")
         return render_template("task.html", **task)
 
-    def post(self, id_: int):
+    def post(self, id_: int) -> Response:
         """
         Handler for the update of a task
         @param id_: The identifier of the task
@@ -73,7 +73,7 @@ class AddTaskHandler(BaseHandler):
     Class to handle the operations of creating a user.
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the AddTask Handler
         @param request: The request from the app route of flask
@@ -81,7 +81,7 @@ class AddTaskHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self):
+    def get(self) -> str:
         """
         Render the template for adding
         @return: The rendered page
@@ -89,7 +89,7 @@ class AddTaskHandler(BaseHandler):
 
         return render_template("addTask.html")
 
-    def post(self):
+    def post(self) -> Response:
         """
         Post Operation
         get the data out of the request and create the task in the backend via api
@@ -111,7 +111,7 @@ class DeleteTaskHandler(BaseHandler):
     Handler to delete a Task from the api backend
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the DeleteTaskHandler Handler
         @param request: The request from the app route of flask
@@ -119,7 +119,7 @@ class DeleteTaskHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int):
+    def get(self, id_: int) -> str:
         """
         Get Handler to render the site for confirmation for deletion of a Task
         @param id_: The id_ of the user
@@ -130,7 +130,7 @@ class DeleteTaskHandler(BaseHandler):
 
         return render_template("deleteTask.html", **task)
 
-    def post(self, id_: int):
+    def post(self, id_: int) -> Response:
         """
         Post Operation for Task Deletion
         Deletes the task in the backend via an API Call

@@ -38,7 +38,7 @@ class AdminType(Base):
         String, nullable=True, unique=False
     )
 
-    def toJson(self):
+    def toJson(self) -> dict:
         """
         Render the representation of the AdminType
         @return: JSON representation of a user

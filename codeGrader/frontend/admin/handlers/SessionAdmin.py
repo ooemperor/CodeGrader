@@ -13,7 +13,7 @@ class SessionAdmin(UserMixin):
     Representation of a AdminUser used for the CookieGeneration.
     """
 
-    def __init__(self, adminUser_id):
+    def __init__(self, adminUser_id) -> None:
         """
         Constructor of the SessionUser Object
         @param adminUser_id: The
@@ -31,13 +31,13 @@ class AdminSessionHandler(BaseHandler):
     Handles all the operations that can be done on a User in the backend
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor of the UserHandler
         """
         super().__init__(requests=None)
 
-    def get(self, id_: int):
+    def get(self, id_: int) -> str:
         """
         Get the representation of a user by its id.
         @param id_: The id of the user

@@ -4,19 +4,19 @@ Handlers for the rendering of exercise
 """
 
 import flask
-from flask import request, render_template, redirect, url_for, flash
+from flask import request, render_template, redirect, url_for, flash, Response
 from .Base import BaseHandler
 
 
 class ExerciseListHandler(BaseHandler):
-    def __init(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the exerciseListHandler
         Will Render the HTML Template for all the exercises.
         """
         super().__init__(request)
 
-    def get(self):
+    def get(self) -> str:
         """
         Renders the template for the exercises site.
         @return: The rendered template
@@ -31,7 +31,7 @@ class ExerciseHandler(BaseHandler):
     Handles the operation on a single exercise
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the exercise Handler
         @param request: The request from the app route of flask
@@ -39,7 +39,7 @@ class ExerciseHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int):
+    def get(self, id_: int) -> str:
         """
         Get and render the page for a given exercise by its id
         @param id_: The id of the exercise
@@ -50,7 +50,7 @@ class ExerciseHandler(BaseHandler):
         exercise = self.api.get(f"/exercise/{id_}")
         return render_template("exercise.html", **exercise)
 
-    def post(self, id_: int):
+    def post(self, id_: int) -> Response:
         """
         Handler for the update of an exercise
         @param id_: The identifier of the exercise
@@ -73,7 +73,7 @@ class AddExerciseHandler(BaseHandler):
     Class to handle the operations of creating a user.
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the addExercise Handler
         @param request: The request from the app route of flask
@@ -81,7 +81,7 @@ class AddExerciseHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self):
+    def get(self) -> str:
         """
         Render the template for adding
         @return: The rendered page
@@ -89,7 +89,7 @@ class AddExerciseHandler(BaseHandler):
 
         return render_template("addExercise.html")
 
-    def post(self):
+    def post(self) -> Response:
         """
         Post Operation
         get the data out of the request and create the exercise in the backend via api
@@ -111,7 +111,7 @@ class DeleteExerciseHandler(BaseHandler):
     Handler to delete a Exercise from the api backend
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the DeleteExerciseHandler Handler
         @param request: The request from the app route of flask
@@ -119,7 +119,7 @@ class DeleteExerciseHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int):
+    def get(self, id_: int) -> str:
         """
         Get Handler to render the site for confirmation for deletion of a Exercise
         @param id_: The id_ of the Exercise
@@ -130,7 +130,7 @@ class DeleteExerciseHandler(BaseHandler):
 
         return render_template("deleteExercise.html", **task)
 
-    def post(self, id_: int):
+    def post(self, id_: int) -> Response:
         """
         Post Operation for Exercise Deletion
         Deletes the task in the backend via an API Call

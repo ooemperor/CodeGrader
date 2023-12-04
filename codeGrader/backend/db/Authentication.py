@@ -37,7 +37,7 @@ class APIToken(Base):
         String, nullable=False, index=False
     )
 
-    def __init__(self, description: str):
+    def __init__(self, description: str) -> None:
         """
         API Token Constructor of an Object in the database
         Overwrites the Base Constructor.

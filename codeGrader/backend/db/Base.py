@@ -41,7 +41,7 @@ class Base(object):
         self.set_attrs(kwargs)
 
     @classmethod
-    def __declare_last__(cls):
+    def __declare_last__(cls) -> None:
         """
         This function will run after all the
         @return:
@@ -60,7 +60,7 @@ class Base(object):
             elif isinstance(prop, RelationshipProperty):
                 cls.relationship_properties.append(prop)
 
-    def _constructorInputCheck(self, **kwargs):
+    def _constructorInputCheck(self, **kwargs) -> None:
         """
         Checks if the amount of
         @param kwargs: dict with params as a key:value pair
@@ -70,7 +70,7 @@ class Base(object):
         if len(kwargs.keys()) > (len(self.column_properties) - self.metadatacolumns):
             raise AttributeError("More values provided than the Class supports in its construction")
 
-    def set_attrs(self, attributes: dict, fill_with_defaults=True):
+    def set_attrs(self, attributes: dict, fill_with_defaults=True) -> None:
         """
         Setting the attributes for an object defined by the attributes
         @param attributes: values of the object that shall be set
@@ -125,7 +125,7 @@ class Base(object):
 
                 setattr(self, relationship.key, val)
 
-    def get_attrs(self):
+    def get_attrs(self) -> dict:
         """
         Getting a dictionary of all the arguments for a given Object in the Database
         This representation contains every column, including columns such as foreign keys and more.

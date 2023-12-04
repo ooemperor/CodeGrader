@@ -14,14 +14,14 @@ class BaseHandler:
     Other Handlers will inherit from this class
     """
 
-    def __init__(self, requests: flask.Request):
+    def __init__(self, requests: flask.Request) -> None:
         """
         Constructor of the BaseHandler
         """
         self.request = requests
         self.api = ApiHandler(config.apiHost, config.apiAuthentication, config.apiToken)
 
-    def get_value(self, value: str, default: str = ""):
+    def get_value(self, value: str, default: str = "") -> str:
         """
         Get a value from the form that has been provided by the user identified by a given key.
         The key is defined by the name in the html form

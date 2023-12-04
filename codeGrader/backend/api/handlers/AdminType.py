@@ -11,7 +11,7 @@ class AdminTypeHandler(BaseHandler):
     Handler for the AdminType
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor for the UserHandlerClass
         """

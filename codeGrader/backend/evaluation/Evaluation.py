@@ -22,7 +22,7 @@ class Evaluation:
         self.evaluation_type = evaluation_type
         self.sql_session = Session()  # needed so we can later expand the evaluations.
 
-    def evaluate(self, expectedSolution, actualSolution):  # TODO: define data type of input
+    def evaluate(self, expectedSolution, actualSolution) -> bool:  # TODO: define data type of input
         """
         Evaluates the expected with the actualValue based
         First Basic Version that we need to further expand.
@@ -46,7 +46,7 @@ class Evaluation:
             raise AttributeError("")
         return evaluation
 
-    def _basic_full_compare_evaluation(self, expectedSolution: list, actualSolution: list):
+    def _basic_full_compare_evaluation(self, expectedSolution: list, actualSolution: list) -> bool:
         """
         Basic Fullcompare evaluation
         @param expectedSolution: The Solution that we expect to be correct. List of lines
@@ -63,7 +63,7 @@ class Evaluation:
         else:
             return False
 
-    def _line_compare_evaluation(self, expectedSolution: list, actualSolution: list):
+    def _line_compare_evaluation(self, expectedSolution: list, actualSolution: list) -> bool:
         """
         Function that compares
         @param expectedSolution: List of lines from the master solution from the Task.
@@ -86,7 +86,7 @@ class Evaluation:
                     return False  # lines do not match, we do not have the identical output
             return True
 
-    def _line_compare_without_blanks_evaluation(self, expectedSolution: list, actualSolution: list):
+    def _line_compare_without_blanks_evaluation(self, expectedSolution: list, actualSolution: list) -> bool:
         """
         Compare the two inputs while ignoring any additional blanks at the end of the line.
         @param expectedSolution: List of lines from the master solution from the Task.

@@ -16,7 +16,7 @@ class Execution:
     The Execution class that implements e Execution with all its parameters.
     """
 
-    def __init__(self, id_: int):
+    def __init__(self, id_: int) -> None:
         """
         Construcotr for a Execution of the code
         @param id_: The id_ of the Submission that was made by a user.
@@ -36,7 +36,7 @@ class Execution:
         self.duration = 0.0  # the duration of the execution
         self.memory_usage = None  # how much memory has approximately been used for running the script
 
-    def _prepare(self):
+    def _prepare(self) -> None:
         """
         Prepare the lxc container for the execution
         This includes installing the compilers/interpreters
@@ -47,7 +47,7 @@ class Execution:
             self.lxc.lxc_get_info()
         self.lxc.lxc_execute_command("apt install python3 -y")  # TODO dont make this hardcoded
 
-    def cleanup(self):
+    def cleanup(self) -> None:
         """
         Cleanup after the execution
         @return: Nothing
@@ -56,7 +56,7 @@ class Execution:
         self.lxc.lxc_stop()
         self.lxc.lxc_destroy()
 
-    def execute(self):
+    def execute(self) -> None:
         """
         Start the execution of the provided code in the Sandbox and get the output of the evaluation.
         @return: No Return type at the moment
@@ -76,7 +76,7 @@ class Execution:
         self.cleanup()
         self._addExecutionResult()
 
-    def _addExecutionResult(self):
+    def _addExecutionResult(self) -> None:
         """
         Creating a ExecutionResultentry in the database.
         @return: Nothing

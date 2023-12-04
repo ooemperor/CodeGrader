@@ -10,7 +10,7 @@ import psycopg2
 from . import Base, dbEngine
 
 
-def __executeSqlOnDB(sqlStatement: str):
+def __executeSqlOnDB(sqlStatement: str) -> bool:
     """
     Executes a SQL Statement on the database
     @param sqlStatement: the Statement that shall be executed.
@@ -26,7 +26,7 @@ def __executeSqlOnDB(sqlStatement: str):
     return True
 
 
-def test_DB():
+def test_DB() -> bool:
     """
     Tests the DB Connection
     @return: True for succesful Database connection, else false.
@@ -35,7 +35,7 @@ def test_DB():
     return True
 
 
-def create_DB():
+def create_DB() -> bool:
     """
     Creates the database based on the metadata.
     @return: True if success else throws an error.
@@ -51,7 +51,7 @@ def create_DB():
     return True
 
 
-def delete_DB():
+def delete_DB() -> bool:
     """
     Deleting all the Data and the schema public of the database and then recreating the schema public
     @return: True if successful, else throws error
@@ -62,7 +62,7 @@ def delete_DB():
     return True
 
 
-def init_DB_Data():
+def init_DB_Data() -> bool:
     """
     Initialize the basic values in the database that need to be defined from the start on.
     @return: True on success else raises an error

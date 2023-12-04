@@ -61,7 +61,7 @@ class Submission(Base):
         # cascade is on, so the file will get deleted
         cascade="all",
         passive_deletes=True,
-        lazy="joined"
+        lazy="subquery"
     )
 
     user = relationship(
@@ -70,7 +70,7 @@ class Submission(Base):
         order_by="[User.id]",
         # cascade="all",
         passive_deletes=True,
-        lazy="joined"
+        lazy="subquery"
     )
 
     executionresult = relationship(
@@ -80,7 +80,7 @@ class Submission(Base):
         # cascade is on, so the result will get deleted
         cascade="all",
         passive_deletes=True,
-        lazy="joined"
+        lazy="subquery"
     )
 
     evaluationresult = relationship(
@@ -90,10 +90,10 @@ class Submission(Base):
         # cascade is on, so the result will get deleted
         cascade="all",
         passive_deletes=True,
-        lazy="joined"
+        lazy="subquery"
     )
 
-    def toJson(self):
+    def toJson(self) -> dict:
         """
         JSON representation of a Submission.
         @return: The json representation of the Submission

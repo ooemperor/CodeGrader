@@ -18,19 +18,19 @@ class EvaluationRPC(Service):
     """
     server: ThreadedServer
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor for the RPC Server
         :return: No Return
         """
         #self.server = ThreadedServer(EvaluationRPC, port=8002)
 
-    def start(self):
+    def start(self) -> None:
         self.server = ThreadedServer(EvaluationRPC, port=config.evaluationPort)
         self.server.start()
 
     @exposed
-    def evaluate(self, submission_id: int):
+    def evaluate(self, submission_id: int) -> None:
         """
         Method to start an evaluation.
         This method will be used in the execution service to signal to the EvaluationService that there is something to evaluate.

@@ -52,8 +52,8 @@ class Subject(Base):
         order_by="[Exercise.name]",
         # cascade="all",
         passive_deletes=True,
-        lazy="joined",
-        backref=backref("ExerciseSubject", lazy="noload")
+        lazy="subquery",
+        backref=backref("ExerciseSubject", lazy="subquery")
     )
 
     memberships = relationship(
@@ -67,7 +67,7 @@ class Subject(Base):
         backref=backref("MembershipSubject", lazy="joined")
     )
 
-    def toJson(self):
+    def toJson(self) -> dict:
         """
         Render the json representation of a Subject
         @return: JSON representation of a Subject

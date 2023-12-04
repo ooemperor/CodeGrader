@@ -18,7 +18,14 @@ class GenericResponseHandler:
         """
 
     @staticmethod
-    def _get_response_code(method: str):
+    def _get_response_code(method: str) -> int:
+        """
+        Calculating the resonse code for a specific method
+        @param method: The method used on the API Call
+        @type method: str
+        @return: The response code
+        @rtype: int
+        """
         if method == 'POST':
             return 201
         elif method == 'DELETE':
@@ -26,7 +33,7 @@ class GenericResponseHandler:
         else:
             return 200
 
-    def generate_response(self, method: str, response: str, id_: int = None):
+    def generate_response(self, method: str, response: str, id_: int = None) -> (dict, int):
         """
         Generates a generic method for a response Body
         @param method: the request method
@@ -36,7 +43,7 @@ class GenericResponseHandler:
         @param response: The response message that should be added
         @type: response: String
         @return: The response JSON
-        @rtype: dict
+        @rtype: (dict, int)
         """
         out = dict()
         _response = dict()
@@ -60,7 +67,14 @@ class ErrorResponseHandler:
         """
 
     @staticmethod
-    def _get_response_code(exception: Exception):
+    def _get_response_code(exception: Exception) -> int:
+        """
+        Calculating the response code for an exception
+        @param exception: The exception that has been raised
+        @type exception: str
+        @return: the response code according to the error
+        @rtype: int
+        """
         if exception in [sqlalchemy.orm.exc.UnmappedInstanceError]:
             # object was not found in the database
             return 404
@@ -70,7 +84,7 @@ class ErrorResponseHandler:
             # return general server error
             return 500
 
-    def generate_response(self, method: str, exception: Exception, id_: int = None):
+    def generate_response(self, method: str, exception: Exception, id_: int = None) -> (dict, int):
         """
         The Response Generator
         @param method: The method of the request
@@ -80,7 +94,7 @@ class ErrorResponseHandler:
         @param exception: The exception that has been raised while handling the request.
         @type exception: Exception
         @return: The properly rendered repsonse
-        @rtype: dict
+        @rtype: (dict, int)
         """
 
         out = dict()

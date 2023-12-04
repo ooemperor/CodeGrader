@@ -73,7 +73,7 @@ class AdminUser(Base):
         lazy="joined"
     )
 
-    def toJson(self):
+    def toJson(self) -> dict:
         """
         Render the json representation of a admin user
         @return: JSON representation of a admin user

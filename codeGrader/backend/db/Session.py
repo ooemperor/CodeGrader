@@ -20,7 +20,7 @@ class Session:
         # dbEngine is used from the db package
         self.session = sessionmaker(dbEngine)  # creating the session
 
-    def create(self, object_: object):
+    def create(self, object_: object) -> int:
         """
         Adding the instance into the database
         @param object_: The Object that we want to create.
@@ -32,21 +32,22 @@ class Session:
             with self.session.begin() as session:
                 session.add(object_)
                 session.flush()  # creating object in DB
-                session.refresh(object_) # refreshing the object from db
+                session.refresh(object_)  # refreshing the object from db
                 return_id = object_.id  #definition of the id of the newly created object
-                session.commit() # finally commit the session.
+                session.commit()  # finally commit the session.
         except Exception:
             session.rollback()
             raise
         return return_id
 
-    def delete(self, object_: object):
+    def delete(self, object_: object) -> bool:
         """
         Deleting an instance from the database
         @param object_: The object to delete from the database
         @type object_: instance of type Base or any Subclass from Base
         @raise: raises any error that may occur in the Transaction.
         @return: True for success or else and Exception
+        @rtype: bool
         """
         try:
             with self.session.begin() as session:
@@ -58,7 +59,7 @@ class Session:
             session.rollback()
             raise
 
-    def delete(self, cls: type, id_: int):
+    def delete(self, cls: type, id_: int) -> bool:
         """
         Deleting a object from the database by id and Class
         @param cls: The Class of the Object
@@ -77,7 +78,7 @@ class Session:
             session.rollback()
             raise
 
-    def update(self, cls: type, id_: int, update_dict: dict):
+    def update(self, cls: type, id_: int, update_dict: dict) -> bool:
         """
         Function for updating an object in the database
         @param cls: The class of the Object for the table mapping
@@ -87,7 +88,7 @@ class Session:
         @param update_dict:
         @type update_dict: dict
         @return: True for succesful update
-        @rtype: Boolean
+        @rtype: bool
         """
         try:
             with self.session.begin() as session:
@@ -99,15 +100,15 @@ class Session:
             session.rollback()
             raise
 
-    def get_object(self, cls: type, id_: int):
+    def get_object(self, cls: type, id_: int) -> type:
         """
         Get a object form the database using the given identifier
         @param cls: The class of the Object for the table mapping
         @type cls: type(object)
         @param id_: The id of the object.
         @type id_: BIGINT
-        @return: The object form the database
-        @rtype: cls
+        @return: The object from the database
+        @rtype: type
         """
         try:
             with self.session.begin() as session:
@@ -119,12 +120,12 @@ class Session:
             session.rollback()
             raise
 
-    def get_all(self, cls: type):
+    def get_all(self, cls: type) -> list:
         """
         Get all objects for a given instance.
         @param cls: The class of the Object for the table mapping
         @type cls: type(object)
-        @return: The objects from the database as a list
+        @return: The objects from the database
         @rtype: list
         """
         try:

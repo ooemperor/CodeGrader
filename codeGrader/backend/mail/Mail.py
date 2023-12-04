@@ -14,7 +14,7 @@ class Mail:
     Class that represents a mail that can then be sent.
     """
 
-    def __init__(self, receiver: str, subject: str, message: str):
+    def __init__(self, receiver: str, subject: str, message: str) -> None:
         """
         Constructor of an E-Mail
         @param receiver: The recipient of the email
@@ -34,7 +34,7 @@ class Mail:
 
         self.message = self._message_constructor(self.sender, self.receiver, self.subject, self.message)
 
-    def send(self):
+    def send(self) -> None:
         """
         Sends the prepared mail to the receiver.
         @return: No return made
@@ -48,14 +48,11 @@ class Mail:
 
             server.sendmail(self.sender, self.receiver, self.message)
 
-    def _message_constructor(self):
+    def _message_constructor(self) -> str:
         """
-
-        @param sender:
-        @param receiver:
-        @param subject:
-        @param message:
-        @return:
+        Construct a properly formatted message ready to send
+        @return: The constructed message text
+        @rtype: str
         """
         message_text = (
                     "From: " + self.sender + "\n" + "To: " + self.receiver + "\n" + "Subject: " + self.subject + "\n\n" + self.message)

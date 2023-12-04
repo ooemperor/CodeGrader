@@ -54,8 +54,8 @@ class Task(Base):
         order_by="[Instruction.id]",
         cascade="all",
         passive_deletes=True,
-        lazy="joined",
-        backref=backref("TaskInstruction", lazy="joined")
+        lazy="subquery",
+        backref=backref("TaskInstruction", lazy="subquery")
     )
 
     attachments = relationship(
@@ -64,8 +64,8 @@ class Task(Base):
         order_by="[Attachment.id]",
         cascade="all",
         passive_deletes=True,
-        lazy="joined",
-        backref=backref("TaskAttachment", lazy="joined")
+        lazy="subquery",
+        backref=backref("TaskAttachment", lazy="subquery")
     )
 
     submissions = relationship(
@@ -74,8 +74,8 @@ class Task(Base):
         order_by="[Submission.id]",
         cascade="all",
         passive_deletes=True,
-        lazy="joined",
-        backref=backref("TaskSubmission", lazy="joined")
+        lazy="subquery",
+        backref=backref("TaskSubmission", lazy="subquery")
     )
 
     testcases = relationship(
@@ -84,11 +84,11 @@ class Task(Base):
         order_by="[TestCase.id]",
         cascade="all",
         passive_deletes=True,
-        lazy="joined",
-        backref=backref("TaskTestCase", lazy="joined")
+        lazy="subquery",
+        backref=backref("TaskTestCase", lazy="subquery")
     )
 
-    def toJson(self):
+    def toJson(self) -> dict:
         """
         Render the json representation of a Task
         @return: JSON representation of a Task

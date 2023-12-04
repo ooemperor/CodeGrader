@@ -68,7 +68,7 @@ class Profile(Base):
         backref=backref("SubjectProfile", lazy="joined")
     )
 
-    def toJson(self):
+    def toJson(self) -> dict:
         """
         Render the json representation of a Profile
         @return: JSON representation of a profile

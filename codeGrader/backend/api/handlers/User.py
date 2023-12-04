@@ -19,7 +19,7 @@ class UserHandler(BaseHandler):
         super().__init__()
         self.dbClass = User
 
-    def _preprocess_data_dict(self, dict_: dict):
+    def _preprocess_data_dict(self, dict_: dict) -> dict:
         """
         Preprocessing of the data dictionary for the User Handler
         Overwrites the method from the parent class

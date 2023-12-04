@@ -21,14 +21,14 @@ class LoginHandler(BaseHandler):
 
     # instance variables that are not set in this parent class
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor of the LoginHandler Partent Class.
         Uses the Basehandler
         """
         super().__init__()
 
-    def login(self, username: str, password: str):
+    def login(self, username: str, password: str) -> dict:
         """
         Verifying if a user provided the correct login credentials
         @param username: The username of the user
@@ -62,7 +62,7 @@ class AdminUserLoginHandler(LoginHandler):
     Used by the frontend to check the login status of a AdminUser.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor of the AdminUserLoginHandler
         """

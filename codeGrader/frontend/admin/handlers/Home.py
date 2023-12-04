@@ -12,7 +12,7 @@ class HomeHandler(BaseHandler):
     Handles Operations for the Home site
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the Home Handler
         @param request: The request from the app route of flask
@@ -20,5 +20,10 @@ class HomeHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self):
+    def get(self) -> str:
+        """
+        Render the homeplate and return it
+        @return: The rendered site
+        @rtype: str
+        """
         return render_template("home.html")

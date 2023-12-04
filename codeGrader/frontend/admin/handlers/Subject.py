@@ -4,19 +4,19 @@ Handlers for the rendering of Subjects
 """
 
 import flask
-from flask import request, render_template, redirect, url_for, flash
+from flask import request, render_template, redirect, url_for, flash, Response
 from .Base import BaseHandler
 
 
 class SubjectListHandler(BaseHandler):
-    def __init(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the SubjectListHandler
         Will Render the HTML Template for all the subjects.
         """
         super().__init__(request)
 
-    def get(self):
+    def get(self) -> str:
         """
         Renders the template for the Subjects site.
         @return: The rendered template
@@ -31,7 +31,7 @@ class SubjectHandler(BaseHandler):
     Handles the operation on a single Subject
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the Subject Handler
         @param request: The request from the app route of flask
@@ -39,7 +39,7 @@ class SubjectHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int):
+    def get(self, id_: int) -> str:
         """
         Get and render the page for a given subject by its id
         @param id_: The id of the subject
@@ -50,7 +50,7 @@ class SubjectHandler(BaseHandler):
         subject = self.api.get(f"/subject/{id_}")
         return render_template("subject.html", **subject)
 
-    def post(self, id_: int):
+    def post(self, id_: int) -> Response:
         """
         Handler for the update of a subject
         @param id_: The identifier of the subject
@@ -73,7 +73,7 @@ class AddSubjectHandler(BaseHandler):
     Class to handle the operations of creating a user.
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the AddSubject Handler
         @param request: The request from the app route of flask
@@ -81,7 +81,7 @@ class AddSubjectHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self):
+    def get(self) -> str:
         """
         Render the template for adding
         @return: The rendered page
@@ -89,7 +89,7 @@ class AddSubjectHandler(BaseHandler):
 
         return render_template("addSubject.html")
 
-    def post(self):
+    def post(self) -> Response:
         """
         Post Operation
         get the data out of the request and create the subject in the backend via api
@@ -111,7 +111,7 @@ class DeleteSubjectHandler(BaseHandler):
     Handler to delete a Subject from the api backend
     """
 
-    def __init__(self, request: flask.Request):
+    def __init__(self, request: flask.Request) -> None:
         """
         Constructor of the DeleteSubjectHandler Handler
         @param request: The request from the app route of flask
@@ -119,7 +119,7 @@ class DeleteSubjectHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int):
+    def get(self, id_: int) -> str:
         """
         Get Handler to render the site for confirmation for deletion of a Subject
         @param id_: The id_ of the Subject
@@ -130,7 +130,7 @@ class DeleteSubjectHandler(BaseHandler):
 
         return render_template("deleteSubject.html", **subject)
 
-    def post(self, id_: int):
+    def post(self, id_: int) -> Response:
         """
         Post Operation for Subject Deletion
         Deletes the subject in the backend via an API Call
