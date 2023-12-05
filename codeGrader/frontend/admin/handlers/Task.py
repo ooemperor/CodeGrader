@@ -22,8 +22,8 @@ class TaskListHandler(BaseHandler):
         @return: The rendered template
         @rtype: HTML
         """
-        tasks = self.api.get("/tasks")
-        return render_template("tasks.html", **tasks)
+        tasks = self.api.get("/tasks", profile=self.admin.get_filter_profile())
+        return render_template("tasks.html", **tasks, this=self)
 
 
 class TaskHandler(BaseHandler):

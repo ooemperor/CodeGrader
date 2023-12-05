@@ -54,7 +54,7 @@ class Subject(Base):
         # cascade="all",
         passive_deletes=True,
         lazy="subquery",
-        backref=backref("ExerciseSubject", lazy="subquery")
+        backref=backref("ExerciseSubject", lazy="joined")
     )
 
     memberships = relationship(

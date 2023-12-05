@@ -51,9 +51,6 @@
                         <td class="data">Profile</td>
                         <td class="data">
                             <select id="sel_profile" name="profile">
-                                <option value="" selected>
-                                    -----
-                                </option>
                                 {% for prof in profiles %}
                                     <option value="{{ prof['id'] }}">
                                         {{ prof['name'] }}

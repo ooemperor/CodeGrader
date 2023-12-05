@@ -22,8 +22,8 @@ class SubjectListHandler(BaseHandler):
         @return: The rendered template
         @rtype: HTML
         """
-        subjects = self.api.get("/subjects")
-        return render_template("subjects.html", **subjects)
+        subjects = self.api.get("/subjects", profile=self.admin.get_filter_profile())
+        return render_template("subjects.html", **subjects, this=self)
 
 
 class SubjectHandler(BaseHandler):

@@ -26,13 +26,13 @@ class SessionAdmin(UserMixin):
         self.username = user_dict["username"]
         self.profile = user_dict["profile"]
         if self.profile is not None:
-            self._profile_name = self.profile["name"]
+            self.profile_name = self.profile["name"]
         else:
-            self._profile_name = None
+            self.profile_name = None
         self.type = user_dict["admin_type"]
         self._admin_type_name = self.type["name"]
 
-    def check_permission(self, operation: str, profile_name: str) -> bool:
+    def check_permission(self, operation: str, profile_name: str = None) -> bool:
         """
         Check the permission of the admin for a given Operation and profile
         If the operation on the given profile is allowed we return true
@@ -55,7 +55,7 @@ class SessionAdmin(UserMixin):
                 # it is a full read admin, so it is allowed
                 return True
 
-            elif profile_name == self._profile_name:
+            elif profile_name == self.profile_name:
                 # checking if the profile is allowed
                 return True
 
@@ -63,7 +63,7 @@ class SessionAdmin(UserMixin):
                 return False
 
         elif operation == 'w':
-            if profile_name == self._profile_name and self._admin_type_name == config.admin_rw_partial:
+            if profile_name == self.profile_name and self._admin_type_name == config.admin_rw_partial:
                 return True
             else:
                 return False
@@ -71,7 +71,7 @@ class SessionAdmin(UserMixin):
         else:
             raise Exception("Unsupported operation type. \n Only r and w for read and write are allowed")
 
-    def get_profile_filter(self) -> str:
+    def get_filter_profile(self) -> str:
         """
         Construct the filter string for the API Call to the backend
         @return: The string that needs to be appended to the filtering
@@ -81,7 +81,19 @@ class SessionAdmin(UserMixin):
             return ""
 
         elif self._admin_type_name in [config.admin_rw_partial, config.admin_r_partial]:
-            return f"?profile={self.profile}"
+            return f"{self.profile}"
+
+    def get_filter_profile_name(self) -> str:
+        """
+        Construct the filter string for the API Call to the backend
+        @return: The string that needs to be appended to the filtering
+        @rtype: str
+        """
+        if self._admin_type_name in [config.admin_rw_full, config.admin_r_full]:
+            return ""
+
+        elif self._admin_type_name in [config.admin_rw_partial, config.admin_r_partial]:
+            return self.profile_name
 
 
 class AdminSessionHandler(BaseHandler):

@@ -20,7 +20,7 @@ class Base(object):
     # e.g. creation_dts and id (primary_key)
     metadatacolumns = config.metadataColumnsAmount
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         """
         Base Constructor of an Object in the database
         @param kwargs: multiple input keyword:arguments

@@ -63,9 +63,6 @@
                         <td class="data">
                             <select id="sel_profile" name="profile">
                                 {% if not profile[id] %}
-                                    <option value="" selected>
-                                        -----
-                                    </option>
                                 {% endif %}
                                 {% for prof in profiles %}
                                     {% if prof['id'] == profile['id'] %}

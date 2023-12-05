@@ -7,14 +7,14 @@
             <h1 class="header1 core_content">Profile</h1>
         </div>
         <p class="core_content">Profile</p>
+        {% if this.admin.check_permission('w') %}
+            <div>
+                <form action="{{ url_for('addProfile') }}" method="GET">
+                    <button class="btn btn_create" type="submit">New Profile</button>
+                </form>
 
-        <div>
-            <form action="{{ url_for('addProfile') }}" method="GET">
-                <button class="btn btn_create" type="submit">New Profile</button>
-            </form>
-            
-        </div>
-
+            </div>
+        {% endif %}
         <table class="core_content table">
             <tr>
                 <th class="head">Name</th>

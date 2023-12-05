@@ -4,8 +4,9 @@ Route definition and main File for the Admin Frontend of the CodeGrader
 @version: 1.0
 """
 import flask_login
-from flask import Flask, request, render_template, url_for, redirect, flash, session
+from flask import Flask, request, render_template, url_for, redirect, flash, session, Response
 from flask_login import LoginManager, login_user, login_required, logout_user
+from typing import Union
 from codeGrader.frontend.config import config
 from codeGrader.frontend.admin import templates
 from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessionHandler, SessionAdmin, \
@@ -38,7 +39,7 @@ def adminUser_login(admin_id):
 
 
 @app.route("/login", methods=['GET', 'POST'])
-def login():
+def login() -> Union[Response, str]:
     """
     Renders the login page on GET
     Tries to log the user in on POST
@@ -48,7 +49,7 @@ def login():
         return render_template("login.html")
 
     elif request.method == 'POST':
-        user_id = AdminUserLoginHandler(request).post()
+        user_id = int(AdminUserLoginHandler(request).post())
         if user_id:
             user = adminUser_login(user_id)
             login_user(user)
@@ -59,17 +60,18 @@ def login():
 
 @app.route("/logout", methods=['GET', 'POST'])
 @login_required
-def logout():
+def logout() -> Response:
     """
     Logout a user so he needs to reauthenticate
     @return: Redirect to the login page
+    @rtype: Response
     """
     logout_user()
     return redirect(url_for("login"))
 
 
 @login_manager.unauthorized_handler
-def unauthorized():
+def unauthorized() -> Response:
     """
     Returns to login page if you are not properly logged in
     @return: Redirection to the login site.
@@ -79,7 +81,7 @@ def unauthorized():
 
 @app.route("/")
 @login_required
-def home():
+def home() -> str:
     """
     The Home site of the admin frontend
     @return: Rendered Home Template
@@ -89,7 +91,7 @@ def home():
 
 @app.route("/user/<int:id_>", methods=['GET', 'POST'])
 @login_required
-def user(id_):
+def user(id_) -> Union[Response, str]:
     """
     TODO: correct this representation
     @param id_: The identifier of the user
@@ -104,7 +106,7 @@ def user(id_):
 
 @app.route("/users")
 @login_required
-def users():
+def users() -> str:
     """
     Site to display all users
     @return: Rendered Users Site
@@ -114,7 +116,7 @@ def users():
 
 @app.route("/user/add", methods=['GET', 'POST'])
 @login_required
-def addUser():
+def addUser() -> Union[Response, str]:
     """
     Site to add an User
     @return: Rendered Users site or redirect
@@ -127,7 +129,7 @@ def addUser():
 
 @app.route("/user/delete/<int:id_>", methods=['GET', 'POST'])
 @login_required
-def deleteUser(id_: int):
+def deleteUser(id_: int) -> Union[Response, str]:
     """
     Deleting a user from the database
     @param id_: The identifier of the user
@@ -142,7 +144,7 @@ def deleteUser(id_: int):
 
 @app.route("/admin/<int:id_>", methods=['GET', 'POST'])
 @login_required
-def admin(id_):
+def admin(id_) -> Union[Response, str]:
     """
     @param id_: The identifier of the adminuser
     @type id_: int
@@ -156,7 +158,7 @@ def admin(id_):
 
 @app.route("/admins")
 @login_required
-def admins():
+def admins() -> str:
     """
     Site to display all Admins
     @return: Rendered AdminUsers Site
@@ -166,7 +168,7 @@ def admins():
 
 @app.route("/admin/add", methods=['GET', 'POST'])
 @login_required
-def addAdmin():
+def addAdmin() -> Union[Response, str]:
     """
     Site to add an Admin User
     @return: Rendered Admin Users site or redirect
@@ -179,7 +181,7 @@ def addAdmin():
 
 @app.route("/admin/delete/<int:id_>", methods=['GET', 'POST'])
 @login_required
-def deleteAdmin(id_: int):
+def deleteAdmin(id_: int) -> Union[Response, str]:
     """
     Deleting a Admin from the database
     @param id_: The identifier of the Admin
@@ -194,7 +196,7 @@ def deleteAdmin(id_: int):
 
 @app.route("/profile/<int:id_>", methods=['GET', 'POST'])
 @login_required
-def profile(id_):
+def profile(id_) -> Union[Response, str]:
     """
     Site to diplay a single
     @param id_: The id of the profile
@@ -209,7 +211,7 @@ def profile(id_):
 
 @app.route("/profiles")
 @login_required
-def profiles():
+def profiles() -> str:
     """
     Site for a list of all the profiles
     @return: The rendered Profiles site
@@ -219,7 +221,7 @@ def profiles():
 
 @app.route("/profile/add", methods=['GET', 'POST'])
 @login_required
-def addProfile():
+def addProfile() -> Union[Response, str]:
     """
     Site to add a Profile
     @return: Rendered Profile site or redirect
@@ -232,7 +234,7 @@ def addProfile():
 
 @app.route("/profile/delete/<int:id_>", methods=['GET', 'POST'])
 @login_required
-def deleteProfile(id_: int):
+def deleteProfile(id_: int) -> Union[Response, str]:
     """
     Deleting a profile from the database
     @param id_: The identifier of the profile
@@ -247,7 +249,7 @@ def deleteProfile(id_: int):
 
 @app.route("/subject/<int:id_>", methods=['GET', 'POST'])
 @login_required
-def subject(id_):
+def subject(id_) -> Union[Response, str]:
     """
     Site to display a single subject
     @param id_: The id of the subject
@@ -262,7 +264,7 @@ def subject(id_):
 
 @app.route("/subjects")
 @login_required
-def subjects():
+def subjects() -> str:
     """
     Site for a list of all the subjects
     @return: The rendered Subjects site
@@ -272,7 +274,7 @@ def subjects():
 
 @app.route("/subject/add", methods=['GET', 'POST'])
 @login_required
-def addSubject():
+def addSubject() -> Union[Response, str]:
     """
     Site to add a Subject
     @return: Rendered Subject site or redirect
@@ -285,7 +287,7 @@ def addSubject():
 
 @app.route("/subject/delete/<int:id_>", methods=['GET', 'POST'])
 @login_required
-def deleteSubject(id_: int):
+def deleteSubject(id_: int) -> Union[Response, str]:
     """
     Deleting a subject from the database
     @param id_: The identifier of the subject
@@ -300,7 +302,7 @@ def deleteSubject(id_: int):
 
 @app.route("/exercise/<int:id_>", methods=['GET', 'POST'])
 @login_required
-def exercise(id_):
+def exercise(id_) -> Union[Response, str]:
     """
     Site to display a single exercise
     @param id_: The id of the exercise
@@ -315,7 +317,7 @@ def exercise(id_):
 
 @app.route("/exercises")
 @login_required
-def exercises():
+def exercises() -> str:
     """
     Site for a list of all the exercises
     @return: The rendered exercises site
@@ -325,7 +327,7 @@ def exercises():
 
 @app.route("/exercise/add", methods=['GET', 'POST'])
 @login_required
-def addExercise():
+def addExercise() -> Union[Response, str]:
     """
     Site to add a Exercise
     @return: Rendered Exercise site or redirect
@@ -338,7 +340,7 @@ def addExercise():
 
 @app.route("/exercise/delete/<int:id_>", methods=['GET', 'POST'])
 @login_required
-def deleteExercise(id_: int):
+def deleteExercise(id_: int) -> Union[Response, str]:
     """
     Deleting a exercise from the database
     @param id_: The identifier of the exercise
@@ -353,7 +355,7 @@ def deleteExercise(id_: int):
 
 @app.route("/task/<int:id_>", methods=['GET', 'POST'])
 @login_required
-def task(id_):
+def task(id_) -> Union[Response, str]:
     """
     Site to display a single task
     @param id_: The id of the task
@@ -368,7 +370,7 @@ def task(id_):
 
 @app.route("/tasks")
 @login_required
-def tasks():
+def tasks() -> str:
     """
     Site for a list of all the tasks
     @return: The rendered tasks site
@@ -378,7 +380,7 @@ def tasks():
 
 @app.route("/task/add", methods=['GET', 'POST'])
 @login_required
-def addTask():
+def addTask() -> Union[Response, str]:
     """
     Site to add a Task
     @return: Rendered Task site or redirect
@@ -391,7 +393,7 @@ def addTask():
 
 @app.route("/task/delete/<int:id_>", methods=['GET', 'POST'])
 @login_required
-def deleteTask(id_: int):
+def deleteTask(id_: int) -> Union[Response, str]:
     """
     Deleting a exercise from the database
     @param id_: The identifier of the exercise

@@ -4,6 +4,7 @@ File for all the admin handlers
 
 from .Base import BaseHandler
 from flask import Request, render_template, redirect, url_for, flash, Response
+from flask_login import current_user
 import flask
 
 
@@ -26,8 +27,8 @@ class AdminListHandler(BaseHandler):
         @return: The rendered template
         @rtype: HTML
         """
-        admins = self.api.get(f"/admins{self.admin.get_profile_filter()}")
-        return render_template("adminUsers.html", **admins)
+        admins = self.api.get("/admins", profile=self.admin.get_filter_profile())
+        return render_template("adminUsers.html", **admins, this=self)
 
 
 class AdminHandler(BaseHandler):
@@ -56,7 +57,7 @@ class AdminHandler(BaseHandler):
         admin_types = self.api.get(f"/adminTypes")
         admin["types"] = admin_types["admin_type"]
 
-        profiles = self.api.get(f"/profiles")
+        profiles = self.api.get(f"/profiles", name=self.admin.profile_name)
         admin["profiles"] = profiles["profile"]
 
         return render_template("adminUser.html", **admin)
@@ -110,7 +111,7 @@ class AddAdminHandler(BaseHandler):
         admin_types = self.api.get(f"/adminTypes")
         admin_data["types"] = admin_types["admin_type"]
 
-        profiles = self.api.get(f"/profiles")
+        profiles = self.api.get(f"/profiles", name=self.admin.profile_name)
         admin_data["profiles"] = profiles["profile"]
 
         return render_template("addAdminUser.html", **admin_data)
@@ -133,7 +134,6 @@ class AddAdminHandler(BaseHandler):
         admin_data["tag"] = self.get_value("tag")
         admin_data["admin_type"] = self.get_value("admin_type")
         admin_data["password"] = self.get_value("password")
-
 
         admin_data["profile_id"] = self.get_value("profile")
 
@@ -175,7 +175,7 @@ class DeleteAdminHandler(BaseHandler):
         @return: Redirection to the Admin table
         """
         if self.get_value("action_button") == "Submit":
-            response = self.api.delete(f"/admin/{id_}")
+            self.api.delete(f"/admin/{id_}")
 
             # display message that Admin has been deleted on the returned page.
             flash("Admin has been deleted")

@@ -7,13 +7,14 @@
             <h1 class="header1 core_content">Administrators</h1>
         </div>
         <p class="core_content">Admin Users</p>
-        <div>
-            <form action="{{ url_for('addAdmin') }}" method="GET">
-                <button class="btn btn_create" type="submit">New Admin User</button>
-            </form>
-            
-        </div>
-        
+        {% if this.admin.check_permission('w') %}
+            <div>
+                <form action="{{ url_for('addAdmin') }}" method="GET">
+                    <button class="btn btn_create" type="submit">New Admin User</button>
+                </form>
+
+            </div>
+        {% endif %}
         <table class="core_content table">
             <tr>
                 <th class="head">Username</th>

@@ -19,8 +19,8 @@ class BaseHandler:
         """
         Constructor of the BaseHandler
         """
-        self.request = requests
-        self.api = ApiHandler(config.apiHost, config.apiAuthentication, config.apiToken)
+        self.request: requests = requests
+        self.api: ApiHandler = ApiHandler(config.apiHost, config.apiAuthentication, config.apiToken)
         self.admin = flask_login.current_user
 
     def get_value(self, value: str, default: str = "") -> str:

@@ -22,8 +22,8 @@ class ExerciseListHandler(BaseHandler):
         @return: The rendered template
         @rtype: HTML
         """
-        exercises = self.api.get("/exercises")
-        return render_template("exercises.html", **exercises)
+        exercises = self.api.get("/exercises", profile=self.admin.get_filter_profile())
+        return render_template("exercises.html", **exercises, this=self)
 
 
 class ExerciseHandler(BaseHandler):

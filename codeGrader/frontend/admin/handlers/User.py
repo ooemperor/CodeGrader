@@ -29,8 +29,8 @@ class UserListHandler(BaseHandler):
         @return: The rendered template
         @rtype: HTML
         """
-        users = self.api.get(f"/users{self.admin.get_profile_filter()}")
-        return render_template("users.html", **users)
+        users = self.api.get("/users", profile=self.admin.get_filter_profile())
+        return render_template("users.html", **users, this=self)
 
 
 class UserHandler(BaseHandler):
@@ -55,7 +55,7 @@ class UserHandler(BaseHandler):
         @rtype: HTML
         """
         user = self.api.get(f"/user/{id_}")
-        profiles = self.api.get(f"/profiles")
+        profiles = self.api.get(f"/profiles", name=self.admin.profile_name)
         user["profiles"] = profiles["profile"]
         return render_template("user.html", **user)
 
@@ -103,7 +103,7 @@ class AddUserHandler(BaseHandler):
         """
         user_data = dict()
 
-        profiles = self.api.get(f"/profiles")
+        profiles = self.api.get(f"/profiles", name=self.admin.profile_name)
         user_data["profiles"] = profiles["profile"]
 
         return render_template("addUser.html", **user_data)

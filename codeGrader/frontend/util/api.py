@@ -6,6 +6,8 @@ Holds all kind of functionality used by the frontend that needs to implement fun
 import json
 from codeGrader.frontend.config import config
 import requests
+from requests import Response
+from typing import Union
 
 
 class ApiHandler:
@@ -29,7 +31,7 @@ class ApiHandler:
         self.authentication_type = authentication_type
         self.authentication_token = authentication_token
 
-    def _make_request(self, method: str, path: str, body: str = None):
+    def _make_request(self, method: str, path: str, body: str = None) -> Response:
         """
         Make an Api Request on the given path with the given
         @param method: The Method to use in the api
@@ -66,7 +68,8 @@ class ApiHandler:
 
         return response
 
-    def _cast_dict(self, dictionary: str):
+    @staticmethod
+    def _cast_dict(dictionary: str) -> Union[str, dict]:
         """
         Try casting an string to a Dictionary
         @param dictionary: The string that shall be casted to a dictionary
@@ -80,24 +83,51 @@ class ApiHandler:
         except json.JSONDecodeError as err:
             return dictionary
 
-    def get(self, path: str):
+    @staticmethod
+    def _construct_filter(path: str, **kwargs) -> str:
+        """
+        Constructing the filter criterias by appending them to the string.
+        @param path: The base path of the url call
+        @type path: str
+        @param kwargs: The arguments that we wanna append to the url as filter
+        @type kwargs: key-value pairs
+        @return: The newly created path string with the appended filter criterias
+        @rtype: str
+        """
+        # appending ? to the path to indicate the start of filters
+        path += "?"
+
+        if kwargs is not None:  # only try to append if there is something in kwargs
+            for key, value in kwargs.items():
+                if value in ["", None]:
+                    continue  # do not append the filter string since it is empty
+
+                path += f"{str(key)}={str(value)}&"  # appending kwargs to the base path
+
+        return path
+
+    def get(self, path: str, **kwargs) -> Union[str, dict]:
         """
         use GET Method on the API
         @param path: the path on which to call the request
+        @type path: str
         @return: The response text of the API response
         @rtype: str
         """
+        path = self._construct_filter(path, **kwargs)
         response = self._make_request('GET', path)
         assert response.status_code == 200
         assert response.text is not None
 
         return self._cast_dict(response.text)
 
-    def post(self, path: str, body: str = None):
+    def post(self, path: str, body: str = None) -> dict:
         """
         use POST method on the API
         @param path: the path on which to call the request
+        @type path: str
         @param body: The body taht shall be attached to the request
+        @type body: str
         @return: The response text of the API response
         @rtype: str
         """
@@ -109,13 +139,15 @@ class ApiHandler:
 
         return self._cast_dict(response.text)
 
-    def put(self, path: str, body: str = None):
+    def put(self, path: str, body: str = None) -> dict:
         """
         use PUT method on the API
         @param path: the path on which to call the request
+        @type path: str
         @param body: The body taht shall be attached to the request
+        @type body: str
         @return: The response text of the API response
-        @rtype: str
+        @rtype: dict
         """
         assert body is not None
 
@@ -126,12 +158,13 @@ class ApiHandler:
 
         return self._cast_dict(response.text)
 
-    def delete(self, path: str):
+    def delete(self, path: str) -> dict:
         """
         use DELETE Method on the API
         @param path: the path on which to call the request
+        @type path: str
         @return: The response text of the API response
-        @rtype: str
+        @rtype: dict
         """
         response = self._make_request('DELETE', path)
 

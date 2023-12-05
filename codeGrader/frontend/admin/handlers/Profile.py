@@ -22,8 +22,8 @@ class ProfileListHandler(BaseHandler):
         @return: The rendered template
         @rtype: HTML
         """
-        profiles = self.api.get("/profiles")
-        return render_template("profiles.html", **profiles)
+        profiles = self.api.get("/profiles", name=self.admin.profile_name)
+        return render_template("profiles.html", **profiles, this=self)
 
 
 class ProfileHandler(BaseHandler):
