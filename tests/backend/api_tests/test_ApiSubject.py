@@ -71,3 +71,15 @@ class ApiSubjectTest(unittest.TestCase):
         r = requests.delete(f"{subject_url}{subject_id}")
         self.assertIsNotNone(r)
         self.assertEqual(204, r.status_code)
+
+    def test_GETSubjectsEndpoint(self):
+        """
+        Test Case for the testing if the /subjects endpoint is working
+        @return: No return
+        """
+        url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/subjects"
+
+        r = requests.get(url)
+        self.assertIsNotNone(r)
+        self.assertEqual(200, r.status_code)
+        self.assertIsNotNone(json.loads(r.text)["subject"])

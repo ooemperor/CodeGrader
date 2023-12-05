@@ -71,6 +71,9 @@ class Config:
         # Configurations for Testing purposes
         self.tests_ApiHost = self.config["Tests"]["ApiHost"]
         self.tests_ApiPort = self.ApiPort
+        self.tests_frontendHost = self.config["Tests"]["FrontendHost"]
+        self.tests_adminPort = self.config["Tests"]["AdminPort"]
+        self.tests_userPort = self.config["Tests"]["UserPort"]
 
         # Configuration for EvaluationService
         self.evaluationHost = self.config["EvaluationService"]["Host"]

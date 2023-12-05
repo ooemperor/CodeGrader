@@ -71,3 +71,15 @@ class ApiExerciseTest(unittest.TestCase):
         r = requests.delete(f"{exercise_url}{exercise_id}")
         self.assertIsNotNone(r)
         self.assertEqual(204, r.status_code)
+
+    def test_GETExercisesEndpoint(self):
+        """
+        Test Case for the testing if the /exercises endpoint is working
+        @return: No return
+        """
+        url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/exercises"
+
+        r = requests.get(url)
+        self.assertIsNotNone(r)
+        self.assertEqual(200, r.status_code)
+        self.assertIsNotNone(json.loads(r.text)["exercise"])

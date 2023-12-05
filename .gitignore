@@ -7,3 +7,6 @@
 # PyCache Files
 __pycache__ 
 *.pyc
+
+# Secret Values file for testing
+*.sec.json
