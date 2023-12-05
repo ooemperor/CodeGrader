@@ -142,7 +142,7 @@ class DeleteTaskHandler(BaseHandler):
             response = self.api.delete(f"/task/{id_}")
 
             # display message that task has been deleted on the returned page.
-            flash("Task has been deleted")
+            self.flash("Task has been deleted")
             return redirect(url_for("tasks"))
 
         elif self.get_value("action_button") == "Cancel":

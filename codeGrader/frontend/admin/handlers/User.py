@@ -8,6 +8,7 @@ import json
 import flask_login
 from flask import request, render_template, redirect, url_for, flash, Response
 from .Base import BaseHandler
+from typing import Union
 
 
 class UserListHandler(BaseHandler):
@@ -46,7 +47,7 @@ class UserHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int) -> str:
+    def get(self, id_: int) -> Union[str, Response]:
         """
         Get and render the page for a given user by its id
         @param id_: The id of the user
@@ -54,10 +55,23 @@ class UserHandler(BaseHandler):
         @return: The rendered page of the user
         @rtype: HTML
         """
-        user = self.api.get(f"/user/{id_}")
-        profiles = self.api.get(f"/profiles", name=self.admin.profile_name)
+
+        user = self.api.get(f"/user/{id_}")  # get the user data
+        profiles = self.api.get(f"/profiles", name=self.admin.profile_name)  # get the profile data
+
         user["profiles"] = profiles["profile"]
-        return render_template("user.html", **user)
+
+        # checking if user will be able to edit the table
+        editable = self.admin.check_permission('w', user["profile"]["name"])
+
+        user["editable"] = editable
+
+        if self.admin.check_permission('r', user["profile"]["name"]): # when admin is allowed to view this user
+            return render_template("user.html", **user, this=self)
+
+        else:  # admin is not allowed to view this user
+            self.flash("You are not allowed to view this user. ")
+            return redirect(url_for("users"))
 
     def post(self, id_: int) -> Response:
         """
@@ -96,17 +110,23 @@ class AddUserHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self) -> str:
+    def get(self) -> Union[str, Response]:
         """
         Get and render the site to create an admin user
         @return: The rendered page.
         """
-        user_data = dict()
+        if self.admin.check_permission('w'):
 
-        profiles = self.api.get(f"/profiles", name=self.admin.profile_name)
-        user_data["profiles"] = profiles["profile"]
+            user_data = dict()
 
-        return render_template("addUser.html", **user_data)
+            profiles = self.api.get(f"/profiles", name=self.admin.profile_name)
+            user_data["profiles"] = profiles["profile"]
+
+            return render_template("addUser.html", **user_data)
+
+        else:  # admin is not allowed to view this user
+            self.flash("You are not allowed to access this site! ")
+            return redirect(url_for("users"))
 
     def post(self) -> Response:
         """
@@ -115,21 +135,27 @@ class AddUserHandler(BaseHandler):
         @return: Redirect to the adminUsers Site
         """
         assert self.request.form is not None
-        user_data = dict()
 
-        # getting the data from the form provided in the request
-        user_data["username"] = self.get_value("username")
-        user_data["first_name"] = self.get_value("first_name")
-        user_data["last_name"] = self.get_value("last_name")
-        user_data["email"] = self.get_value("email")
-        user_data["tag"] = self.get_value("tag")
-        user_data["password"] = self.get_value("password")
+        if self.admin.check_permission('w'):
+            user_data = dict()
 
-        user_data["profile_id"] = self.get_value("profile")
+            # getting the data from the form provided in the request
+            user_data["username"] = self.get_value("username")
+            user_data["first_name"] = self.get_value("first_name")
+            user_data["last_name"] = self.get_value("last_name")
+            user_data["email"] = self.get_value("email")
+            user_data["tag"] = self.get_value("tag")
+            user_data["password"] = self.get_value("password")
 
-        self.api.post(f"/user/add", body=user_data)
+            user_data["profile_id"] = self.get_value("profile")
 
-        return redirect(url_for("users"))
+            self.api.post(f"/user/add", body=user_data)
+
+            return redirect(url_for("users"))
+
+        else:
+            self.flash("You are not allowed to view this site. ")
+            return redirect(url_for("users"))
 
 
 class DeleteUserHandler(BaseHandler):
@@ -145,16 +171,24 @@ class DeleteUserHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int) -> str:
+    def get(self, id_: int) -> Union[str, Response]:
         """
         Get Handler to render the site for confirmation for deletion of an user
         @param id_: The id_ of the user
         @type id_: int
         @return: Rendered Template
         """
+
         user = self.api.get(f"/user/{id_}")
 
-        return render_template("deleteUser.html", **user)
+        editable = self.admin.check_permission('w', user["profile"]["name"])
+
+        if editable:
+            return render_template("deleteUser.html", **user)
+
+        else:
+            self.flash("You are not allowed to delete users. ")
+            return redirect(url_for("users"))
 
     def post(self, id_: int) -> Response:
         """
@@ -164,16 +198,22 @@ class DeleteUserHandler(BaseHandler):
         @type id_: int
         @return: Redirection to the users table
         """
-        if self.get_value("action_button") == "Submit":
-            response = self.api.delete(f"/user/{id_}")
+        if self.admin.check_permission('w'):  # admin is allowed to delete users
 
-            # display message that user has been deleted on the returned page.
-            flash("User has been deleted")
+            if self.get_value("action_button") == "Submit":
+                response = self.api.delete(f"/user/{id_}")
+
+                # display message that user has been deleted on the returned page.
+                self.flash("User has been deleted")
+                return redirect(url_for("users"))
+
+            elif self.get_value("action_button") == "Cancel":
+                return redirect(url_for("user", id_=id_))
+
+            else:
+                self.flash("You made an illegal operation. Please Try Again or Contact an Administrator!")
+                return redirect(url_for("user", id_=id_))
+
+        else:  # admin is not allowed to see users
+            self.flash("You are not allowed to delete users. ")
             return redirect(url_for("users"))
-
-        elif self.get_value("action_button") == "Cancel":
-            return redirect(url_for("user", id_=id_))
-
-        else:
-            pass
-            # TODO Implement Error

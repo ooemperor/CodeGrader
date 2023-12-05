@@ -142,7 +142,7 @@ class DeleteSubjectHandler(BaseHandler):
             response = self.api.delete(f"/subject/{id_}")
 
             # display message that Subject has been deleted on the returned page.
-            flash("Subject has been deleted")
+            self.flash("Subject has been deleted")
             return redirect(url_for("subjects"))
 
         elif self.get_value("action_button") == "Cancel":

@@ -14,61 +14,73 @@
                     <tr>
                         <td class="data">Username</td>
                         <td class="data">
-                            <input class="input" type="text" id="input_username" name="username" value="{{ username }}">
+                            <input class="input" type="text" id="input_username" name="username" value="{{ username }}" {% if not editable %} readonly {% endif %}>
                         </td>
                     </tr>
                     <tr>
                         <td class="data">First Name</td>
                         <td class="data">
-                            <input class="input" type="text" id="input_first_name" name="first_name" value="{{ first_name }}">
+                            <input class="input" type="text" id="input_first_name" name="first_name" value="{{ first_name }}" {% if not editable %} readonly {% endif %}>
                         </td>
                     </tr>
                     <tr>
                         <td class="data">Last Name</td>
                         <td class="data">
-                            <input class="input" type="text" id="input_last_name" name="last_name" value="{{ last_name }}">
+                            <input class="input" type="text" id="input_last_name" name="last_name" value="{{ last_name }}" {% if not editable %} readonly {% endif %}>
                         </td>
                     </tr>
                     <tr>
                         <td class="data">E-Mail</td>
                         <td class="data">
-                            <input class="input" type="text" id="input_email" name="email" value="{{ email }}">
+                            <input class="input" type="text" id="input_email" name="email" value="{{ email }}" {% if not editable %} readonly {% endif %}>
                         </td>
                     </tr>
                     <tr>
                         <td class="data">Tag</td>
                         <td class="data">
-                            <input class="input" type="text" id="input_tag" name="tag" value="{{ tag }}">
+                            <input class="input" type="text" id="input_tag" name="tag" value="{{ tag }}" {% if not editable %} readonly {% endif %}>
                         </td>
                     </tr>
                     <tr>
                         <td class="data">Profile</td>
-                        <td class="data">
-                            <select id="sel_profile" name="profile">
-                                {% if not profile[id] %}
-                                {% endif %}
-                                {% for prof in profiles %}
-                                    {% if prof['id'] == profile['id'] %}
-                                        <option value="{{ prof['id'] }}" selected>
-                                            {{ prof['name'] }}
-                                        </option>
-                                    {% else %}
-                                        <option value="{{ prof['id'] }}">
-                                            {{ prof['name'] }}
-                                        </option>
+                        {% if editable %}
+                            <td class="data"> 
+                                <select id="sel_profile" name="profile">
+                                    {% if not profile[id] %}
                                     {% endif %}
-                                {% endfor %}
-                            </select>
-                        </td>
+                                    {% for prof in profiles %}
+                                        {% if prof['id'] == profile['id'] %}
+                                            <option value="{{ prof['id'] }}" selected>
+                                                {{ prof['name'] }}
+                                            </option>
+                                        {% else %}
+                                            <option value="{{ prof['id'] }}">
+                                                {{ prof['name'] }}
+                                            </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        {% else %}
+                            <td class="data">
+                                <input class="input" type="text" id="input_profile" name="profile" value="{{ profile['name'] }}" {% if not editable %} readonly {% endif %}>
+                            </td>
+                        {% endif %}
                     </tr>
                 </table>
             </div>
-            <div id="control_buttons">
-                <button id="btn_submit" class="btn btn_submit" type="submit">Submit</button>
-            </div>
+            {% if editable %}
+                <div id="control_buttons">
+                    <button id="btn_submit" class="btn btn_submit" type="submit">Submit</button>
+                </div>
+            {% endif %}
+            
         </form>
-        <form action="{{ url_for('deleteUser', id_=id) }}" method="GET">
-            <button class="btn btn_delete" type="submit">Delete User</button>
-        </form>
+        {% if editable %}
+                <form action="{{ url_for('deleteUser', id_=id) }}" method="GET">
+                    <button class="btn btn_delete" type="submit">Delete User</button>
+                </form>
+            {% endif %}
+        
     </div>
 {% endblock core %}

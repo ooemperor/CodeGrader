@@ -49,7 +49,7 @@ def login() -> Union[Response, str]:
         return render_template("login.html")
 
     elif request.method == 'POST':
-        user_id = int(AdminUserLoginHandler(request).post())
+        user_id = AdminUserLoginHandler(request).post()
         if user_id:
             user = adminUser_login(user_id)
             login_user(user)

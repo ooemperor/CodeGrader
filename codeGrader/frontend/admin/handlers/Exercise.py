@@ -142,7 +142,7 @@ class DeleteExerciseHandler(BaseHandler):
             response = self.api.delete(f"/exercise/{id_}")
 
             # display message that exercise has been deleted on the returned page.
-            flash("Exercise has been deleted")
+            self.flash("Exercise has been deleted")
             return redirect(url_for("exercises"))
 
         elif self.get_value("action_button") == "Cancel":
