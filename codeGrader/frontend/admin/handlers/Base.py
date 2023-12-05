@@ -3,6 +3,7 @@ Base Handler for the admin part of the CodeGrader Frontend
 @author: mkaiser
 """
 import flask
+import flask_login
 
 from codeGrader.frontend.config import config
 from codeGrader.frontend.util import ApiHandler
@@ -20,6 +21,7 @@ class BaseHandler:
         """
         self.request = requests
         self.api = ApiHandler(config.apiHost, config.apiAuthentication, config.apiToken)
+        self.admin = flask_login.current_user
 
     def get_value(self, value: str, default: str = "") -> str:
         """

@@ -4,6 +4,8 @@ Handler Classes for the Users in the admin frontend
 """
 import flask
 import json
+
+import flask_login
 from flask import request, render_template, redirect, url_for, flash, Response
 from .Base import BaseHandler
 
@@ -27,7 +29,7 @@ class UserListHandler(BaseHandler):
         @return: The rendered template
         @rtype: HTML
         """
-        users = self.api.get("/users")
+        users = self.api.get(f"/users{self.admin.get_profile_filter()}")
         return render_template("users.html", **users)
 
 

@@ -3,6 +3,7 @@ Route definition and main File for the Admin Frontend of the CodeGrader
 @author: mkaiser
 @version: 1.0
 """
+import flask_login
 from flask import Flask, request, render_template, url_for, redirect, flash, session
 from flask_login import LoginManager, login_user, login_required, logout_user
 from codeGrader.frontend.config import config

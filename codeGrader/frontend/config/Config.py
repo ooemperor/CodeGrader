@@ -46,3 +46,8 @@ class Config:
         self.apiPort = self.config["API"]["Port"]
         self.apiAuthentication = self.config["API"]["Authentication_Type"]
         self.apiToken = self.config["API"]["Authentication_Token"]
+
+        self.admin_rw_full = self.config["AdminTypes"]["rwFull"]
+        self.admin_rw_partial = self.config["AdminTypes"]["rwPartial"]
+        self.admin_r_full = self.config["AdminTypes"]["rFull"]
+        self.admin_r_partial = self.config["AdminTypes"]["rPartial"]

@@ -16,6 +16,7 @@ class Task(Base):
     Class to represent a Task in the database
     @see: db.Base
     """
+
     __tablename__ = 'task'
 
     id = Column(
@@ -88,6 +89,17 @@ class Task(Base):
         backref=backref("TaskTestCase", lazy="subquery")
     )
 
+    def get_profile(self) -> dict:
+        """
+        Get the profile via the parent object if avaible
+        @return: The Profile in dict form
+        @rtype: dict
+        """
+        if self.TaskExercise is None:
+            return None
+        else:
+            return self.TaskExercise.get_profile()
+
     def toJson(self) -> dict:
         """
         Render the json representation of a Task
@@ -115,4 +127,5 @@ class Task(Base):
                 _attachments.append(att.toJson())
             out["attachments"] = _attachments
 
+        out["profile"] = self.get_profile()
         return out

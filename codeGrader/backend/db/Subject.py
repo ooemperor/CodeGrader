@@ -15,6 +15,7 @@ class Subject(Base):
     Object to represent a subject
     One Subject holds multiple Exercises
     """
+
     __tablename__ = 'subject'
     # primary_key
     id = Column(
@@ -67,6 +68,16 @@ class Subject(Base):
         backref=backref("MembershipSubject", lazy="joined")
     )
 
+    def get_profile(self) -> dict:
+        """
+        Get the profile in json representation of the subject
+        @return: The Profile in dict form
+        """
+        if self.SubjectProfile is None:
+            return None
+        else:
+            return self.SubjectProfile.toJson()
+
     def toJson(self) -> dict:
         """
         Render the json representation of a Subject
@@ -78,10 +89,7 @@ class Subject(Base):
         out["name"] = self.name
         out["tag"] = self.tag
         # adding profile to json
-        if self.SubjectProfile is None:
-            out["profile"] = None
-        else:
-            out["profile"] = self.SubjectProfile.toJson()
+        out["profile"] = self.get_profile()
 
         # adding exercises with tasks to Profile.
         if self.exercises is None:
@@ -92,4 +100,3 @@ class Subject(Base):
                 _exercises.append(exercise.toJson())
             out["exercises"] = _exercises
         return out
-

@@ -6,6 +6,7 @@ import sqlalchemy.orm.decl_api
 
 from codeGrader.backend.db import Session
 from .ResponseGenerator import ErrorResponseHandler, GenericResponseHandler
+import urllib
 
 
 class BaseHandler:
@@ -13,14 +14,14 @@ class BaseHandler:
     The Class for the Basic Handler of the backend API.
     This Handler will be the parent class for all the other handlers.
     """
-    # defintion of non present instance variable in the parent class
+    # definition of non-present instance variable in the parent class
     # these variables will be defined in the child classes
     dbClass: sqlalchemy.orm.decl_api.DeclarativeMeta
 
     def __init__(self):
         """
         Constructor of the BaseHandler
-        Setting up Ojbects and params that we use in all handlers.
+        Setting up Objects and params that we use in all handlers.
         @return: No return
         """
         self.sql_session = Session()  # creating the  session for later use
@@ -152,8 +153,10 @@ class BaseHandler:
         if arguments is None:
             arguments = dict()
         try:
+            # reading the objects out of the database
             objects = self.sql_session.get_all(self.dbClass)
-            if len(objects) == 0:
+
+            if len(objects) == 0:  # no data found
                 return self.create_generic_response('GET', f"No Objects entries to display")
 
             else:
@@ -162,12 +165,12 @@ class BaseHandler:
                 for object_ in objects:
                     object_dict = object_.toJson()
 
-                    if len(arguments.keys()) == 0:
+                    if len(arguments.keys()) == 0:  # no filtering provided
                         object_list.append(object_dict)
                         continue
 
-                    for key in arguments.keys():
-                        if object_dict[key] == arguments.get(key):
+                    for key in arguments.keys():  # filtering with the provided filter arguments
+                        if str(object_dict[key]) == urllib.parse.unquote(arguments.get(key)):
                             object_list.append(object_dict)
 
                 output = dict()

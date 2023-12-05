@@ -26,7 +26,7 @@ class AdminListHandler(BaseHandler):
         @return: The rendered template
         @rtype: HTML
         """
-        admins = self.api.get("/admins")
+        admins = self.api.get(f"/admins{self.admin.get_profile_filter()}")
         return render_template("adminUsers.html", **admins)
 
 

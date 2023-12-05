@@ -56,6 +56,12 @@ class Exercise(Base):
         backref=backref("TaskExercise", lazy="noload")
     )
 
+    def get_profile(self):
+        if self.ExerciseSubject is None:
+            return None
+        else:
+            return self.ExerciseSubject.get_profile()
+
     def toJson(self) -> dict:
         """
         Render the json representation of a Task
@@ -73,4 +79,6 @@ class Exercise(Base):
             for task in self.tasks:
                 _tasks.append(task.toJson())
             out["tasks"] = _tasks
+
+        out["profile"] = self.get_profile()
         return out
