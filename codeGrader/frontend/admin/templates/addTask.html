@@ -14,14 +14,25 @@
                 <tr>
                     <td class="data">Name</td>
                     <td class="data">
-                        <input class="input" type="text" id="input_name" name="name" placeholder="Task Name"">
+                        <input class="input" type="text" id="input_name" name="name" placeholder="Task Name">
                         </td>
-                    </tr>
-                    <tr>
-                        <td class=" data">Tag
-                    </td>
+                </tr>
+                <tr>
+                    <td class=" data">Tag</td>
                     <td class="data">
                         <input class="input" type="text" id="input_tag" name="tag" placeholder="Task Tag">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="data">Exercise</td>
+                    <td class="data">
+                        <select id="sel_exercise" name="exercise">
+                            {% for ex in exercises %}
+                            <option value="{{ ex['id'] }}">
+                                {{ ex['name'] }}
+                            </option>
+                            {% endfor %}
+                        </select>
                     </td>
                 </tr>
             </table>

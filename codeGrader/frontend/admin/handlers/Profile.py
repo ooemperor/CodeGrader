@@ -49,10 +49,10 @@ class ProfileHandler(BaseHandler):
         @rtype: HTML
         """
         profile = self.api.get(f"/profile/{id_}")
-        editable = self.admin.check_permission('w', profile["name"])  # checking if admin has write rights
+        editable = self.admin.check_permission('w', profile["id"])  # checking if admin has write rights
         profile["editable"] = editable  # adding the rights to the render params
 
-        if self.admin.check_permission('r', profile["name"]):  # when admin is allowed to view this profile
+        if self.admin.check_permission('r', profile["id"]):  # when admin is allowed to view this profile
             return render_template("profile.html", **profile)
 
         else:  # admin is not allowed to view this profile
@@ -68,7 +68,7 @@ class ProfileHandler(BaseHandler):
         assert self.request.form is not None
         profile_before = self.api.get(f"/profile/{id_}")  # get the profile data
 
-        if self.admin.check_permission('w', profile_before["name"]): # admin is allowed to update
+        if self.admin.check_permission('w', profile_before["id"]): # admin is allowed to update
             profile_data = dict()
 
             profile_data["name"] = self.get_value("name")
@@ -152,7 +152,7 @@ class DeleteProfileHandler(BaseHandler):
         """
         profile = self.api.get(f"/profile/{id_}")
 
-        editable = self.admin.check_permission('w', profile["profile"]["name"])
+        editable = self.admin.check_permission('w', profile["profile"]["id"])
 
         if editable:
             return render_template("deleteProfile.html", **profile)

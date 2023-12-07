@@ -50,10 +50,12 @@ class TaskHandler(BaseHandler):
         """
         task = self.api.get(f"/task/{id_}")
 
-        editable = self.admin.check_permission('w', task["profile"]["name"])
+        editable = self.admin.check_permission('w', task["profile"]["id"])
+        exercises = self.api.get("/exercises", profile=self.admin.get_filter_profile())
+        task["exercises"] = exercises["exercise"]
 
         task["editable"] = editable
-        if self.admin.check_permission('r', task["profile"]["name"]):  # when admin is allowed to view this task
+        if self.admin.check_permission('r', task["profile"]["id"]):  # when admin is allowed to view this task
             return render_template("task.html", **task)
 
         else:  # admin is not allowed to view this task
@@ -69,11 +71,12 @@ class TaskHandler(BaseHandler):
         assert self.request.form is not None
 
         task_before = self.api.get(f"/task/{id_}")  # get the task data
-        if self.admin.check_permission('w', task_before["profile"]["name"]):
+        if self.admin.check_permission('w', task_before["profile"]["id"]):
             task_data = dict()
 
             task_data["name"] = self.get_value("name")
             task_data["tag"] = self.get_value("tag")
+            task_data["exercise_id"] = self.get_value("exercise")
 
             # getting the data from the form provided in the request
             self.api.put(f"/task/{id_}", body=task_data)
@@ -105,8 +108,11 @@ class AddTaskHandler(BaseHandler):
         """
 
         if self.admin.check_permission('w', 'task'):
-
-            return render_template("addTask.html")
+            task = dict()
+            exercises = self.api.get("/exercises", profile=self.admin.get_filter_profile())
+            task["exercises"] = exercises["exercise"]
+            print(task)
+            return render_template("addTask.html", **task)
 
         else:  # admin is not allowed to view this task
             self.flash("You are not allowed to access this site! ")
@@ -123,6 +129,7 @@ class AddTaskHandler(BaseHandler):
 
             task_data["name"] = self.get_value("name")
             task_data["tag"] = self.get_value("tag")
+            task_data["exercise_id"] = self.get_value("exercise")
 
             self.api.post("/task/add", body=task_data)
 
@@ -154,7 +161,7 @@ class DeleteTaskHandler(BaseHandler):
         """
         task = self.api.get(f"/task/{id_}")
 
-        editable = self.admin.check_permission('w', task["profile"]["name"])
+        editable = self.admin.check_permission('w', task["profile"]["id"])
 
         if editable:
             return render_template("deleteTask.html", **task)
@@ -172,7 +179,7 @@ class DeleteTaskHandler(BaseHandler):
         @return: Redirection to the Task table
         """
         task = self.api.get(f"/task/{id_}")
-        if self.admin.check_permission('w', task["profile"]["name"]):  # admin is allowed to delete the task
+        if self.admin.check_permission('w', task["profile"]["id"]):  # admin is allowed to delete the task
 
             if self.get_value("action_button") == "Submit":
                 response = self.api.delete(f"/task/{id_}")

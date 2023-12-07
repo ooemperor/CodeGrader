@@ -59,11 +59,11 @@ class UserHandler(BaseHandler):
         user["profiles"] = profiles["profile"]
 
         # checking if user will be able to edit the table
-        editable = self.admin.check_permission('w', user["profile"]["name"])
+        editable = self.admin.check_permission('w', user["profile"]["id"])
 
         user["editable"] = editable
 
-        if self.admin.check_permission('r', user["profile"]["name"]):  # when admin is allowed to view this user
+        if self.admin.check_permission('r', user["profile"]["id"]):  # when admin is allowed to view this user
             return render_template("user.html", **user)
 
         else:  # admin is not allowed to view this user
@@ -80,7 +80,7 @@ class UserHandler(BaseHandler):
         assert self.request.form is not None
 
         user_before = self.api.get(f"/user/{id_}")  # get the user data
-        if self.admin.check_permission('w', user_before["profile"]["name"]):
+        if self.admin.check_permission('w', user_before["profile"]["id"]):
             user_data = dict()
 
             # getting the data from the form provided in the request
@@ -185,7 +185,7 @@ class DeleteUserHandler(BaseHandler):
 
         user = self.api.get(f"/user/{id_}")
 
-        editable = self.admin.check_permission('w', user["profile"]["name"])
+        editable = self.admin.check_permission('w', user["profile"]["id"])
 
         if editable:
             return render_template("deleteUser.html", **user)
@@ -203,7 +203,7 @@ class DeleteUserHandler(BaseHandler):
         @return: Redirection to the users table
         """
         user = self.api.get(f"/user/{id_}")
-        if self.admin.check_permission('w', user["profile"]["name"]):  # admin is allowed to delete the user
+        if self.admin.check_permission('w', user["profile"]["id"]):  # admin is allowed to delete the user
 
             if self.get_value("action_button") == "Submit":
                 self.api.delete(f"/user/{id_}")

@@ -215,6 +215,35 @@ body {
 
 /* Table Styling end*/
 
+/*Collapsable Styling start*/
+.collapsible_content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.collapsible {
+  cursor: pointer;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+}
+
+.collapsible:before {
+  content: "\25B6";
+  font-weight: bold;
+  float: left;
+  margin-left: 5px;
+}
+
+.active:before{
+  content: "\25BC";
+}
+
 .flash {
   background-color: red;
   padding: 10px;

@@ -53,10 +53,10 @@ class SubjectHandler(BaseHandler):
 
         subject["profiles"] = profiles["profile"]
 
-        editable = self.admin.check_permission('w', subject["profile"]["name"])
+        editable = self.admin.check_permission('w', subject["profile"]["id"])
         subject["editable"] = editable
 
-        if self.admin.check_permission('r', subject["profile"]["name"]):  # when admin is allowed to view this user
+        if self.admin.check_permission('r', subject["profile"]["id"]):  # when admin is allowed to view this user
             return render_template("subject.html", **subject)
 
         else:  # admin is not allowed to view this subject
@@ -71,7 +71,7 @@ class SubjectHandler(BaseHandler):
         """
         assert self.request.form is not None
         subject_before = self.api.get(f"/subject/{id_}")  # get the subject data
-        if self.admin.check_permission('w', subject_before["profile"]["name"]):
+        if self.admin.check_permission('w', subject_before["profile"]["id"]):
             subject_data = dict()
 
             subject_data["name"] = self.get_value("name")
@@ -165,7 +165,7 @@ class DeleteSubjectHandler(BaseHandler):
         @return: Rendered Template
         """
         subject = self.api.get(f"/subject/{id_}")
-        editable = self.admin.check_permission('w', subject["profile"]["name"])
+        editable = self.admin.check_permission('w', subject["profile"]["id"])
 
         if editable:
             return render_template("deleteSubject.html", **subject)
@@ -183,7 +183,7 @@ class DeleteSubjectHandler(BaseHandler):
         @return: Redirection to the Subject table
         """
         subject = self.api.get(f"/subject/{id_}")
-        if self.admin.check_permission('w', subject["profile"]["name"]):  # admin is allowed to delete the subject
+        if self.admin.check_permission('w', subject["profile"]["id"]):  # admin is allowed to delete the subject
             if self.get_value("action_button") == "Submit":
                 response = self.api.delete(f"/subject/{id_}")
 

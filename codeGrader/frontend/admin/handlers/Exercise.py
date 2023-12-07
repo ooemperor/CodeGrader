@@ -50,17 +50,17 @@ class ExerciseHandler(BaseHandler):
         """
         exercise = self.api.get(f"/exercise/{id_}")
 
-        editable = self.admin.check_permission('w', exercise["profile"]["name"])
-        subjects = self.api.get("/subjects")
+        editable = self.admin.check_permission('w', exercise["profile"]["id"])
+        subjects = self.api.get("/subjects", profile=self.admin.get_filter_profile())
 
         exercise["subjects"] = subjects["subject"]
 
         exercise["editable"] = editable
 
-        if editable: # admin is allowed to see exercise
+        if self.admin.check_permission('r', exercise["profile"]["id"]):  # when admin is allowed to view this user
             return render_template("exercise.html", **exercise)
 
-        else: # admin is not allowed to see exercise
+        else:  # admin is not allowed to see exercise
             self.flash("You are not allowed to view this exercise. ")
             return redirect(url_for("exercises"))
 
@@ -73,7 +73,7 @@ class ExerciseHandler(BaseHandler):
         assert self.request.form is not None
 
         exercise_before = self.api.get(f"/exercise/{id_}")  # get the exercise data
-        if self.admin.check_permission('w', exercise_before["profile"]["name"]):
+        if self.admin.check_permission('w', exercise_before["profile"]["id"]):
             exercise_data = dict()
 
             exercise_data["name"] = self.get_value("name")
@@ -164,7 +164,7 @@ class DeleteExerciseHandler(BaseHandler):
         """
         exercise = self.api.get(f"/exercise/{id_}")
 
-        editable = self.admin.check_permission('w', exercise["profile"]["name"])
+        editable = self.admin.check_permission('w', exercise["profile"]["id"])
 
         if editable:
             return render_template("deleteExercise.html", **exercise)
@@ -182,7 +182,7 @@ class DeleteExerciseHandler(BaseHandler):
         @return: Redirection to the Exercise table
         """
         exercise = self.api.get(f"/exercise/{id_}")
-        if self.admin.check_permission('w', exercise["profile"]["name"]):  # admin is allowed to delete the exercise
+        if self.admin.check_permission('w', exercise["profile"]["id"]):  # admin is allowed to delete the exercise
             if self.get_value("action_button") == "Submit":
 
                 response = self.api.delete(f"/exercise/{id_}")

@@ -63,7 +63,7 @@ class AdminHandler(BaseHandler):
         editable = self.admin.check_permission('w')
         admin["editable"] = editable
 
-        if self.admin.check_permission('r', admin["profile"]["name"]):  # when admin is allowed to view this admin
+        if self.admin.check_permission('r', admin["profile"]["id"]):  # when admin is allowed to view this admin
             return render_template("adminUser.html", **admin)
 
         else:  # admin is not allowed to view this user
@@ -80,7 +80,7 @@ class AdminHandler(BaseHandler):
         assert self.request.form is not None
 
         admin_before = self.api.get(f"/admin/{id_}")  # get the admin data
-        if self.admin.check_permission('w', admin_before["profile"]["name"]):
+        if self.admin.check_permission('w', admin_before["profile"]["id"]):
             admin_data = dict()
 
             # getting the data from the form provided in the request
@@ -207,7 +207,7 @@ class DeleteAdminHandler(BaseHandler):
         """
 
         admin = self.api.get(f"/admin/{id_}")
-        if self.admin.check_permission('w', admin["profile"]["name"]):  # admin is allowed to delete the admin
+        if self.admin.check_permission('w', admin["profile"]["id"]):  # admin is allowed to delete the admin
             if self.get_value("action_button") == "Submit":
                 self.api.delete(f"/admin/{id_}")
 

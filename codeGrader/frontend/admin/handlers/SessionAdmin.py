@@ -26,21 +26,23 @@ class SessionAdmin(UserMixin):
         self.username = user_dict["username"]
         self.profile = user_dict["profile"]
         if self.profile is not None:
+            self.profile_id = self.profile["id"]
             self.profile_name = self.profile["name"]
         else:
+            self.profile_id = None
             self.profile_name = None
         self.type = user_dict["admin_type"]
         self._admin_type_name = self.type["name"]
 
-    def check_permission(self, operation: str, profile_name: str = None, create_object: str = None) -> bool:
+    def check_permission(self, operation: str, profile_id: str = None, create_object: str = None) -> bool:
         """
         Check the permission of the admin for a given Operation and profile
         If the operation on the given profile is allowed we return true
         else we return false
         @param operation: r or w r == Read w == Write
         @type operation: str
-        @param profile_name:
-        @type profile_name: str
+        @param profile_id:
+        @type profile_id: str
         @param create_object: What type of object we want to create
         @type create_object: str
         @return: True if the operation is allowed else false
@@ -57,7 +59,7 @@ class SessionAdmin(UserMixin):
                 # it is a full read admin, so it is allowed
                 return True
 
-            elif profile_name == self.profile_name:
+            elif profile_id == self.profile_id:
                 # checking if the profile is allowed
                 return True
 
@@ -65,7 +67,7 @@ class SessionAdmin(UserMixin):
                 return False
 
         elif operation == 'w':
-            if self._admin_type_name == config.admin_rw_partial and profile_name == self.profile_name:
+            if self._admin_type_name == config.admin_rw_partial and profile_id == self.profile_id:
                 return True
 
             elif self._admin_type_name == config.admin_rw_partial and create_object not in [None, "profile", "admin"]:
