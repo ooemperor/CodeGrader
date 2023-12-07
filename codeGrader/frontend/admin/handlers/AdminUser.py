@@ -3,9 +3,9 @@ File for all the admin handlers
 """
 
 from .Base import BaseHandler
-from flask import Request, render_template, redirect, url_for, flash, Response
-from flask_login import current_user
+from flask import render_template, redirect, url_for, flash, Response
 import flask
+from typing import Union
 
 
 class AdminListHandler(BaseHandler):
@@ -44,7 +44,7 @@ class AdminHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int) -> str:
+    def get(self, id_: int) -> Union[str, Response]:
         """
         Get and render the page for a given AdminUser by its id
         @param id_: The id of the AdminUser
@@ -60,7 +60,15 @@ class AdminHandler(BaseHandler):
         profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())
         admin["profiles"] = profiles["profile"]
 
-        return render_template("adminUser.html", **admin)
+        editable = self.admin.check_permission('w')
+        admin["editable"] = editable
+
+        if self.admin.check_permission('r', admin["profile"]["name"]):  # when admin is allowed to view this admin
+            return render_template("adminUser.html", **admin)
+
+        else:  # admin is not allowed to view this user
+            self.flash("You are not allowed to view this admin. ")
+            return redirect(url_for("admins"))
 
     def post(self, id_: int) -> Response:
         """
@@ -69,21 +77,26 @@ class AdminHandler(BaseHandler):
         @type id_: int
         @return: Redirect to the correct adminUser page.
         """
-
         assert self.request.form is not None
-        admin_data = dict()
 
-        # getting the data from the form provided in the request
-        admin_data["username"] = self.get_value("username")
-        admin_data["first_name"] = self.get_value("first_name")
-        admin_data["last_name"] = self.get_value("last_name")
-        admin_data["email"] = self.get_value("email")
-        admin_data["tag"] = self.get_value("tag")
-        admin_data["admin_type"] = self.get_value("admin_type")
+        admin_before = self.api.get(f"/admin/{id_}")  # get the admin data
+        if self.admin.check_permission('w', admin_before["profile"]["name"]):
+            admin_data = dict()
 
-        admin_data["profile_id"] = self.get_value("profile")
+            # getting the data from the form provided in the request
+            admin_data["username"] = self.get_value("username")
+            admin_data["first_name"] = self.get_value("first_name")
+            admin_data["last_name"] = self.get_value("last_name")
+            admin_data["email"] = self.get_value("email")
+            admin_data["tag"] = self.get_value("tag")
+            admin_data["admin_type"] = self.get_value("admin_type")
 
-        self.api.put(f"/admin/{id_}", body=admin_data)
+            admin_data["profile_id"] = self.get_value("profile")
+
+            self.api.put(f"/admin/{id_}", body=admin_data)
+
+        else:
+            self.flash("You are not allowed to update this admin! ")
 
         return redirect(url_for("admin", id_=id_))
 
@@ -101,20 +114,26 @@ class AddAdminHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self) -> str:
+    def get(self) -> Union[str, Response]:
         """
         Get and render the site to create an admin user
         @return: The rendered page.
         """
-        admin_data = dict()
+        if self.admin.check_permission('w', 'admin'):
 
-        admin_types = self.api.get(f"/adminTypes")
-        admin_data["types"] = admin_types["admin_type"]
+            admin_data = dict()
 
-        profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())
-        admin_data["profiles"] = profiles["profile"]
+            admin_types = self.api.get(f"/adminTypes")
+            admin_data["types"] = admin_types["admin_type"]
 
-        return render_template("addAdminUser.html", **admin_data)
+            profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())
+            admin_data["profiles"] = profiles["profile"]
+
+            return render_template("addAdminUser.html", **admin_data)
+
+        else:  # admin is not allowed to see this admin add page
+            self.flash("You are not allowed to access this site")
+            return redirect(url_for(admins))
 
     def post(self) -> Response:
         """
@@ -124,21 +143,27 @@ class AddAdminHandler(BaseHandler):
         """
 
         assert self.request.form is not None
-        admin_data = dict()
 
-        # getting the data from the form provided in the request
-        admin_data["username"] = self.get_value("username")
-        admin_data["first_name"] = self.get_value("first_name")
-        admin_data["last_name"] = self.get_value("last_name")
-        admin_data["email"] = self.get_value("email")
-        admin_data["tag"] = self.get_value("tag")
-        admin_data["admin_type"] = self.get_value("admin_type")
-        admin_data["password"] = self.get_value("password")
+        if self.admin.check_permission('w', create_object='admin'):
+            admin_data = dict()
 
-        admin_data["profile_id"] = self.get_value("profile")
+            # getting the data from the form provided in the request
+            admin_data["username"] = self.get_value("username")
+            admin_data["first_name"] = self.get_value("first_name")
+            admin_data["last_name"] = self.get_value("last_name")
+            admin_data["email"] = self.get_value("email")
+            admin_data["tag"] = self.get_value("tag")
+            admin_data["admin_type"] = self.get_value("admin_type")
+            admin_data["password"] = self.get_value("password")
 
-        self.api.post(f"/admin/add", body=admin_data)
+            admin_data["profile_id"] = self.get_value("profile")
 
+            self.api.post(f"/admin/add", body=admin_data)
+
+        else:  # viewing this is not allowed
+            self.flash("You are not allowed to view this site. ")
+
+        # redirect either way
         return redirect(url_for("admins"))
 
 
@@ -155,16 +180,22 @@ class DeleteAdminHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int) -> str:
+    def get(self, id_: int) -> Union[str, Response]:
         """
         Get Handler to render the site for confirmation for deletion of an Admin
         @param id_: The id_ of the Admin
         @type id_: int
         @return: Rendered Template
         """
-        task = self.api.get(f"/admin/{id_}")
+        admin = self.api.get(f"/admin/{id_}")
 
-        return render_template("deleteAdmin.html", **task)
+        editable = self.admin.check_permission('w')
+        if editable:
+            return render_template("deleteAdmin.html", **admin)
+
+        else:
+            self.flash("You are not allowed to delete admins. ")
+            return redirect(url_for("admins"))
 
     def post(self, id_: int) -> Response:
         """
@@ -174,16 +205,23 @@ class DeleteAdminHandler(BaseHandler):
         @type id_: int
         @return: Redirection to the Admin table
         """
-        if self.get_value("action_button") == "Submit":
-            self.api.delete(f"/admin/{id_}")
 
-            # display message that Admin has been deleted on the returned page.
-            flash("Admin has been deleted")
+        admin = self.api.get(f"/admin/{id_}")
+        if self.admin.check_permission('w', admin["profile"]["name"]):  # admin is allowed to delete the admin
+            if self.get_value("action_button") == "Submit":
+                self.api.delete(f"/admin/{id_}")
+
+                # display message that Admin has been deleted on the returned page.
+                flash("Admin has been deleted")
+                return redirect(url_for("admins"))
+
+            elif self.get_value("action_button") == "Cancel":
+                return redirect(url_for("admin", id_=id_))
+
+            else:
+                pass
+                # TODO Implement Error
+
+        else:  # admin is not allowed to delete users
+            self.flash("You are not allowed to delete admins. ")
             return redirect(url_for("admins"))
-
-        elif self.get_value("action_button") == "Cancel":
-            return redirect(url_for("admin", id_=id_))
-
-        else:
-            pass
-            # TODO Implement Error

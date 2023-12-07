@@ -68,7 +68,7 @@ class SessionAdmin(UserMixin):
             if self._admin_type_name == config.admin_rw_partial and profile_name == self.profile_name:
                 return True
 
-            elif self._admin_type_name == config.admin_rw_partial and create_object not in [None, "profile"]:
+            elif self._admin_type_name == config.admin_rw_partial and create_object not in [None, "profile", "admin"]:
                 return True
 
             else:

@@ -13,36 +13,37 @@
                 <tr>
                     <td class="data">Username</td>
                     <td class="data">
-                        <input class="input" type="text" id="input_username" name="username" value="{{ username }}">
+                        <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_username" name="username" value="{{ username }}">
                     </td>
                 </tr>
                 <tr>
                     <td class="data">First Name</td>
                     <td class="data">
-                        <input class="input" type="text" id="input_first_name" name="first_name"
+                        <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_first_name" name="first_name"
                             value="{{ first_name }}">
                     </td>
                 </tr>
                 <tr>
                     <td class="data">Last Name</td>
                     <td class="data">
-                        <input class="input" type="text" id="input_last_name" name="last_name" value="{{ last_name }}">
+                        <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_last_name" name="last_name" value="{{ last_name }}">
                     </td>
                 </tr>
                 <tr>
                     <td class="data">E-Mail</td>
                     <td class="data">
-                        <input class="input" type="text" id="input_email" name="email" value="{{ email }}">
+                        <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_email" name="email" value="{{ email }}">
                     </td>
                 </tr>
                 <tr>
                     <td class="data">Tag</td>
                     <td class="data">
-                        <input class="input" type="text" id="input_tag" name="tag" value="{{ tag }}">
+                        <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_tag" name="tag" value="{{ tag }}">
                     </td>
                 </tr>
                 <tr>
                     <td class="data">Admin Type</td>
+                    {% if editable %}
                     <td class="data">
                         <select id="sel_admin_type" name="admin_type">
                             {% for type in types %}
@@ -58,9 +59,16 @@
                             {% endfor %}
                         </select>
                     </td>
+                    {% else %}
+                    <td class="data">
+                        <input class="input" type="text" id="input_admin_type" name="admin_type" value="{{ admin_type['name'] }}"
+                            {% if not editable %} readonly {% endif %}>
+                    </td>
+                    {% endif %}
                 </tr>
                 <tr>
                     <td class="data">Admin Profile</td>
+                    {% if editable %}
                     <td class="data">
                         <select id="sel_profile" name="profile">
                             {% if not profile[id] %}
@@ -78,15 +86,25 @@
                             {% endfor %}
                         </select>
                     </td>
+                    {% else %}
+                    <td class="data">
+                        <input class="input" type="text" id="input_profile" name="profile" value="{{ profile['name'] }}"
+                            {% if not editable %} readonly {% endif %}>
+                    </td>
+                    {% endif %}
                 </tr>
             </table>
         </div>
+        {% if editable %}
         <div id="control_buttons">
             <button id="btn_submit" class="btn btn_submit" type="submit">Submit</button>
         </div>
+        {% endif %}
     </form>
+    {% if editable %}
     <form action="{{ url_for('deleteAdmin', id_=id) }}" method="GET">
         <button class="btn btn_delete" type="submit">Delete Admin</button>
     </form>
+    {% endif %}
 </div>
 {% endblock core %}

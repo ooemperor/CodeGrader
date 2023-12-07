@@ -3,10 +3,7 @@ Handler Classes for the Users in the admin frontend
 @author: mkaiser
 """
 import flask
-import json
-
-import flask_login
-from flask import request, render_template, redirect, url_for, flash, Response
+from flask import render_template, redirect, url_for, Response
 from .Base import BaseHandler
 from typing import Union
 
@@ -66,7 +63,7 @@ class UserHandler(BaseHandler):
 
         user["editable"] = editable
 
-        if self.admin.check_permission('r', user["profile"]["name"]): # when admin is allowed to view this user
+        if self.admin.check_permission('r', user["profile"]["name"]):  # when admin is allowed to view this user
             return render_template("user.html", **user)
 
         else:  # admin is not allowed to view this user
@@ -97,11 +94,11 @@ class UserHandler(BaseHandler):
 
             self.api.put(f"/user/{id_}", body=user_data)
 
-            return redirect(url_for("user", id_=id_))
-
         else:
             self.flash("You are not allowed to update this user! ")
-            return redirect(url_for("user", id_=id_))
+
+        # either way, return the user to the user
+        return redirect(url_for("user", id_=id_))
 
 
 class AddUserHandler(BaseHandler):
@@ -172,7 +169,7 @@ class DeleteUserHandler(BaseHandler):
 
     def __init__(self, request: flask.Request) -> None:
         """
-        Constructor of the DeleteuserHandler Handler
+        Constructor of the DeleteUserHandler Handler
         @param request: The request from the app route of flask
         @type request: flask.Request
         """
@@ -201,7 +198,7 @@ class DeleteUserHandler(BaseHandler):
         """
         Post Operation for User Deletion
         Deletes the user in the backend via an API Call
-        @param id_: The idnentifier of the user
+        @param id_: The identifier of the user
         @type id_: int
         @return: Redirection to the users table
         """
@@ -209,7 +206,7 @@ class DeleteUserHandler(BaseHandler):
         if self.admin.check_permission('w', user["profile"]["name"]):  # admin is allowed to delete the user
 
             if self.get_value("action_button") == "Submit":
-                response = self.api.delete(f"/user/{id_}")
+                self.api.delete(f"/user/{id_}")
 
                 # display message that user has been deleted on the returned page.
                 self.flash("User has been deleted")
