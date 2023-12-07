@@ -100,9 +100,11 @@ class Task(Base):
         else:
             return self.TaskExercise.get_profile()
 
-    def toJson(self) -> dict:
+    def toJson(self, recursive: bool = True) -> dict:
         """
         Render the json representation of a Task
+        @param recursive: Parameter to indicate if the related items should be loaded and added or not. Default is True
+        @type recursive: bool
         @return: JSON representation of a Task
         @rtype: dict
         """
@@ -111,21 +113,23 @@ class Task(Base):
         out["name"] = self.name
         out["tag"] = self.tag
 
-        if len(self.instructions) == 0:
-            out["instructions"] = None
-        else:
-            _instructions = []
-            for instr in self.instructions:
-                _instructions.append(instr.toJson())
-            out["instructions"] = _instructions
+        if recursive:
 
-        if len(self.attachments) == 0:
-            out["attachments"] = None
-        else:
-            _attachments = []
-            for att in self.attachments:
-                _attachments.append(att.toJson())
-            out["attachments"] = _attachments
+            if len(self.instructions) == 0:
+                out["instructions"] = None
+            else:
+                _instructions = []
+                for instr in self.instructions:
+                    _instructions.append(instr.toJson())
+                out["instructions"] = _instructions
 
-        out["profile"] = self.get_profile()
+            if len(self.attachments) == 0:
+                out["attachments"] = None
+            else:
+                _attachments = []
+                for att in self.attachments:
+                    _attachments.append(att.toJson())
+                out["attachments"] = _attachments
+
+            out["profile"] = self.get_profile()
         return out

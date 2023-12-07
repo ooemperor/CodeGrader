@@ -71,21 +71,27 @@ class User(Base):
         backref=backref("MembershipUser", lazy="joined")
     )
 
-    def toJson(self) -> dict:
+    def toJson(self, recursive: bool = True) -> dict:
         """
         Render the json representation of a user
+        @param recursive: Parameter to indicate if the related items should be loaded and added or not. Default is True
+        @type recursive: bool
         @return: JSON representation of a user
         @rtype: String
         """
         out = dict()
+
         out["id"] = self.id
         out["username"] = self.username
         out["first_name"] = self.first_name
         out["last_name"] = self.last_name
         out["email"] = self.email
         out["tag"] = self.tag
-        if self.UserProfile is None:
-            out["profile"] = None
-        else:
-            out["profile"] = self.UserProfile.toJson()
+
+        # if recursive is true we load the related parameters.
+        if recursive:
+            if self.UserProfile is None:
+                out["profile"] = None
+            else:
+                out["profile"] = self.UserProfile.toJson()
         return out

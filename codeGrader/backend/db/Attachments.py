@@ -92,10 +92,12 @@ class Attachment(Base):
         index=True
     )
 
-    def toJson(self) -> dict:
+    def toJson(self, recursive: bool = True) -> dict:
         """
         Render the json representation of a Attachment
         This is a relation table, so we get just the values of the related tables.
+        @param recursive: Parameter to indicate if the related items should be loaded and added or not. Default is True
+        @type recursive: bool
         @return: JSON representation of a profile
         @rtype: dict
         """

@@ -73,9 +73,11 @@ class AdminUser(Base):
         lazy="joined"
     )
 
-    def toJson(self) -> dict:
+    def toJson(self, recursive: bool = True) -> dict:
         """
         Render the json representation of a admin user
+        @param recursive: Parameter to indicate if the related items should be loaded and added or not. Default is True
+        @type recursive: bool
         @return: JSON representation of a admin user
         @rtype: String
         """
@@ -87,11 +89,12 @@ class AdminUser(Base):
         out["email"] = self.email
         out["tag"] = self.tag
 
-        out["admin_type"] = self.type.toJson()
+        if recursive:
+            out["admin_type"] = self.type.toJson(recursive=True)
 
-        if self.AdminUserProfile is None:
-            out["profile"] = None
-        else:
-            out["profile"] = self.AdminUserProfile.toJson()
+            if self.AdminUserProfile is None:
+                out["profile"] = None
+            else:
+                out["profile"] = self.AdminUserProfile.toJson()
 
         return out

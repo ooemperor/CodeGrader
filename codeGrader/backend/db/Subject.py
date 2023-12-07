@@ -78,9 +78,11 @@ class Subject(Base):
         else:
             return self.SubjectProfile.toJson()
 
-    def toJson(self) -> dict:
+    def toJson(self, recursive: bool = True) -> dict:
         """
         Render the json representation of a Subject
+        @param recursive: Parameter to indicate if the related items should be loaded and added or not. Default is True
+        @type recursive: bool
         @return: JSON representation of a Subject
         @rtype: dict
         """
@@ -91,12 +93,13 @@ class Subject(Base):
         # adding profile to json
         out["profile"] = self.get_profile()
 
-        # adding exercises with tasks to Profile.
-        if self.exercises is None:
-            out["exercises"] = None
-        else:
-            _exercises = []
-            for exercise in self.exercises:
-                _exercises.append(exercise.toJson())
-            out["exercises"] = _exercises
+        if recursive:
+            # adding exercises with tasks to Profile.
+            if self.exercises is None:
+                out["exercises"] = None
+            else:
+                _exercises = []
+                for exercise in self.exercises:
+                    _exercises.append(exercise.toJson())
+                out["exercises"] = _exercises
         return out

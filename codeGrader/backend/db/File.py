@@ -68,11 +68,13 @@ class File(Base):
         """
         return io.BytesIO(self.file).getbuffer()
 
-    def toJson(self, include_binary=True) -> dict:
+    def toJson(self, include_binary: bool = True, recursive: bool = True) -> dict:
         """
         Render the json representation of a File
         @param include_binary: if the Binary Data of the file should also be provided or not.
         @type include_binary: Boolean
+        @param recursive: Parameter to indicate if the related items should be loaded and added or not. Default is True
+        @type recursive: bool
         @return: JSON representation of a profile
         @rtype: dict
         """

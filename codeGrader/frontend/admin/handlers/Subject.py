@@ -108,13 +108,13 @@ class AddSubjectHandler(BaseHandler):
         @return: The rendered page
         """
         if self.admin.check_permission('w', create_object="subject"):
-            profile_data = dict()
+            subject_data = dict()
 
             profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())
 
-            profile_data["profiles"] = profiles["profile"]
+            subject_data["profiles"] = profiles["profile"]
 
-            return render_template("addSubject.html", **profile_data)
+            return render_template("addSubject.html", **subject_data)
 
         else:  # admin is not allowed to view this subject
             self.flash("You are not allowed to access this site! ")

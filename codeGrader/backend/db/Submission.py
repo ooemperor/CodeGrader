@@ -93,9 +93,11 @@ class Submission(Base):
         lazy="subquery"
     )
 
-    def toJson(self) -> dict:
+    def toJson(self, recursive: bool = True) -> dict:
         """
         JSON representation of a Submission.
+        @param recursive: Parameter to indicate if the related items should be loaded and added or not. Default is True
+        @type recursive: bool
         @return: The json representation of the Submission
         @rtype: dict
         """

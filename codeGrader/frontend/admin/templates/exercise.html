@@ -25,6 +25,31 @@
                             name="tag" value="{{ tag }}">
                     </td>
                 </tr>
+                <tr>
+                    <td class="data">Subject</td>
+                    {% if editable %}
+                    <td class="data">
+                        <select id="sel_subject" name="subject">
+                            {% for sub in subjects %}
+                            {% if sub['name'] == subject_name %}
+                            <option value="{{ sub['id'] }}" selected>
+                                {{ sub['name'] }}
+                            </option>
+                            {% else %}
+                            <option value="{{ sub['id'] }}">
+                                {{ sub['name'] }}
+                            </option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </td>
+                    {% else %}
+                    <td class="data">
+                        <input class="input" type="text" id="input_profile" name="profile" value="{{ profile['name'] }}"
+                            {% if not editable %} readonly {% endif %}>
+                    </td>
+                    {% endif %}
+                </tr>
             </table>
         </div>
         {% if editable %}

@@ -19,6 +19,7 @@
             <tr>
                 <th class="head">Name</th>
                 <th class="head">Tag</th>
+                <th class="head">Subject</th>
             </tr>
             {% for ex in exercise %}
                 <tr>
@@ -27,7 +28,8 @@
                             {{ ex["name"] }}
                         </a>
                     </td>
-                    <td class="data">{{ ex["tag"] }}</td>
+                    <td class="data">{{ ex['tag'] }}</td>
+                    <td class="data">{{ ex['subject_name'] }}</td>
                 </tr>
             {% endfor %}
 

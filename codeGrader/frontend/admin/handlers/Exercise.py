@@ -51,6 +51,9 @@ class ExerciseHandler(BaseHandler):
         exercise = self.api.get(f"/exercise/{id_}")
 
         editable = self.admin.check_permission('w', exercise["profile"]["name"])
+        subjects = self.api.get("/subjects")
+
+        exercise["subjects"] = subjects["subject"]
 
         exercise["editable"] = editable
 
@@ -75,6 +78,8 @@ class ExerciseHandler(BaseHandler):
 
             exercise_data["name"] = self.get_value("name")
             exercise_data["tag"] = self.get_value("tag")
+
+            exercise_data["subject_id"] = self.get_value("subject")
 
             # getting the data from the form provided in the request
             self.api.put(f"/exercise/{id_}", body=exercise_data)
@@ -106,7 +111,11 @@ class AddExerciseHandler(BaseHandler):
         """
 
         if self.admin.check_permission('w', 'exercise'):
-            return render_template("addExercise.html")
+            exercise_data = dict()
+            subjects = self.api.get("/subjects", profile=self.admin.get_filter_profile())
+            exercise_data["subjects"] = subjects["subject"]
+
+            return render_template("addExercise.html", **exercise_data)
 
         else:  # admin is not allowed to view this exercise
             self.flash("You are not allowed to access this site! ")
@@ -125,6 +134,8 @@ class AddExerciseHandler(BaseHandler):
 
             exercise_data["name"] = self.get_value("name")
             exercise_data["tag"] = self.get_value("tag")
+
+            exercise_data["subject_id"] = self.get_value("subject")
 
             self.api.post("/exercise/add", body=exercise_data)
 

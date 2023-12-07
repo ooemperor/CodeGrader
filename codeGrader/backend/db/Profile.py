@@ -68,9 +68,11 @@ class Profile(Base):
         backref=backref("SubjectProfile", lazy="joined")
     )
 
-    def toJson(self) -> dict:
+    def toJson(self, recursive: bool = True) -> dict:
         """
         Render the json representation of a Profile
+        @param recursive: Parameter to indicate if the related items should be loaded and added or not. Default is True
+        @type recursive: bool
         @return: JSON representation of a profile
         @rtype: dict
         """

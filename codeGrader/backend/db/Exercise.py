@@ -8,6 +8,7 @@ from sqlalchemy import String, Column, DateTime, Integer, func, \
     ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.orderinglist import ordering_list
+from .Session import Session
 
 
 class Exercise(Base):
@@ -62,9 +63,11 @@ class Exercise(Base):
         else:
             return self.ExerciseSubject.get_profile()
 
-    def toJson(self) -> dict:
+    def toJson(self, recursive: bool = True) -> dict:
         """
         Render the json representation of a Task
+        @param recursive: Parameter to indicate if the related items should be loaded and added or not. Default is True
+        @type recursive: bool
         @return: JSON representation of a Task
         @rtype: dict
         """
@@ -72,13 +75,21 @@ class Exercise(Base):
         out["id"] = self.id
         out["name"] = self.name
         out["tag"] = self.tag
-        if self.tasks is None:
-            out["tasks"] = None
-        else:
-            _tasks = []
-            for task in self.tasks:
-                _tasks.append(task.toJson())
-            out["tasks"] = _tasks
 
-        out["profile"] = self.get_profile()
+        if recursive:
+            if self.tasks is None:
+                out["tasks"] = None
+            else:
+                _tasks = []
+                for task in self.tasks:
+                    _tasks.append(task.toJson())
+                out["tasks"] = _tasks
+
+            out["profile"] = self.get_profile()
+
+            if self.subject_id is None:
+                out["subject"] = None
+            else:
+                out["subject"] = self.ExerciseSubject.toJson(recursive=False)
+
         return out
