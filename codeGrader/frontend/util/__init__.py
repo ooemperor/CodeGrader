@@ -2,6 +2,6 @@
 Init File for the util Module of the frontend
 """
 
-from .api import ApiHandler
+from .API import ApiHandler
 
 __all__ = ["ApiHandler"]
