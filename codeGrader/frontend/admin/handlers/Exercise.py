@@ -151,12 +151,12 @@ class DeleteExerciseHandler(BaseHandler):
         @type id_: int
         @return: Rendered Template
         """
-        task = self.api.get(f"/exercise/{id_}")
+        exercise = self.api.get(f"/exercise/{id_}")
 
         editable = self.admin.check_permission('w', exercise["profile"]["name"])
 
         if editable:
-            return render_template("deleteExercise.html", **task)
+            return render_template("deleteExercise.html", **exercise)
 
         else:
             self.flash("You are not allowed to delete Exercises")
@@ -165,7 +165,7 @@ class DeleteExerciseHandler(BaseHandler):
     def post(self, id_: int) -> Response:
         """
         Post Operation for Exercise Deletion
-        Deletes the task in the backend via an API Call
+        Deletes the exercise in the backend via an API Call
         @param id_: The idnentifier of the Exercise
         @type id_: int
         @return: Redirection to the Exercise table
