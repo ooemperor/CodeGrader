@@ -57,7 +57,7 @@ class UserHandler(BaseHandler):
         """
 
         user = self.api.get(f"/user/{id_}")  # get the user data
-        profiles = self.api.get(f"/profiles", name=self.admin.profile_name)  # get the profile data
+        profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())  # get the profile data
 
         user["profiles"] = profiles["profile"]
 
@@ -67,7 +67,7 @@ class UserHandler(BaseHandler):
         user["editable"] = editable
 
         if self.admin.check_permission('r', user["profile"]["name"]): # when admin is allowed to view this user
-            return render_template("user.html", **user, this=self)
+            return render_template("user.html", **user)
 
         else:  # admin is not allowed to view this user
             self.flash("You are not allowed to view this user. ")
@@ -81,20 +81,27 @@ class UserHandler(BaseHandler):
         @return:
         """
         assert self.request.form is not None
-        user_data = dict()
 
-        # getting the data from the form provided in the request
-        user_data["username"] = self.get_value("username")
-        user_data["first_name"] = self.get_value("first_name")
-        user_data["last_name"] = self.get_value("last_name")
-        user_data["email"] = self.get_value("email")
-        user_data["tag"] = self.get_value("tag")
+        user_before = self.api.get(f"/user/{id_}")  # get the user data
+        if self.admin.check_permission('w', user_before["profile"]["name"]):
+            user_data = dict()
 
-        user_data["profile_id"] = self.get_value("profile")
+            # getting the data from the form provided in the request
+            user_data["username"] = self.get_value("username")
+            user_data["first_name"] = self.get_value("first_name")
+            user_data["last_name"] = self.get_value("last_name")
+            user_data["email"] = self.get_value("email")
+            user_data["tag"] = self.get_value("tag")
 
-        self.api.put(f"/user/{id_}", body=user_data)
+            user_data["profile_id"] = self.get_value("profile")
 
-        return redirect(url_for("user", id_=id_))
+            self.api.put(f"/user/{id_}", body=user_data)
+
+            return redirect(url_for("user", id_=id_))
+
+        else:
+            self.flash("You are not allowed to update this user! ")
+            return redirect(url_for("user", id_=id_))
 
 
 class AddUserHandler(BaseHandler):
@@ -115,11 +122,11 @@ class AddUserHandler(BaseHandler):
         Get and render the site to create an admin user
         @return: The rendered page.
         """
-        if self.admin.check_permission('w'):
+        if self.admin.check_permission('w', 'user'):
 
             user_data = dict()
 
-            profiles = self.api.get(f"/profiles", name=self.admin.profile_name)
+            profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())
             user_data["profiles"] = profiles["profile"]
 
             return render_template("addUser.html", **user_data)
@@ -136,7 +143,7 @@ class AddUserHandler(BaseHandler):
         """
         assert self.request.form is not None
 
-        if self.admin.check_permission('w'):
+        if self.admin.check_permission('w', create_object='user'):
             user_data = dict()
 
             # getting the data from the form provided in the request
@@ -151,11 +158,11 @@ class AddUserHandler(BaseHandler):
 
             self.api.post(f"/user/add", body=user_data)
 
-            return redirect(url_for("users"))
-
         else:
             self.flash("You are not allowed to view this site. ")
-            return redirect(url_for("users"))
+
+        # either way redirect to the users page.
+        return redirect(url_for("users"))
 
 
 class DeleteUserHandler(BaseHandler):
@@ -198,7 +205,8 @@ class DeleteUserHandler(BaseHandler):
         @type id_: int
         @return: Redirection to the users table
         """
-        if self.admin.check_permission('w'):  # admin is allowed to delete users
+        user = self.api.get(f"/user/{id_}")
+        if self.admin.check_permission('w', user["profile"]["name"]):  # admin is allowed to delete the user
 
             if self.get_value("action_button") == "Submit":
                 response = self.api.delete(f"/user/{id_}")
@@ -214,6 +222,6 @@ class DeleteUserHandler(BaseHandler):
                 self.flash("You made an illegal operation. Please Try Again or Contact an Administrator!")
                 return redirect(url_for("user", id_=id_))
 
-        else:  # admin is not allowed to see users
+        else:  # admin is not allowed to delete users
             self.flash("You are not allowed to delete users. ")
             return redirect(url_for("users"))

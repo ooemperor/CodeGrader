@@ -12,21 +12,21 @@
 
 <body>
     {% with msgs = get_flashed_messages() %}
+    {% if msgs %}
+    <div id="flash" class="main flash">
         {% if msgs %}
-            <div id="flash" class="main flash">
-            {% if msgs %}
-                <ul class="list">
-                {% for msg in msgs %}
-                    <li class="item">{{ msg }}</li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-            </div>
+        <ul class="list">
+            {% for msg in msgs %}
+            <li class="item">{{ msg }}</li>
+            {% endfor %}
+        </ul>
         {% endif %}
+    </div>
+    {% endif %}
     {% endwith %}
-    <form action="{{ url_for("login") }}" method="POST">
+    <form action="{{ url_for('login') }}" method="POST">
         <div id="div_login" class="center">
-            
+
             <input id="input_username" class="input input_login" name="username" placeholder="Username">
             <br>
             <input id="input_password" type="password" class="input input_login" name="password" placeholder="Password">

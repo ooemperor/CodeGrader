@@ -1,46 +1,46 @@
 {% extends "base.html" %}
 
 {% block core %}
-    <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-    <div id="main" class="main">
-        <div>
-            <h1 class="header1 core_content">Administrators</h1>
-        </div>
-        <p class="core_content">Admin Users</p>
-        {% if this.admin.check_permission('w') %}
-            <div>
-                <form action="{{ url_for('addAdmin') }}" method="GET">
-                    <button class="btn btn_create" type="submit">New Admin User</button>
-                </form>
-
-            </div>
-        {% endif %}
-        <table class="core_content table">
-            <tr>
-                <th class="head">Username</th>
-                <th class="head">Admin Type</th>
-                <th class="head">First Name</th>
-                <th class="head">Last Name</th>
-                <th class="head">E-Mail</th>
-                <th class="head">Profile</th>
-                <th class="head">Tag</th>
-            </tr>
-            {% for user in adminuser %}
-                <tr>
-                    <td class="data">
-                        <a href="{{ url_for('admin', id_ = user['id']) }}">
-                            {{ user["username"] }}
-                        </a>
-                    </td>
-                    <td class="data">{{ user["admin_type"]["name"] }}</td>
-                    <td class="data">{{ user["first_name"] }}</td>
-                    <td class="data">{{ user["last_name"] }}</td>
-                    <td class="data">{{ user["email"] }}</td>
-                    <td class="data">{{ user["profile"]["name"] }}</td>
-                    <td class="data">{{ user["tag"] }}</td>
-                </tr>
-            {% endfor %}
-
-        </table>
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main" class="main">
+    <div>
+        <h1 class="header1 core_content">Administrators</h1>
     </div>
+    <p class="core_content">Admin Users</p>
+    {% if this.admin.check_permission('w') %}
+    <div>
+        <form action="{{ url_for('addAdmin') }}" method="GET">
+            <button class="btn btn_create" type="submit">New Admin User</button>
+        </form>
+
+    </div>
+    {% endif %}
+    <table class="core_content table">
+        <tr>
+            <th class="head">Username</th>
+            <th class="head">Admin Type</th>
+            <th class="head">First Name</th>
+            <th class="head">Last Name</th>
+            <th class="head">E-Mail</th>
+            <th class="head">Profile</th>
+            <th class="head">Tag</th>
+        </tr>
+        {% for user in adminuser %}
+        <tr>
+            <td class="data">
+                <a href="{{ url_for('admin', id_ = user['id']) }}">
+                    {{ user["username"] }}
+                </a>
+            </td>
+            <td class="data">{{ user["admin_type"]["name"] }}</td>
+            <td class="data">{{ user["first_name"] }}</td>
+            <td class="data">{{ user["last_name"] }}</td>
+            <td class="data">{{ user["email"] }}</td>
+            <td class="data">{{ user["profile"]["name"] }}</td>
+            <td class="data">{{ user["tag"] }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>
 {% endblock core %}

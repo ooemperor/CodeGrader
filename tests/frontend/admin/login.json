@@ -1,0 +1,5 @@
+{
+  "_help": "This file is an example of how the login.sec.json must look like in order to run the frontend admin tests",
+  "username": "<INSERT_USERNAME>",
+  "password": "<INSERT_PASSWORD>"
+}

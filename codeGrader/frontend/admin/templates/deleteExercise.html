@@ -1,24 +1,26 @@
 {% extends "base.html" %}
 
 {% block core %}
-    <div id="main" class="main">
-        <div>
-            <h1 class="header1 core_content">Delete Exercise {{ username }}</h1>
-        </div>
-        <p class="core_content">Exercise {{ username }}</p>
-        <div class="core_content">
-            Are you sure you wanna delete Exercise {{ username }}?
-        </div>
-        
-        <form action="{{url_for('deleteExercise', id_ = id)}}" method="POST" class="core_content">
-            <div id="control_buttons">
-                <button name="action_button" id="btn_submit" class="btn btn_submit" type="submit" value="Submit">Submit</button>
-                <button name="action_button" id="btn_submit" class="btn btn_submit" type="submit" value="Cancel">Cancel</button>
-            </div>
-        </form>
-            
-
-        
-        
+<div id="main" class="main">
+    <div>
+        <h1 class="header1 core_content">Delete Exercise {{ username }}</h1>
     </div>
+    <p class="core_content">Exercise {{ username }}</p>
+    <div class="core_content">
+        Are you sure you wanna delete Exercise {{ username }}?
+    </div>
+
+    <form action="{{url_for('deleteExercise', id_ = id)}}" method="POST" class="core_content">
+        <div id="control_buttons">
+            <button name="action_button" id="btn_submit" class="btn btn_submit" type="submit"
+                value="Submit">Submit</button>
+            <button name="action_button" id="btn_submit" class="btn btn_submit" type="submit"
+                value="Cancel">Cancel</button>
+        </div>
+    </form>
+
+
+
+
+</div>
 {% endblock core %}

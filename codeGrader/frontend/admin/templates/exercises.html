@@ -7,7 +7,7 @@
             <h1 class="header1 core_content">Exercise</h1>
         </div>
         <p class="core_content">Exercise</p>
-        {% if this.admin.check_permission('w') %}
+        {% if this.admin.check_permission('w', create_object='exercise') %}
             <div>
                 <form action="{{ url_for('addExercise') }}" method="GET">
                     <button class="btn btn_create" type="submit">New Exercise</button>

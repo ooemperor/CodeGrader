@@ -32,7 +32,7 @@ class SessionAdmin(UserMixin):
         self.type = user_dict["admin_type"]
         self._admin_type_name = self.type["name"]
 
-    def check_permission(self, operation: str, profile_name: str = None) -> bool:
+    def check_permission(self, operation: str, profile_name: str = None, create_object: str = None) -> bool:
         """
         Check the permission of the admin for a given Operation and profile
         If the operation on the given profile is allowed we return true
@@ -41,6 +41,8 @@ class SessionAdmin(UserMixin):
         @type operation: str
         @param profile_name:
         @type profile_name: str
+        @param create_object: What type of object we want to create
+        @type create_object: str
         @return: True if the operation is allowed else false
         @rtype: bool
         """
@@ -63,8 +65,12 @@ class SessionAdmin(UserMixin):
                 return False
 
         elif operation == 'w':
-            if profile_name == self.profile_name and self._admin_type_name == config.admin_rw_partial:
+            if self._admin_type_name == config.admin_rw_partial and profile_name == self.profile_name:
                 return True
+
+            elif self._admin_type_name == config.admin_rw_partial and create_object not in [None, "profile"]:
+                return True
+
             else:
                 return False
 

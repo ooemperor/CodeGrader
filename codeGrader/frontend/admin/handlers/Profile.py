@@ -6,6 +6,7 @@ Handlers for the rendering of profiles
 import flask
 from flask import request, render_template, redirect, url_for, flash, Response
 from .Base import BaseHandler
+from typing import Union
 
 
 class ProfileListHandler(BaseHandler):
@@ -22,7 +23,7 @@ class ProfileListHandler(BaseHandler):
         @return: The rendered template
         @rtype: HTML
         """
-        profiles = self.api.get("/profiles", name=self.admin.profile_name)
+        profiles = self.api.get("/profiles", name=self.admin.get_filter_profile_name())
         return render_template("profiles.html", **profiles, this=self)
 
 
@@ -39,7 +40,7 @@ class ProfileHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int) -> str:
+    def get(self, id_: int) -> Union[str, Response]:
         """
         Get and render the page for a given profile by its id
         @param id_: The id of the profile
@@ -48,7 +49,15 @@ class ProfileHandler(BaseHandler):
         @rtype: HTML
         """
         profile = self.api.get(f"/profile/{id_}")
-        return render_template("profile.html", **profile)
+        editable = self.admin.check_permission('w', profile["name"])  # checking if admin has write rights
+        profile["editable"] = editable  # adding the rights to the render params
+
+        if self.admin.check_permission('r', profile["name"]):  # when admin is allowed to view this profile
+            return render_template("profile.html", **profile)
+
+        else:  # admin is not allowed to view this profile
+            self.flash("You are not allowed to view this profile. ")
+            return redirect(url_for("profiles"))
 
     def post(self, id_: int) -> Response:
         """
@@ -57,20 +66,27 @@ class ProfileHandler(BaseHandler):
         @return:
         """
         assert self.request.form is not None
-        profile_data = dict()
+        profile_before = self.api.get(f"/profile/{id_}")  # get the profile data
 
-        profile_data["name"] = self.get_value("name")
-        profile_data["tag"] = self.get_value("tag")
+        if self.admin.check_permission('w', profile_before["name"]): # admin is allowed to update
+            profile_data = dict()
 
-        # getting the data from the form provided in the request
-        self.api.put(f"/profile/{id_}", body=profile_data)
+            profile_data["name"] = self.get_value("name")
+            profile_data["tag"] = self.get_value("tag")
 
+            # getting the data from the form provided in the request
+            self.api.put(f"/profile/{id_}", body=profile_data)
+
+        else:
+            self.flash("You are not allowed to update this profile! ")
+
+        # either way redirect back to the profile
         return redirect(url_for("profile", id_=id_))
 
 
 class AddProfileHandler(BaseHandler):
     """
-    Class to handle the operations of creating a user.
+    Class to handle the operations of creating a profile.
     """
 
     def __init__(self, request: flask.Request) -> None:
@@ -86,8 +102,12 @@ class AddProfileHandler(BaseHandler):
         Render the template for adding
         @return: The rendered page
         """
+        if self.admin.check_permission('w'): # check if admin has general write permission
+            return render_template("addProfile.html")
 
-        return render_template("addProfile.html")
+        else: # admin has no write permission
+            self.flash("You are not allowed to access this site! ")
+            return redirect(url_for("profiles"))
 
     def post(self) -> Response:
         """
@@ -95,14 +115,18 @@ class AddProfileHandler(BaseHandler):
         get the data out of the request and create the profile in the backend via api
         @return: redirect to another page
         """
+        if self.admin.check_permission('w'): # admin has write permission to create profile
+            profile_data = dict()
 
-        profile_data = dict()
+            profile_data["name"] = self.get_value("name")
+            profile_data["tag"] = self.get_value("tag")
 
-        profile_data["name"] = self.get_value("name")
-        profile_data["tag"] = self.get_value("tag")
+            self.api.post("/profile/add", body=profile_data)
 
-        self.api.post("/profile/add", body=profile_data)
+        else: # admin does not have write permission
+            self.flash("You are not allowed to view this site. ")
 
+        # either way redirect back to profiles site
         return redirect(url_for("profiles"))
 
 
@@ -126,9 +150,16 @@ class DeleteProfileHandler(BaseHandler):
         @type id_: int
         @return: Rendered Template
         """
-        task = self.api.get(f"/profile/{id_}")
+        profile = self.api.get(f"/profile/{id_}")
 
-        return render_template("deleteProfile.html", **task)
+        editable = self.admin.check_permission('w', profile["profile"]["name"])
+
+        if editable:
+            return render_template("deleteProfile.html", **profile)
+
+        else:
+            self.flash("You are not allowed to delete profiles. ")
+            return redirect(url_for("profiles"))
 
     def post(self, id_: int) -> Response:
         """
@@ -138,16 +169,23 @@ class DeleteProfileHandler(BaseHandler):
         @type id_: int
         @return: Redirection to the Profile table
         """
-        if self.get_value("action_button") == "Submit":
-            response = self.api.delete(f"/profile/{id_}")
 
-            # display message that Profile has been deleted on the returned page.
-            self.flash("Profile has been deleted")
+        profile = self.api.get(f"/profile/{id_}")
+        if self.admin.check_permission('w'):  # admin is allowed to delete the profile
+            if self.get_value("action_button") == "Submit":
+                response = self.api.delete(f"/profile/{id_}")
+
+                # display message that Profile has been deleted on the returned page.
+                self.flash("Profile has been deleted")
+                return redirect(url_for("profiles"))
+
+            elif self.get_value("action_button") == "Cancel":
+                return redirect(url_for("profile", id_=id_))
+
+            else:
+                pass
+                # TODO Implement Error
+
+        else:  # admin is not allowed to delete profiles
+            self.flash("You are not allowed to delete profiles. ")
             return redirect(url_for("profiles"))
-
-        elif self.get_value("action_button") == "Cancel":
-            return redirect(url_for("profile", id_=id_))
-
-        else:
-            pass
-            # TODO Implement Error

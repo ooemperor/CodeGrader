@@ -57,7 +57,7 @@ class AdminHandler(BaseHandler):
         admin_types = self.api.get(f"/adminTypes")
         admin["types"] = admin_types["admin_type"]
 
-        profiles = self.api.get(f"/profiles", name=self.admin.profile_name)
+        profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())
         admin["profiles"] = profiles["profile"]
 
         return render_template("adminUser.html", **admin)
@@ -111,7 +111,7 @@ class AddAdminHandler(BaseHandler):
         admin_types = self.api.get(f"/adminTypes")
         admin_data["types"] = admin_types["admin_type"]
 
-        profiles = self.api.get(f"/profiles", name=self.admin.profile_name)
+        profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())
         admin_data["profiles"] = profiles["profile"]
 
         return render_template("addAdminUser.html", **admin_data)

@@ -1,23 +1,23 @@
 {% extends "base.html" %}
 
 {% block core %}
-    <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-    <div id="main" class="main">
-        <div>
-            <h1 class="header1 core_content">Home</h1>
-        </div>
-        <p class="core_content">Welcome to the CodeGrader</p>
-        <p class="core_content">A project  from University of Bern and BeLearn</p>
-        <div class="core_content">
-            <img src="{{ url_for('static', filename='img/ube.png') }}" alt="University of Bern" width="300">
-            <br>
-            <br>
-            <img src="{{ url_for('static', filename='img/belearn.png') }}" alt="BeLearn" width="500">
-            <br>
-            <br>
-            <img src="{{ url_for('static', filename='img/phbern.png') }}" alt="PH Bern" width="500">
-        </div>
-        
-
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main" class="main">
+    <div>
+        <h1 class="header1 core_content">Home</h1>
     </div>
+    <p class="core_content">Welcome to the CodeGrader</p>
+    <p class="core_content">A project from University of Bern and BeLearn</p>
+    <div class="core_content">
+        <img src="{{ url_for('static', filename='img/ube.png') }}" alt="University of Bern" width="300">
+        <br>
+        <br>
+        <img src="{{ url_for('static', filename='img/belearn.png') }}" alt="BeLearn" width="500">
+        <br>
+        <br>
+        <img src="{{ url_for('static', filename='img/phbern.png') }}" alt="PH Bern" width="500">
+    </div>
+
+
+</div>
 {% endblock core %}

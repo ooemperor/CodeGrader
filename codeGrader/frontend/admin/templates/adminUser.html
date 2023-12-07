@@ -1,91 +1,92 @@
 {% extends "base.html" %}
 
 {% block core %}
-    <div id="main" class="main">
-        <div>
-            <h1 class="header1 core_content">Admin User {{ username }}</h1>
-        </div>
-        <p class="core_content">Admin User {{ username }}</p>
-        
-        <form action="{{url_for('admin', id_ = id)}}" method="POST" class="core_content">
-            <div id="admin_user_data">
-                <table class="vertical_table">
-                    <tr>
-                        <td class="data">Username</td>
-                        <td class="data">
-                            <input class="input" type="text" id="input_username" name="username" value="{{ username }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="data">First Name</td>
-                        <td class="data">
-                            <input class="input" type="text" id="input_first_name" name="first_name" value="{{ first_name }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="data">Last Name</td>
-                        <td class="data">
-                            <input class="input" type="text" id="input_last_name" name="last_name" value="{{ last_name }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="data">E-Mail</td>
-                        <td class="data">
-                            <input class="input" type="text" id="input_email" name="email" value="{{ email }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="data">Tag</td>
-                        <td class="data">
-                            <input class="input" type="text" id="input_tag" name="tag" value="{{ tag }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="data">Admin Type</td>
-                        <td class="data">
-                            <select id="sel_admin_type" name="admin_type">
-                                {% for type in types %}
-                                    {% if admin_type['id'] == type['id'] %}
-                                        <option value="{{ type['id'] }}" selected>
-                                            {{ type['name'] }}
-                                        </option>
-                                    {% else %}
-                                        <option value="{{ type['id'] }}">
-                                            {{ type['name'] }}
-                                        </option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="data">Admin Profile</td>
-                        <td class="data">
-                            <select id="sel_profile" name="profile">
-                                {% if not profile[id] %}
-                                {% endif %}
-                                {% for prof in profiles %}
-                                    {% if prof['id'] == profile['id'] %}
-                                        <option value="{{ prof['id'] }}" selected>
-                                            {{ prof['name'] }}
-                                        </option>
-                                    {% else %}
-                                        <option value="{{ prof['id'] }}">
-                                            {{ prof['name'] }}
-                                        </option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div id="control_buttons">
-                <button id="btn_submit" class="btn btn_submit" type="submit">Submit</button>
-            </div>
-        </form>
-        <form action="{{ url_for('deleteAdmin', id_=id) }}" method="GET">
-            <button class="btn btn_delete" type="submit">Delete Admin</button>
-        </form>
+<div id="main" class="main">
+    <div>
+        <h1 class="header1 core_content">Admin User {{ username }}</h1>
     </div>
+    <p class="core_content">Admin User {{ username }}</p>
+
+    <form action="{{url_for('admin', id_ = id)}}" method="POST" class="core_content">
+        <div id="admin_user_data">
+            <table class="vertical_table">
+                <tr>
+                    <td class="data">Username</td>
+                    <td class="data">
+                        <input class="input" type="text" id="input_username" name="username" value="{{ username }}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="data">First Name</td>
+                    <td class="data">
+                        <input class="input" type="text" id="input_first_name" name="first_name"
+                            value="{{ first_name }}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="data">Last Name</td>
+                    <td class="data">
+                        <input class="input" type="text" id="input_last_name" name="last_name" value="{{ last_name }}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="data">E-Mail</td>
+                    <td class="data">
+                        <input class="input" type="text" id="input_email" name="email" value="{{ email }}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="data">Tag</td>
+                    <td class="data">
+                        <input class="input" type="text" id="input_tag" name="tag" value="{{ tag }}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="data">Admin Type</td>
+                    <td class="data">
+                        <select id="sel_admin_type" name="admin_type">
+                            {% for type in types %}
+                            {% if admin_type['id'] == type['id'] %}
+                            <option value="{{ type['id'] }}" selected>
+                                {{ type['name'] }}
+                            </option>
+                            {% else %}
+                            <option value="{{ type['id'] }}">
+                                {{ type['name'] }}
+                            </option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="data">Admin Profile</td>
+                    <td class="data">
+                        <select id="sel_profile" name="profile">
+                            {% if not profile[id] %}
+                            {% endif %}
+                            {% for prof in profiles %}
+                            {% if prof['id'] == profile['id'] %}
+                            <option value="{{ prof['id'] }}" selected>
+                                {{ prof['name'] }}
+                            </option>
+                            {% else %}
+                            <option value="{{ prof['id'] }}">
+                                {{ prof['name'] }}
+                            </option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="control_buttons">
+            <button id="btn_submit" class="btn btn_submit" type="submit">Submit</button>
+        </div>
+    </form>
+    <form action="{{ url_for('deleteAdmin', id_=id) }}" method="GET">
+        <button class="btn btn_delete" type="submit">Delete Admin</button>
+    </form>
+</div>
 {% endblock core %}

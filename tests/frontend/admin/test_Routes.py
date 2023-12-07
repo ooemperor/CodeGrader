@@ -1,7 +1,5 @@
 import unittest
 import requests, json
-import browser_cookie3
-import urllib.request
 from codeGrader.backend.config import config
 
 

@@ -1,33 +1,46 @@
 {% extends "base.html" %}
 
 {% block core %}
-    <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-    <div id="main" class="main">
-        <div>
-            <h1 class="header1 core_content">Subject</h1>
-        </div>
-        <p class="core_content">Subject</p>
-
-        <form action="{{url_for('addSubject')}}" method="POST" class="core_content">
-            <div id="subject_data">
-                <table class="vertical_table">
-                    <tr>
-                        <td class="data">Name</td>
-                        <td class="data">
-                            <input class="input" type="text" id="input_name" name="name" placeholder="Subject Name"">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="data">Tag</td>
-                        <td class="data">
-                            <input class="input" type="text" id="input_tag" name="tag" placeholder="Subject Tag">
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div id="control_buttons">
-                <button id="btn_submit" class="btn_submit" type="submit">Submit</button>
-            </div>
-        </form>
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main" class="main">
+    <div>
+        <h1 class="header1 core_content">Subject</h1>
     </div>
+    <p class="core_content">Subject</p>
+
+    <form action="{{url_for('addSubject')}}" method="POST" class="core_content">
+        <div id="subject_data">
+            <table class="vertical_table">
+                <tr>
+                    <td class="data">Name</td>
+                    <td class="data">
+                        <input class="input" type="text" id="input_name" name="name" placeholder="Subject Name"">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class=" data">Tag
+                    </td>
+                    <td class="data">
+                        <input class="input" type="text" id="input_tag" name="tag" placeholder="Subject Tag">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="data">Profile</td>
+                    <td class="data">
+                        <select id="sel_profile" name="profile">
+                            {% for prof in profiles %}
+                            <option value="{{ prof['id'] }}">
+                                {{ prof['name'] }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="control_buttons">
+            <button id="btn_submit" class="btn_submit" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
 {% endblock core %}

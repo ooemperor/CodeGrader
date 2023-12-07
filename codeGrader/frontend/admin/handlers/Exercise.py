@@ -6,6 +6,7 @@ Handlers for the rendering of exercise
 import flask
 from flask import request, render_template, redirect, url_for, flash, Response
 from .Base import BaseHandler
+from typing import Union
 
 
 class ExerciseListHandler(BaseHandler):
@@ -39,7 +40,7 @@ class ExerciseHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int) -> str:
+    def get(self, id_: int) -> Union[str, Response]:
         """
         Get and render the page for a given exercise by its id
         @param id_: The id of the exercise
@@ -48,7 +49,17 @@ class ExerciseHandler(BaseHandler):
         @rtype: HTML
         """
         exercise = self.api.get(f"/exercise/{id_}")
-        return render_template("exercise.html", **exercise)
+
+        editable = self.admin.check_permission('w', exercise["profile"]["name"])
+
+        exercise["editable"] = editable
+
+        if editable: # admin is allowed to see exercise
+            return render_template("exercise.html", **exercise)
+
+        else: # admin is not allowed to see exercise
+            self.flash("You are not allowed to view this exercise. ")
+            return redirect(url_for("exercises"))
 
     def post(self, id_: int) -> Response:
         """
@@ -57,20 +68,27 @@ class ExerciseHandler(BaseHandler):
         @return:
         """
         assert self.request.form is not None
-        exercise_data = dict()
 
-        exercise_data["name"] = self.get_value("name")
-        exercise_data["tag"] = self.get_value("tag")
+        exercise_before = self.api.get(f"/exercise/{id_}")  # get the exercise data
+        if self.admin.check_permission('w', exercise_before["profile"]["name"]):
+            exercise_data = dict()
 
-        # getting the data from the form provided in the request
-        self.api.put(f"/exercise/{id_}", body=exercise_data)
+            exercise_data["name"] = self.get_value("name")
+            exercise_data["tag"] = self.get_value("tag")
 
+            # getting the data from the form provided in the request
+            self.api.put(f"/exercise/{id_}", body=exercise_data)
+
+        else:  # admin is not allowed to update
+            self.flash("You are not allowed to update this exercise! ")
+
+        # either way redirect to the exercise
         return redirect(url_for("exercise", id_=id_))
 
 
 class AddExerciseHandler(BaseHandler):
     """
-    Class to handle the operations of creating a user.
+    Class to handle the operations of creating a exercise.
     """
 
     def __init__(self, request: flask.Request) -> None:
@@ -81,13 +99,18 @@ class AddExerciseHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self) -> str:
+    def get(self) -> Union[str, Response]:
         """
         Render the template for adding
         @return: The rendered page
         """
 
-        return render_template("addExercise.html")
+        if self.admin.check_permission('w', 'exercise'):
+            return render_template("addExercise.html")
+
+        else:  # admin is not allowed to view this exercise
+            self.flash("You are not allowed to access this site! ")
+            return redirect(url_for("exercises"))
 
     def post(self) -> Response:
         """
@@ -95,15 +118,17 @@ class AddExerciseHandler(BaseHandler):
         get the data out of the request and create the exercise in the backend via api
         @return: redirect to another page
         """
+        assert self.request.form is not None
 
-        exercise_data = dict()
+        if self.admin.check_permission('w', create_object='exercise'):
+            exercise_data = dict()
 
-        exercise_data["name"] = self.get_value("name")
-        exercise_data["tag"] = self.get_value("tag")
+            exercise_data["name"] = self.get_value("name")
+            exercise_data["tag"] = self.get_value("tag")
 
-        self.api.post("/exercise/add", body=exercise_data)
+            self.api.post("/exercise/add", body=exercise_data)
 
-        return redirect(url_for("exercises"))
+            return redirect(url_for("exercises"))
 
 
 class DeleteExerciseHandler(BaseHandler):
@@ -119,7 +144,7 @@ class DeleteExerciseHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int) -> str:
+    def get(self, id_: int) -> Union[str, Response]:
         """
         Get Handler to render the site for confirmation for deletion of a Exercise
         @param id_: The id_ of the Exercise
@@ -128,7 +153,14 @@ class DeleteExerciseHandler(BaseHandler):
         """
         task = self.api.get(f"/exercise/{id_}")
 
-        return render_template("deleteExercise.html", **task)
+        editable = self.admin.check_permission('w', exercise["profile"]["name"])
+
+        if editable:
+            return render_template("deleteExercise.html", **task)
+
+        else:
+            self.flash("You are not allowed to delete Exercises")
+            return redirect(url_for("exercises"))
 
     def post(self, id_: int) -> Response:
         """
@@ -138,16 +170,23 @@ class DeleteExerciseHandler(BaseHandler):
         @type id_: int
         @return: Redirection to the Exercise table
         """
-        if self.get_value("action_button") == "Submit":
-            response = self.api.delete(f"/exercise/{id_}")
+        exercise = self.api.get(f"/exercise/{id_}")
+        if self.admin.check_permission('w', exercise["profile"]["name"]):  # admin is allowed to delete the exercise
+            if self.get_value("action_button") == "Submit":
 
-            # display message that exercise has been deleted on the returned page.
-            self.flash("Exercise has been deleted")
+                response = self.api.delete(f"/exercise/{id_}")
+
+                # display message that exercise has been deleted on the returned page.
+                self.flash("Exercise has been deleted")
+                return redirect(url_for("exercises"))
+
+            elif self.get_value("action_button") == "Cancel":
+                return redirect(url_for("exercise", id_=id_))
+
+            else:
+                pass
+                # TODO Implement Error
+
+        else:  # admin is not allowed to delete exercises
+            self.flash("You are not allowed to delete exercises. ")
             return redirect(url_for("exercises"))
-
-        elif self.get_value("action_button") == "Cancel":
-            return redirect(url_for("exercise", id_=id_))
-
-        else:
-            pass
-            # TODO Implement Error

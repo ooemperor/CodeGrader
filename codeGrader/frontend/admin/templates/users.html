@@ -7,7 +7,7 @@
             <h1 class="header1 core_content">Users</h1>
         </div>
         <p class="core_content">Users</p>
-        {% if this.admin.check_permission('w') %}
+        {% if this.admin.check_permission('w', create_object='user') %}
             <div>
                 <form action="{{ url_for('addUser') }}" method="GET">
                     <button class="btn btn_create" type="submit">New User</button>

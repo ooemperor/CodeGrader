@@ -6,6 +6,7 @@ Handlers for the rendering of Subjects
 import flask
 from flask import request, render_template, redirect, url_for, flash, Response
 from .Base import BaseHandler
+from typing import Union
 
 
 class SubjectListHandler(BaseHandler):
@@ -39,7 +40,7 @@ class SubjectHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int) -> str:
+    def get(self, id_: int) -> Union[str, Response]:
         """
         Get and render the page for a given subject by its id
         @param id_: The id of the subject
@@ -48,7 +49,19 @@ class SubjectHandler(BaseHandler):
         @rtype: HTML
         """
         subject = self.api.get(f"/subject/{id_}")
-        return render_template("subject.html", **subject)
+        profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())  # get the profile data
+
+        subject["profiles"] = profiles["profile"]
+
+        editable = self.admin.check_permission('w', subject["profile"]["name"])
+        subject["editable"] = editable
+
+        if self.admin.check_permission('r', subject["profile"]["name"]):  # when admin is allowed to view this user
+            return render_template("subject.html", **subject)
+
+        else:  # admin is not allowed to view this subject
+            self.flash("You are not allowed to view this subject. ")
+            return redirect(url_for("subjects"))
 
     def post(self, id_: int) -> Response:
         """
@@ -57,20 +70,28 @@ class SubjectHandler(BaseHandler):
         @return:
         """
         assert self.request.form is not None
-        subject_data = dict()
+        subject_before = self.api.get(f"/subject/{id_}")  # get the subject data
+        if self.admin.check_permission('w', subject_before["profile"]["name"]):
+            subject_data = dict()
 
-        subject_data["name"] = self.get_value("name")
-        subject_data["tag"] = self.get_value("tag")
+            subject_data["name"] = self.get_value("name")
+            subject_data["tag"] = self.get_value("tag")
 
-        # getting the data from the form provided in the request
-        self.api.put(f"/subject/{id_}", body=subject_data)
+            subject_data["profile_id"] = self.get_value("profile")
 
+            # getting the data from the form provided in the request
+            self.api.put(f"/subject/{id_}", body=subject_data)
+
+        else:
+            self.flash("You are not allowed to update this subject! ")
+
+        # either way redirect back to the subject
         return redirect(url_for("subject", id_=id_))
 
 
 class AddSubjectHandler(BaseHandler):
     """
-    Class to handle the operations of creating a user.
+    Class to handle the operations of creating a subject.
     """
 
     def __init__(self, request: flask.Request) -> None:
@@ -81,13 +102,23 @@ class AddSubjectHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self) -> str:
+    def get(self) -> Union[str, Response]:
         """
         Render the template for adding
         @return: The rendered page
         """
+        if self.admin.check_permission('w', create_object="subject"):
+            profile_data = dict()
 
-        return render_template("addSubject.html")
+            profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())
+
+            profile_data["profiles"] = profiles["profile"]
+
+            return render_template("addSubject.html", **profile_data)
+
+        else:  # admin is not allowed to view this subject
+            self.flash("You are not allowed to access this site! ")
+            return redirect(url_for("subjects"))
 
     def post(self) -> Response:
         """
@@ -96,13 +127,20 @@ class AddSubjectHandler(BaseHandler):
         @return: redirect to another page
         """
 
-        subject_data = dict()
+        if self.admin.check_permission('w', create_object='subject'):
+            subject_data = dict()
 
-        subject_data["name"] = self.get_value("name")
-        subject_data["tag"] = self.get_value("tag")
+            subject_data["name"] = self.get_value("name")
+            subject_data["tag"] = self.get_value("tag")
 
-        self.api.post("/subject/add", body=subject_data)
+            subject_data["profile_id"] = self.get_value("profile")
 
+            self.api.post("/subject/add", body=subject_data)
+
+        else:
+            self.flash("You are not allowed to view this site. ")
+
+        # either way redirect to the subjects site.
         return redirect(url_for("subjects"))
 
 
@@ -119,7 +157,7 @@ class DeleteSubjectHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int) -> str:
+    def get(self, id_: int) -> Union[str, Response]:
         """
         Get Handler to render the site for confirmation for deletion of a Subject
         @param id_: The id_ of the Subject
@@ -127,8 +165,14 @@ class DeleteSubjectHandler(BaseHandler):
         @return: Rendered Template
         """
         subject = self.api.get(f"/subject/{id_}")
+        editable = self.admin.check_permission('w', subject["profile"]["name"])
 
-        return render_template("deleteSubject.html", **subject)
+        if editable:
+            return render_template("deleteSubject.html", **subject)
+
+        else:
+            self.flash("You are not allowed to delete subjects. ")
+            return redirect(url_for("subjects"))
 
     def post(self, id_: int) -> Response:
         """
@@ -138,16 +182,22 @@ class DeleteSubjectHandler(BaseHandler):
         @type id_: int
         @return: Redirection to the Subject table
         """
-        if self.get_value("action_button") == "Submit":
-            response = self.api.delete(f"/subject/{id_}")
+        subject = self.api.get(f"/subject/{id_}")
+        if self.admin.check_permission('w', subject["profile"]["name"]):  # admin is allowed to delete the subject
+            if self.get_value("action_button") == "Submit":
+                response = self.api.delete(f"/subject/{id_}")
 
-            # display message that Subject has been deleted on the returned page.
-            self.flash("Subject has been deleted")
+                # display message that Subject has been deleted on the returned page.
+                self.flash("Subject has been deleted")
+                return redirect(url_for("subjects"))
+
+            elif self.get_value("action_button") == "Cancel":
+                return redirect(url_for("subject", id_=id_))
+
+            else:
+                pass
+                # TODO Implement Error
+
+        else:  # admin is not allowed to see subjects
+            self.flash("You are not allowed to delete subjects. ")
             return redirect(url_for("subjects"))
-
-        elif self.get_value("action_button") == "Cancel":
-            return redirect(url_for("subject", id_=id_))
-
-        else:
-            pass
-            # TODO Implement Error

@@ -6,6 +6,7 @@ Handlers for the rendering of Task
 import flask
 from flask import request, render_template, redirect, url_for, flash, Response
 from .Base import BaseHandler
+from typing import Union
 
 
 class TaskListHandler(BaseHandler):
@@ -39,7 +40,7 @@ class TaskHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int) -> str:
+    def get(self, id_: int) -> Union[str, Response]:
         """
         Get and render the page for a given task by its id
         @param id_: The id of the task
@@ -48,7 +49,16 @@ class TaskHandler(BaseHandler):
         @rtype: HTML
         """
         task = self.api.get(f"/task/{id_}")
-        return render_template("task.html", **task)
+
+        editable = self.admin.check_permission('w', task["profile"]["name"])
+
+        task["editable"] = editable
+        if self.admin.check_permission('r', task["profile"]["name"]):  # when admin is allowed to view this task
+            return render_template("task.html", **task)
+
+        else:  # admin is not allowed to view this task
+            self.flash("You are not allowed to view this task. ")
+            return redirect(url_for("tasks"))
 
     def post(self, id_: int) -> Response:
         """
@@ -57,20 +67,27 @@ class TaskHandler(BaseHandler):
         @return:
         """
         assert self.request.form is not None
-        task_data = dict()
 
-        task_data["name"] = self.get_value("name")
-        task_data["tag"] = self.get_value("tag")
+        task_before = self.api.get(f"/task/{id_}")  # get the task data
+        if self.admin.check_permission('w', task_before["profile"]["name"]):
+            task_data = dict()
 
-        # getting the data from the form provided in the request
-        self.api.put(f"/task/{id_}", body=task_data)
+            task_data["name"] = self.get_value("name")
+            task_data["tag"] = self.get_value("tag")
 
+            # getting the data from the form provided in the request
+            self.api.put(f"/task/{id_}", body=task_data)
+
+        else:  # admin is not allowed
+            self.flash("You are not allowed to update this task")
+
+        # either way redirect to the task
         return redirect(url_for("task", id_=id_))
 
 
 class AddTaskHandler(BaseHandler):
     """
-    Class to handle the operations of creating a user.
+    Class to handle the operations of creating a task.
     """
 
     def __init__(self, request: flask.Request) -> None:
@@ -81,13 +98,19 @@ class AddTaskHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self) -> str:
+    def get(self) -> Union[str, Response]:
         """
         Render the template for adding
         @return: The rendered page
         """
 
-        return render_template("addTask.html")
+        if self.admin.check_permission('w', 'task'):
+
+            return render_template("addTask.html")
+
+        else:  # admin is not allowed to view this task
+            self.flash("You are not allowed to access this site! ")
+            return redirect(url_for("tasks"))
 
     def post(self) -> Response:
         """
@@ -95,13 +118,16 @@ class AddTaskHandler(BaseHandler):
         get the data out of the request and create the task in the backend via api
         @return: redirect to another page
         """
+        if self.admin.check_permission('w', create_object='task'):
+            task_data = dict()
 
-        task_data = dict()
+            task_data["name"] = self.get_value("name")
+            task_data["tag"] = self.get_value("tag")
 
-        task_data["name"] = self.get_value("name")
-        task_data["tag"] = self.get_value("tag")
+            self.api.post("/task/add", body=task_data)
 
-        self.api.post("/task/add", body=task_data)
+        else:
+            self.flash("You are not allowed to view this site")
 
         return redirect(url_for("tasks"))
 
@@ -119,16 +145,23 @@ class DeleteTaskHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int) -> str:
+    def get(self, id_: int) -> Union[str, Response]:
         """
         Get Handler to render the site for confirmation for deletion of a Task
-        @param id_: The id_ of the user
+        @param id_: The id_ of the task
         @type id_: int
         @return: Rendered Template
         """
         task = self.api.get(f"/task/{id_}")
 
-        return render_template("deleteTask.html", **task)
+        editable = self.admin.check_permission('w', task["profile"]["name"])
+
+        if editable:
+            return render_template("deleteTask.html", **task)
+
+        else:
+            self.flash("You are not allowed to delete users")
+            return redirect(url_for("tasks"))
 
     def post(self, id_: int) -> Response:
         """
@@ -138,16 +171,23 @@ class DeleteTaskHandler(BaseHandler):
         @type id_: int
         @return: Redirection to the Task table
         """
-        if self.get_value("action_button") == "Submit":
-            response = self.api.delete(f"/task/{id_}")
+        task = self.api.get(f"/task/{id_}")
+        if self.admin.check_permission('w', task["profile"]["name"]):  # admin is allowed to delete the task
 
-            # display message that task has been deleted on the returned page.
-            self.flash("Task has been deleted")
+            if self.get_value("action_button") == "Submit":
+                response = self.api.delete(f"/task/{id_}")
+
+                # display message that task has been deleted on the returned page.
+                self.flash("Task has been deleted")
+                return redirect(url_for("tasks"))
+
+            elif self.get_value("action_button") == "Cancel":
+                return redirect(url_for("task", id_=id_))
+
+            else:
+                pass
+                # TODO Implement Error
+
+        else:  # admin is not allowed to delete tasks
+            self.flash("You are not allowed to delete tasks. ")
             return redirect(url_for("tasks"))
-
-        elif self.get_value("action_button") == "Cancel":
-            return redirect(url_for("task", id_=id_))
-
-        else:
-            pass
-            # TODO Implement Error

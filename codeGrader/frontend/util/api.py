@@ -144,7 +144,7 @@ class ApiHandler:
         use PUT method on the API
         @param path: the path on which to call the request
         @type path: str
-        @param body: The body taht shall be attached to the request
+        @param body: The body that shall be attached to the request
         @type body: str
         @return: The response text of the API response
         @rtype: dict
@@ -152,7 +152,6 @@ class ApiHandler:
         assert body is not None
 
         response = self._make_request('PUT', path, body)
-
         assert (response.status_code == 200 or response.status_code == 204)
         assert response.text is not None
 

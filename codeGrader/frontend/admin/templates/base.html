@@ -47,7 +47,7 @@
         <a href="{{ url_for('tasks') }}">Tasks</a>
         <br>
         <div>
-            <a href="{{ url_for('logout') }}" class="btn_logout" >
+            <a href="{{ url_for('logout') }}" class="btn_logout">
                 Logout
             </a>
         </div>
@@ -57,22 +57,22 @@
         <span id="main-menu-button" class="btn-menu" onclick="openNav()">&equiv;</span>
     </div>
     {% with msgs = get_flashed_messages() %}
+    {% if msgs %}
+    <div id="flash" class="main flash">
         {% if msgs %}
-            <div id="flash" class="main flash">
-            {% if msgs %}
-                <ul class="list">
-                {% for msg in msgs %}
-                    <li class="item">{{ msg }}</li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-            </div>
+        <ul class="list">
+            {% for msg in msgs %}
+            <li class="item">{{ msg }}</li>
+            {% endfor %}
+        </ul>
         {% endif %}
+    </div>
+    {% endif %}
     {% endwith %}
-    
+
     {% block core %}
     {% endblock %}
-    
+
 </body>
 
 </html>
