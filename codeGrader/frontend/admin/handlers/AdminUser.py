@@ -133,7 +133,7 @@ class AddAdminHandler(BaseHandler):
 
         else:  # admin is not allowed to see this admin add page
             self.flash("You are not allowed to access this site")
-            return redirect(url_for(admins))
+            return redirect(url_for("admins"))
 
     def post(self) -> Response:
         """
