@@ -11,7 +11,7 @@ from flask import Flask, request, send_file
 from codeGrader.backend.config import config
 from codeGrader.backend.api.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, \
     ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler, TestCaseHandler, AdminUserLoginHandler, \
-    authentication, AdminTypeHandler, UserLoginHandler
+    authentication, AdminTypeHandler, UserLoginHandler, InstructionHandler, AttachmentHandler
 from codeGrader.backend.api.logger import Logger
 import logging
 
@@ -296,7 +296,7 @@ def exercises():
     return ExerciseHandler().get_all(request.args)
 
 
-@app.route("/uploadFile", methods=["POST"])
+@app.route("/file/upload", methods=["POST"])
 def uploadFile():
     """
     Route to upload a file, that will be stored within the database
@@ -409,6 +409,62 @@ def admin_types():
     @rtype: dict
     """
     return AdminTypeHandler().get_all(request.args)
+
+
+@app.route("/task/<int:task_id_>/attachment/add", methods=["POST"])
+def task_attachment_add(task_id_: int):
+    """
+    Adding an Attachment to a task
+    @param task_id_: The id_ of the task
+    @type task_id_: int
+    @return: Response in form of dictionary
+    @rtype: dict
+    """
+    if request.method == 'POST':
+        raise NotImplementedError
+
+
+@app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>", methods=["DELETE"])
+def task_attachment(task_id_: int, attachment_id_: int):
+    """
+    Adding an Attachment to a task
+    @param task_id_: The id of the task
+    @type task_id_: int
+    @param attachment_id_: The id of the attachment
+    @type attachment_id_: int
+    @return: Response in form of dictionary
+    @rtype: dict
+    """
+    if request.method == 'DELETE':
+        raise NotImplementedError
+
+
+@app.route("/task/<int:task_id_>/instruction/add", methods=["POST"])
+def task_instruction_add(task_id_: int):
+    """
+    Adding an Attachment to a task
+    @param task_id_: The id_ of the task
+    @type task_id_: int
+    @return: Response in form of dictionary
+    @rtype: dict
+    """
+    if request.method == 'POST':
+        raise NotImplementedError
+
+
+@app.route("/task/<int:task_id_>/instruction/<int:instruction_id_>", methods=["DELETE"])
+def task_instruction(task_id_: int, instruction_id_: int):
+    """
+    Adding an Attachment to a task
+    @param task_id_: The id of the task
+    @type task_id_: int
+    @param instruction_id_: The id of the instruction
+    @type instruction_id_: int
+    @return: Response in form of dictionary
+    @rtype: dict
+    """
+    if request.method == 'DELETE':
+        raise NotImplementedError
 
 
 # starting the web application

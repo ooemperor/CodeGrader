@@ -25,7 +25,7 @@ class LXC:
         self.name = name
         self.status = "stopped"
         self.ip = None
-        #self._lxc_setup()  # creating the lxc
+        self._lxc_setup()  # creating the lxc
 
     def _invariant_os(self):
         """

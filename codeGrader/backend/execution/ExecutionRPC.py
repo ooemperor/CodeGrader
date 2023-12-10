@@ -27,7 +27,6 @@ class ExecutionRPC(Service):
         # TODO: Enable this step in the final deployment
         self.evaluationRPC = rpyc.connect(config.evaluationHost, config.evaluationPort).root
 
-
     def start(self):
         """
         Starting the RPC Server

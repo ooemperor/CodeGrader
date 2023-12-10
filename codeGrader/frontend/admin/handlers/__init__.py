@@ -12,10 +12,13 @@ from .Profile import ProfileHandler, ProfileListHandler, AddProfileHandler, Dele
 from .Subject import SubjectHandler, SubjectListHandler, AddSubjectHandler, DeleteSubjectHandler
 from .Task import TaskHandler, TaskListHandler, AddTaskHandler, DeleteTaskHandler
 from .Exercise import ExerciseHandler, ExerciseListHandler, AddExerciseHandler, DeleteExerciseHandler
+from .TaskAttachment import AddTaskAttachment, DeleteTaskAttachment
+from .TaskInstruction import AddTaskInstruction, DeleteTaskInstruction
 
 __all__ = ["AdminUserLoginHandler", "AdminSessionHandler", "SessionAdmin", "UserListHandler", "UserHandler",
            "HomeHandler", "AdminHandler", "AdminListHandler", "ProfileListHandler", "ProfileHandler",
            "SubjectListHandler", "SubjectHandler", "ExerciseListHandler", "ExerciseHandler", "TaskHandler",
            "TaskListHandler", "AddAdminHandler", "AddProfileHandler", "AddExerciseHandler", "AddTaskHandler",
            "AddSubjectHandler", "AddUserHandler", "DeleteUserHandler", "DeleteTaskHandler", "DeleteAdminHandler",
-           "DeleteProfileHandler", "DeleteExerciseHandler", "DeleteUserHandler", "DeleteSubjectHandler"]
+           "DeleteProfileHandler", "DeleteExerciseHandler", "DeleteUserHandler", "DeleteSubjectHandler",
+           "AddTaskAttachment", "AddTaskInstruction", "DeleteTaskAttachment", "DeleteTaskInstruction"]

@@ -63,5 +63,42 @@
         <button class="btn btn_delete" type="submit">Delete Task</button>
     </form>
     {% endif %}
+    <br>
+
+    <div>
+        <h2 class="collapsible core_content">Instructions</h2>
+        <div class="collapsible_content">
+            Content here
+        </div>
+    </div>
+
+    <div>
+        <h2 class="collapsible core_content">Attachments</h2>
+        <div class="collapsible_content">
+            Content here
+            <form class="core_content" action="/action_page.php">
+                <input type="file" id="myFile" name="filename">
+                <input type="submit">
+              </form>
+        </div>
+    </div>
+    
+
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight){
+              content.style.maxHeight = null;
+            } else {
+              content.style.maxHeight = content.scrollHeight + "px";
+            } 
+          });
+        }
+    </script>
 </div>
 {% endblock core %}

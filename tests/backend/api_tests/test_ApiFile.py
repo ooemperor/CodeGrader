@@ -9,7 +9,7 @@ class ApiFileTest(unittest.TestCase):
         Test Case for creating and deleting a file in the database
         @return: No return
         """
-        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/uploadFile"
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/file/upload"
         file_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/file/"
 
         test_file = open("./backend/api_tests/AFileForTesting.txt", 'rb')

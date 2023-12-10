@@ -167,7 +167,7 @@ class DeleteTaskHandler(BaseHandler):
             return render_template("deleteTask.html", **task)
 
         else:
-            self.flash("You are not allowed to delete users")
+            self.flash("You are not allowed to delete tasks")
             return redirect(url_for("tasks"))
 
     def post(self, id_: int) -> Response:
@@ -198,3 +198,5 @@ class DeleteTaskHandler(BaseHandler):
         else:  # admin is not allowed to delete tasks
             self.flash("You are not allowed to delete tasks. ")
             return redirect(url_for("tasks"))
+
+
