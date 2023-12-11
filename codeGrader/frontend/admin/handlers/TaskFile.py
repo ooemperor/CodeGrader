@@ -97,7 +97,7 @@ class TaskFile(BaseHandler):
 
         else:  # admin is not allowed to view this task
             self.flash("You are not allowed to download this file. ")
-            return redirect(url_for("task", id_=id_))
+            return redirect(url_for("task", id_=task_id_))
 
 
 class DeleteTaskFile(BaseHandler):
