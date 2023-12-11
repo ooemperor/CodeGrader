@@ -5,6 +5,8 @@ Route definition and main File that runs the application.
 """
 import io
 import mimetypes
+import json
+import urllib
 from functools import wraps
 
 from flask import Flask, request, send_file
@@ -13,6 +15,7 @@ from codeGrader.backend.api.handlers import UserHandler, ProfileHandler, AdminUs
     ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler, TestCaseHandler, AdminUserLoginHandler, \
     authentication, AdminTypeHandler, UserLoginHandler, InstructionHandler, AttachmentHandler
 from codeGrader.backend.api.logger import Logger
+from codeGrader.backend.api.util import upload_file, preprocess_task_file
 import logging
 
 # construction of Application and DB Connection
@@ -304,13 +307,7 @@ def uploadFile():
     @rtype: dict
     """
     if request.method == 'POST':
-        if len(request.files.keys()) > 1:
-            return "Error", 500
-        else:
-            file_ = request.files[list(request.files.keys())[0]]
-            file_type = file_.filename.rsplit('.', 1)[1].lower()
-            data = {"filename": file_.filename, "fileExtension": file_type, "file": file_.read()}
-            return FileHandler().post(data)
+        return upload_file(request)
 
 
 @app.route("/file/<int:id_>", methods=["GET", "DELETE"])
@@ -415,16 +412,23 @@ def admin_types():
 def task_attachment_add(task_id_: int):
     """
     Adding an Attachment to a task
+    Using seperate method to first add the task and then create the link entry in the table between task and file
     @param task_id_: The id_ of the task
     @type task_id_: int
     @return: Response in form of dictionary
     @rtype: dict
     """
     if request.method == 'POST':
-        raise NotImplementedError
+        file_response = upload_file(request)[0]
+        file_id = file_response["response"]["id"]
+        attachment_data = request.form.to_dict()
+        attachment_data = json.loads(attachment_data["data"].replace("\'", "\""))
+        attachment_data['file_id'] = int(file_id)
+
+        return AttachmentHandler().post(attachment_data)
 
 
-@app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>", methods=["DELETE"])
+@app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>", methods=["GET", "DELETE"])
 def task_attachment(task_id_: int, attachment_id_: int):
     """
     Adding an Attachment to a task
@@ -435,8 +439,11 @@ def task_attachment(task_id_: int, attachment_id_: int):
     @return: Response in form of dictionary
     @rtype: dict
     """
-    if request.method == 'DELETE':
-        raise NotImplementedError
+    if request.method == 'GET':
+        return AttachmentHandler().get(attachment_id_)
+    elif request.method == 'DELETE':
+        return AttachmentHandler().delete(attachment_id_)
+        # deletion of file not needed because it is made automatically due to datamodel
 
 
 @app.route("/task/<int:task_id_>/instruction/add", methods=["POST"])
@@ -449,10 +456,11 @@ def task_instruction_add(task_id_: int):
     @rtype: dict
     """
     if request.method == 'POST':
-        raise NotImplementedError
+        instruction_data = preprocess_task_file(request)
+        return InstructionHandler().post(instruction_data)
 
 
-@app.route("/task/<int:task_id_>/instruction/<int:instruction_id_>", methods=["DELETE"])
+@app.route("/task/<int:task_id_>/instruction/<int:instruction_id_>", methods=["GET", "DELETE"])
 def task_instruction(task_id_: int, instruction_id_: int):
     """
     Adding an Attachment to a task
@@ -463,8 +471,11 @@ def task_instruction(task_id_: int, instruction_id_: int):
     @return: Response in form of dictionary
     @rtype: dict
     """
-    if request.method == 'DELETE':
-        raise NotImplementedError
+    if request.method == 'GET':
+        return InstructionHandler().get(instruction_id_)
+    elif request.method == 'DELETE':
+        return InstructionHandler().delete(instruction_id_)
+        # deletion of file not needed because it is made automatically due to datamodel
 
 
 # starting the web application

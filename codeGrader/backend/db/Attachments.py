@@ -53,8 +53,8 @@ class Instruction(Base):
         @rtype: dict
         """
         out_ = dict()
-        out_["instruction_id"] = self.id
-        out_["file"] = self.InstructionFile.toJSON(include_binary=False)
+        out_["id"] = self.id
+        out_["file"] = self.InstructionFile.toJson(include_binary=False)
         return out_
 
 
@@ -102,7 +102,7 @@ class Attachment(Base):
         @rtype: dict
         """
         out_ = dict()
-        out_["instruction_id"] = self.id
-        out_["file"] = self.AttachmentFile.toJSON(include_binary=False)
+        out_["id"] = self.id
+        out_["file"] = self.AttachmentFile.toJson(include_binary=False)
         return out_
 

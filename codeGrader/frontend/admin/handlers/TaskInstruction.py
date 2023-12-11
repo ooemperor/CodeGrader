@@ -7,11 +7,11 @@ Inherits from the TaskFile Classes
 import flask
 from flask import request, render_template, redirect, url_for, flash, Response
 from .Base import BaseHandler
-from .TaskFile import AddTaskFile, DeleteTaskFile
+from .TaskFile import AddTaskFile, DeleteTaskFile, TaskFile
 from typing import Union
 
 
-class AddTaskInstruction(AddTaskFile):
+class AddTaskInstructionHandler(AddTaskFile):
     """
     Handles the operation on TaskInstructions
     """
@@ -23,10 +23,25 @@ class AddTaskInstruction(AddTaskFile):
         @type request: flask.Request
         """
         super().__init__(request)
-        self.fileObject = "Instruction"
+        self.fileObject = "instruction"
 
 
-class DeleteTaskInstruction(DeleteTaskFile):
+class TaskInstructionHandler(AddTaskFile):
+    """
+    Handles the operation on TaskInstructions
+    """
+
+    def __init__(self, request: flask.Request) -> None:
+        """
+        Constructor of the Attachment Handler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+        self.fileObject = "instruction"
+
+
+class DeleteTaskInstructionHandler(DeleteTaskFile):
     """
     Handler to delete a TaskInstruction from the api backend
     """
@@ -39,4 +54,4 @@ class DeleteTaskInstruction(DeleteTaskFile):
         """
         super().__init__(request)
         self.templateName = "DeleteTaskInstruction.html"
-        self.fileObject = "Instruction"
+        self.fileObject = "instruction"

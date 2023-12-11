@@ -69,6 +69,19 @@
         <h2 class="collapsible core_content">Instructions</h2>
         <div class="collapsible_content">
             Content here
+            {% if instructions %}
+                {% for inst in instructions %}
+                <br>
+                <a href="{{ url_for('TaskInstruction', task_id_= id, instruction_id_ = inst['id']) }}" target="_blank" download>
+                    {{ inst["file"]["filename"] }}
+                </a>
+                <br>
+                {% endfor %}
+            {% endif %}
+            <form class="core_content" action="{{ url_for('addTaskInstruction', id_=id) }}" method="POST" enctype="multipart/form-data">
+                <input type="file" id="myFile" name="fileme.py">
+                <input type="submit">
+              </form>
         </div>
     </div>
 
@@ -76,8 +89,17 @@
         <h2 class="collapsible core_content">Attachments</h2>
         <div class="collapsible_content">
             Content here
-            <form class="core_content" action="/action_page.php">
-                <input type="file" id="myFile" name="filename">
+            {% if attachments %}
+                {% for att in attachments %}
+                    <br>
+                    <a href="{{ url_for('TaskAttachment', task_id_= id, attachment_id_ = att['id']) }}" target="_blank" download>
+                        {{ att["file"]["filename"] }}
+                    </a>
+                    <br>
+                {% endfor %}
+            {% endif %}
+            <form class="core_content" action="{{ url_for('addTaskAttachment', id_=id) }}" method="POST" enctype="multipart/form-data">
+                <input type="file" id="myFile" name="fileme.py">
                 <input type="submit">
               </form>
         </div>

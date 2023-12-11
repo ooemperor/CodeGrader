@@ -31,7 +31,7 @@ class ApiHandler:
         self.authentication_type = authentication_type
         self.authentication_token = authentication_token
 
-    def _make_request(self, method: str, path: str, body: str = None) -> Response:
+    def _make_request(self, method: str, path: str, body: str = None, data: str = None, files: str = None) -> Response:
         """
         Make an Api Request on the given path with the given
         @param method: The Method to use in the api
@@ -40,6 +40,10 @@ class ApiHandler:
         @type path: str
         @param body: The body of the request that shall be made
         @type body: str / dict
+        @param data: The data of the request that shall be made
+        @type data: str / dict
+        @param files: The files of the request that shall be made
+        @type files: str / dict
         @return: Formatted response of the api.
         @rtype:
         """
@@ -53,12 +57,12 @@ class ApiHandler:
             response = requests.get(path, headers=headers)
 
         elif method == 'POST':
-            assert body is not None
-            response = requests.post(path, headers=headers, json=body)
+            assert body is not None or data is not None or files is not None
+            response = requests.post(path, headers=headers, json=body, data=data, files=files)
 
         elif method == 'PUT':
             assert body is not None
-            response = requests.put(path, headers=headers, json=body)
+            response = requests.put(path, headers=headers, json=body, data=data, files=files)
 
         elif method == 'DELETE':
             assert body is None
@@ -121,37 +125,47 @@ class ApiHandler:
 
         return self._cast_dict(response.text)
 
-    def post(self, path: str, body: str = None) -> dict:
+    def post(self, path: str, body: Union[str, dict] = None, data: Union[str, dict] = None,
+             files: Union[str, dict] = None) -> dict:
         """
         use POST method on the API
         @param path: the path on which to call the request
         @type path: str
         @param body: The body taht shall be attached to the request
         @type body: str
+        @param data: The data that shall be attached to the request, used when we wanna transfer data body and files
+        @type data: str
+        @param files: The files that shall be attached to the request
+        @type files: str
         @return: The response text of the API response
         @rtype: str
         """
-        assert body is not None
-        response = self._make_request('POST', path, body)
+        assert body is not None or data is not None or files is not None
+        response = self._make_request('POST', path, body, data, files)
 
         assert (response.status_code == 200 or response.status_code == 201)
         assert response.text is not None
 
         return self._cast_dict(response.text)
 
-    def put(self, path: str, body: str = None) -> dict:
+    def put(self, path: str, body: Union[str, dict] = None, data: Union[str, dict] = None,
+            files: Union[str, dict] = None) -> dict:
         """
         use PUT method on the API
         @param path: the path on which to call the request
         @type path: str
         @param body: The body that shall be attached to the request
         @type body: str
+        @param data: The data that shall be attached to the request, used when we wanna transfer data body and files
+        @type data: str
+        @param files: The files that shall be attached to the request
+        @type files: str
         @return: The response text of the API response
         @rtype: dict
         """
         assert body is not None
 
-        response = self._make_request('PUT', path, body)
+        response = self._make_request('PUT', path, body, data, files)
         assert (response.status_code == 200 or response.status_code == 204)
         assert response.text is not None
 
@@ -171,3 +185,18 @@ class ApiHandler:
         assert response.text is not None
 
         return self._cast_dict(response.text)
+
+    def get_file(self, path: str, **kwargs) -> Response:
+        """
+        use GET Method on the API specifically to download files
+        @param path: the path on which to call the request
+        @type path: str
+        @return: The response text of the API response
+        @rtype: str
+        """
+        path = self._construct_filter(path, **kwargs)
+        response = self._make_request('GET', path)
+        assert response.status_code == 200
+        assert response.text is not None
+
+        return response

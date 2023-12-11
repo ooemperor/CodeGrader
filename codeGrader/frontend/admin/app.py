@@ -14,7 +14,8 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
     ProfileHandler, SubjectListHandler, SubjectHandler, TaskHandler, TaskListHandler, ExerciseHandler, \
     ExerciseListHandler, AddAdminHandler, AddProfileHandler, AddUserHandler, AddTaskHandler, AddExerciseHandler, \
     AddSubjectHandler, DeleteUserHandler, DeleteSubjectHandler, DeleteAdminHandler, DeleteTaskHandler, \
-    DeleteExerciseHandler, DeleteProfileHandler
+    DeleteExerciseHandler, DeleteProfileHandler, AddTaskAttachmentHandler, DeleteTaskAttachmentHandler, \
+    AddTaskInstructionHandler, DeleteTaskInstructionHandler, TaskInstructionHandler, TaskAttachmentHandler
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 
@@ -404,6 +405,104 @@ def deleteTask(id_: int) -> Union[Response, str]:
         return DeleteTaskHandler(request).get(id_)
     elif request.method == 'POST':
         return DeleteTaskHandler(request).post(id_)
+
+
+@app.route("/task/<int:id_>/attachment/add", methods=['POST'])
+@login_required
+def addTaskAttachment(id_: int) -> Union[Response, str]:
+    """
+    Adding a Attachment File to a Task
+    @param id_: The id of the task that we wanna add the attachment to
+    @type id_: int
+    @return: Redirect to another view
+    @rtype: Response/str
+    """
+    if request.method == 'POST':
+        return AddTaskAttachmentHandler(request).post(id_)
+
+
+@app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>", methods=['GET'])
+@login_required
+def TaskAttachment(task_id_: int, attachment_id_:int) -> Union[Response, str]:
+    """
+    Adding an Attachment File to a Task
+    @param task_id_: The id of the task
+    @type task_id_: int
+    @param attachment_id_: The id of the Attachment
+    @type attachment_id_: int
+    @return: Redirect to another view
+    @rtype: Response/str
+    """
+    if request.method == 'GET':
+        return TaskAttachmentHandler(request).get(task_id_, attachment_id_)
+
+
+@app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>/delete>", methods=['GET', 'POST'])
+@login_required
+def deleteTaskAttachment(task_id_: int, attachment_id_:int) -> Union[Response, str]:
+    """
+    Deleting an Attachment from Task
+    @param task_id_: The id of the task
+    @type task_id_: int
+    @param attachment_id_: The id of the Attachment
+    @type attachment_id_: int
+    @return: Redirect to another view
+    @rtype: Response/str
+    """
+    if request.method == 'GET':
+        return DeleteTaskAttachmentHandler(request).get(attachment_id_)
+
+    elif request.method == 'POST':
+        return DeleteTaskAttachmentHandler(request).post(attachment_id_)
+
+
+@app.route("/task/<int:id_>/instruction/add", methods=['POST'])
+@login_required
+def addTaskInstruction(id_: int) -> Union[Response, str]:
+    """
+    Adding an Instruction File to a Task
+    @param id_: The id of the task that we wanna add the Instruction to
+    @type id_: int
+    @return: Redirect to another view
+    @rtype: Response/str
+    """
+    if request.method == 'POST':
+        return AddTaskInstructionHandler(request).post(id_)
+
+
+@app.route("/task/<int:task_id_>/instruction/<int:instruction_id_>", methods=['GET'])
+@login_required
+def TaskInstruction(task_id_: int, instruction_id_:int) -> Union[Response, str]:
+    """
+    Getting the file for a Task Instruction
+    @param task_id_: The id of the task
+    @type task_id_: int
+    @param instruction_id_: The id of the Attachment
+    @type instruction_id_: int
+    @return: Redirect to another view
+    @rtype: Response/str
+    """
+    if request.method == 'GET':
+        return TaskInstructionHandler(request).get(task_id_, instruction_id_)
+
+
+@app.route("/task/<int:task_id_>/instruction/<int:instruction_id_>/delete", methods=['GET', 'POST'])
+@login_required
+def deleteTaskInstruction(task_id_: int, instruction_id_: int) -> Union[Response, str]:
+    """
+    Deleting an Instruction from a Task
+    @param task_id_: The id of the task
+    @type task_id_: int
+    @param instruction_id_: The id of the Attachment
+    @type instruction_id_: int
+    @return: Redirect to another view
+    @rtype: Response/str
+    """
+    if request.method == 'GET':
+        return DeleteTaskInstructionHandler(request).get(instruction_id_)
+
+    elif request.method == 'DELETE':
+        return DeleteTaskInstructionHandler(request).post(instruction_id_)
 
 
 if __name__ == "__main__":

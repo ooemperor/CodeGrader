@@ -109,7 +109,7 @@ class BaseHandler:
 
     def put(self, id_: int, dict_: dict):
         """
-        Updating a existing Object in the database
+        Updating an existing Object in the database
         @param id_: The identifier of the object
         @type id_: int
         @param dict_: the arguments for the object that are updated

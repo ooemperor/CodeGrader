@@ -2,11 +2,14 @@
 Handlers for the handling of the TaskFiles
 @author: mkaiser
 """
+import mimetypes
 
 import flask
-from flask import request, render_template, redirect, url_for, flash, Response
+import requests
+from flask import request, render_template, redirect, url_for, flash, Response, send_file, stream_with_context
 from .Base import BaseHandler
 from typing import Union
+import io
 
 
 class AddTaskFile(BaseHandler):
@@ -31,20 +34,70 @@ class AddTaskFile(BaseHandler):
         """
         assert self.request.form is not None
         assert self.request.files is not None
-
         task_before = self.api.get(f"/task/{id_}")  # get the task data
         if self.admin.check_permission('w', task_before["profile"]["id"]):
+            for file_key in self.request.files.keys():
 
-            for file in self.request.files:
-                # upload the files to the
-                # TODO: implement the uplaod
-                raise NotImplementedError
+                file = self.request.files[file_key]
 
-        else:  # admin is not allowed
+                # upload the files to the backend api
+                files = {file.filename: file}
+                data = {"data": str({"task_id": id_, "file_id": 0})}  # file_id will be overwritten in the backend
+
+                # constructing the url of the api call
+                url = f"/task/{id_}/{self.fileObject}/add"
+
+                self.api.post(url, data=data, files=files)
+
+        else:  # admin is not allowed to access
             self.flash("You are not allowed to update this task")
 
         # either way redirect to the task
         return redirect(url_for("task", id_=id_))
+
+
+class TaskFile(BaseHandler):
+    """
+    Handles the download (GET) Operation on a TaskFile (Attachment and Instruction)
+    """
+
+    def __init__(self, request: flask.Request) -> None:
+        """
+        Constructor of the TaskFile Handler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+        self.fileObject = None
+
+    def get(self, task_id_: int, task_file_id: int) -> Union[str, Response]:
+        """
+        Get and render the page for a given TaskFile by its id
+        @param task_id_: The id of the Task
+        @type task_id_: int
+        @param task_file_id: The id of the TaskFile
+        @type task_file_id: int
+        @return: The File as a download
+        @rtype: HTML
+        """
+        task = self.api.get(f"/task/{task_id_}")
+
+        editable = self.admin.check_permission('w', task["profile"]["id"])
+
+        if self.admin.check_permission('r', task["profile"]["id"]):  # when admin is allowed to view this File
+
+            file_data = self.api.get(f"/task/{task_id_}/{self.fileObject}/{task_file_id}")
+            file_id_ = file_data["file"]["id"]
+
+            req = self.api.get_file(f"/file/{file_id_}")
+
+            req.headers['Content-Disposition'] = 'attachment;filename=SmartFileName.txt'
+            return Response(stream_with_context(req.iter_content(chunk_size=2048)),
+                            content_type=req.headers["content-type"])
+
+        else:  # admin is not allowed to view this task
+            self.flash("You are not allowed to download this file. ")
+            return redirect(url_for("task", id_=id_))
 
 
 class DeleteTaskFile(BaseHandler):
@@ -105,5 +158,3 @@ class DeleteTaskFile(BaseHandler):
         else:  # admin is not allowed to delete tasks
             self.flash("You are not allowed to delete Files from tasks. ")
             return redirect(url_for("task", id_=id_))
-
-

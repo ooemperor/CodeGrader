@@ -44,20 +44,20 @@ class File(Base):
         "Instruction",
         collection_class=ordering_list("id"),
         order_by="[Instruction.id]",
-        # cascade="all",
+        cascade="all",
         passive_deletes=True,
         lazy="noload",
-        backref=backref("InstructionFile", lazy="joined")
+        backref=backref("InstructionFile", lazy="joined", cascade="all, delete")
     )
 
     attachments = relationship(
         "Attachment",
         collection_class=ordering_list("id"),
         order_by="[Attachment.id]",
-        # cascade="all",
+        cascade="all, delete",
         passive_deletes=True,
         lazy="noload",
-        backref=backref("AttachmentFile", lazy="joined")
+        backref=backref("AttachmentFile", lazy="joined", cascade="all, delete")
     )
 
     def getFileContent(self) -> memoryview:
@@ -79,6 +79,7 @@ class File(Base):
         @rtype: dict
         """
         out = dict()
+        out["id"] = self.id
         out["filename"] = self.filename
         out["fileExtension"] = self.fileExtension
         if include_binary:
