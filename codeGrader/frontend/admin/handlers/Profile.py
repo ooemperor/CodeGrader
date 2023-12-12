@@ -152,7 +152,7 @@ class DeleteProfileHandler(BaseHandler):
         """
         profile = self.api.get(f"/profile/{id_}")
 
-        editable = self.admin.check_permission('w', profile["profile"]["id"])
+        editable = self.admin.check_permission('w', profile["id"])
 
         if editable:
             return render_template("deleteProfile.html", **profile)

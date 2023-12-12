@@ -5,19 +5,24 @@
     <div>
         <h1 class="header1 core_content">Delete Attachment {{ file['filename'] }}</h1>
     </div>
-    <p class="core_content">Attachment {{ file['filename'] }}</p>
-    <div class="core_content">
+    <div class="row">
+        <p>Attachment {{ file['filename'] }}</p>
+    </div>
+    <div class="row">
         Are you sure you wanna delete Attachment {{ file['filename'] }}?
     </div>
 
-    <form action="{{url_for('deleteAttachment', attachment_id_ = id)}}" method="POST" class="core_content">
-        <div id="control_buttons">
-            <button name="action_button" id="btn_submit" class="btn btn_submit" type="submit"
-                value="Submit">Submit</button>
-            <button name="action_button" id="btn_submit" class="btn btn_submit" type="submit"
-                value="Cancel">Cancel</button>
-        </div>
-    </form>
+    <div class="row">
+        <form action="{{url_for('deleteAttachment', attachment_id_ = id)}}" method="POST" class="core_content">
+            <div id="control_buttons">
+                <button name="action_button" id="btn_submit" class="btn btn-success" type="submit"
+                    value="Submit">Submit</button>
+                <button name="action_button" id="btn_submit" class="btn btn-danger" type="submit"
+                    value="Cancel">Cancel</button>
+            </div>
+        </form>
+
+    </div>
 
 
 

@@ -6,38 +6,47 @@
     <div>
         <h1 class="header1 core_content">Profile {{ name }}</h1>
     </div>
-    <p class="core_content">Profile {{ name }}</p>
+    <div class="row">
+        <p class="core_content">Profile {{ name }}</p>
+    </div>
+    <div class="row">
+        <form action="{{url_for('profile', id_ = id)}}" method="POST" class="core_content">
+            <div class="table-responsive" id="profile_data">
+                <table class="table">
+                    <tr>
+                        <td>Name</td>
+                        <td>
+                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_name"
+                                name="name" value="{{ name }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tag
+                        </td>
+                        <td>
+                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_tag"
+                                name="tag" value="{{ tag }}">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            {% if editable %}
+            <div id="control_buttons">
+                <button id="btn_submit" class="btn btn-success" type="submit">Submit</button>
+            </div>
+            {% endif %}
+        </form>
+    </div>
 
-    <form action="{{url_for('profile', id_ = id)}}" method="POST" class="core_content">
-        <div id="profile_data">
-            <table class="vertical_table">
-                <tr>
-                    <td class="data">Name</td>
-                    <td class="data">
-                        <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_name"
-                            name="name" value="{{ name }}">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="data">Tag</td>
-                    <td class="data">
-                        <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_tag"
-                            name="tag" value="{{ tag }}">
-                    </td>
-                </tr>
-            </table>
-        </div>
-        {% if editable %}
-        <div id="control_buttons">
-            <button id="btn_submit" class="btn btn_submit" type="submit">Submit</button>
-        </div>
-        {% endif %}
-    </form>
+   
 
     {% if editable %}
-    <form action="{{ url_for('deleteProfile', id_=id) }}" method="GET">
-        <button class="btn btn_delete" type="submit">Delete Profile</button>
-    </form>
+    <div class="row py-2">
+        <form action="{{ url_for('deleteProfile', id_=id) }}" method="GET">
+            <button class="btn btn-danger" type="submit">Delete Profile</button>
+        </form>
+    </div>
     {% endif %}
 </div>
 {% endblock core %}

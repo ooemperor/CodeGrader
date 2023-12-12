@@ -172,4 +172,4 @@ class RouteTest(unittest.TestCase):
         r = requests.get(self.url + route, cookies=self.cookies)
         self.assertIsNotNone(r)
         self.assertEqual(200, r.status_code)
-        self.assertTrue("input input_login" in r.text)
+        self.assertTrue("btn_login" in r.text)

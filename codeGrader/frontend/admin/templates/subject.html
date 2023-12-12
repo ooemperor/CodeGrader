@@ -6,96 +6,93 @@
     <div>
         <h1 class="header1 core_content">Subject {{ name }}</h1>
     </div>
-    <p class="core_content">Subject {{ name }}</p>
+    <div class="row">
+        <p class="core_content">Subject {{ name }}</p>
+    </div>
 
-    <form action="{{url_for('subject', id_ = id)}}" method="POST" class="core_content">
-        <div id="subject_data">
-            <table class="vertical_table">
-                <tr>
-                    <td class="data">Name</td>
-                    <td class="data">
-                        <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_name"
-                            name="name" value="{{ name }}">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="data">Tag</td>
-                    <td class="data">
-                        <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_tag"
-                            name="tag" value="{{ tag }}">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="data">Profile</td>
-                    {% if editable %}
-                    <td class="data">
-                        <select id="sel_profile" name="profile">
-                            {% if not profile[id] %}
-                            {% endif %}
-                            {% for prof in profiles %}
-                            {% if prof['id'] == profile['id'] %}
-                            <option value="{{ prof['id'] }}" selected>
-                                {{ prof['name'] }}
-                            </option>
-                            {% else %}
-                            <option value="{{ prof['id'] }}">
-                                {{ prof['name'] }}
-                            </option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                    </td>
-                    {% else %}
-                    <td class="data">
-                        <input class="input" type="text" id="input_profile" name="profile" value="{{ profile['name'] }}"
-                            {% if not editable %} readonly {% endif %}>
-                    </td>
-                    {% endif %}
-                </tr>
-            </table>
-        </div>
-        {% if editable%}
-        <div id="control_buttons">
-            <button id="btn_submit" class="btn btn_submit" type="submit">Submit</button>
-        </div>
-        {% endif %}
+    <div class="row">
 
-    </form>
+
+        <form action="{{url_for('subject', id_ = id)}}" method="POST" class="core_content">
+            <div class="table-responsive" id="subject_data">
+                <table class="table">
+                    <tr>
+                        <td>Name</td>
+                        <td>
+                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_name"
+                                name="name" value="{{ name }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tag</td>
+                        <td >
+                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_tag"
+                                name="tag" value="{{ tag }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="data">Profile</td>
+                        {% if editable %}
+                        <td>
+                            <select id="sel_profile" name="profile">
+                                {% if not profile[id] %}
+                                {% endif %}
+                                {% for prof in profiles %}
+                                {% if prof['id'] == profile['id'] %}
+                                <option value="{{ prof['id'] }}" selected>
+                                    {{ prof['name'] }}
+                                </option>
+                                {% else %}
+                                <option value="{{ prof['id'] }}">
+                                    {{ prof['name'] }}
+                                </option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                        {% else %}
+                        <td>
+                            <input type="text" id="input_profile" name="profile"
+                                value="{{ profile['name'] }}" {% if not editable %} readonly {% endif %}>
+                        </td>
+                        {% endif %}
+                    </tr>
+                </table>
+            </div>
+            {% if editable%}
+            <div id="control_buttons">
+                <button id="btn_submit" class="btn btn-success" type="submit">Submit</button>
+            </div>
+            {% endif %}
+
+        </form>
+    </div>
+
+
     {% if editable %}
-    <form action="{{ url_for('deleteSubject', id_=id) }}" method="GET">
-        <button class="btn btn_delete" type="submit">Delete Subject</button>
-    </form>
+    <div class="row py-2">
+        <form action="{{ url_for('deleteSubject', id_=id) }}" method="GET">
+            <button class="btn btn-danger" type="submit">Delete Subject</button>
+        </form>
+    </div>
     {% endif %}
-    
-    <br>
 
-    <div>
-        <h2 class="collapsible core_content">Exercises</h2>
-        <div class="collapsible_content">
-            {% for ex in exercises %}
+
+    <div class="py-4">
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" href="#collapseExercises" role="button"
+            aria-expanded="false" aria-controls="collapseExercises">
+            Exercises
+        </button>
+        <div class="collapse p-4" id="collapseExercises">
+            <div>
+                {% for ex in exercises %}
                 <a class="core_content" href="{{ url_for('exercise', id_ = ex['id']|string) }}">
                     {{ ex["name"] }}
                 </a>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
-    
 
-    <script>
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
-        
-        for (i = 0; i < coll.length; i++) {
-          coll[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight){
-              content.style.maxHeight = null;
-            } else {
-              content.style.maxHeight = content.scrollHeight + "px";
-            } 
-          });
-        }
-    </script>
+    </div>
 </div>
 {% endblock core %}
