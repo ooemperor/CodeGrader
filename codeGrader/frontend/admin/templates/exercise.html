@@ -71,7 +71,9 @@
         <h2 class="collapsible core_content">Tasks</h2>
         <div class="collapsible_content">
             {% for t in tasks %}
-                <p class="core_content">{{ t['name'] }}</p>
+                <a class="core_content" href="{{ url_for('task', id_ = t['id']|string) }}">
+                    {{ t["name"] }}
+                </a>
             {% endfor %}
         </div>
     </div>

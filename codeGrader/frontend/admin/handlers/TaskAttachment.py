@@ -53,7 +53,7 @@ class DeleteTaskAttachmentHandler(DeleteTaskFile):
         @type request: flask.Request
         """
         super().__init__(request)
-        self.templateName = "DeleteTaskAttachment.html"
+        self.templateName = "deleteTaskAttachment.html"
         self.fileObject = "attachment"
 
 

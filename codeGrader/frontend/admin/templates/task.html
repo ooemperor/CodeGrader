@@ -72,7 +72,7 @@
             {% if instructions %}
                 {% for inst in instructions %}
                 <br>
-                <a href="{{ url_for('TaskInstruction', task_id_= id, instruction_id_ = inst['id']) }}" target="_blank" download>
+                <a href="{{ url_for('TaskInstruction', task_id_= id, instruction_id_ = inst['id']) }}" target="_blank" download="{{ inst['file']['filename'] }}">
                     {{ inst["file"]["filename"] }}
                 </a>
                 <br>
@@ -92,7 +92,7 @@
             {% if attachments %}
                 {% for att in attachments %}
                     <br>
-                    <a href="{{ url_for('TaskAttachment', task_id_= id, attachment_id_ = att['id']) }}" target="_blank" download>
+                    <a href="{{ url_for('TaskAttachment', task_id_= id, attachment_id_ = att['id']) }}" target="_blank" download="{{ att['file']['filename'] }}">
                         {{ att["file"]["filename"] }}
                     </a>
                     <br>

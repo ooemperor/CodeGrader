@@ -26,7 +26,7 @@ class AddTaskInstructionHandler(AddTaskFile):
         self.fileObject = "instruction"
 
 
-class TaskInstructionHandler(AddTaskFile):
+class TaskInstructionHandler(TaskFile):
     """
     Handles the operation on TaskInstructions
     """
@@ -53,5 +53,5 @@ class DeleteTaskInstructionHandler(DeleteTaskFile):
         @type request: flask.Request
         """
         super().__init__(request)
-        self.templateName = "DeleteTaskInstruction.html"
+        self.templateName = "deleteTaskInstruction.html"
         self.fileObject = "instruction"

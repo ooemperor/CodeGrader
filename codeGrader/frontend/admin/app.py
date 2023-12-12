@@ -450,10 +450,10 @@ def deleteTaskAttachment(task_id_: int, attachment_id_:int) -> Union[Response, s
     @rtype: Response/str
     """
     if request.method == 'GET':
-        return DeleteTaskAttachmentHandler(request).get(attachment_id_)
+        return DeleteTaskAttachmentHandler(request).get(task_id_, attachment_id_)
 
     elif request.method == 'POST':
-        return DeleteTaskAttachmentHandler(request).post(attachment_id_)
+        return DeleteTaskAttachmentHandler(request).post(task_id_, attachment_id_)
 
 
 @app.route("/task/<int:id_>/instruction/add", methods=['POST'])
@@ -499,10 +499,10 @@ def deleteTaskInstruction(task_id_: int, instruction_id_: int) -> Union[Response
     @rtype: Response/str
     """
     if request.method == 'GET':
-        return DeleteTaskInstructionHandler(request).get(instruction_id_)
+        return DeleteTaskInstructionHandler(request).get(task_id_, instruction_id_)
 
     elif request.method == 'DELETE':
-        return DeleteTaskInstructionHandler(request).post(instruction_id_)
+        return DeleteTaskInstructionHandler(request).post(task_id_, instruction_id_)
 
 
 if __name__ == "__main__":

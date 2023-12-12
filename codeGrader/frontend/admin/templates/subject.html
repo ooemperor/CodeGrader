@@ -73,7 +73,9 @@
         <h2 class="collapsible core_content">Exercises</h2>
         <div class="collapsible_content">
             {% for ex in exercises %}
-                <p class="core_content">{{ ex['name'] }}</p>
+                <a class="core_content" href="{{ url_for('exercise', id_ = ex['id']|string) }}">
+                    {{ ex["name"] }}
+                </a>
             {% endfor %}
         </div>
     </div>

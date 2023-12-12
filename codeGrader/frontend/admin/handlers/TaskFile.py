@@ -115,41 +115,50 @@ class DeleteTaskFile(BaseHandler):
         self.templateName = None
         self.fileObject = None
 
-    def get(self, id_: int) -> Union[str, Response]:
+    def get(self, task_id_: int,  file_id_: int) -> Union[str, Response]:
         """
         Get Handler to render the site for confirmation for deletion of a Task
-        @param id_: The id_ of the task
-        @type id_: int
+        @param task_id_: The id_ of the Task
+        @type task_id_: int
+        @param file_id_: The id_ of the File
+        @type file_id_: int
         @return: Rendered Template
         """
-        task = self.api.get(f"/task/{id_}")
+        task = self.api.get(f"/task/{task_id_}")
 
         editable = self.admin.check_permission('w', task["profile"]["id"])
 
+        attachment = self.api.get(f"/task/{task_id_}/{self.fileObject}/{file_id_}")
+
         if editable:
-            return render_template(self.templateName, **task)  # TODO: Create the Template
+            return render_template(self.templateName, **attachment)  # TODO: Create the Template
 
         else:
             self.flash("You are not allowed to delete Files on this Task. ")
-            return redirect(url_for("tasks"))
+            return redirect(url_for("task", id_=task_id_))
 
-    def post(self, id_: int) -> Response:
+    def post(self,task_id_: int,  file_id_: int) -> Response:
         """
         Post Operation for Task Deletion
         Deletes the task in the backend via an API Call
-        @param id_: The idnentifier of the Task
-        @type id_: int
+        @param task_id_: The idnentifier of the Task
+        @type task_id_: int
+        @param file_id_: The idnentifier of the File
+        @type file_id_: int
         @return: Redirection to the Task table
         """
-        task = self.api.get(f"/task/{id_}")
+        task = self.api.get(f"/task/{task_id_}")
         if self.admin.check_permission('w', task["profile"]["id"]):  # admin is allowed to delete the task
 
             if self.get_value("action_button") == "Submit":
                 # TODO: Implement Deletion
-                raise NotImplementedError
+                self.api.delete(f"/task/{task_id_}/{self.fileObject}/{file_id_}")
+
+                self.flash(f"{self.fileObject} has been deleted")
+                return redirect(url_for("task", id_=task_id_))
 
             elif self.get_value("action_button") == "Cancel":
-                return redirect(url_for("task", id_=id_))
+                return redirect(url_for("task", id_=task_id_))
 
             else:
                 pass
@@ -157,4 +166,4 @@ class DeleteTaskFile(BaseHandler):
 
         else:  # admin is not allowed to delete tasks
             self.flash("You are not allowed to delete Files from tasks. ")
-            return redirect(url_for("task", id_=id_))
+            return redirect(url_for("task", id_=task_id_))
