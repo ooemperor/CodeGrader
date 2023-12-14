@@ -120,7 +120,7 @@ class DeleteTaskFile(BaseHandler):
         Get Handler to render the site for confirmation for deletion of a Task
         @param task_id_: The id_ of the Task
         @type task_id_: int
-        @param file_id_: The id_ of the File
+        @param file_id_: The id_ of the TaskFile
         @type file_id_: int
         @return: Rendered Template
         """
@@ -128,10 +128,11 @@ class DeleteTaskFile(BaseHandler):
 
         editable = self.admin.check_permission('w', task["profile"]["id"])
 
-        attachment = self.api.get(f"/task/{task_id_}/{self.fileObject}/{file_id_}")
+        taskfile = self.api.get(f"/task/{task_id_}/{self.fileObject}/{file_id_}")
+        taskfile["task_id_"] = task_id_
 
         if editable:
-            return render_template(self.templateName, **attachment)  # TODO: Create the Template
+            return render_template(self.templateName, **taskfile)  # TODO: Create the Template
 
         else:
             self.flash("You are not allowed to delete Files on this Task. ")

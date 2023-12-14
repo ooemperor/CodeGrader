@@ -3,31 +3,38 @@
 {% block core %}
     <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
     <div id="main" class="main">
-        <div>
-            <h1 class="header1 core_content">Profile</h1>
-        </div>
-        <p class="core_content">Profile</p>
-        {% if this.admin.check_permission('w', create_object='profile') %}
-            <div>
-                <form action="{{ url_for('addProfile') }}" method="GET">
-                    <button class="btn btn_create" type="submit">New Profile</button>
-                </form>
-
+        <div class="container-fluid p-1">
+            <div class="row">
+                <div class="col-4">
+                    <h1 class="header1 core_content">Profile</h1>
+                </div>
+                
+                {% if this.admin.check_permission('w', create_object='profile') %}
+                    <div class="col-4">
+                        <form action="{{ url_for('addProfile') }}" method="GET">
+                            <button class="btn btn-success" type="submit">New Profile</button>
+                        </form>
+                    </div>
+                {% endif %}
             </div>
-        {% endif %}
+        </div>
+        <div class="row">
+            <p class="core_content">Profile</p>
+        </div>
+        
         <table class="core_content table">
             <tr>
-                <th class="head">Name</th>
-                <th class="head">Tag</th>
+                <th>Name</th>
+                <th>Tag</th>
             </tr>
             {% for prof in profile %}
                 <tr>
-                    <td class="data">
+                    <td>
                         <a href="{{ url_for('profile', id_ = prof['id']|string) }}">
                             {{ prof["name"] }}
                         </a>
                     </td>
-                    <td class="data">{{ prof["tag"] }}</td>
+                    <td>{{ prof["tag"] }}</td>
                 </tr>
             {% endfor %}
 

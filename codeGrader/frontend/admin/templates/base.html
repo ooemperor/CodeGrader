@@ -1,77 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <!--
     <link rel="stylesheet" href="../static/css/styling.css">
     -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styling.css') }}">
+    <!--
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styling1.css') }}">
+    -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-icons.css') }}">
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <title>CodeGrader</title>
 </head>
 
-<body>
+<body onload="loadMode()">
     <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "250px";
-            document.getElementById("main").style.marginLeft = "250px";
-            document.getElementById("flash").style.marginLeft = "250px";
-            document.getElementById("main-menu-button").style.visibility = "hidden";
-
-        }
-
-        /* Set the width of the side navigation to 0 */
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("main").style.marginLeft = "0";
-            document.getElementById("flash").style.marginLeft = "0";
-            document.getElementById("main-menu-button").style.visibility = "visible";
-        }
-    </script>
-    <script>
-        /* toggle for dark/light mode */
+        /*
         function toggleMode() {
-            var element = document.body;
-            element.classList.toggle("light-mode");
+            if (document.documentElement.getAttribute('data-bs-theme') == 'dark') {
+                document.documentElement.setAttribute('data-bs-theme', 'light')
+                document.getElementById('light-mode-button').classList.add('active');
+                document.getElementById('dark-mode-button').classList.remove('active');
+                localStorage.setItem('theme', 'light');
+            }
+            else {
+                document.documentElement.setAttribute('data-bs-theme', 'dark')
+                document.getElementById('light-mode-button').classList.remove('active');
+                document.getElementById('dark-mode-button').classList.add('active');
+                localStorage.setItem('theme', 'dark');
+            }
+
+        }
+        */
+
+        function setMode(color_mode) {
+            document.documentElement.setAttribute('data-bs-theme', color_mode)
+            localStorage.setItem('theme', color_mode);
+        }
+
+        function loadMode() {
+            var color_mode = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-bs-theme', color_mode)
+            console.log(color_mode);
+            if (color_mode == 'dark') {
+                document.getElementById('dark-mode-button').classList.add('active');
+                document.getElementById('dark-mode-button').setAttribute("checked", "")
+                document.getElementById('light-mode-button').classList.remove('active');
+                document.getElementById('light-mode-button').removeAttribute("checked", "")
+                
+            }
+            else {
+                document.getElementById('light-mode-button').classList.add('active');
+                document.getElementById('light-mode-button').setAttribute("checked", "")
+                document.getElementById('dark-mode-button').classList.remove('active');
+                document.getElementById('dark-mode-button').removeAttribute("checked", "")
+            }
+            localStorage.setItem('theme', color_mode);
         }
     </script>
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&equiv;</a>
-        <a href="javascript:void(0)" onclick="toggleMode()">Light/Dark Mode</a>
-        <a href="{{ url_for('home') }}">Home</a>
-        <a href="{{ url_for('admins') }}">Admins</a>
-        <a href="{{ url_for('users') }}">Users</a>
-        <a href="{{ url_for('profiles') }}">Profiles</a>
-        <a href="{{ url_for('subjects') }}">Subjects</a>
-        <a href="{{ url_for('exercises') }}">Exercises</a>
-        <a href="{{ url_for('tasks') }}">Tasks</a>
-        <br>
-        <div>
-            <a href="{{ url_for('logout') }}" class="btn_logout">
-                Logout
-            </a>
+
+    <div class="container-fluid p-0">
+        <div class="d-flex min-vh-100">
+
+            <div class="bg-black text-light border-right col-md-auto sidebar" id="sidebar-wrapper">
+                <ul class="nav bd-sidebar list-group list-group-flush">
+                    <li class="list-group-item bg-black">
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+
+                            <input type="radio" class="btn-check" name="btnradio" id="light-mode-button"
+                                autocomplete="off" onclick="setMode('light')">
+                            <label class="btn btn-outline-primary" for="light-mode-button">
+                                <i class="bi bi-brightness-high"></i>
+                            </label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="dark-mode-button"
+                                autocomplete="off" onclick="setMode('dark')">
+                            <label class="btn btn-outline-primary" for="dark-mode-button">
+                                <i class="bi bi-moon"></i>
+                            </label>
+                        </div>
+                    </li>
+                    <li class="list-group-item bg-black">
+                        <a class="nav-link link-light" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="list-group-item bg-black">
+                        <a class="nav-link link-light" href="{{ url_for('admins') }}">Admins</a>
+                    </li>
+                    <li class="list-group-item bg-black">
+                        <a class="nav-link link-light" href="{{ url_for('users') }}">Users</a>
+                    </li>
+                    <li class="list-group-item bg-black">
+                        <a class="nav-link link-light" href="{{ url_for('profiles') }}">Profiles</a>
+                    </li>
+                    <li class="list-group-item bg-black">
+                        <a class="nav-link link-light" href="{{ url_for('subjects') }}">Subjects</a>
+                    </li>
+                    <li class="list-group-item bg-black">
+                        <a class="nav-link link-light" href="{{ url_for('exercises') }}">Exercises</a>
+                    </li>
+                    <li class="list-group-item bg-black">
+                        <a class="nav-link link-light" href="{{ url_for('tasks') }}">Tasks</a>
+                    </li>
+                    <li class="list-group-item bg-black">
+                        <a class="nav-link link-light" href="{{ url_for('logout') }}" class="btn_logout">
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="container-fluid px-4 py-1">
+                <!-- Content goes in here-->
+                {% with msgs = get_flashed_messages() %}
+                {% if msgs %}
+                <div id="flash" class="main flash">
+                    {% if msgs %}
+                    <ul class="list">
+                        {% for msg in msgs %}
+                        <li class="item">{{ msg }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                {% block core %}
+                {% endblock %}
+            </div>
         </div>
+    </div>
 
-    </div>
-    <div id="btn_sidenav_close">
-        <span id="main-menu-button" class="btn-menu" onclick="openNav()">&equiv;</span>
-    </div>
-    {% with msgs = get_flashed_messages() %}
-    {% if msgs %}
-    <div id="flash" class="main flash">
-        {% if msgs %}
-        <ul class="list">
-            {% for msg in msgs %}
-            <li class="item">{{ msg }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-    {% endif %}
-    {% endwith %}
 
-    {% block core %}
-    {% endblock %}
+
+
 
 </body>
 

@@ -5,19 +5,25 @@
     <div>
         <h1 class="header1 core_content">Delete Exercise {{ name }}</h1>
     </div>
-    <p class="core_content">Exercise {{ name }}</p>
-    <div class="core_content">
+    <div class="row">
+        <p>Exercise {{ name }}</p>
+    </div>
+    
+    <div class="row">
         Are you sure you wanna delete Exercise {{ name }}?
     </div>
 
-    <form action="{{url_for('deleteExercise', id_ = id)}}" method="POST" class="core_content">
-        <div id="control_buttons">
-            <button name="action_button" id="btn_submit" class="btn btn_submit" type="submit"
-                value="Submit">Submit</button>
-            <button name="action_button" id="btn_submit" class="btn btn_submit" type="submit"
-                value="Cancel">Cancel</button>
-        </div>
-    </form>
+    <div class="row">
+        <form action="{{url_for('deleteExercise', id_ = id)}}" method="POST" class="core_content">
+            <div id="control_buttons">
+                <button name="action_button" id="btn_submit" class="btn btn-success" type="submit"
+                    value="Submit">Submit</button>
+                <button name="action_button" id="btn_submit" class="btn btn-danger" type="submit"
+                    value="Cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+   
 
 
 
