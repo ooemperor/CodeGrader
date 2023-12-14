@@ -501,7 +501,7 @@ def deleteTaskInstruction(task_id_: int, instruction_id_: int) -> Union[Response
     if request.method == 'GET':
         return DeleteTaskInstructionHandler(request).get(task_id_, instruction_id_)
 
-    elif request.method == 'DELETE':
+    elif request.method == 'POST':
         return DeleteTaskInstructionHandler(request).post(task_id_, instruction_id_)
 
 

@@ -3,19 +3,19 @@
 {% block core %}
 <div id="main" class="main">
     <div>
-        <h1 class="header1 core_content">Delete Task {{ name }}</h1>
+        <h1 class="header1 core_content">Delete Attachment {{ file["filename"] }}</h1>
     </div>
     <div class="row">
-        <p>Task {{ username }}</p>
+        <p>Attachment {{ file["filename"] }}</p>
     </div>
     
     <div class="row">
-        Are you sure you wanna delete Task {{ name }}?
+        Are you sure you wanna delete the Attachment {{ file["filename"] }}?
     </div>
 
 
     <div class="row">
-        <form action="{{url_for('deleteTask', id_ = id)}}" method="POST" class="core_content">
+        <form action="{{url_for('deleteTaskAttachment', task_id_ = task_id_, attachment_id_ = id)}}" method="POST">
             <div id="control_buttons">
                 <button name="action_button" id="btn_submit" class="btn btn-success" type="submit"
                     value="Submit">Submit</button>

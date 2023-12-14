@@ -90,15 +90,22 @@
                             target="_blank" download="{{ inst['file']['filename'] }}">
                             {{ inst["file"]["filename"] }}
                         </a>
+                        {% if editable %}
+                        <a href="{{ url_for('deleteTaskInstruction', task_id_= id, instruction_id_ = inst['id']) }}">
+                            <i class="bi bi-x-circle"></i>
+                        </a>
+                        {% endif %}
                     </li>
                     {% endfor %}
                     {% endif %}
                 </ul>
+                {% if editable %}
                 <form class="core_content" action="{{ url_for('addTaskInstruction', id_=id) }}" method="POST"
                     enctype="multipart/form-data">
                     <input type="file" id="myFile" name="fileme.py">
                     <input type="submit">
                 </form>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -119,16 +126,23 @@
                             target="_blank" download="{{ att['file']['filename'] }}">
                             {{ att["file"]["filename"] }}
                         </a>
+                        {% if editable %}
+                        <a href="{{ url_for('deleteTaskAttachment', task_id_= id, attachment_id_ = att['id']) }}">
+                            <i class="bi bi-x-circle"></i>
+                        </a>
+                        {% endif %}
                     </li>
 
                     {% endfor %}
                     {% endif %}
                 </ul>
+                {% if editable %}
                 <form class="core_content" action="{{ url_for('addTaskAttachment', id_=id) }}" method="POST"
                     enctype="multipart/form-data">
                     <input type="file" id="myFile" name="fileme.py">
                     <input type="submit">
                 </form>
+                {% endif %}
             </div>
         </div>
     </div>
