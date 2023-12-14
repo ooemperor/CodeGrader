@@ -18,21 +18,46 @@
 
 <body onload="loadMode()">
     <script>
+        /*
         function toggleMode() {
             if (document.documentElement.getAttribute('data-bs-theme') == 'dark') {
                 document.documentElement.setAttribute('data-bs-theme', 'light')
+                document.getElementById('light-mode-button').classList.add('active');
+                document.getElementById('dark-mode-button').classList.remove('active');
                 localStorage.setItem('theme', 'light');
             }
             else {
                 document.documentElement.setAttribute('data-bs-theme', 'dark')
+                document.getElementById('light-mode-button').classList.remove('active');
+                document.getElementById('dark-mode-button').classList.add('active');
                 localStorage.setItem('theme', 'dark');
             }
 
+        }
+        */
+
+        function setMode(color_mode) {
+            document.documentElement.setAttribute('data-bs-theme', color_mode)
+            localStorage.setItem('theme', color_mode);
         }
 
         function loadMode() {
             var color_mode = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-bs-theme', color_mode)
+            console.log(color_mode);
+            if (color_mode == 'dark') {
+                document.getElementById('dark-mode-button').classList.add('active');
+                document.getElementById('dark-mode-button').setAttribute("checked", "")
+                document.getElementById('light-mode-button').classList.remove('active');
+                document.getElementById('light-mode-button').removeAttribute("checked", "")
+                
+            }
+            else {
+                document.getElementById('light-mode-button').classList.add('active');
+                document.getElementById('light-mode-button').setAttribute("checked", "")
+                document.getElementById('dark-mode-button').classList.remove('active');
+                document.getElementById('dark-mode-button').removeAttribute("checked", "")
+            }
             localStorage.setItem('theme', color_mode);
         }
     </script>
@@ -43,31 +68,44 @@
             <div class="bg-black text-light border-right col-md-auto sidebar" id="sidebar-wrapper">
                 <ul class="nav bd-sidebar list-group list-group-flush">
                     <li class="list-group-item bg-black">
-                        <a class="nav-link " href="javascript:void(0)" onclick="toggleMode()">Light/Dark Mode</a>
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+
+                            <input type="radio" class="btn-check" name="btnradio" id="light-mode-button"
+                                autocomplete="off" onclick="setMode('light')">
+                            <label class="btn btn-outline-primary" for="light-mode-button">
+                                <i class="bi bi-brightness-high"></i>
+                            </label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="dark-mode-button"
+                                autocomplete="off" onclick="setMode('dark')">
+                            <label class="btn btn-outline-primary" for="dark-mode-button">
+                                <i class="bi bi-moon"></i>
+                            </label>
+                        </div>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                        <a class="nav-link link-light" href="{{ url_for('home') }}">Home</a>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link" href="{{ url_for('admins') }}">Admins</a>
+                        <a class="nav-link link-light" href="{{ url_for('admins') }}">Admins</a>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link" href="{{ url_for('users') }}">Users</a>
+                        <a class="nav-link link-light" href="{{ url_for('users') }}">Users</a>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link" href="{{ url_for('profiles') }}">Profiles</a>
+                        <a class="nav-link link-light" href="{{ url_for('profiles') }}">Profiles</a>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link" href="{{ url_for('subjects') }}">Subjects</a>
+                        <a class="nav-link link-light" href="{{ url_for('subjects') }}">Subjects</a>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link" href="{{ url_for('exercises') }}">Exercises</a>
+                        <a class="nav-link link-light" href="{{ url_for('exercises') }}">Exercises</a>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link" href="{{ url_for('tasks') }}">Tasks</a>
+                        <a class="nav-link link-light" href="{{ url_for('tasks') }}">Tasks</a>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link" href="{{ url_for('logout') }}" class="btn_logout">
+                        <a class="nav-link link-light" href="{{ url_for('logout') }}" class="btn_logout">
                             Logout
                         </a>
                     </li>
