@@ -9,12 +9,34 @@
     <!--
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styling1.css') }}">
     -->
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-icons.css') }}">
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <title>CodeGrader</title>
 </head>
 
-<body>
+<body onload="loadMode()">
+    <script>
+        function toggleMode() {
+            if (document.documentElement.getAttribute('data-bs-theme') == 'dark') {
+                document.documentElement.setAttribute('data-bs-theme', 'light')
+                localStorage.setItem('theme', 'light');
+            }
+            else {
+                document.documentElement.setAttribute('data-bs-theme', 'dark')
+                localStorage.setItem('theme', 'dark');
+            }
+
+        }
+
+        function loadMode() {
+            var color_mode = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-bs-theme', color_mode)
+            localStorage.setItem('theme', color_mode);
+        }
+    </script>
+
     <div class="container-fluid p-0">
         <div class="d-flex min-vh-100">
 
