@@ -10,47 +10,47 @@
                 <h1 class="h1">Exercise</h1>
             </div>
 
-        {% if this.admin.check_permission('w', create_object='exercise') %}
-        <div class="col-4">
-            <form action="{{ url_for('addExercise') }}" method="GET">
-                <button class="btn btn-success" type="submit">New Exercise</button>
-            </form>
+            {% if this.admin.check_permission('w', create_object='exercise') %}
+            <div class="col-4">
+                <form action="{{ url_for('addExercise') }}" method="GET">
+                    <button class="btn btn-success" type="submit">New Exercise</button>
+                </form>
 
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
-</div>
 
 
 
-<div class="container-fluid">
-    <p class="core_content">Exercise</p>
-</div>
+    <div class="container-fluid">
+        <p class="core_content">Exercise</p>
+    </div>
 
-<div class="container-fluid">
-    <table class="table">
-        <tr>
-            <th>Name</th>
-            <th>Tag</th>
-            <th>Subject</th>
-        </tr>
-        {% for ex in exercise %}
-        <tr>
-            <td>
-                <a href="{{ url_for('exercise', id_ = ex['id']|string) }}">
-                    {{ ex["name"] }}
-                </a>
-            </td>
-            <td>{{ ex['tag'] }}</td>
-            <td>
-                <a href="{{ url_for('subject', id_ = ex['subject']['id']|string) }}">
-                    {{ ex['subject']['name'] }}
-                </a>
+    <div class="container-fluid">
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Tag</th>
+                <th>Subject</th>
+            </tr>
+            {% for ex in exercise %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('exercise', id_ = ex['id']|string) }}">
+                        {{ ex["name"] }}
+                    </a>
+                </td>
+                <td>{{ ex['tag'] }}</td>
+                <td>
+                    <a href="{{ url_for('subject', id_ = ex['subject']['id']|string) }}">
+                        {{ ex['subject']['name'] }}
+                    </a>
 
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </div>
 {% endblock core %}

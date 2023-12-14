@@ -11,19 +11,19 @@
     </div>
 
     <div class="row">
-        <form action="{{url_for('exercise', id_ = id)}}" method="POST" class="core_content">
+        <form action="{{url_for('exercise', id_ = id)}}" method="POST">
             <div class="table-responsive" id="exercise_data">
                 <table class="table">
                     <tr>
-                        <td class="data">Name</td>
-                        <td class="data">
+                        <td>Name</td>
+                        <td>
                             <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_name"
                                 name="name" value="{{ name }}">
                         </td>
                     </tr>
                     <tr>
-                        <td class="data">Tag</td>
-                        <td class="data">
+                        <td>Tag</td>
+                        <td>
                             <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_tag"
                                 name="tag" value="{{ tag }}">
                         </td>

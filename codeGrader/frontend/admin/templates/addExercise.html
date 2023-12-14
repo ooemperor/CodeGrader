@@ -6,41 +6,47 @@
     <div>
         <h1 class="header1 core_content">Exercise</h1>
     </div>
-    <p class="core_content">Exercise</p>
+    <div class="row">
+        <p class="core_content">Exercise</p>
+    </div>
 
-    <form action="{{url_for('addExercise')}}" method="POST" class="core_content">
-        <div id="exercise_data">
-            <table class="vertical_table">
-                <tr>
-                    <td class="data">Name</td>
-                    <td class="data">
-                        <input class="input" type="text" id="input_name" name="name" placeholder="Exercise Name"">
+    <div class="row">
+        <form action="{{url_for('addExercise')}}" method="POST" class="core_content">
+            <div id="exercise_data">
+                <table class="table">
+                    <tr>
+                        <td>Name</td>
+                        <td>
+                            <input class="input" type="text" id="input_name" name="name" placeholder="Exercise Name"">
                         </td>
                     </tr>
                     <tr>
-                        <td class=" data">Tag
-                    </td>
-                    <td class="data">
-                        <input class="input" type="text" id="input_tag" name="tag" placeholder="Exercise Tag">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="data">Subject</td>
-                    <td class="data">
-                        <select id="sel_subject" name="subject">
-                            {% for sub in subjects %}
-                            <option value="{{ sub['id'] }}">
-                                {{ sub['name'] }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div id="control_buttons">
-            <button id="btn_submit" class="btn_submit" type="submit">Submit</button>
-        </div>
-    </form>
+                        <td>Tag
+                        </td>
+                        <td>
+                            <input class="input" type="text" id="input_tag" name="tag" placeholder="Exercise Tag">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Subject</td>
+                        <td>
+                            <select id="sel_subject" name="subject">
+                                {% for sub in subjects %}
+                                <option value="{{ sub['id'] }}">
+                                    {{ sub['name'] }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="control_buttons">
+                <button id="btn_submit" class="btn btn-success" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+
 </div>
 {% endblock core %}

@@ -6,121 +6,126 @@
     <div>
         <h1 class="header1 core_content">Task {{ name }}</h1>
     </div>
-    <p class="core_content">Task {{ name }}</p>
+    <div class="row">
+        <p class="core_content">Task {{ name }}</p>
+    </div>
 
-    <form action="{{url_for('task', id_ = id)}}" method="POST" class="core_content">
-        <div id="task_data">
-            <table class="vertical_table">
-                <tr>
-                    <td class="data">Name</td>
-                    <td class="data">
-                        <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_name"
-                            name="name" value="{{ name }}">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="data">Tag</td>
-                    <td class="data">
-                        <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_tag"
-                            name="tag" value="{{ tag }}">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="data">Exercise</td>
-                    {% if editable %}
-                    <td class="data">
-                        <select id="sel_exercise" name="exercise">
-                            {% for ex in exercises %}
-                            {% if ex['id'] == exercise['id'] %}
-                            <option value="{{ ex['id'] }}" selected>
-                                {{ ex['name'] }}
-                            </option>
-                            {% else %}
-                            <option value="{{ ex['id'] }}">
-                                {{ ex['name'] }}
-                            </option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                    </td>
-                    {% else %}
-                    <td class="data">
-                        <input class="input" type="text" id="input_exercises" name="exercise" value="{{ exercise['name'] }}"
-                            {% if not editable %} readonly {% endif %}>
-                    </td>
-                    {% endif %}
-                </tr>
-            </table>
-        </div>
-        {% if editable %}
-        <div id="control_buttons">
-            <button id="btn_submit" class="btn btn_submit" type="submit">Submit</button>
-        </div>
-        {% endif %}
-    </form>
+    <div class="row">
+        <form action="{{url_for('task', id_ = id)}}" method="POST" class="core_content">
+            <div id="task_data">
+                <table class="table">
+                    <tr>
+                        <td>Name</td>
+                        <td>
+                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_name"
+                                name="name" value="{{ name }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tag</td>
+                        <td>
+                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_tag"
+                                name="tag" value="{{ tag }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Exercise</td>
+                        {% if editable %}
+                        <td>
+                            <select id="sel_exercise" name="exercise">
+                                {% for ex in exercises %}
+                                {% if ex['id'] == exercise['id'] %}
+                                <option value="{{ ex['id'] }}" selected>
+                                    {{ ex['name'] }}
+                                </option>
+                                {% else %}
+                                <option value="{{ ex['id'] }}">
+                                    {{ ex['name'] }}
+                                </option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                        {% else %}
+                        <td>
+                            <input class="input" type="text" id="input_exercises" name="exercise"
+                                value="{{ exercise['name'] }}" {% if not editable %} readonly {% endif %}>
+                        </td>
+                        {% endif %}
+                    </tr>
+                </table>
+            </div>
+            {% if editable %}
+            <div id="control_buttons">
+                <button id="btn_submit" class="btn btn-success" type="submit">Submit</button>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+
+
     {% if editable %}
-    <form action="{{ url_for('deleteTask', id_=id) }}" method="GET">
-        <button class="btn btn_delete" type="submit">Delete Task</button>
-    </form>
-    {% endif %}
-    <br>
+    <div class="row py-2">
+        <form action="{{ url_for('deleteTask', id_=id) }}" method="GET">
+            <button class="btn btn_delete" type="submit">Delete Task</button>
+        </form>
+    </div>
 
-    <div>
-        <h2 class="collapsible core_content">Instructions</h2>
-        <div class="collapsible_content">
+    {% endif %}
+
+
+    <div class="py-4">
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" href="#collapseInstructions"
+            role="button" aria-expanded="false" aria-controls="collapseInstructions">
+            Instructions
+        </button>
+        <div class="collapse p-4" id="collapseInstructions">
             Content here
-            {% if instructions %}
+            <div>
+                {% if instructions %}
                 {% for inst in instructions %}
                 <br>
-                <a href="{{ url_for('TaskInstruction', task_id_= id, instruction_id_ = inst['id']) }}" target="_blank" download="{{ inst['file']['filename'] }}">
+                <a href="{{ url_for('TaskInstruction', task_id_= id, instruction_id_ = inst['id']) }}" target="_blank"
+                    download="{{ inst['file']['filename'] }}">
                     {{ inst["file"]["filename"] }}
                 </a>
                 <br>
                 {% endfor %}
-            {% endif %}
-            <form class="core_content" action="{{ url_for('addTaskInstruction', id_=id) }}" method="POST" enctype="multipart/form-data">
-                <input type="file" id="myFile" name="fileme.py">
-                <input type="submit">
-              </form>
+                {% endif %}
+                <form class="core_content" action="{{ url_for('addTaskInstruction', id_=id) }}" method="POST"
+                    enctype="multipart/form-data">
+                    <input type="file" id="myFile" name="fileme.py">
+                    <input type="submit">
+                </form>
+            </div>
         </div>
     </div>
 
-    <div>
-        <h2 class="collapsible core_content">Attachments</h2>
-        <div class="collapsible_content">
-            Content here
-            {% if attachments %}
+    <div class="py-4">
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" href="#colllapseAttachments"
+            role="button" aria-expanded="false" aria-controls="colllapseAttachments">
+            Attachments
+        </button>
+        <div class="collapse p-4" id="colllapseAttachments">
+            <div>
+                Content here
+                {% if attachments %}
                 {% for att in attachments %}
-                    <br>
-                    <a href="{{ url_for('TaskAttachment', task_id_= id, attachment_id_ = att['id']) }}" target="_blank" download="{{ att['file']['filename'] }}">
-                        {{ att["file"]["filename"] }}
-                    </a>
-                    <br>
+                <br>
+                <a href="{{ url_for('TaskAttachment', task_id_= id, attachment_id_ = att['id']) }}" target="_blank"
+                    download="{{ att['file']['filename'] }}">
+                    {{ att["file"]["filename"] }}
+                </a>
+                <br>
                 {% endfor %}
-            {% endif %}
-            <form class="core_content" action="{{ url_for('addTaskAttachment', id_=id) }}" method="POST" enctype="multipart/form-data">
-                <input type="file" id="myFile" name="fileme.py">
-                <input type="submit">
-              </form>
+                {% endif %}
+                <form class="core_content" action="{{ url_for('addTaskAttachment', id_=id) }}" method="POST"
+                    enctype="multipart/form-data">
+                    <input type="file" id="myFile" name="fileme.py">
+                    <input type="submit">
+                </form>
+            </div>
         </div>
     </div>
-    
-
-    <script>
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
-        
-        for (i = 0; i < coll.length; i++) {
-          coll[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight){
-              content.style.maxHeight = null;
-            } else {
-              content.style.maxHeight = content.scrollHeight + "px";
-            } 
-          });
-        }
-    </script>
 </div>
 {% endblock core %}

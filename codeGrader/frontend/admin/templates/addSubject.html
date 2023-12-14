@@ -6,27 +6,30 @@
     <div>
         <h1 class="header1 core_content">Subject</h1>
     </div>
-    <p class="core_content">Subject</p>
+    <div class="row">
+        <p>Subject</p>
+    </div>
+    
 
-    <form action="{{url_for('addSubject')}}" method="POST" class="core_content">
+    <form action="{{url_for('addSubject')}}" method="POST">
         <div id="subject_data">
-            <table class="vertical_table">
+            <table class="table">
                 <tr>
-                    <td class="data">Name</td>
-                    <td class="data">
+                    <td>Name</td>
+                    <td>
                         <input class="input" type="text" id="input_name" name="name" placeholder="Subject Name"">
                         </td>
                     </tr>
                     <tr>
                         <td class=" data">Tag
                     </td>
-                    <td class="data">
+                    <td>
                         <input class="input" type="text" id="input_tag" name="tag" placeholder="Subject Tag">
                     </td>
                 </tr>
                 <tr>
-                    <td class="data">Profile</td>
-                    <td class="data">
+                    <td>Profile</td>
+                    <td>
                         <select id="sel_profile" name="profile">
                             {% for prof in profiles %}
                             <option value="{{ prof['id'] }}">
@@ -39,7 +42,7 @@
             </table>
         </div>
         <div id="control_buttons">
-            <button id="btn_submit" class="btn_submit" type="submit">Submit</button>
+            <button id="btn_submit" class="btn-success" type="submit">Submit</button>
         </div>
     </form>
 </div>

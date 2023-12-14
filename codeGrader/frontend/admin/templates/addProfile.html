@@ -6,29 +6,34 @@
     <div>
         <h1 class="header1 core_content">Profile</h1>
     </div>
-    <p class="core_content">Profile</p>
-
-    <form action="{{url_for('addProfile')}}" method="POST" class="core_content">
-        <div id="profile_data">
-            <table class="vertical_table">
-                <tr>
-                    <td class="data">Name</td>
-                    <td class="data">
-                        <input type="text" class="input" id="input_name" name="name" placeholder="Profile Name"">
+    <div class="row">
+        <p class="core_content">Profile</p>
+    </div>
+    
+    <div class="row">
+        <form action="{{url_for('addProfile')}}" method="POST">
+            <div id="profile_data">
+                <table class="table">
+                    <tr>
+                        <td>Name</td>
+                        <td>
+                            <input type="text" class="input" id="input_name" name="name" placeholder="Profile Name"">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tag
+                        </td>
+                        <td>
+                            <input type="text" class="input" id="input_tag" name="tag" placeholder="Profile Tag">
                         </td>
                     </tr>
-                    <tr>
-                        <td class=" data">Tag
-                    </td>
-                    <td class="data">
-                        <input type="text" class="input" id="input_tag" name="tag" placeholder="Profile Tag">
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div id="control_buttons">
-            <button id="btn_submit" class="btn_submit" type="submit">Submit</button>
-        </div>
-    </form>
+                </table>
+            </div>
+            <div id="control_buttons">
+                <button id="btn_submit" class="btn btn-success" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    
 </div>
 {% endblock core %}
