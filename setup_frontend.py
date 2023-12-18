@@ -21,7 +21,7 @@ setup(
     description='',
     entry_points={
         'console_scripts': [
-            'cgAdminFrontend = codeGrader.scripts.cgAdminFrontend:main'
+            'cgAdminFrontend = codeGrader.frontend.admin.app:admin_frontend'
         ]
     }
 )
