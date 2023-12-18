@@ -14,7 +14,8 @@ setup(
             'cgDeployDB = codeGrader.scripts.deployDB:main',
             'cgEvaluationService = codeGrader.scripts.cgEvaluationService:main',
             'cgExecutionService = codeGrader.scripts.cgExecutionService:main',
-            'cgAdminFrontend = codeGrader.scripts.cgAdminFrontend:main'
+            'cgAdminFrontend = codeGrader.scripts.cgAdminFrontend:main',
+            'cgApiBackend = codeGrader.scripts.cgApiBackend:main'
         ]
     }
 )
