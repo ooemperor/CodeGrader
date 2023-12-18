@@ -506,7 +506,11 @@ def deleteTaskInstruction(task_id_: int, instruction_id_: int) -> Union[Response
         return DeleteTaskInstructionHandler(request).post(task_id_, instruction_id_)
 
 
-if __name__ == "__main__":
+def admin_frontend():
     http_server = WSGIServer(("127.0.0.1", int(config.adminPort)), app)
     http_server.serve_forever()
+
+
+if __name__ == "__main__":
+    admin_frontend()
     # app.run(port=config.adminPort)

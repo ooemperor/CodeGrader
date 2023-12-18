@@ -19,4 +19,9 @@ setup(
     author='mkaiser',
     author_email='',
     description='',
+    entry_points={
+        'console_scripts': [
+            'cgAdminFrontend = codeGrader.scripts.cgAdminFrontend:main'
+        ]
+    }
 )
