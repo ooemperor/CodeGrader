@@ -15,7 +15,7 @@ setup(
             'cgEvaluationService = codeGrader.scripts.cgEvaluationService:main',
             'cgExecutionService = codeGrader.scripts.cgExecutionService:main',
             'cgAddApiToken = codeGrader.scripts.cgAddApiToken:main',
-            'cgApiBackend = codeGrader.scripts.cgApiBackend:main'
+            'cgApiBackend = codeGrader.backend.api.app:api_backend'
 
         ]
     }
