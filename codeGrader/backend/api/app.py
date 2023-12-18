@@ -8,6 +8,8 @@ import mimetypes
 import json
 import urllib
 from functools import wraps
+from gevent.pywsgi import WSGIServer
+
 
 from flask import Flask, request, send_file
 from codeGrader.backend.config import config
@@ -478,6 +480,11 @@ def task_instruction(task_id_: int, instruction_id_: int):
         # deletion of file not needed because it is made automatically due to datamodel
 
 
+def api_backend():
+    http_server = WSGIServer(("0.0.0.0", int(config.ApiPort)), app)
+    http_server.serve_forever()
+
+
 # starting the web application
 if __name__ == "__main__":
-    app.run(port=config.ApiPort, debug=config.debug)
+    api_backend()

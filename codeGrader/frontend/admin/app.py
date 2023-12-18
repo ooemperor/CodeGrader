@@ -16,6 +16,7 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
     AddSubjectHandler, DeleteUserHandler, DeleteSubjectHandler, DeleteAdminHandler, DeleteTaskHandler, \
     DeleteExerciseHandler, DeleteProfileHandler, AddTaskAttachmentHandler, DeleteTaskAttachmentHandler, \
     AddTaskInstructionHandler, DeleteTaskInstructionHandler, TaskInstructionHandler, TaskAttachmentHandler
+from gevent.pywsgi import WSGIServer
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 
@@ -505,5 +506,11 @@ def deleteTaskInstruction(task_id_: int, instruction_id_: int) -> Union[Response
         return DeleteTaskInstructionHandler(request).post(task_id_, instruction_id_)
 
 
+def admin_frontend():
+    http_server = WSGIServer(("127.0.0.1", int(config.adminPort)), app)
+    http_server.serve_forever()
+
+
 if __name__ == "__main__":
-    app.run(port=config.adminPort)
+    admin_frontend()
+    # app.run(port=config.adminPort)
