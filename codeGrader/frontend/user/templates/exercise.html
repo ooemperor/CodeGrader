@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block core %}
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main" class="main">
+    <div>
+        <h1 class="header1 core_content">Exercise {{ name }}</h1>
+    </div>
+    <div class="row">
+        <p class="core_content">Exercise {{ name }}</p>
+    </div>
+
+    <div class="row">
+        <div class="table-responsive" id="exercise_data">
+            <table class="table">
+                <tr>
+                    <td>Name</td>
+                    <td>
+                        {{ name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tag</td>
+                    <td>
+                        {{ tag }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="py-4">
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" href="#collapseTasks" role="button"
+            aria-expanded="false" aria-controls="collapseTasks">
+            Tasks
+        </button>
+        <div class="collapse p-4" id="collapseTasks">
+            <div>
+                {% for t in tasks %}
+                <a class="core_content">
+                    <a class="core_content" href="{{ url_for('task', id_ = t['id']|string) }}">
+                        {{ t["name"] }}
+                    </a>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock core %}

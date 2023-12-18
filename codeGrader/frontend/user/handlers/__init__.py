@@ -6,5 +6,10 @@ from .Base import BaseHandler
 from .SessionUser import UserSessionHandler, SessionUser
 from .Login import UserLoginHandler
 from .Home import HomeHandler
+from .Exercise import ExerciseListHandler, ExerciseHandler
+from .Task import TaskHandler, TaskListHandler
+from .TaskAttachment import TaskAttachmentHandler
+from .TaskInstruction import TaskInstructionHandler
 
-__all__ = ["BaseHandler", "UserSessionHandler", "SessionUser", "UserLoginHandler", "HomeHandler"]
+__all__ = ["BaseHandler", "UserSessionHandler", "SessionUser", "UserLoginHandler", "HomeHandler", "ExerciseListHandler",
+           "ExerciseHandler", "TaskHandler", "TaskListHandler", "TaskAttachmentHandler", "TaskInstructionHandler"]

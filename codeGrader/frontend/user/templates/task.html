@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block core %}
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main" class="main">
+    <div>
+        <h1 class="header1 core_content">Task {{ name }}</h1>
+    </div>
+    <div class="row">
+        <p class="core_content">Task {{ name }}</p>
+    </div>
+
+    <div class="row">
+
+        <div id="task_data">
+            <table class="table">
+                <tr>
+                    <td>Name</td>
+                    <td>
+                        {{ name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tag</td>
+                    <td>
+                        {{ tag }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Exercise</td>
+                    <td>{{ exercise['name'] }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="py-4">
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" href="#collapseInstructions"
+            role="button" aria-expanded="false" aria-controls="collapseInstructions">
+            Instructions
+        </button>
+        <div class="collapse p-4" id="collapseInstructions">
+            <div>
+                <ul class="list-group list-group-flush py-2">
+                    {% if instructions %}
+                    {% for inst in instructions %}
+                    <li class="list-group-item">
+                        <i class="bi bi-filetype-{{ inst['file']['fileExtension'] }}"></i>
+                        <a href="{{ url_for('TaskInstruction', task_id_= id, instruction_id_ = inst['id']) }}"
+                            target="_blank" download="{{ inst['file']['filename'] }}">
+                            {{ inst["file"]["filename"] }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-4">
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" href="#colllapseAttachments"
+            role="button" aria-expanded="false" aria-controls="colllapseAttachments">
+            Attachments
+        </button>
+        <div class="collapse p-4" id="colllapseAttachments">
+            <div>
+                <ul class="list-group list-group-flush py-2">
+                    {% if attachments %}
+                    {% for att in attachments %}
+                    <li class="list-group-item">
+                        <i class="bi bi-filetype-{{ att['file']['fileExtension'] }}"></i>
+                        <a href="{{ url_for('TaskAttachment', task_id_= id, attachment_id_ = att['id']) }}"
+                            target="_blank" download="{{ att['file']['filename'] }}">
+                            {{ att["file"]["filename"] }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock core %}
