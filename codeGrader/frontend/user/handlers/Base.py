@@ -4,6 +4,8 @@ Base Handler for the User part of the CodeGrader Frontend
 """
 import flask
 import flask_login
+from flask import flash
+
 from codeGrader.frontend.config import config
 from codeGrader.frontend.util import ApiHandler
 
