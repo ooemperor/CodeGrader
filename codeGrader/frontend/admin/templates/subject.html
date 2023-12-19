@@ -25,7 +25,7 @@
                     </tr>
                     <tr>
                         <td>Tag</td>
-                        <td >
+                        <td>
                             <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_tag"
                                 name="tag" value="{{ tag }}">
                         </td>
@@ -52,8 +52,8 @@
                         </td>
                         {% else %}
                         <td>
-                            <input type="text" id="input_profile" name="profile"
-                                value="{{ profile['name'] }}" {% if not editable %} readonly {% endif %}>
+                            <input type="text" id="input_profile" name="profile" value="{{ profile['name'] }}" {% if not
+                                editable %} readonly {% endif %}>
                         </td>
                         {% endif %}
                     </tr>
@@ -77,22 +77,32 @@
     </div>
     {% endif %}
 
-
-    <div class="py-4">
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" href="#collapseExercises" role="button"
-            aria-expanded="false" aria-controls="collapseExercises">
-            Exercises
-        </button>
-        <div class="collapse p-4" id="collapseExercises">
-            <div>
-                {% for ex in exercises %}
-                <a class="core_content" href="{{ url_for('exercise', id_ = ex['id']|string) }}">
-                    {{ ex["name"] }}
-                </a>
-                {% endfor %}
+    <div class="row py-4">
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelExercises" aria-expanded="false" aria-controls="panelExercises">
+                        Exercises
+                    </button>
+                </h2>
+                <div id="panelExercises" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <div>
+                            <ul class="list-group list-group-flush">
+                                {% for ex in exercises %}
+                                <li class="list-group-item">
+                                    <a class="core_content" href="{{ url_for('exercise', id_ = ex['id']|string) }}">
+                                        {{ ex["name"] }}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
 {% endblock core %}

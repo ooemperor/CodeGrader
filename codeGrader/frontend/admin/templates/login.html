@@ -11,7 +11,7 @@
 <body>
     {% with msgs = get_flashed_messages() %}
     {% if msgs %}
-    <div id="flash" class="main flash">
+    <div id="flash" class="alert alert-warning" role="alert">
         {% if msgs %}
         <ul class="list">
             {% for msg in msgs %}
