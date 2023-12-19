@@ -85,41 +85,60 @@
                         </div>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link link-light" href="{{ url_for('home') }}">Home</a>
+                        <a class="nav-link link-light" href="{{ url_for('home') }}">
+                            <i class="bi bi-house-door-fill h5"></i>
+                            <span>Home</span>
+                        </a>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link link-light" href="{{ url_for('admins') }}">Admins</a>
+                        <a class="nav-link link-light" href="{{ url_for('admins') }}">
+                            <i class="bi bi-person-badge h5"></i>
+                            <span>Admins</span>
+                        </a>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link link-light" href="{{ url_for('users') }}">Users</a>
+                        <a class="nav-link link-light" href="{{ url_for('users') }}">
+                            <i class="bi bi-people-fill h5"></i>
+                            <span>Users</span>
+                        </a>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link link-light" href="{{ url_for('profiles') }}">Profiles</a>
+                        <a class="nav-link link-light" href="{{ url_for('profiles') }}">
+                            <i class="bi bi-boxes h5"></i>
+                            <span>Profiles</span>
+                        </a>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link link-light" href="{{ url_for('subjects') }}">Subjects</a>
+                        <a class="nav-link link-light" href="{{ url_for('subjects') }}">
+                            <i class="bi bi-collection-fill h5"></i>
+                            <span>Subjects</span>
+                        </a>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link link-light" href="{{ url_for('exercises') }}">Exercises</a>
+                        <a class="nav-link link-light" href="{{ url_for('exercises') }}">
+                            <i class="bi bi-journal-bookmark-fill h5"></i>
+                            <span>Exercises</span>
+                        </a>
                     </li>
                     <li class="list-group-item bg-black">
-                        <a class="nav-link link-light" href="{{ url_for('tasks') }}">Tasks</a>
+                        <a class="nav-link link-light" href="{{ url_for('tasks') }}">
+                            <i class="bi bi-check2-square h5"></i>
+                            <span>Tasks</span>
+                        </a>
                     </li>
                 </ul>
                 <div class="dropdown border-top">
                     <a href="#"
                         class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-person-circle" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                            <path fill-rule="evenodd"
-                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-                        </svg>
+                        <i class="bi bi-person-circle h5"></i>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
                         <li>
-                            <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+                            <a class="dropdown-item" href="{{ url_for('logout') }}">
+                                <i class="bi bi-box-arrow-left h5"></i>
+                                <span>Logout</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
