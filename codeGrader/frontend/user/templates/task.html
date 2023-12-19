@@ -34,50 +34,66 @@
         </div>
     </div>
 
-    <div class="py-4">
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" href="#collapseInstructions"
-            role="button" aria-expanded="false" aria-controls="collapseInstructions">
-            Instructions
-        </button>
-        <div class="collapse p-4" id="collapseInstructions">
-            <div>
-                <ul class="list-group list-group-flush py-2">
-                    {% if instructions %}
-                    {% for inst in instructions %}
-                    <li class="list-group-item">
-                        <i class="bi bi-filetype-{{ inst['file']['fileExtension'] }}"></i>
-                        <a href="{{ url_for('TaskInstruction', task_id_= id, instruction_id_ = inst['id']) }}"
-                            target="_blank" download="{{ inst['file']['filename'] }}">
-                            {{ inst["file"]["filename"] }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                    {% endif %}
-                </ul>
+    <div class="row py-4">
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelInstructions" aria-expanded="false" aria-controls="panelInstructions">
+                        Instructions
+                    </button>
+                </h2>
+                <div id="panelInstructions" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <div>
+                            <ul class="list-group list-group-flush py-2">
+                                {% if instructions %}
+                                {% for inst in instructions %}
+                                <li class="list-group-item">
+                                    <i class="bi bi-filetype-{{ inst['file']['fileExtension'] }}"></i>
+                                    <a href="{{ url_for('TaskInstruction', task_id_= id, instruction_id_ = inst['id']) }}"
+                                        target="_blank" download="{{ inst['file']['filename'] }}">
+                                        {{ inst["file"]["filename"] }}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="py-4">
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" href="#colllapseAttachments"
-            role="button" aria-expanded="false" aria-controls="colllapseAttachments">
-            Attachments
-        </button>
-        <div class="collapse p-4" id="colllapseAttachments">
-            <div>
-                <ul class="list-group list-group-flush py-2">
-                    {% if attachments %}
-                    {% for att in attachments %}
-                    <li class="list-group-item">
-                        <i class="bi bi-filetype-{{ att['file']['fileExtension'] }}"></i>
-                        <a href="{{ url_for('TaskAttachment', task_id_= id, attachment_id_ = att['id']) }}"
-                            target="_blank" download="{{ att['file']['filename'] }}">
-                            {{ att["file"]["filename"] }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                    {% endif %}
-                </ul>
+    <div class="row py-4">
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelAttachments" aria-expanded="false" aria-controls="panelAttachments">
+                        Attachments
+                    </button>
+                </h2>
+                <div id="panelAttachments" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <div>
+                            <ul class="list-group list-group-flush py-2">
+                                {% if attachments %}
+                                {% for att in attachments %}
+                                <li class="list-group-item">
+                                    <i class="bi bi-filetype-{{ att['file']['fileExtension'] }}"></i>
+                                    <a href="{{ url_for('TaskAttachment', task_id_= id, attachment_id_ = att['id']) }}"
+                                        target="_blank" download="{{ att['file']['filename'] }}">
+                                        {{ att["file"]["filename"] }}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
