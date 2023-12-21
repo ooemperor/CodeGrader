@@ -10,7 +10,8 @@ from flask_login import LoginManager, login_user, login_required, logout_user
 from codeGrader.frontend.config import config
 from codeGrader.frontend.user import templates
 from codeGrader.frontend.user.handlers import UserSessionHandler, SessionUser, UserLoginHandler, HomeHandler, \
-    ExerciseListHandler, ExerciseHandler, TaskHandler, TaskListHandler, TaskAttachmentHandler, TaskInstructionHandler
+    ExerciseListHandler, ExerciseHandler, TaskHandler, TaskListHandler, TaskAttachmentHandler, TaskInstructionHandler, \
+    AddSubmissionHandler
 from gevent.pywsgi import WSGIServer
 from typing import Union
 
@@ -139,7 +140,7 @@ def task(id_: int) -> str:
 
 @app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>", methods=['GET'])
 @login_required
-def TaskAttachment(task_id_: int, attachment_id_:int) -> Union[Response, str]:
+def TaskAttachment(task_id_: int, attachment_id_: int) -> Union[Response, str]:
     """
     Adding an Attachment File to a Task
     @param task_id_: The id of the task
@@ -155,7 +156,7 @@ def TaskAttachment(task_id_: int, attachment_id_:int) -> Union[Response, str]:
 
 @app.route("/task/<int:task_id_>/instruction/<int:instruction_id_>", methods=['GET'])
 @login_required
-def TaskInstruction(task_id_: int, instruction_id_:int) -> Union[Response, str]:
+def TaskInstruction(task_id_: int, instruction_id_: int) -> Union[Response, str]:
     """
     Getting the file for a Task Instruction
     @param task_id_: The id of the task
@@ -167,6 +168,13 @@ def TaskInstruction(task_id_: int, instruction_id_:int) -> Union[Response, str]:
     """
     if request.method == 'GET':
         return TaskInstructionHandler(request).get(task_id_, instruction_id_)
+
+
+@app.route("/task/<int:task_id_>/submission/add", methods = ['POST'])
+@login_required
+def addSubmission(task_id_: int) -> Union[Response, str]:
+    if request.method == 'POST':
+        return AddSubmissionHandler(request).post(task_id_)
 
 
 def user_frontend():

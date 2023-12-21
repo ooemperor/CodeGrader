@@ -75,5 +75,4 @@ class UserSessionHandler(BaseHandler):
         @type id_: int
         @return: The User as a json representation
         """
-        print(id_)
         return self.api.get(f"/user/{id_}")

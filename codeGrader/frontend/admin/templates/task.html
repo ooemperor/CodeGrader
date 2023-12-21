@@ -108,7 +108,7 @@
                             {% if editable %}
                             <form class="core_content" action="{{ url_for('addTaskInstruction', id_=id) }}"
                                 method="POST" enctype="multipart/form-data">
-                                <input type="file" id="myFile" name="fileme.py">
+                                <input type="file" id="myFile" name="file_name">
                                 <input type="submit">
                             </form>
                             {% endif %}

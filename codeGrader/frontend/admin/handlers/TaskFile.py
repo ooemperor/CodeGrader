@@ -152,7 +152,6 @@ class DeleteTaskFile(BaseHandler):
         if self.admin.check_permission('w', task["profile"]["id"]):  # admin is allowed to delete the task
 
             if self.get_value("action_button") == "Submit":
-                # TODO: Implement Deletion
                 self.api.delete(f"/task/{task_id_}/{self.fileObject}/{file_id_}")
 
                 self.flash(f"{self.fileObject} has been deleted")

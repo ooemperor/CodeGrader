@@ -142,7 +142,7 @@ class ApiHandler:
         """
         assert body is not None or data is not None or files is not None
         response = self._make_request('POST', path, body, data, files)
-
+        print(self._cast_dict(response.text))
         assert (response.status_code == 200 or response.status_code == 201)
         assert response.text is not None
 
