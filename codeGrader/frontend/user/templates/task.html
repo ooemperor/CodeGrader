@@ -106,16 +106,30 @@
                         <div>
                             <div>Submissions</div>
                             <div>
-                                <form class="core_content" action="{{ url_for('addSubmission', task_id_=id) }}" method="POST" enctype="multipart/form-data">
+                                <form class="core_content" action="{{ url_for('addSubmission', task_id_=id) }}"
+                                    method="POST" enctype="multipart/form-data">
                                     <input type="file" id="myFile" name="file_name">
                                     <input type="submit">
                                 </form>
                             </div>
+                            <div>
+                                <ul class="list-group list-group-flush py-2">
+                                    {% if submissions %}
+                                    {% for sub in submissions %}
+                                    <li class="list-group-item">
+                                        {{ sub["id"]}}
+                                    </li>
+                                    {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock core %}

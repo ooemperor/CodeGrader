@@ -56,7 +56,7 @@
                             <select id="sel_profile" name="profile">
                                 {% if not profile[id] %}
                                 {% endif %}
-                                {% for prof in profiles %}
+                                {% for prof in profiles | sort(attribute='name') %}
                                 {% if prof['id'] == profile['id'] %}
                                 <option value="{{ prof['id'] }}" selected>
                                     {{ prof['name'] }}

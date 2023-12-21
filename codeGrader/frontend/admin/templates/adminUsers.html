@@ -35,7 +35,7 @@
                     <th>Profile</th>
                     <th>Tag</th>
                 </tr>
-                {% for user in adminuser %}
+                {% for user in adminuser | sort(attribute='username') %}
                 <tr>
                     <td class="data">
                         <a href="{{ url_for('admin', id_ = user['id']) }}">

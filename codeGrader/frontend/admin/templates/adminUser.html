@@ -53,7 +53,7 @@
                         {% if editable %}
                         <td class="data">
                             <select id="sel_admin_type" name="admin_type">
-                                {% for type in types %}
+                                {% for type in types | sort(attribute='name')  %}
                                 {% if admin_type['id'] == type['id'] %}
                                 <option value="{{ type['id'] }}" selected>
                                     {{ type['name'] }}

@@ -30,7 +30,7 @@
                         <td>Exercise</td>
                         <td>
                             <select id="sel_exercise" name="exercise">
-                                {% for ex in exercises %}
+                                {% for ex in exercises | sort(attribute='name')  %}
                                 <option value="{{ ex['id'] }}">
                                     {{ ex['name'] }}
                                 </option>
