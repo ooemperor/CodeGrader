@@ -90,8 +90,8 @@ class TaskFile(BaseHandler):
             file_id_ = file_data["file"]["id"]
 
             req = self.api.get_file(f"/file/{file_id_}")
-
-            req.headers['Content-Disposition'] = 'attachment;filename=SmartFileName.txt'
+            filename = file_data["file"]["filename"]
+            req.headers['Content-Disposition'] = f"attachment;filename={filename}"
             return Response(stream_with_context(req.iter_content(chunk_size=2048)),
                             content_type=req.headers["content-type"])
 
@@ -152,7 +152,6 @@ class DeleteTaskFile(BaseHandler):
         if self.admin.check_permission('w', task["profile"]["id"]):  # admin is allowed to delete the task
 
             if self.get_value("action_button") == "Submit":
-                # TODO: Implement Deletion
                 self.api.delete(f"/task/{task_id_}/{self.fileObject}/{file_id_}")
 
                 self.flash(f"{self.fileObject} has been deleted")

@@ -15,7 +15,8 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
     ExerciseListHandler, AddAdminHandler, AddProfileHandler, AddUserHandler, AddTaskHandler, AddExerciseHandler, \
     AddSubjectHandler, DeleteUserHandler, DeleteSubjectHandler, DeleteAdminHandler, DeleteTaskHandler, \
     DeleteExerciseHandler, DeleteProfileHandler, AddTaskAttachmentHandler, DeleteTaskAttachmentHandler, \
-    AddTaskInstructionHandler, DeleteTaskInstructionHandler, TaskInstructionHandler, TaskAttachmentHandler
+    AddTaskInstructionHandler, DeleteTaskInstructionHandler, TaskInstructionHandler, TaskAttachmentHandler, \
+    SubmissionFileHandler
 from gevent.pywsgi import WSGIServer
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
@@ -424,7 +425,7 @@ def addTaskAttachment(id_: int) -> Union[Response, str]:
 
 @app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>", methods=['GET'])
 @login_required
-def TaskAttachment(task_id_: int, attachment_id_:int) -> Union[Response, str]:
+def TaskAttachment(task_id_: int, attachment_id_: int) -> Union[Response, str]:
     """
     Adding an Attachment File to a Task
     @param task_id_: The id of the task
@@ -440,7 +441,7 @@ def TaskAttachment(task_id_: int, attachment_id_:int) -> Union[Response, str]:
 
 @app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>/delete>", methods=['GET', 'POST'])
 @login_required
-def deleteTaskAttachment(task_id_: int, attachment_id_:int) -> Union[Response, str]:
+def deleteTaskAttachment(task_id_: int, attachment_id_: int) -> Union[Response, str]:
     """
     Deleting an Attachment from Task
     @param task_id_: The id of the task
@@ -473,7 +474,7 @@ def addTaskInstruction(id_: int) -> Union[Response, str]:
 
 @app.route("/task/<int:task_id_>/instruction/<int:instruction_id_>", methods=['GET'])
 @login_required
-def TaskInstruction(task_id_: int, instruction_id_:int) -> Union[Response, str]:
+def TaskInstruction(task_id_: int, instruction_id_: int) -> Union[Response, str]:
     """
     Getting the file for a Task Instruction
     @param task_id_: The id of the task
@@ -504,6 +505,20 @@ def deleteTaskInstruction(task_id_: int, instruction_id_: int) -> Union[Response
 
     elif request.method == 'POST':
         return DeleteTaskInstructionHandler(request).post(task_id_, instruction_id_)
+
+
+@app.route("/submission/<int:id_>/file", methods=['GET'])
+@login_required
+def SubmissionFile(id_: int) -> Union[Response, str]:
+    """
+    Getting/Downloading the File for a given Submission
+    @param id_: The id of the submission
+    @type: id_: int
+    @return: The File of the Submission as a download
+    @rtype: Response/str
+    """
+    if request.method == 'GET':
+        return SubmissionFileHandler(request).get(id_)
 
 
 def admin_frontend():

@@ -52,7 +52,9 @@ class TaskHandler(BaseHandler):
 
         editable = self.admin.check_permission('w', task["profile"]["id"])
         exercises = self.api.get("/exercises", profile=self.admin.get_filter_profile())
+        submissions = self.api.get("/submissions", profile=self.admin.get_filter_profile())
         task["exercises"] = exercises["exercise"]
+        task["submissions"] = submissions["submission"]
 
         task["editable"] = editable
         if self.admin.check_permission('r', task["profile"]["id"]):  # when admin is allowed to view this task

@@ -58,7 +58,7 @@
                                 <option value="0">
                                     Select Admin User Type
                                 </option>
-                                {% for type in types %}
+                                {% for type in types | sort(attribute='name')  %}
                                 <option value="{{ type['id'] }}">
                                     {{ type['name'] }}
                                 </option>
@@ -70,7 +70,7 @@
                         <td>Admin Profile</td>
                         <td>
                             <select id="sel_profile" name="profile">
-                                {% for prof in profiles %}
+                                {% for prof in profiles | sort(attribute='name')  %}
                                 <option value="{{ prof['id'] }}">
                                     {{ prof['name'] }}
                                 </option>

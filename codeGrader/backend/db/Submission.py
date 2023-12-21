@@ -105,5 +105,9 @@ class Submission(Base):
         out = dict()
         out["id"] = self.id
         out["task"] = self.TaskSubmission.toJson()
+        out["task_id"] = out["task"]["id"]
         out["user"] = self.user.toJson()
+        out["user_id"] = out["user"]["id"]
+        out["file"] = self.file.toJson(include_binary=False)
+        out["file_id"] = self.file.id
         return out

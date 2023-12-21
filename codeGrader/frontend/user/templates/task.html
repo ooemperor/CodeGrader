@@ -92,5 +92,44 @@
             </div>
         </div>
     </div>
+    <div class="row py-4">
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelSubmissions" aria-expanded="false" aria-controls="panelSubmissions">
+                        Submissions
+                    </button>
+                </h2>
+                <div id="panelSubmissions" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <div>
+                            <div>Submissions</div>
+                            <div>
+                                <form class="core_content" action="{{ url_for('addSubmission', task_id_=id) }}"
+                                    method="POST" enctype="multipart/form-data">
+                                    <input type="file" id="myFile" name="file_name">
+                                    <input type="submit">
+                                </form>
+                            </div>
+                            <div>
+                                <ul class="list-group list-group-flush py-2">
+                                    {% if submissions %}
+                                    {% for sub in submissions %}
+                                    <li class="list-group-item">
+                                        {{ sub["id"]}}
+                                    </li>
+                                    {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 {% endblock core %}

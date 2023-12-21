@@ -31,7 +31,7 @@
                         <td>Subject</td>
                         <td>
                             <select id="sel_subject" name="subject">
-                                {% for sub in subjects %}
+                                {% for sub in subjects | sort(attribute='name')  %}
                                 <option value="{{ sub['id'] }}">
                                     {{ sub['name'] }}
                                 </option>

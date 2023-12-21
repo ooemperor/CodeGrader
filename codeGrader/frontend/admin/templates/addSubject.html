@@ -31,7 +31,7 @@
                     <td>Profile</td>
                     <td>
                         <select id="sel_profile" name="profile">
-                            {% for prof in profiles %}
+                            {% for prof in profiles | sort(attribute='name')  %}
                             <option value="{{ prof['id'] }}">
                                 {{ prof['name'] }}
                             </option>

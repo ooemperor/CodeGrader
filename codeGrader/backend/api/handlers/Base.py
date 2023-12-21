@@ -7,6 +7,7 @@ import sqlalchemy.orm.decl_api
 from codeGrader.backend.db import Session
 from .ResponseGenerator import ErrorResponseHandler, GenericResponseHandler
 import urllib
+import json
 
 
 class BaseHandler:
@@ -171,7 +172,14 @@ class BaseHandler:
 
                     for key in arguments.keys():  # filtering with the provided filter arguments
                         if str(object_dict[key]) == urllib.parse.unquote(arguments.get(key)):
-                            object_list.append(object_dict)
+                            if object_dict not in object_list:
+                                object_list.append(object_dict)
+
+                        else:  # the filter does not match
+                            if object_dict in object_list:  # the object is already in the dict and does not match
+                                index = object_list.index(object_dict)  # find object in list
+                                object_list.pop(index)  # remove object from list
+                                break  # end the inner loop
 
                 output = dict()
                 output[str(self.dbClass.__table__)] = object_list

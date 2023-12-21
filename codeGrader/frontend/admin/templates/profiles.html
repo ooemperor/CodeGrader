@@ -27,7 +27,7 @@
                 <th>Name</th>
                 <th>Tag</th>
             </tr>
-            {% for prof in profile %}
+            {% for prof in profile | sort(attribute='name') %}
                 <tr>
                     <td>
                         <a href="{{ url_for('profile', id_ = prof['id']|string) }}">

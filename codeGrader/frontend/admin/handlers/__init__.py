@@ -14,6 +14,7 @@ from .Task import TaskHandler, TaskListHandler, AddTaskHandler, DeleteTaskHandle
 from .Exercise import ExerciseHandler, ExerciseListHandler, AddExerciseHandler, DeleteExerciseHandler
 from .TaskAttachment import AddTaskAttachmentHandler, DeleteTaskAttachmentHandler, TaskAttachmentHandler
 from .TaskInstruction import AddTaskInstructionHandler, DeleteTaskInstructionHandler, TaskInstructionHandler
+from .Submission import SubmissionFileHandler
 
 __all__ = ["AdminUserLoginHandler", "AdminSessionHandler", "SessionAdmin", "UserListHandler", "UserHandler",
            "HomeHandler", "AdminHandler", "AdminListHandler", "ProfileListHandler", "ProfileHandler",
@@ -22,4 +23,4 @@ __all__ = ["AdminUserLoginHandler", "AdminSessionHandler", "SessionAdmin", "User
            "AddSubjectHandler", "AddUserHandler", "DeleteUserHandler", "DeleteTaskHandler", "DeleteAdminHandler",
            "DeleteProfileHandler", "DeleteExerciseHandler", "DeleteUserHandler", "DeleteSubjectHandler",
            "AddTaskAttachmentHandler", "AddTaskInstructionHandler", "DeleteTaskAttachmentHandler",
-           "DeleteTaskInstructionHandler", "TaskInstructionHandler", "TaskAttachmentHandler"]
+           "DeleteTaskInstructionHandler", "TaskInstructionHandler", "TaskAttachmentHandler", "SubmissionFileHandler"]
