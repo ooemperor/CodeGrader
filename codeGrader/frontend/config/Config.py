@@ -21,7 +21,7 @@ class Config:
 
         self.system = platform.system()
         if self.system == 'Windows':
-            configFile = os.path.join(os.path.dirname(__file__), "config.conf")
+            configFile = os.path.join(os.path.dirname(__file__), "config.sec.conf")
             self.templatesDir = os.path.abspath('./templates')
         elif self.system == 'Linux':
             configFile = "/etc/codeGrader/frontendConfig.conf"

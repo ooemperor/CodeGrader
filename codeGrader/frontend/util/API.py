@@ -49,7 +49,7 @@ class ApiHandler:
         """
         path = f"{self.url}{path}"
         headers = dict()
-        if self.authentication_type is None:
+        if self.authentication_type is not None:
             headers["Authorization"] = f"{self.authentication_type} {self.authentication_token}"
 
         if method == 'GET':
@@ -120,6 +120,7 @@ class ApiHandler:
         """
         path = self._construct_filter(path, **kwargs)
         response = self._make_request('GET', path)
+        print(response.text)
         assert response.status_code == 200
         assert response.text is not None
 

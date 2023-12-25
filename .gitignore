@@ -10,3 +10,4 @@ __pycache__
 
 # Secret Values file for testing
 *.sec.json
+*.sec.conf

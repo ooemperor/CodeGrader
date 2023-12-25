@@ -1,9 +1,15 @@
 import unittest
 import requests, json
 from codeGrader.backend.config import config
+from codeGrader.frontend.config import config as api_config
 
 
 class ApiUserTest(unittest.TestCase):
+
+    def setUp(self):
+        self.headers = dict()
+        self.headers["Authorization"] = f"{api_config.apiAuthentication} {api_config.apiToken}"
+
     def test_createAndDeleteUser(self):
         """
         Test Case for creating and deleting the user.
@@ -22,13 +28,13 @@ class ApiUserTest(unittest.TestCase):
         }
 
         # creating the user
-        r = requests.post(create_url, json=user_dict)
+        r = requests.post(create_url, json=user_dict, headers=self.headers)
         self.assertIsNotNone(r)
         self.assertEqual(201, r.status_code)
         user_id = json.loads(r.text)["response"]["id"]
 
         # checks after creation
-        r = requests.get(f"{user_url}{user_id}")
+        r = requests.get(f"{user_url}{user_id}", headers=self.headers)
         self.assertEqual(200, r.status_code)
         self.assertEqual("tuser", json.loads(r.text)["username"])
         self.assertEqual("test", json.loads(r.text)["first_name"])
@@ -37,7 +43,7 @@ class ApiUserTest(unittest.TestCase):
         self.assertEqual("usertag", json.loads(r.text)["tag"])
 
         # deleting the user after the test
-        r = requests.delete(f"{user_url}{user_id}")
+        r = requests.delete(f"{user_url}{user_id}", headers=self.headers)
         self.assertEqual(204, r.status_code)
         self.assertIsNotNone(r)
 
@@ -60,13 +66,13 @@ class ApiUserTest(unittest.TestCase):
         }
 
         # creating the user
-        r = requests.post(create_url, json=user_dict)
+        r = requests.post(create_url, json=user_dict, headers=self.headers)
         self.assertIsNotNone(r)
         self.assertEqual(201, r.status_code)
         user_id = json.loads(r.text)["response"]["id"]
 
         # checks after creation
-        r = requests.get(f"{user_url}{user_id}")
+        r = requests.get(f"{user_url}{user_id}", headers=self.headers)
         self.assertEqual(200, r.status_code)
         self.assertEqual("tuser", json.loads(r.text)["username"])
         self.assertEqual("test", json.loads(r.text)["first_name"])
@@ -84,11 +90,12 @@ class ApiUserTest(unittest.TestCase):
         }
 
         # updating the user
-        r = requests.put(f"{user_url}{user_id}", json=new_user_dict, headers={'content-type': 'application/json'})
+        r = requests.put(f"{user_url}{user_id}", json=new_user_dict, headers={'content-type': 'application/json',
+                                                                              'Authorization': f"{api_config.apiAuthentication} {api_config.apiToken}"})
         self.assertEqual(200, r.status_code)
 
         # checking again
-        r = requests.get(f"{user_url}{user_id}")
+        r = requests.get(f"{user_url}{user_id}", headers=self.headers)
         self.assertEqual(200, r.status_code)
         self.assertEqual("new", json.loads(r.text)["username"])
         self.assertEqual("first", json.loads(r.text)["first_name"])
@@ -97,7 +104,7 @@ class ApiUserTest(unittest.TestCase):
         self.assertEqual("newUserTag", json.loads(r.text)["tag"])
 
         # deleting the user after the test
-        r = requests.delete(f"{user_url}{user_id}")
+        r = requests.delete(f"{user_url}{user_id}", headers=self.headers)
         self.assertIsNotNone(r)
         self.assertEqual(204, r.status_code)
 
@@ -108,7 +115,7 @@ class ApiUserTest(unittest.TestCase):
         """
         url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/users"
 
-        r = requests.get(url)
+        r = requests.get(url, headers=self.headers)
         self.assertIsNotNone(r)
         self.assertEqual(200, r.status_code)
         self.assertIsNotNone(json.loads(r.text)["user"])
