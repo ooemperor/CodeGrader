@@ -98,16 +98,17 @@ class Execution:
             # no testcases have been found. we just execute it without testcases
 
             start_time = time.time()
-            self.output, self.returncode = self.lxc.lxc_execute_command(
+            output, returncode = self.lxc.lxc_execute_command(
                 f"python3 {config.executionFilePath}/{script_filename_hash}")  # TODO make better execution function. Not allowed to be hardcoded
             end_time = time.time()
-            self.duration = end_time - start_time
+            duration = end_time - start_time
             self._addExecutionResult()
+            self._addExecutionResult(output, returncode, duration)
 
         # since the execution is done we clean up after and destroy the lxc, create the Result entries in the database
         self.cleanup()
 
-    def _addExecutionResult(self, output: str, returncode: str, duration: float, testcase_id: int) -> None:
+    def _addExecutionResult(self, output: str, returncode: str, duration: float, testcase_id: int = None) -> None:
         """
         Creating a ExecutionResultentry in the database with values provided by the function parameters
         @param output: the output of a single execution
