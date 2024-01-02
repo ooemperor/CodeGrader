@@ -72,14 +72,14 @@ class Execution:
         self._prepare()
 
         # uploading the submission file
-        script_filename_hash = str(hashlib.sha256(self.scriptFile.filename))
+        script_filename_hash = str(hashlib.sha256(self.scriptFile.filename.encode('UTF-8')))
         self.lxc.lxc_upload_file("/opt", script_filename_hash, self.scriptFile.getFileContent())
 
         if len(self.testcases) > 0:
             # there are testcases avaible
             for testcase in self.testcases:
                 file = testcase.input_file
-                testcase_file_hash = str(hashlib.sha256(file.filename))
+                testcase_file_hash = str(hashlib.sha256(file.filename.encode('UTF-8')))
                 self.lxc.lxc_upload_file("/opt", testcase_file_hash,
                                          file.getFileContent())  # uploading the individual task file
 
