@@ -32,8 +32,7 @@ class Execution:
         self.testcases = self.task.testcases  # list of all the testcases for the task of the submission
 
         # creating a hash value to extend the lxc name with for unique name
-        lxc_name_extension = hashlib.sha256(str(time.time()).encode('UTF-8')).hexdigest()
-        self.lxc_name = f"{self.submission.user.username}_{self.task.id}_{self.submission_id}_{lxc_name_extension}"
+        self.lxc_name = f"{self.submission.user.username}_{self.task.id}_{self.submission_id}"
         self.lxc = LXC(self.lxc_name)
 
         # parameters that we will set after the execution.
