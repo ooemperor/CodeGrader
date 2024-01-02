@@ -32,7 +32,7 @@ class Execution:
         self.testcases = self.task.testcases  # list of all the testcases for the task of the submission
 
         # creating a hash value to extend the lxc name with for unique name
-        lxc_name_extension = hashlib.sha256(str(time.time()).encode('UTF-8'))
+        lxc_name_extension = hashlib.sha256(str(time.time()).encode('UTF-8')).hexdigest()
         self.lxc_name = f"{self.submission.user.username}_{self.task.id}_{self.submission_id}_{lxc_name_extension}"
         self.lxc = LXC(self.lxc_name)
 
@@ -72,14 +72,14 @@ class Execution:
         self._prepare()
 
         # uploading the submission file
-        script_filename_hash = str(hashlib.sha256(self.scriptFile.filename.encode('UTF-8')))
+        script_filename_hash = str(hashlib.sha256(self.scriptFile.filename.encode('UTF-8')).hexdigest())
         self.lxc.lxc_upload_file("/opt", script_filename_hash, self.scriptFile.getFileContent())
 
         if len(self.testcases) > 0:
             # there are testcases avaible
             for testcase in self.testcases:
                 file = testcase.input_file
-                testcase_file_hash = str(hashlib.sha256(file.filename.encode('UTF-8')))
+                testcase_file_hash = str(hashlib.sha256(file.filename.encode('UTF-8')).hexdigest())
                 self.lxc.lxc_upload_file("/opt", testcase_file_hash,
                                          file.getFileContent())  # uploading the individual task file
 
