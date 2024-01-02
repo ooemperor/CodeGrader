@@ -85,7 +85,7 @@ class Execution:
                 start_time = time.time()
 
                 output, returncode = self.lxc.lxc_execute_command(
-                    f"python3 {config.executionFilePath}/{script_filename_hash} < {testcase_file_hash}")  # TODO make better execution function. Not allowed to be hardcoded
+                    f"python3 {config.executionFilePath}/{script_filename_hash} < {config.executionFilePath}/{testcase_file_hash}")  # TODO make better execution function. Not allowed to be hardcoded
 
                 end_time = time.time()
 
@@ -102,7 +102,6 @@ class Execution:
                 f"python3 {config.executionFilePath}/{script_filename_hash}")  # TODO make better execution function. Not allowed to be hardcoded
             end_time = time.time()
             duration = end_time - start_time
-            self._addExecutionResult()
             self._addExecutionResult(output, returncode, duration)
 
         # since the execution is done we clean up after and destroy the lxc, create the Result entries in the database
