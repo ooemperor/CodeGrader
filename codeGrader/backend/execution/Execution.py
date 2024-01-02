@@ -72,20 +72,20 @@ class Execution:
 
         # uploading the submission file
         script_filename_hash = str(hashlib.sha256(self.scriptFile.filename.encode('UTF-8')).hexdigest())
-        self.lxc.lxc_upload_file("/opt", script_filename_hash, self.scriptFile.getFileContent())
+        self.lxc.lxc_upload_file("/opt", self.scriptFile.filename, self.scriptFile.getFileContent())
 
         if len(self.testcases) > 0:
             # there are testcases avaible
             for testcase in self.testcases:
                 file = testcase.input_file
                 testcase_file_hash = str(hashlib.sha256(file.filename.encode('UTF-8')).hexdigest())
-                self.lxc.lxc_upload_file("/opt", testcase_file_hash,
+                self.lxc.lxc_upload_file("/opt", file.filename,
                                          file.getFileContent())  # uploading the individual task file
 
                 start_time = time.time()
 
                 output, returncode = self.lxc.lxc_execute_command(
-                    f"python3 {config.executionFilePath}/{script_filename_hash} < {testcase_file_hash}")  # TODO make better execution function. Not allowed to be hardcoded
+                    f"python3 {config.executionFilePath}/{file.filename} < {testcase_file_hash}")  # TODO make better execution function. Not allowed to be hardcoded
 
                 end_time = time.time()
 
