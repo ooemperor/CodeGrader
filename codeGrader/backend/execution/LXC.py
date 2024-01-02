@@ -47,7 +47,7 @@ class LXC:
         @return:
         """
         assert self._invariant_os()
-        command = f"lxc-attach -n {self.name} -- {command}"
+        command = f"lxc-attach -n {self.name} -- /bin/bash -c '{command}'"
         output, returncode = self._run_cmd(command)
         return output, returncode
 
