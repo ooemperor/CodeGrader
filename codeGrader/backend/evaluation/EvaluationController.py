@@ -3,8 +3,8 @@ Controller for the evaluation objects.
 @author: mkaiser
 """
 
-from codeGrader.backend.db import Session, Submission, ExecutionResult
-from .Evaluation import Evaluation
+from codeGrader.backend.db import Session, Submission, EvaluationResult
+from codeGrader.backend.evaluation.Evaluation import Evaluation
 
 
 class EvaluationController:
@@ -45,7 +45,7 @@ class EvaluationController:
                 if testcase.id == execution_result.testcase_id:
 
                     # preparing the outputs to a list or the evaluation.
-                    expected_list = self._prepareFileContent(testcase.input_file.getFileContent())
+                    expected_list = self._prepareFileContent(str(testcase.input_file.getFileContent()))
                     actual_list = self._prepareFileContent(execution_result.execution_output)
 
                     # evaluation returns True if they match.
@@ -86,6 +86,6 @@ class EvaluationController:
         data["evaluation_score"] = score
         data["submission_id"] = self.submission.id
 
-        exec_result = ExecutionResult(**data)
+        exec_result = EvaluationResult(**data)
 
         Session().create(exec_result)
