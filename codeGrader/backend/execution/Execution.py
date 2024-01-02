@@ -83,9 +83,6 @@ class Execution:
                 self.lxc.lxc_upload_file("/opt", testcase_file_hash,
                                          file.getFileContent())  # uploading the individual task file
 
-                print(f"python3 {config.executionFilePath}/{script_filename_hash} < {config.executionFilePath}/{testcase_file_hash}")
-                sys.exit(0)
-
                 start_time = time.time()
 
                 output, returncode = self.lxc.lxc_execute_command(
