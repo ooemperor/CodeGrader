@@ -9,6 +9,7 @@ from codeGrader.backend.config import config
 import time
 from codeGrader.backend.execution.LXC import LXC
 from codeGrader.backend.db import Session, Submission, File, ExecutionResult, Task, Submission
+import hashlib
 
 
 class Execution:
@@ -24,12 +25,16 @@ class Execution:
         @return: No return for the constructor
         @rtype: None
         """
-        self.submissionId = id_
-        self.submission = Session().get_object(Submission, self.submissionId)
+        self.submission_id = id_
+        self.submission = Session().get_object(Submission, self.submission_id)
         self.scriptFile = self.submission.file  # the file
         self.task = self.submission.TaskSubmission  # the task object for the submission
         self.testcases = self.task.testcases  # list of all the testcases for the task of the submission
-        self.lxc = LXC("container_name")
+
+        # creating a hash value to extend the lxc name with for unique name
+        lxc_name_extension = hashlib.sha256(time.time())
+        self.lxc_name = f"{self.submission.user.username}_{self.task.id}_{self.submission_id}_{lxc_name_extension}"
+        self.lxc = LXC(self.lxc_name)
 
         # parameters that we will set after the execution.
         self.output = None  # the output of the execution.
@@ -67,19 +72,21 @@ class Execution:
         self._prepare()
 
         # uploading the submission file
-        self.lxc.lxc_upload_file("/opt", self.scriptFile.filename, self.scriptFile.getFileContent())
+        script_filename_hash = str(hashlib.sha256(self.scriptFile.filename))
+        self.lxc.lxc_upload_file("/opt", script_filename_hash, self.scriptFile.getFileContent())
 
         if len(self.testcases) > 0:
             # there are testcases avaible
             for testcase in self.testcases:
                 file = testcase.input_file
-
-                self.lxc.lxc_upload_file("/opt", file.filename, file.getFileContent())  # uploading the individual task file
+                testcase_file_hash = str(hashlib.sha256(file.filename))
+                self.lxc.lxc_upload_file("/opt", testcase_file_hash,
+                                         file.getFileContent())  # uploading the individual task file
 
                 start_time = time.time()
 
                 output, returncode = self.lxc.lxc_execute_command(
-                    f"python3 {config.executionFilePath}/{self.scriptFile.filename} < {file.filename}")  # TODO make better execution function. Not allowed to be hardcoded
+                    f"python3 {config.executionFilePath}/{script_filename_hash} < {testcase_file_hash}")  # TODO make better execution function. Not allowed to be hardcoded
 
                 end_time = time.time()
 
@@ -120,7 +127,7 @@ class Execution:
         data["execution_output"] = output
         data["execution_exit_code"] = returncode
         data["execution_duration"] = duration
-        data["submission_id"] = self.submissionId
+        data["submission_id"] = self.submission_id
         data["testcase_id"] = testcase_id
 
         exec_result = ExecutionResult(**data)
@@ -138,7 +145,7 @@ class Execution:
         data["execution_output"] = self.output
         data["execution_exit_code"] = self.returncode
         data["execution_duration"] = self.duration
-        data["submission_id"] = self.submissionId
+        data["submission_id"] = self.submission_id
 
         exec_result = ExecutionResult(**data)
 
