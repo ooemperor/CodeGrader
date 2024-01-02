@@ -7,8 +7,8 @@ This class will define what the execution is and what is to do to get a result.
 import os
 from codeGrader.backend.config import config
 import time
-from .LXC import LXC
-from codeGrader.backend.db import Session, Submission, File, ExecutionResult
+from codeGrader.backend.execution.LXC import LXC
+from codeGrader.backend.db import Session, Submission, File, ExecutionResult, Task, Submission
 
 
 class Execution:
@@ -26,9 +26,10 @@ class Execution:
         """
         self.submissionId = id_
         self.submission = Session().get_object(Submission, self.submissionId)
-        self.scriptFile = self.submission.file
+        self.scriptFile = self.submission.file  # the file
+        self.task = self.submission.TaskSubmission  # the task object for the submission
+        self.testcases = self.task.testcases  # list of all the testcases for the task of the submission
         self.lxc = LXC("container_name")
-
 
         # parameters that we will set after the execution.
         self.output = None  # the output of the execution.
@@ -65,16 +66,66 @@ class Execution:
         self.lxc.lxc_start()
         self._prepare()
 
+        # uploading the submission file
         self.lxc.lxc_upload_file("/opt", self.scriptFile.filename, self.scriptFile.getFileContent())
-        start_time = time.time()
-        self.output, self.returncode = self.lxc.lxc_execute_command(
-            f"python3 {config.executionFilePath}/{self.scriptFile.filename}")  # TODO make better execution function. Not allowed to be hardcoded
-        end_time = time.time()
-        self.duration = end_time - start_time
 
-        # since the execution is done we cleanup after and destroy the lxc, create the Result entries in the database
+        if len(self.testcases) > 0:
+            # there are testcases avaible
+            for testcase in self.testcases:
+                file = testcase.input_file
+
+                self.lxc.lxc_upload_file("/opt", file.filename, file.getFileContent())  # uploading the individual task file
+
+                start_time = time.time()
+
+                output, returncode = self.lxc.lxc_execute_command(
+                    f"python3 {config.executionFilePath}/{self.scriptFile.filename} < {file.filename}")  # TODO make better execution function. Not allowed to be hardcoded
+
+                end_time = time.time()
+
+                duration = end_time - start_time
+                self.duration = duration
+
+                self._addExecutionResult(output, returncode, duration, testcase.id)
+
+        elif len(self.testcases) == 0:
+            # no testcases have been found. we just execute it without testcases
+
+            start_time = time.time()
+            self.output, self.returncode = self.lxc.lxc_execute_command(
+                f"python3 {config.executionFilePath}/{self.scriptFile.filename}")  # TODO make better execution function. Not allowed to be hardcoded
+            end_time = time.time()
+            self.duration = end_time - start_time
+            self._addExecutionResult()
+
+        # since the execution is done we clean up after and destroy the lxc, create the Result entries in the database
         self.cleanup()
-        self._addExecutionResult()
+
+    def _addExecutionResult(self, output: str, returncode: str, duration: float, testcase_id: int) -> None:
+        """
+        Creating a ExecutionResultentry in the database with values provided by the function parameters
+        @param output: the output of a single execution
+        @type output: str
+        @param returncode: the return code of the execution
+        @type returncode: str
+        @param duration: the duration of the execution
+        @type duration: float
+        @param testcase_id: The id of the testcase of the individual execution
+        @type testcase_id: int
+        @return: Nothing
+        @rtype: None
+        """
+
+        data = dict()
+        data["execution_output"] = output
+        data["execution_exit_code"] = returncode
+        data["execution_duration"] = duration
+        data["submission_id"] = self.submissionId
+        data["testcase_id"] = testcase_id
+
+        exec_result = ExecutionResult(**data)
+
+        Session().create(exec_result)
 
     def _addExecutionResult(self) -> None:
         """

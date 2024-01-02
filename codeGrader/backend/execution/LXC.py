@@ -51,7 +51,6 @@ class LXC:
         output, returncode = self._run_cmd(command)
         return output, returncode
 
-
     def _run_cmd(self, command):
         """
         Runs a subprocess aka Command and only return the text output
