@@ -3,8 +3,8 @@ Controller for the evaluation objects.
 @author: mkaiser
 """
 
-from codeGrader.backend.db import Session, Submission, ExecutionResult
-from .Evaluation import Evaluation
+from codeGrader.backend.db import Session, Submission, EvaluationResult
+from codeGrader.backend.evaluation.Evaluation import Evaluation
 
 
 class EvaluationController:
@@ -86,6 +86,6 @@ class EvaluationController:
         data["evaluation_score"] = score
         data["submission_id"] = self.submission.id
 
-        exec_result = ExecutionResult(**data)
+        exec_result = EvaluationResult(**data)
 
         Session().create(exec_result)
