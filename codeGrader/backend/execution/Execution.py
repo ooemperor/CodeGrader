@@ -10,6 +10,7 @@ import time
 from codeGrader.backend.execution.LXC import LXC
 from codeGrader.backend.db import Session, Submission, File, ExecutionResult, Task, Submission
 import hashlib
+import sys
 
 
 class Execution:
@@ -82,6 +83,9 @@ class Execution:
                 self.lxc.lxc_upload_file("/opt", testcase_file_hash,
                                          file.getFileContent())  # uploading the individual task file
 
+                print(f"python3 {config.executionFilePath}/{script_filename_hash} < {config.executionFilePath}/{testcase_file_hash}")
+                sys.exit(0)
+
                 start_time = time.time()
 
                 output, returncode = self.lxc.lxc_execute_command(
@@ -128,23 +132,6 @@ class Execution:
         data["execution_duration"] = duration
         data["submission_id"] = self.submission_id
         data["testcase_id"] = testcase_id
-
-        exec_result = ExecutionResult(**data)
-
-        Session().create(exec_result)
-
-    def _addExecutionResult(self) -> None:
-        """
-        Creating a ExecutionResultentry in the database.
-        @return: Nothing
-        @rtype: None
-        """
-
-        data = dict()
-        data["execution_output"] = self.output
-        data["execution_exit_code"] = self.returncode
-        data["execution_duration"] = self.duration
-        data["submission_id"] = self.submission_id
 
         exec_result = ExecutionResult(**data)
 
