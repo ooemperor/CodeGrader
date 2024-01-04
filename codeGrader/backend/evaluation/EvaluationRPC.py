@@ -67,7 +67,7 @@ class EvaluationRPC(Service):
         return True
 
     @staticmethod
-    def _evaluate(self, submission_id:int) -> None:
+    def _evaluate(submission_id: int) -> None:
         EvaluationController(submission_id).evaluate()
 
 
