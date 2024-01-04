@@ -33,6 +33,5 @@ class SubmissionHandler(BaseHandler):
         @rtype: bool
         """
         execution_rpyc = rpyc.connect(config.executionHost, config.executionPort).root
-        t1 = threading.Thread(target=execution_rpyc.addExecution, args=(submission_id_,))
-        t1.start()
+        return_value = execution_rpyc.addExecution(submission_id_)
         return True

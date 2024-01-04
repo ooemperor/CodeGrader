@@ -78,11 +78,13 @@ class Config:
         # Configuration for EvaluationService
         self.evaluationHost = self.config["EvaluationService"]["Host"]
         self.evaluationPort = self.config["EvaluationService"]["Port"]
+        self.evaluationIpWhiteList = self.config["EvaluationService"]["IP_Adress_Whitelist"]
 
         # Configuration for the ExecutionService
         self.executionHost = self.config["ExecutionService"]["Host"]
         self.executionPort = self.config["ExecutionService"]["Port"]
         self.executionFilePath = self.config["ExecutionService"]["PathToExecutionFiles"]
+        self.executionIpWhiteList = self.config["ExecutionService"]["IP_Adress_Whitelist"]
 
     def getInstallationCommand(self, codeLanguage: str):
         """
