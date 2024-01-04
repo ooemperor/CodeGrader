@@ -363,7 +363,13 @@ def addSubmission():
     @rtype: dict
     """
     if request.method == 'POST':
-        return SubmissionHandler().post(request.get_json())
+        output, response_code = SubmissionHandler().post(request.get_json())
+        try:
+            new_id = output["response"]["id"]
+            SubmissionHandler().signal_execution_service(new_id)
+
+        finally:
+            return output
 
 
 @app.route("/submission/<int:id_>", methods=["GET"])
