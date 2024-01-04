@@ -38,7 +38,7 @@ class ExecutionRPC(Service):
             raise Exception("IP is not in the whitelist. You are not allowed to connect to this rpyc server")
 
     @staticmethod
-    def _logging(self, ip: str, message: str) -> None:
+    def _logging(ip: str, message: str) -> None:
         """
         Prints a logging message for the ExecutionRPC
         @param ip: The source IP Adress of the Connection
