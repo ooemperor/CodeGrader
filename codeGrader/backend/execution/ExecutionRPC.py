@@ -8,6 +8,7 @@ from rpyc.utils.server import ThreadedServer
 from codeGrader.backend.config import config
 from codeGrader.backend.execution.Execution import Execution
 import rpyc
+import threading
 
 
 @service
@@ -44,11 +45,14 @@ class ExecutionRPC(Service):
         @return: True if successful
         @rtype: Boolean
         """
+        threading.Thread(target=self._execution, args=(submission_id_,)).start()
+        return True
+
+    def _execution(self, submission_id_: int):
         Execution(submission_id_).execute()
 
         # start the evaluation by signaling to the evaluationService, that a Execution has finished.
         self.evaluationRPC.evaluate(submission_id_)
-
 
 if __name__ == '__main__':
     ExecutionRPC().start()
