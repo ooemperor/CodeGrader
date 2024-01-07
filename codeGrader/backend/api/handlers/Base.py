@@ -171,6 +171,8 @@ class BaseHandler:
                         continue
 
                     for key in arguments.keys():  # filtering with the provided filter arguments
+                        print(str(object_dict[key]))
+                        print(urllib.parse.unquote(arguments.get(key)))
                         if str(object_dict[key]) == urllib.parse.unquote(arguments.get(key)):
                             if object_dict not in object_list:
                                 object_list.append(object_dict)

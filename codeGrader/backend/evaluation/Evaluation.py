@@ -36,6 +36,8 @@ class Evaluation:
         actualSolution
         assert actualSolution is not None
         assert self.evaluation_type is not None
+        print(expectedSolution[0])
+        print(actualSolution)
         if self.evaluation_type == "basic":
             evaluation = self._basic_full_compare_evaluation(expectedSolution, actualSolution)
         elif self.evaluation_type == "line-per-line":

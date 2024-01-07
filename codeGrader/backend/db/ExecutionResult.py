@@ -60,3 +60,22 @@ class ExecutionResult(Base):
         nullable=True,
         index=True
     )
+
+    def toJson(self, recursive: bool = True) -> dict:
+        """
+        Render the json representation of a ExecutionResult
+        @param recursive: Parameter to indicate if the related items should be loaded and added or not. Default is True
+        @type recursive: bool
+        @return: JSON representation of a Task
+        @rtype: dict
+        """
+        out = dict()
+        out["id"] = self.id
+        out["output"] = self.execution_output
+        out["exit_code"] = self.execution_exit_code
+        out["duration"] = self.execution_duration
+
+        out["submission_id"] = self.submission_id
+        out["testcase_id"] = self.testcase_id
+
+        return out

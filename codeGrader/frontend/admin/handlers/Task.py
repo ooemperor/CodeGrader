@@ -63,6 +63,7 @@ class TaskHandler(BaseHandler):
 
         task["editable"] = editable
         if self.admin.check_permission('r', task["profile"]["id"]):  # when admin is allowed to view this task
+            print(task)
             return render_template("task.html", **task)
 
         else:  # admin is not allowed to view this task

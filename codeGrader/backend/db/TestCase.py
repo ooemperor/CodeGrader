@@ -89,6 +89,6 @@ class TestCase(Base):
         out["task_id"] = out["task"]["id"]
         out["input_file"] = self.input_file.toJson(include_binary=False)
         out["input_file_id"] = self.input_file.id
-        out["output_file"] = self.input_file.toJson(include_binary=False)
-        out["output_file_id"] = self.input_file.id
+        out["output_file"] = self.output_file.toJson(include_binary=False)
+        out["output_file_id"] = self.output_file.id
         return out

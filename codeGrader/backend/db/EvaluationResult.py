@@ -41,3 +41,18 @@ class EvaluationResult(Base):
         nullable=True,
         index=True
     )
+
+    def toJson(self, recursive: bool = True) -> dict:
+        """
+        Render the json representation of a EvaluationResult
+        @param recursive: Parameter to indicate if the related items should be loaded and added or not. Default is True
+        @type recursive: bool
+        @return: JSON representation of a Task
+        @rtype: dict
+        """
+        out = dict()
+        out["id"] = self.id
+        out["evaluation_score"] = self.evaluation_score
+        out["submission_id"] = self.submission_id
+
+        return out

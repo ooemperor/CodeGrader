@@ -12,6 +12,7 @@ class EvaluationController:
     A Custom Controller to evaluate the result of all the TestCases for a given Submission/Task
     Runs an evaluation for every TestCase/ExecutionResult that we have
     """
+
     def __init__(self, submission_id: int) -> None:
         """
         The constructor for the Controller
@@ -45,7 +46,8 @@ class EvaluationController:
                 if testcase.id == execution_result.testcase_id:
 
                     # preparing the outputs to a list or the evaluation.
-                    expected_list = self._prepareFileContent(str(testcase.input_file.getFileContent()))
+                    expected_list = self._prepareFileContent(
+                        str(testcase.output_file.getFileContent().tobytes().decode('UTF-8')))
                     actual_list = self._prepareFileContent(execution_result.execution_output)
 
                     # evaluation returns True if they match.
@@ -59,7 +61,7 @@ class EvaluationController:
         assert evaluation_counter == self.testcases_count
         assert evaluation_counter >= evaluation_successful_counter
 
-        score: float = evaluation_successful_counter/evaluation_counter
+        score: float = evaluation_successful_counter / evaluation_counter
         self._addEvaluationResult(score)
 
     @staticmethod
