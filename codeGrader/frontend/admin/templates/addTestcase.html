@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block core %}
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main" class="main">
+    <div>
+        <h1>TestCase</h1>
+    </div>
+    <div class="row">
+        <p>Add TestCase</p>
+    </div>
+
+    <div class="row">
+        <form action="{{url_for('addTestCase', id_ = task['id'])}}" method="POST" enctype="multipart/form-data">
+            <div id="task_data">
+                <table class="table">
+                    <tr>
+                        <td>Task</td>
+                        <td>
+                            <a href="{{ url_for('task', id_ = task['id']) }}">
+                                {{ task["name"] }}
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Input File</td>
+                        <td>
+                            <input type="file" id="input_file" name="input_file">
+                        </td>
+                    </tr>
+                    <tr>
+                    <td>Output File</td>
+                    <td>
+                        <input type="file" id="output_file" name="output_file">
+                    </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="control_buttons">
+                <button id="btn_submit" class="btn btn-success" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock core %}

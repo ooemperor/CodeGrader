@@ -52,10 +52,14 @@ class TaskHandler(BaseHandler):
 
         editable = self.admin.check_permission('w', task["profile"]["id"])
         exercises = self.api.get("/exercises", profile=self.admin.get_filter_profile())
-        submissions = self.api.get("/submissions", profile=self.admin.get_filter_profile())
+        submissions = self.api.get("/submissions", profile=self.admin.get_filter_profile(), task_id=id_)
+        testcases = self.api.get("/testcases", task_id=id_)
         task["exercises"] = exercises["exercise"]
         if "submission" in submissions.keys():  # handles the case that there are no submissions yet
             task["submissions"] = submissions["submission"]
+
+        if "testcase" in testcases.keys():  # handles the case that there are no submissions yet
+            task["testcases"] = testcases["testcase"]
 
         task["editable"] = editable
         if self.admin.check_permission('r', task["profile"]["id"]):  # when admin is allowed to view this task

@@ -16,7 +16,8 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
     AddSubjectHandler, DeleteUserHandler, DeleteSubjectHandler, DeleteAdminHandler, DeleteTaskHandler, \
     DeleteExerciseHandler, DeleteProfileHandler, AddTaskAttachmentHandler, DeleteTaskAttachmentHandler, \
     AddTaskInstructionHandler, DeleteTaskInstructionHandler, TaskInstructionHandler, TaskAttachmentHandler, \
-    SubmissionFileHandler
+    SubmissionFileHandler, TestCaseInputFileHandler, TestCaseOutputFileHandler, AddTestCaseHandler, \
+    DeleteTestCaseHandler
 from gevent.pywsgi import WSGIServer
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
@@ -130,7 +131,7 @@ def addUser() -> Union[Response, str]:
         return AddUserHandler(request).post()
 
 
-@app.route("/user/delete/<int:id_>", methods=['GET', 'POST'])
+@app.route("/user/<int:id_>/delete", methods=['GET', 'POST'])
 @login_required
 def deleteUser(id_: int) -> Union[Response, str]:
     """
@@ -182,7 +183,7 @@ def addAdmin() -> Union[Response, str]:
         return AddAdminHandler(request).post()
 
 
-@app.route("/admin/delete/<int:id_>", methods=['GET', 'POST'])
+@app.route("/admin/<int:id_>/delete", methods=['GET', 'POST'])
 @login_required
 def deleteAdmin(id_: int) -> Union[Response, str]:
     """
@@ -235,7 +236,7 @@ def addProfile() -> Union[Response, str]:
         return AddProfileHandler(request).post()
 
 
-@app.route("/profile/delete/<int:id_>", methods=['GET', 'POST'])
+@app.route("/profile/<int:id_>/delete", methods=['GET', 'POST'])
 @login_required
 def deleteProfile(id_: int) -> Union[Response, str]:
     """
@@ -288,7 +289,7 @@ def addSubject() -> Union[Response, str]:
         return AddSubjectHandler(request).post()
 
 
-@app.route("/subject/delete/<int:id_>", methods=['GET', 'POST'])
+@app.route("/subject/<int:id_>/delete", methods=['GET', 'POST'])
 @login_required
 def deleteSubject(id_: int) -> Union[Response, str]:
     """
@@ -341,7 +342,7 @@ def addExercise() -> Union[Response, str]:
         return AddExerciseHandler(request).post()
 
 
-@app.route("/exercise/delete/<int:id_>", methods=['GET', 'POST'])
+@app.route("/exercise/<int:id_>/delete", methods=['GET', 'POST'])
 @login_required
 def deleteExercise(id_: int) -> Union[Response, str]:
     """
@@ -394,7 +395,7 @@ def addTask() -> Union[Response, str]:
         return AddTaskHandler(request).post()
 
 
-@app.route("/task/delete/<int:id_>", methods=['GET', 'POST'])
+@app.route("/task/<int:id_>/delete", methods=['GET', 'POST'])
 @login_required
 def deleteTask(id_: int) -> Union[Response, str]:
     """
@@ -519,6 +520,66 @@ def SubmissionFile(id_: int) -> Union[Response, str]:
     """
     if request.method == 'GET':
         return SubmissionFileHandler(request).get(id_)
+
+
+@app.route("/task/<int:id_>/testcase/add", methods=['GET', 'POST'])
+@login_required
+def addTestCase(id_: int) -> Union[Response, str]:
+    """
+    Rendering the template
+    @param id_: The id of the task that we wanna add the TestCase to
+    @type id_: int
+    @return: Redirect to another view
+    @rtype: Response/str
+    """
+    if request.method == 'GET':
+        return AddTestCaseHandler(request).get(id_)
+
+    elif request.method == 'POST':
+        return AddTestCaseHandler(request).post(id_)
+
+
+@app.route("/testcase/<int:id_>/delete", methods=['GET', 'POST'])
+@login_required
+def deleteTestCase(id_: int) -> Union[Response, str]:
+    """
+    Deleting a TestCase from the database
+    @param id_: The identifier of the TestCase
+    @type id_: int
+    @return: Redirect to another view.
+    """
+    if request.method == 'GET':
+        return DeleteTestCaseHandler(request).get(id_)
+    elif request.method == 'POST':
+        return DeleteTestCaseHandler(request).post(id_)
+
+
+@app.route("/testcase/<int:id_>/file/input", methods=['GET'])
+@login_required
+def TestCaseInputFile(id_: int) -> Union[Response, str]:
+    """
+    Getting/Downloading the InputFile for a given Testcase
+    @param id_: The id of the Testcase
+    @type: id_: int
+    @return: The File of the Testcase as a download
+    @rtype: Response/str
+    """
+    if request.method == 'GET':
+        return TestCaseInputFileHandler(request).get(id_)
+
+
+@app.route("/testcase/<int:id_>/file/output", methods=['GET'])
+@login_required
+def TestCaseOutputFile(id_: int) -> Union[Response, str]:
+    """
+    Getting/Downloading the Output for a given Testcase
+    @param id_: The id of the Testcase
+    @type: id_: int
+    @return: The File of the Testcase as a download
+    @rtype: Response/str
+    """
+    if request.method == 'GET':
+        return TestCaseOutputFileHandler(request).get(id_)
 
 
 def admin_frontend():
