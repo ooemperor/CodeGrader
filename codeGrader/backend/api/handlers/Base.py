@@ -124,7 +124,7 @@ class BaseHandler:
         dict_ = self._preprocess_data_dict(dict_)
         try:
             self.sql_session.update(self.dbClass, id_, dict_)
-            return self.create_generic_response('PUT',f"{self.dbClass} has been successfully updated", id_)
+            return self.create_generic_response('PUT', f"{self.dbClass} has been successfully updated", id_)
         except Exception as err:
             return self.create_generic_error_response('PUT', err, id_)
 
@@ -170,16 +170,15 @@ class BaseHandler:
                         object_list.append(object_dict)
                         continue
 
+                    insert_candidate = True
                     for key in arguments.keys():  # filtering with the provided filter arguments
-                        if str(object_dict[key]) == urllib.parse.unquote(arguments.get(key)):
-                            if object_dict not in object_list:
-                                object_list.append(object_dict)
 
-                        else:  # the filter does not match
-                            if object_dict in object_list:  # the object is already in the dict and does not match
-                                index = object_list.index(object_dict)  # find object in list
-                                object_list.pop(index)  # remove object from list
-                                break  # end the inner loop
+                        if str(object_dict[key]) != urllib.parse.unquote(arguments.get(key)):  # compare the values
+                            insert_candidate = False  # if they do not match, the object is no longer a candidate for insert
+                            break
+
+                    if insert_candidate is True:
+                        object_list.append(object_dict)
 
                 output = dict()
                 output[str(self.dbClass.__table__)] = object_list
