@@ -74,3 +74,21 @@ class TestCase(Base):
         lazy="joined"
     )
 
+    def toJson(self, recursive: bool = True) -> dict:
+        """
+        JSON representation of a TestCase.
+        @param recursive: Parameter to indicate if the related items should be loaded and added or not. Default is True
+        @type recursive: bool
+        @return: The json representation of the TestCase
+        @rtype: dict
+        """
+
+        out = dict()
+        out["id"] = self.id
+        out["task"] = self.TaskTestCase.toJson()
+        out["task_id"] = out["task"]["id"]
+        out["input_file"] = self.input_file.toJson(include_binary=False)
+        out["input_file_id"] = self.input_file.id
+        out["output_file"] = self.input_file.toJson(include_binary=False)
+        out["output_file_id"] = self.input_file.id
+        return out

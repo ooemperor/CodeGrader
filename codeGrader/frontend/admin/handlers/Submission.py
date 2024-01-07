@@ -33,9 +33,10 @@ class SubmissionFileHandler(BaseHandler):
         @rtype: HTML
         """
         submission = self.api.get(f"/submission/{id_}")
-        task_id = submission["task"]["profile"]["id"]
+        task_profile_id = submission["task"]["profile"]["id"]
+        task_id = submission["task"]["id"]
 
-        if self.admin.check_permission('r', task_id):  # when admin is allowed to view this File
+        if self.admin.check_permission('r', task_profile_id):  # when admin is allowed to view this File
             file_id = submission["file_id"]
 
             req = self.api.get_file(f"/file/{file_id}")

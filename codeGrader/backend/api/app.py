@@ -409,7 +409,7 @@ def addTestCase():
         return TestCaseHandler().post(request.get_json())
 
 
-@app.route("/testcase/<int:id_>", methods=["GET"])
+@app.route("/testcase/<int:id_>", methods=["GET", "DELETE"])
 @authentication
 def testcase(id_):
     """
@@ -421,6 +421,9 @@ def testcase(id_):
     """
     if request.method == 'GET':
         return TestCaseHandler().get(id_)
+
+    elif request.method == "DELETE":
+        return TestCaseHandler().delete(id_)
 
 
 @app.route("/testcases", methods=['GET'])

@@ -28,7 +28,7 @@ class AddTaskFile(BaseHandler):
 
     def post(self, id_: int) -> Response:
         """
-        Handler for adding an File to the task
+        Handler for adding a File to the task
         @param id_: The identifier of the task
         @return:
         """

@@ -120,7 +120,6 @@ class ApiHandler:
         """
         path = self._construct_filter(path, **kwargs)
         response = self._make_request('GET', path)
-        print(response.text)
         assert response.status_code == 200
         assert response.text is not None
 
