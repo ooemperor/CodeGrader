@@ -5,7 +5,11 @@ PACKAGE_DATA = {
         "admin/static/*",
         "admin/static/*/*",
         "admin/static/*/*/*",
-        "admin/templates/*.*"
+        "admin/templates/*.*",
+        "user/static/*",
+        "user/static/*/*",
+        "user/static/*/*/*",
+        "user/templates/*.*"
     ]
 }
 
