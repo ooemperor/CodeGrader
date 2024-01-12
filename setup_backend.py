@@ -23,9 +23,9 @@ setup(
     version='1.0',
     packages=find_packages(exclude=["*frontend*"]),
     url='https://github.com/ooemperor/CodeGrader',
-    license='',
+    license='GNU Affero General Public License v3.0',
     author='mkaiser',
-    author_email='',
+    author_email='michael.kaiser@emplabs.ch',
     description='',
     entry_points={
         'console_scripts': [
