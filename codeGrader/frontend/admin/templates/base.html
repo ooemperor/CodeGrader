@@ -65,7 +65,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
         function loadMode() {
             var color_mode = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-bs-theme', color_mode)
-            console.log(color_mode);
+            // console.log(color_mode);
             if (color_mode == 'dark') {
                 document.getElementById('dark-mode-button').classList.add('active');
                 document.getElementById('dark-mode-button').setAttribute("checked", "")

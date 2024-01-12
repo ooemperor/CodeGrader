@@ -44,7 +44,7 @@ class ApiHandler:
         @param authentication_token: Authentication Token for the api Default is None
         @type authentication_token: str
         """
-
+        self.debug = False  # parameter if the output from the api shall be printed or not
         self.url = api_url
         self.authentication_type = authentication_type
         self.authentication_token = authentication_token
@@ -160,7 +160,8 @@ class ApiHandler:
         """
         assert body is not None or data is not None or files is not None
         response = self._make_request('POST', path, body, data, files)
-        print(self._cast_dict(response.text))
+        if self.debug:
+            print(self._cast_dict(response.text))
         assert (response.status_code == 200 or response.status_code == 201)
         assert response.text is not None
 
@@ -184,6 +185,8 @@ class ApiHandler:
         assert body is not None
 
         response = self._make_request('PUT', path, body, data, files)
+        if self.debug:
+            print(self._cast_dict(response.text))
         assert (response.status_code == 200 or response.status_code == 204)
         assert response.text is not None
 
@@ -198,7 +201,8 @@ class ApiHandler:
         @rtype: dict
         """
         response = self._make_request('DELETE', path)
-
+        if self.debug:
+            print(self._cast_dict(response.text))
         assert response.status_code == 200 or response.status_code == 204
         assert response.text is not None
 

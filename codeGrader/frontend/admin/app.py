@@ -458,7 +458,7 @@ def TaskAttachment(task_id_: int, attachment_id_: int) -> Union[Response, str]:
         return TaskAttachmentHandler(request).get(task_id_, attachment_id_)
 
 
-@app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>/delete>", methods=['GET', 'POST'])
+@app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>/delete", methods=['GET', 'POST'])
 @login_required
 def deleteTaskAttachment(task_id_: int, attachment_id_: int) -> Union[Response, str]:
     """

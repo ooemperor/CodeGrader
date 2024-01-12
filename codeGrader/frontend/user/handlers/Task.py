@@ -79,6 +79,22 @@ class TaskHandler(BaseHandler):
             submissions = self.api.get(f"/submissions", task_id=id_, user_id=self.user.id)
             if "submission" in submissions.keys():  # handles the case that there are no submissions yet
                 task["submissions"] = submissions["submission"]
+
+                # calculating the maximal score of the user
+                max_score = 0
+                for sub in submissions["submission"]:
+                    # finding the max score and updating the variable if new high score is found
+                    temp_score = sub["max_score"]
+                    if temp_score is None:
+                        continue
+
+                    elif int(temp_score) > max_score:
+                        max_score = int(temp_score)
+                    else:
+                        continue
+
+                task["max_score"] = max_score
+
             return render_template("task.html", **task)
 
         else:  # admin is not allowed to see exercise

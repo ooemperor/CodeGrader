@@ -23,10 +23,10 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
 <div id="main" class="main">
     <div>
-        <h1 class="header1 core_content">Exercise {{ name }}</h1>
+        <h1 class="header1">Exercise {{ name }}</h1>
     </div>
     <div class="row">
-        <p class="core_content">Exercise {{ name }}</p>
+        <p>Exercise {{ name }}</p>
     </div>
 
     <div class="row">
@@ -77,16 +77,37 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             {% if editable %}
             <div id="control_buttons">
                 <button id="btn_submit" class="btn btn-success" type="submit">Submit</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#deleteExercise">Delete Excercise</button>
             </div>
             {% endif %}
         </form>
     </div>
 
     {% if editable %}
-    <div class="row py-2">
-        <form action="{{ url_for('deleteExercise', id_=id) }}" class="core_content" method="GET">
-            <button class="btn btn-danger" type="submit">Delete Exercise</button>
-        </form>
+    <div class="modal fade" id="deleteExercise" tabindex="-1" role="dialog" aria-labelledby="deleteExerciseTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="deleteExerciseTitle">Delete Exercise {{ name }} ?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Do you really wanna delete the Exercise {{ name }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form action="{{url_for('deleteExercise', id_ = id)}}" method="POST">
+                        <div id="control_buttons">
+                            <button name="action_button" id="btn-deleteExercise" class="btn btn-danger" type="submit"
+                                value="Submit">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     {% endif %}
 
@@ -105,7 +126,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                             <ul class="list-group list-group-flush">
                                 {% for t in tasks %}
                                 <li class="list-group-item">
-                                    <a class="core_content" href="{{ url_for('task', id_ = t['id']|string) }}">
+                                    <a href="{{ url_for('task', id_ = t['id']|string) }}">
                                         {{ t["name"] }}
                                     </a>
                                 </li>

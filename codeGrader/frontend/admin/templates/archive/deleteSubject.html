@@ -20,19 +20,20 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 {% extends "base.html" %}
 
 {% block core %}
+<!-- 20240212 mkaiser: deprecated and replaced with modals from bootstrap -->
 <div id="main" class="main">
     <div>
-        <h1 class="header1 core_content">Delete Instruction {{ file['filename'] }}</h1>
+        <h1 class="header1 core_content">Delete Subject {{ name }}</h1>
     </div>
     <div class="row">
-        <p>Instruction {{ file['filename'] }}</p>
+        <p>Subject {{ username }}</p>
     </div>
     <div class="row">
-        Are you sure you wanna delete Instruction {{ file['filename'] }}?
+        Are you sure you wanna delete Subject {{ name }}?
     </div>
 
     <div class="row">
-        <form action="{{url_for('deleteInstruction', instruction_id_ = id)}}" method="POST" class="core_content">
+        <form action="{{url_for('deleteSubject', id_ = id)}}" method="POST" class="core_content">
             <div id="control_buttons">
                 <button name="action_button" id="btn_submit" class="btn btn-success" type="submit"
                     value="Submit">Submit</button>
@@ -41,6 +42,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </form>
     </div>
+
 
 
 

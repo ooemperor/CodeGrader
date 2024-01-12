@@ -27,7 +27,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     <div class="row">
         <p class="core_content">Admin User {{ username }}</p>
     </div>
-    
+
     <div class="row">
         <form action="{{url_for('admin', id_ = id)}}" method="POST" class="core_content">
             <div class="table-responsive" id="admin_user_data">
@@ -35,8 +35,8 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                     <tr>
                         <td class="data">Username</td>
                         <td class="data">
-                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_username"
-                                name="username" value="{{ username }}">
+                            <input class="input" {% if not editable %} readonly {% endif %} type="text"
+                                id="input_username" name="username" value="{{ username }}">
                         </td>
                     </tr>
                     <tr>
@@ -49,8 +49,8 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                     <tr>
                         <td class="data">Last Name</td>
                         <td class="data">
-                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_last_name"
-                                name="last_name" value="{{ last_name }}">
+                            <input class="input" {% if not editable %} readonly {% endif %} type="text"
+                                id="input_last_name" name="last_name" value="{{ last_name }}">
                         </td>
                     </tr>
                     <tr>
@@ -72,7 +72,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                         {% if editable %}
                         <td class="data">
                             <select id="sel_admin_type" name="admin_type">
-                                {% for type in types | sort(attribute='name')  %}
+                                {% for type in types | sort(attribute='name') %}
                                 {% if admin_type['id'] == type['id'] %}
                                 <option value="{{ type['id'] }}" selected>
                                     {{ type['name'] }}
@@ -114,8 +114,8 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                         </td>
                         {% else %}
                         <td class="data">
-                            <input class="input" type="text" id="input_profile" name="profile" value="{{ profile['name'] }}"
-                                {% if not editable %} readonly {% endif %}>
+                            <input class="input" type="text" id="input_profile" name="profile"
+                                value="{{ profile['name'] }}" {% if not editable %} readonly {% endif %}>
                         </td>
                         {% endif %}
                     </tr>
@@ -124,16 +124,37 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             {% if editable %}
             <div id="control_buttons">
                 <button id="btn_submit" class="btn btn-success" type="submit">Submit</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAdmin">Delete
+                    Admin</button>
             </div>
             {% endif %}
         </form>
     </div>
-   
+
     {% if editable %}
-    <div class="row py-2">
-        <form action="{{ url_for('deleteAdmin', id_=id) }}" method="GET">
-            <button class="btn btn-danger" type="submit">Delete Admin</button>
-        </form>
+    <div class="modal fade" id="deleteAdmin" tabindex="-1" role="dialog" aria-labelledby="deleteAdminTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="deleteAdminTitle">Delete Subject {{ name }} ?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Do you really wanna delete the Admin {{ username }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form action="{{url_for('deleteAdmin', id_ = id)}}" method="POST" class="core_content">
+                        <div id="modal-control-buttons">
+                            <button name="delete-button" id="btn-deleteAdmin" class="btn btn-danger" type="submit"
+                                value="Submit">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     {% endif %}
 </div>

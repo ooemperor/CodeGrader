@@ -130,4 +130,28 @@ class Submission(Base):
         out["user_id"] = out["user"]["id"]
         out["file"] = self.file.toJson(include_binary=False)
         out["file_id"] = self.file.id
+
+        out["evaluations_count"] = len(self.evaluationresult)
+
+        # adding the evaluation result to the output
+        if len(self.evaluationresult) == 0:
+            # there are no evaluation result in the database right now
+            out["evaluation_result"] = None
+            out["max_score"] = None
+
+        else:
+            # there is at least one evaluation in the database
+            eval_result = []
+            max_score = 0
+            # for loop is needed because we cannot guarantee, that there is only one evaluation in the database
+            for result in self.evaluationresult:
+                eval_result.append(result.toJson())
+
+                # updating the max score if it is bigger than the current one
+                if result.evaluation_score > max_score:
+                    max_score = result.evaluation_score
+            out["evaluation_result"] = eval_result
+            out["max_score"] = max_score*100
+
+
         return out
