@@ -26,7 +26,7 @@ setup(
     license='GNU Affero General Public License v3.0',
     author='mkaiser',
     author_email='michael.kaiser@emplabs.ch',
-    description='',
+    description='A WebApplication for automated code execution and evaluation called CodeGrader',
     entry_points={
         'console_scripts': [
             'cgDeployDB = codeGrader.scripts.deployDB:main',
