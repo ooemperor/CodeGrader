@@ -1,3 +1,21 @@
+# CodeGrader - https://github.com/ooemperor/CodeGrader
+# Copyright © 2023, 2024 Michael Kaiser <michael.kaiser@emplabs.ch>
+#
+# This file is part of CodeGrader.
+#
+# CodeGrader is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CodeGrader is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
+
 """
 Handler Class for the Task
 """
@@ -61,6 +79,22 @@ class TaskHandler(BaseHandler):
             submissions = self.api.get(f"/submissions", task_id=id_, user_id=self.user.id)
             if "submission" in submissions.keys():  # handles the case that there are no submissions yet
                 task["submissions"] = submissions["submission"]
+
+                # calculating the maximal score of the user
+                max_score = 0
+                for sub in submissions["submission"]:
+                    # finding the max score and updating the variable if new high score is found
+                    temp_score = sub["max_score"]
+                    if temp_score is None:
+                        continue
+
+                    elif int(temp_score) > max_score:
+                        max_score = int(temp_score)
+                    else:
+                        continue
+
+                task["max_score"] = max_score
+
             return render_template("task.html", **task)
 
         else:  # admin is not allowed to see exercise

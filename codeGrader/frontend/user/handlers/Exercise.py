@@ -1,3 +1,21 @@
+# CodeGrader - https://github.com/ooemperor/CodeGrader
+# Copyright © 2023, 2024 Michael Kaiser <michael.kaiser@emplabs.ch>
+#
+# This file is part of CodeGrader.
+#
+# CodeGrader is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CodeGrader is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
+
 """
 Handler Class for the Exercise Objects
 @author: mkaiser
@@ -56,8 +74,11 @@ class ExerciseHandler(BaseHandler):
         """
 
         exercise = self.api.get(f"/exercise/{id_}")
+        exercise_score_raw = self.api.get(f"/scores/exercise", user_id=self.user.id, object_id=exercise["id"])
+        score = exercise_score_raw['exercise'][0][str(exercise['id'])][0]['score']
+        exercise["score"] = score
 
-        if self.user.check_permission(exercise["profile"]["id"]):  # when admin is allowed to view this user
+        if self.user.check_permission(exercise["profile"]["id"]):  # when user is allowed to view this user
             return render_template("exercise.html", **exercise)
 
         else:  # admin is not allowed to see exercise

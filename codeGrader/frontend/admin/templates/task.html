@@ -1,17 +1,54 @@
+<!--
+CodeGrader - https://github.com/ooemperor/CodeGrader
+Copyright © 2023, 2024 Michael Kaiser <michael.kaiser@emplabs.ch>
+
+This file is part of CodeGrader.
+
+CodeGrader is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+CodeGrader is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
+-->
 {% extends "base.html" %}
 
 {% block core %}
-<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<script>
+    // custom scripts to udpate the modals, each time, that they are getting opened. 
+    function updateDeleteTaskInstruction(task_id, instruction_id) {
+        document.getElementById("deleteTaskInstructionBodyText").innerHTML = `Do you really wanna delete this Instruction?`;
+        document.getElementById("deleteTaskInstructionForm").action = `/task/${task_id}/instruction/${instruction_id}/delete`;
+    };
+
+
+    function updateDeleteTaskAttachment(task_id, attachment_id) {
+        document.getElementById("deleteTaskAttachmentBodyText").innerHTML = `Do you really wanna delete this Attachment?`;
+        document.getElementById("deleteTaskAttachmentForm").action = `/task/${task_id}/attachment/${attachment_id}/delete`;
+    };
+
+    function updateDeleteTestCase(testcase_id) {
+        document.getElementById("deleteTestCaseBodyText").innerHTML = `Do you really wanna delete this Attachment?`;
+        document.getElementById("deleteTestCaseForm").action = `/testcase/${testcase_id}/delete`;
+    };
+
+</script>
 <div id="main" class="main">
     <div>
         <h1 class="header1 core_content">Task {{ name }}</h1>
     </div>
     <div class="row">
-        <p class="core_content">Task {{ name }}</p>
+        <p>Task {{ name }}</p>
     </div>
 
     <div class="row">
-        <form action="{{url_for('task', id_ = id)}}" method="POST" class="core_content">
+        <form action="{{url_for('task', id_ = id)}}" method="POST">
             <div id="task_data">
                 <table class="table">
                     <tr>
@@ -58,21 +95,39 @@
             {% if editable %}
             <div id="control_buttons">
                 <button id="btn_submit" class="btn btn-success" type="submit">Submit</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteTask">Delete
+                    Task</button>
             </div>
             {% endif %}
         </form>
     </div>
 
-
     {% if editable %}
-    <div class="row py-2">
-        <form action="{{ url_for('deleteTask', id_=id) }}" method="GET">
-            <button class="btn btn-danger" type="submit">Delete Task</button>
-        </form>
+    <div class="modal fade" id="deleteTask" tabindex="-1" role="dialog" aria-labelledby="deleteTaskTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="deleteTaskTitle">Delete Task {{ name }} ?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Do you really wanna delete the Task {{ name }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form action="{{url_for('deleteTask', id_ = id)}}" method="POST">
+                        <div id="control_buttons_deleteTask">
+                            <button name="action_button" id="btn-deleteTask" class="btn btn-danger" type="submit"
+                                value="Submit">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
     {% endif %}
-
 
     <div class="row py-4">
         <div class="accordion">
@@ -88,7 +143,7 @@
                         <div>
                             <ul class="list-group list-group-flush py-2">
                                 {% if instructions %}
-                                {% for inst in instructions %}
+                                {% for inst in instructions | sort(attribute='filename') %}
                                 <li class="list-group-item">
                                     <i class="bi bi-filetype-{{ inst['file']['fileExtension'] }}"></i>
                                     <a href="{{ url_for('TaskInstruction', task_id_= id, instruction_id_ = inst['id']) }}"
@@ -96,18 +151,17 @@
                                         {{ inst["file"]["filename"] }}
                                     </a>
                                     {% if editable %}
-                                    <a
-                                        href="{{ url_for('deleteTaskInstruction', task_id_= id, instruction_id_ = inst['id']) }}">
-                                        <i class="bi bi-x-circle"></i>
-                                    </a>
+                                    <i class="bi bi-x-circle" data-bs-toggle="modal"
+                                        onclick="updateDeleteTaskInstruction({{ id }}, {{ inst['id'] }})"
+                                        data-bs-target="#deleteTaskInstruction"></i>
                                     {% endif %}
                                 </li>
                                 {% endfor %}
                                 {% endif %}
                             </ul>
                             {% if editable %}
-                            <form class="core_content" action="{{ url_for('addTaskInstruction', id_=id) }}"
-                                method="POST" enctype="multipart/form-data">
+                            <form action="{{ url_for('addTaskInstruction', id_=id) }}" method="POST"
+                                enctype="multipart/form-data">
                                 <input type="file" id="myFile" name="file_name">
                                 <input type="submit">
                             </form>
@@ -128,7 +182,7 @@
                         <div>
                             <ul class="list-group list-group-flush py-2">
                                 {% if attachments %}
-                                {% for att in attachments %}
+                                {% for att in attachments | sort(attribute='filename') %}
                                 <li class="list-group-item">
                                     <i class="bi bi-filetype-{{ att['file']['fileExtension'] }}"></i>
                                     <a href="{{ url_for('TaskAttachment', task_id_= id, attachment_id_ = att['id']) }}"
@@ -136,10 +190,9 @@
                                         {{ att["file"]["filename"] }}
                                     </a>
                                     {% if editable %}
-                                    <a
-                                        href="{{ url_for('deleteTaskAttachment', task_id_= id, attachment_id_ = att['id']) }}">
-                                        <i class="bi bi-x-circle"></i>
-                                    </a>
+                                    <i class="bi bi-x-circle" data-bs-toggle="modal"
+                                        onclick="updateDeleteTaskAttachment({{ id }}, {{ att['id'] }})"
+                                        data-bs-target="#deleteTaskAttachment"></i>
                                     {% endif %}
                                 </li>
 
@@ -147,9 +200,9 @@
                                 {% endif %}
                             </ul>
                             {% if editable %}
-                            <form class="core_content" action="{{ url_for('addTaskAttachment', id_=id) }}" method="POST"
+                            <form action="{{ url_for('addTaskAttachment', id_=id) }}" method="POST"
                                 enctype="multipart/form-data">
-                                <input type="file" id="myFile" name="fileme.py">
+                                <input type="file" id="myFile" name="file.txt">
                                 <input type="submit">
                             </form>
                             {% endif %}
@@ -161,60 +214,59 @@
     </div>
 
 
-
-    <div class="row py-4">
-        <div class="accordion">
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#panelsubmissions" aria-expanded="false" aria-controls="panelsubmissions">
-                        Submissions
+    {% if editable %}
+    <div class="modal fade" id="deleteTaskInstruction" tabindex="-1" role="dialog"
+        aria-labelledby="deleteTaskInstructionTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="deleteTaskInstructionTitle">Delete Instruction</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
-                </h2>
-                <div id="panelsubmissions" class="accordion-collapse collapse">
-                    <div class="accordion-body">
-                        <div>
-                            {% if submissions %}
-                            <table class="table">
-                                <tr>
-                                    <th>
-                                        Submission_id
-                                    </th>
-                                    <th>
-                                        User
-                                    </th>
-                                    <th>
-                                        Submission File
-                                    </th>
-                                </tr>
-
-                                {% for sub in submissions %}
-                                <tr>
-                                    <td>
-                                        {{ sub["id"] }}
-                                    </td>
-                                    <td>
-                                        <a href="{{ url_for('user', id_ = sub['user']['id']|string) }}">
-                                            {{ sub["user"]["username"] }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ url_for('SubmissionFile', id_ = sub['id']) }}" target="_blank"
-                                            download="{{ sub['file']['filename'] }}">
-                                            {{ sub["file"]["filename"]}}
-                                        </a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </table>
-                            {% endif %}
+                </div>
+                <div class="modal-body" id="deleteTaskInstructionBodyText">
+                    Do you really wanna delete the Instruction?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form id="deleteTaskInstructionForm"
+                        action="{{url_for('deleteTaskInstruction', task_id_ = id, instruction_id_ = 0)}}" method="POST">
+                        <div id="control_buttons_deleteTaskInstruction">
+                            <button name="action_button" id="btn-deleteTaskInstruction" class="btn btn-danger"
+                                type="submit" value="Submit">Delete</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="modal fade" id="deleteTaskAttachment" tabindex="-1" role="dialog"
+        aria-labelledby="deleteTaskAttachmentTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="deleteTaskAttachmentTitle">Delete Attachment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body" id="deleteTaskAttachmentBodyText">
+                    Do you really wanna delete the Attachment?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form id="deleteTaskAttachmentForm"
+                        action="{{url_for('deleteTaskInstruction', task_id_ = id, instruction_id_ = 0)}}" method="POST">
+                        <div id="control_buttons_deleteTaskAttachment">
+                            <button name="action_button" id="btn-deleteTaskAttachment" class="btn btn-danger"
+                                type="submit" value="Submit">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
     <div class="row py-4">
         <div class="accordion">
@@ -244,7 +296,7 @@
                                     </th>
                                 </tr>
 
-                                {% for tc in testcases %}
+                                {% for tc in testcases | sort(attribute='id') %}
                                 <tr>
                                     <td>
                                         {{ tc["id"] }}
@@ -263,9 +315,9 @@
                                     </td>
                                     {% if editable %}
                                     <td>
-                                        <a href="{{ url_for('deleteTestCase', id_ = tc['id']) }}">
-                                            <i class="bi bi-x-circle"></i>
-                                        </a>
+                                        <i class="bi bi-x-circle" data-bs-toggle="modal"
+                                        onclick="updateDeleteTestCase({{ tc['id'] }})"
+                                        data-bs-target="#deleteTestCase"></i>
                                     </td>
                                     {% endif %}
                                 </tr>
@@ -280,6 +332,91 @@
                             </form>
                         </div>
                         {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% if editable %}
+    <div class="modal fade" id="deleteTestCase" tabindex="-1" role="dialog"
+        aria-labelledby="deleteTestCaseTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="deleteTestCaseTitle">Delete Testcase</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body" id="deleteTestCaseBodyText">
+                    Do you really wanna delete the Testcase?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form id="deleteTestCaseForm"
+                        action="{{ url_for('deleteTestCase', id_ = 0) }}" method="POST">
+                        <div id="control_buttons_deleteTestCase">
+                            <button name="action_button" id="btn-deleteTestCase" class="btn btn-danger"
+                                type="submit" value="Submit">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row py-4">
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsubmissions" aria-expanded="false" aria-controls="panelsubmissions">
+                        Submissions
+                    </button>
+                </h2>
+                <div id="panelsubmissions" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <div>
+                            {% if submissions %}
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        Submission_id
+                                    </th>
+                                    <th>
+                                        User
+                                    </th>
+                                    <th>
+                                        Submission File
+                                    </th>
+                                </tr>
+
+                                {% for sub in submissions | sort(attribute='id') %}
+                                <tr>
+                                    <td>
+                                        {{ sub["id"] }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('user', id_ = sub['user']['id']|string) }}">
+                                            {{ sub["user"]["username"] }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('SubmissionFile', id_ = sub['id']) }}" target="_blank"
+                                            download="{{ sub['file']['filename'] }}">
+                                            {{ sub["file"]["filename"]}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ sub["max_score"] }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

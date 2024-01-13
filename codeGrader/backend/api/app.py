@@ -1,3 +1,21 @@
+# CodeGrader - https://github.com/ooemperor/CodeGrader
+# Copyright © 2023, 2024 Michael Kaiser <michael.kaiser@emplabs.ch>
+#
+# This file is part of CodeGrader.
+#
+# CodeGrader is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CodeGrader is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
+
 """
 Route definition and main File that runs the application.
 @author: mkaiser
@@ -15,10 +33,11 @@ from flask import Flask, request, send_file
 from codeGrader.backend.config import config
 from codeGrader.backend.api.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, \
     ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler, TestCaseHandler, AdminUserLoginHandler, \
-    authentication, AdminTypeHandler, UserLoginHandler, InstructionHandler, AttachmentHandler
+    authentication, AdminTypeHandler, UserLoginHandler, InstructionHandler, AttachmentHandler, ScoreHandler
 from codeGrader.backend.api.logger import Logger
 from codeGrader.backend.api.util import upload_file, preprocess_task_file
 import logging
+import datetime
 
 # construction of Application and DB Connection
 app = Flask(config.appName)
@@ -33,15 +52,43 @@ if not config.useIntegratedLogin:
 log = Logger()
 
 
+def app_index():
+    """
+    Calculates a JSON dict with the representaion of all the Routes in this application
+    @return: The routes as a JSON representation
+    @rtype: dict
+    """
+    output = dict()
+    output_data = []
+    for route in app.url_map.iter_rules():
+        method = route.methods
+        rule = route.rule
+        endpoint = route.endpoint
+        output_data.append({rule:{"methods": method, "endpoint": endpoint} })
+    output["routes"] = output_data
+    return output
+
+
 @app.route("/", methods=['POST', 'GET'])
 @authentication
-def home():
+def home() -> dict:
     """
     Returns the answer to all questions
     @return: The answer to all the questions
     """
     response = {"response": "42"}
     return response
+
+
+@app.route("/index", methods=['GET'])
+@authentication
+def index() -> dict:
+    """
+    Returns the calculated index of all the routes in this application
+    @return: Returns the calculated index of all the routes in this application
+    @rtype: dict
+    """
+    return app_index()
 
 
 @app.route("/admin/login", methods=['POST'])
@@ -70,7 +117,7 @@ def user_login():
 
 @app.route("/user/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
 @authentication
-def user(id_: int):
+def user(id_: int) -> dict:
     """
     Route for get, post, put of user elements.
     @param id_: The identifier of the user
@@ -90,7 +137,7 @@ def user(id_: int):
 
 @app.route("/users", methods=['GET'])
 @authentication
-def users():
+def users() -> dict:
     """
     Getting all the users objects out of the database
     @return: Custom Representation of all the user objects
@@ -101,7 +148,7 @@ def users():
 
 @app.route("/user/add", methods=['POST'])
 @authentication
-def addUser():
+def addUser() -> dict:
     """
     Adding a new user in the database
     @return: Custom Response messgae that we get from the handler class.
@@ -112,7 +159,7 @@ def addUser():
 
 @app.route("/admin/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
 @authentication
-def admin(id_: int):
+def admin(id_: int) -> dict:
     """
     Route for get, post, put of user elements.
     @param id_: The identifier of the user
@@ -132,7 +179,7 @@ def admin(id_: int):
 
 @app.route("/admins", methods=['GET'])
 @authentication
-def admins():
+def admins() -> dict:
     """
     Getting all the adminUsers objects out of the database
     @return: Custom Representation of all the objects
@@ -143,7 +190,7 @@ def admins():
 
 @app.route("/admin/add", methods=['POST'])
 @authentication
-def addAdmin():
+def addAdmin() -> dict:
     """
     Adding a new user in the database
     @return: Custom Response messgae that we get from the handler class.
@@ -154,7 +201,7 @@ def addAdmin():
 
 @app.route("/profile/add", methods=['POST'])
 @authentication
-def addProfile():
+def addProfile() -> dict:
     """
     Adding a new user in the database
     @return: Custom Response messgae that we get from the handler class.
@@ -165,7 +212,7 @@ def addProfile():
 
 @app.route("/profile/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
 @authentication
-def profile(id_: int):
+def profile(id_: int) -> dict:
     """
     Route for get, post, put of profile elements.
     @param id_: The identifier of the user
@@ -185,7 +232,7 @@ def profile(id_: int):
 
 @app.route("/profiles", methods=['GET'])
 @authentication
-def profiles():
+def profiles() -> dict:
     """
     Getting all the Profile objects out of the database
     @return: Custom Representation of all the objects
@@ -196,7 +243,7 @@ def profiles():
 
 @app.route("/subject/add", methods=['POST'])
 @authentication
-def addSubject():
+def addSubject() -> dict:
     """
     Adding a new user in the database
     @return: Custom Response message that we get from the handler class.
@@ -207,7 +254,7 @@ def addSubject():
 
 @app.route("/subject/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
 @authentication
-def subject(id_: int):
+def subject(id_: int) -> dict:
     """
     Route for get, post, put of profile elements.
     @param id_: The identifier of the user
@@ -227,7 +274,7 @@ def subject(id_: int):
 
 @app.route("/subjects", methods=['GET'])
 @authentication
-def subjects():
+def subjects() -> dict:
     """
     Getting all the Subject objects out of the database
     @return: Custom Representation of all the objects
@@ -239,7 +286,7 @@ def subjects():
 # Task
 @app.route("/task/add", methods=['POST'])
 @authentication
-def addTask():
+def addTask() -> dict:
     """
     Adding a new Task in the database
     @return: Custom Response messgae that we get from the handler class.
@@ -250,7 +297,7 @@ def addTask():
 
 @app.route("/task/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
 @authentication
-def task(id_: int):
+def task(id_: int) -> dict:
     """
     Route for get, post, put of Task elements.
     @param id_: The identifier of the user
@@ -270,7 +317,7 @@ def task(id_: int):
 
 @app.route("/tasks", methods=['GET'])
 @authentication
-def tasks():
+def tasks() -> dict:
     """
     Getting all the Task objects out of the database
     @return: Custom Representation of all the objects
@@ -281,7 +328,7 @@ def tasks():
 
 @app.route("/exercise/add", methods=['POST'])
 @authentication
-def addExercise():
+def addExercise() -> dict:
     """
     Adding a new Exercise in the database
     @return: Custom Response messgae that we get from the handler class.
@@ -292,7 +339,7 @@ def addExercise():
 
 @app.route("/exercise/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
 @authentication
-def exercise(id_: int):
+def exercise(id_: int) -> dict:
     """
     Route for get, post, put of Exercise elements.
     @param id_: The identifier of the user
@@ -312,7 +359,7 @@ def exercise(id_: int):
 
 @app.route("/exercises", methods=['GET'])
 @authentication
-def exercises():
+def exercises() -> dict:
     """
     Getting all the Exercise objects out of the database
     @return: Custom Representation of all the objects
@@ -323,7 +370,7 @@ def exercises():
 
 @app.route("/file/upload", methods=["POST"])
 @authentication
-def uploadFile():
+def uploadFile() -> dict:
     """
     Route to upload a file, that will be stored within the database
     @return: Custom Response messgae that we get from the handler class.
@@ -335,7 +382,7 @@ def uploadFile():
 
 @app.route("/file/<int:id_>", methods=["GET", "DELETE"])
 @authentication
-def file(id_: int):
+def file(id_: int) -> dict:
     """
     Route for a deleting or getting a file.
     @param id_: The id of the file in the database
@@ -356,7 +403,7 @@ def file(id_: int):
 
 @app.route("/submission/add", methods=["POST"])
 @authentication
-def addSubmission():
+def addSubmission() -> dict:
     """
     Add a submission to the DB
     @return: Response in form of dictionary
@@ -374,7 +421,7 @@ def addSubmission():
 
 @app.route("/submission/<int:id_>", methods=["GET"])
 @authentication
-def submission(id_):
+def submission(id_) -> dict:
     """
     Handler for get of a Submission
     @param id_: The id_ of the submission to get
@@ -388,7 +435,7 @@ def submission(id_):
 
 @app.route("/submissions", methods=['GET'])
 @authentication
-def submissions():
+def submissions() -> dict:
     """
     Getting all the Submission objects out of the database
     @return: Custom Representation of all the objects
@@ -399,7 +446,7 @@ def submissions():
 
 @app.route("/testcase/add", methods=["POST"])
 @authentication
-def addTestCase():
+def addTestCase() -> dict:
     """
     Add a TestCase to the DB
     @return: Response in form of dictionary
@@ -411,7 +458,7 @@ def addTestCase():
 
 @app.route("/testcase/<int:id_>", methods=["GET", "DELETE"])
 @authentication
-def testcase(id_):
+def testcase(id_) -> dict:
     """
     Handler for get of a TestCase
     @param id_: The id_ of the TestCase to get
@@ -428,7 +475,7 @@ def testcase(id_):
 
 @app.route("/testcases", methods=['GET'])
 @authentication
-def testcases():
+def testcases() -> dict:
     """
     Getting all the TestCases objects out of the database
     @return: Custom Representation of all the objects
@@ -439,7 +486,7 @@ def testcases():
 
 @app.route("/adminTypes", methods=['GET'])
 @authentication
-def admin_types():
+def admin_types() -> dict:
     """
     Getting all the admin_types out of the database
     @@return: Custom Representation of all the objects
@@ -450,7 +497,7 @@ def admin_types():
 
 @app.route("/task/<int:task_id_>/attachment/add", methods=["POST"])
 @authentication
-def task_attachment_add(task_id_: int):
+def task_attachment_add(task_id_: int) -> dict:
     """
     Adding an Attachment to a task
     Using seperate method to first add the task and then create the link entry in the table between task and file
@@ -471,7 +518,7 @@ def task_attachment_add(task_id_: int):
 
 @app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>", methods=["GET", "DELETE"])
 @authentication
-def task_attachment(task_id_: int, attachment_id_: int):
+def task_attachment(task_id_: int, attachment_id_: int) -> dict:
     """
     Adding an Attachment to a task
     @param task_id_: The id of the task
@@ -490,7 +537,7 @@ def task_attachment(task_id_: int, attachment_id_: int):
 
 @app.route("/task/<int:task_id_>/instruction/add", methods=["POST"])
 @authentication
-def task_instruction_add(task_id_: int):
+def task_instruction_add(task_id_: int) -> dict:
     """
     Adding an Attachment to a task
     @param task_id_: The id_ of the task
@@ -505,7 +552,7 @@ def task_instruction_add(task_id_: int):
 
 @app.route("/task/<int:task_id_>/instruction/<int:instruction_id_>", methods=["GET", "DELETE"])
 @authentication
-def task_instruction(task_id_: int, instruction_id_: int):
+def task_instruction(task_id_: int, instruction_id_: int) -> dict:
     """
     Adding an Attachment to a task
     @param task_id_: The id of the task
@@ -522,8 +569,24 @@ def task_instruction(task_id_: int, instruction_id_: int):
         # deletion of file not needed because it is made automatically due to datamodel
 
 
-def api_backend():
+@app.route("/scores/<view>", methods=['GET'])
+@authentication
+def scores(view: str) -> dict:
+    """
+    Path for the rendering of scores with provided arguments in the url.
+    @param view: What type of view must be rendered
+    @type view: str
+    @return: Reponse in form of a dictionary with the rendered scores
+    @rtype: dict
+    """
+    return ScoreHandler().get_scores(view, request.args)
+
+
+def api_backend() -> None:
     http_server = WSGIServer(("0.0.0.0", int(config.ApiPort)), app)
+    print("WSGI SERVER started!")
+    print(f"TIME: {datetime.datetime.now()}")
+    print(f"PORT: {config.ApiPort}")
     http_server.serve_forever()
 
 

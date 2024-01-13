@@ -1,3 +1,21 @@
+# CodeGrader - https://github.com/ooemperor/CodeGrader
+# Copyright © 2023, 2024 Michael Kaiser <michael.kaiser@emplabs.ch>
+#
+# This file is part of CodeGrader.
+#
+# CodeGrader is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CodeGrader is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
+
 """
 Route definition and main File for the Admin Frontend of the CodeGrader
 @author: mkaiser
@@ -19,6 +37,7 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
     SubmissionFileHandler, TestCaseInputFileHandler, TestCaseOutputFileHandler, AddTestCaseHandler, \
     DeleteTestCaseHandler
 from gevent.pywsgi import WSGIServer
+import datetime
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 
@@ -26,6 +45,23 @@ app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 app.secret_key = config.adminSecretKey
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+def app_index():
+    """
+    Calculates a JSON dict with the representaion of all the Routes in this application
+    @return: The routes as a JSON representation
+    @rtype: dict
+    """
+    output = dict()
+    output_data = []
+    for route in app.url_map.iter_rules():
+        method = route.methods
+        rule = route.rule
+        endpoint = route.endpoint
+        output_data.append({rule:{"methods": method, "endpoint": endpoint} })
+    output["routes"] = output_data
+    return output
 
 
 @login_manager.user_loader
@@ -440,7 +476,7 @@ def TaskAttachment(task_id_: int, attachment_id_: int) -> Union[Response, str]:
         return TaskAttachmentHandler(request).get(task_id_, attachment_id_)
 
 
-@app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>/delete>", methods=['GET', 'POST'])
+@app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>/delete", methods=['GET', 'POST'])
 @login_required
 def deleteTaskAttachment(task_id_: int, attachment_id_: int) -> Union[Response, str]:
     """
@@ -584,6 +620,9 @@ def TestCaseOutputFile(id_: int) -> Union[Response, str]:
 
 def admin_frontend():
     http_server = WSGIServer(("0.0.0.0", int(config.adminPort)), app)
+    print("WSGI SERVER started!")
+    print(f"TIME: {datetime.datetime.now()}")
+    print(f"PORT: {config.adminPort}")
     http_server.serve_forever()
 
 

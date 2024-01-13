@@ -1,3 +1,21 @@
+# CodeGrader - https://github.com/ooemperor/CodeGrader
+# Copyright © 2023, 2024 Michael Kaiser <michael.kaiser@emplabs.ch>
+#
+# This file is part of CodeGrader.
+#
+# CodeGrader is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CodeGrader is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
+
 """
 Database Model File for a Subject. Subject can also be used as a Lecture or Topic within a academic understanding.
 @author: mkaiser
@@ -77,6 +95,30 @@ class Subject(Base):
             return None
         else:
             return self.SubjectProfile.toJson()
+
+    def user_score(self, user_id: int) -> float:
+        """
+        Processing and Calculation of the Score of a given user for the exercise
+        @param user_id: The id of the user to query for.
+        @type user_id: int
+        @return: The average score of the user for the given exercise
+        @rtype: float
+        """
+        assert user_id is not None
+        assert int(user_id) > 0
+        score = 0.0
+        tasks_count = 0
+        for exercise in self.exercises:
+            # iterating over all the exercises of the subject.
+            for task in exercise.tasks:
+                tasks_count += 1
+                score += task.user_score(user_id)
+
+        if tasks_count == 0:
+            return 0.0
+        else:
+            average_score = score / tasks_count
+            return average_score
 
     def toJson(self, recursive: bool = True) -> dict:
         """

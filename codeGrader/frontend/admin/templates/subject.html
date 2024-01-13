@@ -1,3 +1,22 @@
+<!--
+CodeGrader - https://github.com/ooemperor/CodeGrader
+Copyright © 2023, 2024 Michael Kaiser <michael.kaiser@emplabs.ch>
+
+This file is part of CodeGrader.
+
+CodeGrader is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+CodeGrader is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
+-->
 {% extends "base.html" %}
 
 {% block core %}
@@ -62,20 +81,41 @@
             {% if editable%}
             <div id="control_buttons">
                 <button id="btn_submit" class="btn btn-success" type="submit">Submit</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#deleteSubject">Delete Subject</button>
             </div>
             {% endif %}
 
         </form>
     </div>
 
-
     {% if editable %}
-    <div class="row py-2">
-        <form action="{{ url_for('deleteSubject', id_=id) }}" method="GET">
-            <button class="btn btn-danger" type="submit">Delete Subject</button>
-        </form>
+    <div class="modal fade" id="deleteSubject" tabindex="-1" role="dialog" aria-labelledby="deleteSubjectTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="deleteSubjectTitle">Delete Subject {{ name }} ?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Do you really wanna delete the Subject {{ name }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form action="{{url_for('deleteSubject', id_ = id)}}" method="POST">
+                        <div id="control_buttons">
+                            <button name="action_button" id="btn-deleteSubject" class="btn btn-danger" type="submit"
+                                value="Submit">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     {% endif %}
+
 
     <div class="row py-4">
         <div class="accordion">
@@ -90,9 +130,9 @@
                     <div class="accordion-body">
                         <div>
                             <ul class="list-group list-group-flush">
-                                {% for ex in exercises %}
+                                {% for ex in exercises | sort(attribute='name') %}
                                 <li class="list-group-item">
-                                    <a class="core_content" href="{{ url_for('exercise', id_ = ex['id']|string) }}">
+                                    <a href="{{ url_for('exercise', id_ = ex['id']|string) }}">
                                         {{ ex["name"] }}
                                     </a>
                                 </li>
