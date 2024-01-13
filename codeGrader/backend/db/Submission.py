@@ -113,6 +113,29 @@ class Submission(Base):
         lazy="subquery"
     )
 
+    def max_score(self) -> float:
+        """
+        Calculates the maximal score for this submission, checking all avaible evaluationresults
+        @return: The best score for this submission
+        @rtype: float
+        """
+        if len(self.evaluationresult) == 0:
+            # there are no evaluation result in the database right now
+            return 0.0
+
+        else:
+            # there is at least one evaluation in the database
+            max_score = 0
+            # for loop is needed because we cannot guarantee, that there is only one evaluation in the database
+            for result in self.evaluationresult:
+                # updating the max score if it is bigger than the current one
+                if result.evaluation_score > max_score:
+                    max_score = result.evaluation_score
+
+                else:
+                    continue
+            return max_score*100.0
+
     def toJson(self, recursive: bool = True) -> dict:
         """
         JSON representation of a Submission.
@@ -126,6 +149,7 @@ class Submission(Base):
         out["id"] = self.id
         out["task"] = self.TaskSubmission.toJson()
         out["task_id"] = out["task"]["id"]
+        out["exercise_id"] = self.TaskSubmission.exercise_id
         out["user"] = self.user.toJson()
         out["user_id"] = out["user"]["id"]
         out["file"] = self.file.toJson(include_binary=False)
@@ -133,25 +157,6 @@ class Submission(Base):
 
         out["evaluations_count"] = len(self.evaluationresult)
 
-        # adding the evaluation result to the output
-        if len(self.evaluationresult) == 0:
-            # there are no evaluation result in the database right now
-            out["evaluation_result"] = None
-            out["max_score"] = None
-
-        else:
-            # there is at least one evaluation in the database
-            eval_result = []
-            max_score = 0
-            # for loop is needed because we cannot guarantee, that there is only one evaluation in the database
-            for result in self.evaluationresult:
-                eval_result.append(result.toJson())
-
-                # updating the max score if it is bigger than the current one
-                if result.evaluation_score > max_score:
-                    max_score = result.evaluation_score
-            out["evaluation_result"] = eval_result
-            out["max_score"] = max_score*100
-
+        out["max_score"] = self.max_score()
 
         return out

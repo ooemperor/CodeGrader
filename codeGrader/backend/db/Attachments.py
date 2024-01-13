@@ -73,6 +73,7 @@ class Instruction(Base):
         out_ = dict()
         out_["id"] = self.id
         out_["file"] = self.InstructionFile.toJson(include_binary=False)
+        out_["filename"] = out_["file"]["filename"]
         return out_
 
 
@@ -122,5 +123,6 @@ class Attachment(Base):
         out_ = dict()
         out_["id"] = self.id
         out_["file"] = self.AttachmentFile.toJson(include_binary=False)
+        out_["filename"] = out_["file"]["filename"]
         return out_
 

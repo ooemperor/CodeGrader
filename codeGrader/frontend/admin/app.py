@@ -37,6 +37,7 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
     SubmissionFileHandler, TestCaseInputFileHandler, TestCaseOutputFileHandler, AddTestCaseHandler, \
     DeleteTestCaseHandler
 from gevent.pywsgi import WSGIServer
+import datetime
 
 app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 
@@ -44,6 +45,23 @@ app = Flask(config.adminAppName, template_folder=templates.__path__[0])
 app.secret_key = config.adminSecretKey
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+def app_index():
+    """
+    Calculates a JSON dict with the representaion of all the Routes in this application
+    @return: The routes as a JSON representation
+    @rtype: dict
+    """
+    output = dict()
+    output_data = []
+    for route in app.url_map.iter_rules():
+        method = route.methods
+        rule = route.rule
+        endpoint = route.endpoint
+        output_data.append({rule:{"methods": method, "endpoint": endpoint} })
+    output["routes"] = output_data
+    return output
 
 
 @login_manager.user_loader
@@ -602,6 +620,9 @@ def TestCaseOutputFile(id_: int) -> Union[Response, str]:
 
 def admin_frontend():
     http_server = WSGIServer(("0.0.0.0", int(config.adminPort)), app)
+    print("WSGI SERVER started!")
+    print(f"TIME: {datetime.datetime.now()}")
+    print(f"PORT: {config.adminPort}")
     http_server.serve_forever()
 
 

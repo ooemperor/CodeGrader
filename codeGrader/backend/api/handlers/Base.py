@@ -161,13 +161,13 @@ class BaseHandler:
         except Exception as err:
             return self.create_generic_error_response('DELETE', err, id_)
 
-    def get_all(self, arguments={}):
+    def get_all(self, arguments: dict={}) -> dict:
         """
         Get all objects of a Class.
         @param arguments: The arguments provided in the API Call as URL arguments
         @type arguments: str
-        @return: List of all Objects
-        @rtype: list
+        @return: Response Dictionary with all the objects
+        @rtype: dict
         """
         if arguments is None:
             arguments = dict()

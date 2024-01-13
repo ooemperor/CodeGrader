@@ -74,8 +74,11 @@ class ExerciseHandler(BaseHandler):
         """
 
         exercise = self.api.get(f"/exercise/{id_}")
+        exercise_score_raw = self.api.get(f"/scores/exercise", user_id=self.user.id, object_id=exercise["id"])
+        score = exercise_score_raw['exercise'][0][str(exercise['id'])][0]['score']
+        exercise["score"] = score
 
-        if self.user.check_permission(exercise["profile"]["id"]):  # when admin is allowed to view this user
+        if self.user.check_permission(exercise["profile"]["id"]):  # when user is allowed to view this user
             return render_template("exercise.html", **exercise)
 
         else:  # admin is not allowed to see exercise

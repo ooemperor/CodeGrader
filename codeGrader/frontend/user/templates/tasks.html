@@ -42,7 +42,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                 <th>Tag</th>
                 <th>Exercise</th>
             </tr>
-            {% for t in task %}
+            {% for t in task | sort(attribute='name') %}
             <tr>
                 <td>
                     <a href="{{ url_for('task', id_ = t['id']|string) }}">

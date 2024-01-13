@@ -118,6 +118,26 @@ class Task(Base):
         else:
             return self.TaskExercise.get_profile()
 
+    def user_score(self, user_id: int) -> float:
+        """
+        Processing and Calculation of the Score of a given user for the task
+        @param user_id: The id of the user to query for.
+        @type user_id: int
+        @return: The score of the user for the given task
+        @rtype: float
+        """
+        assert user_id is not None
+        assert int(user_id) > 0
+        score = 0.0
+        for sub in self.submissions:
+            if sub.user.id == user_id:
+                temp_score = sub.max_score()
+
+                if temp_score > score:
+                    score = temp_score
+
+        return score  # max score has been found, so we return it
+
     def toJson(self, recursive: bool = True) -> dict:
         """
         Render the json representation of a Task

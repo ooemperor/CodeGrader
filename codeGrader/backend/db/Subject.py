@@ -96,6 +96,30 @@ class Subject(Base):
         else:
             return self.SubjectProfile.toJson()
 
+    def user_score(self, user_id: int) -> float:
+        """
+        Processing and Calculation of the Score of a given user for the exercise
+        @param user_id: The id of the user to query for.
+        @type user_id: int
+        @return: The average score of the user for the given exercise
+        @rtype: float
+        """
+        assert user_id is not None
+        assert int(user_id) > 0
+        score = 0.0
+        tasks_count = 0
+        for exercise in self.exercises:
+            # iterating over all the exercises of the subject.
+            for task in exercise.tasks:
+                tasks_count += 1
+                score += task.user_score(user_id)
+
+        if tasks_count == 0:
+            return 0.0
+        else:
+            average_score = score / tasks_count
+            return average_score
+
     def toJson(self, recursive: bool = True) -> dict:
         """
         Render the json representation of a Subject

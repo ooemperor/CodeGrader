@@ -124,7 +124,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                     <div class="accordion-body">
                         <div>
                             <ul class="list-group list-group-flush">
-                                {% for t in tasks %}
+                                {% for t in tasks | sort(attribute='name') %}
                                 <li class="list-group-item">
                                     <a href="{{ url_for('task', id_ = t['id']|string) }}">
                                         {{ t["name"] }}

@@ -143,7 +143,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                         <div>
                             <ul class="list-group list-group-flush py-2">
                                 {% if instructions %}
-                                {% for inst in instructions %}
+                                {% for inst in instructions | sort(attribute='filename') %}
                                 <li class="list-group-item">
                                     <i class="bi bi-filetype-{{ inst['file']['fileExtension'] }}"></i>
                                     <a href="{{ url_for('TaskInstruction', task_id_= id, instruction_id_ = inst['id']) }}"
@@ -182,7 +182,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                         <div>
                             <ul class="list-group list-group-flush py-2">
                                 {% if attachments %}
-                                {% for att in attachments %}
+                                {% for att in attachments | sort(attribute='filename') %}
                                 <li class="list-group-item">
                                     <i class="bi bi-filetype-{{ att['file']['fileExtension'] }}"></i>
                                     <a href="{{ url_for('TaskAttachment', task_id_= id, attachment_id_ = att['id']) }}"
@@ -296,7 +296,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                     </th>
                                 </tr>
 
-                                {% for tc in testcases %}
+                                {% for tc in testcases | sort(attribute='id') %}
                                 <tr>
                                     <td>
                                         {{ tc["id"] }}
@@ -393,7 +393,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                     </th>
                                 </tr>
 
-                                {% for sub in submissions %}
+                                {% for sub in submissions | sort(attribute='id') %}
                                 <tr>
                                     <td>
                                         {{ sub["id"] }}

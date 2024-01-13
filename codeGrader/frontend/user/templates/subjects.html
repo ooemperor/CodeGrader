@@ -41,7 +41,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             <th>Profile</th>
             <th>Tag</th>
         </tr>
-        {% for sub in subject %}
+        {% for sub in subject | sort(attribute='name') %}
         <tr>
             <td class="data">
                 <a href="{{ url_for('subject', id_ = sub['id']|string) }}">

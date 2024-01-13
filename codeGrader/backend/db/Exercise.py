@@ -81,6 +81,25 @@ class Exercise(Base):
         else:
             return self.ExerciseSubject.get_profile()
 
+    def user_score(self, user_id: int) -> float:
+        """
+        Processing and Calculation of the Score of a given user for the exercise
+        @param user_id: The id of the user to query for.
+        @type user_id: int
+        @return: The average score of the user for the given exercise
+        @rtype: float
+        """
+        assert user_id is not None
+        assert user_id > 0
+        score = 0.0
+        for task in self.tasks:
+            score += task.user_score(user_id)  # reading the score from the task
+        if len(self.tasks) == 0:
+            return 0.0
+        else:
+            average_score = score / (len(self.tasks))
+            return average_score
+
     def toJson(self, recursive: bool = True) -> dict:
         """
         Render the json representation of a Task
