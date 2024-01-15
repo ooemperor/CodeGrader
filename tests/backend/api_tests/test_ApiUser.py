@@ -126,6 +126,48 @@ class ApiUserTest(unittest.TestCase):
         self.assertIsNotNone(r)
         self.assertEqual(204, r.status_code)
 
+    def test_createAndDeleteUser_withPasswordReset(self):
+        """
+        Test Case for creating and deleting the user with password reset
+        Covers post, get and delete for the api/user
+        @return: No return
+        """
+        create_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/user/add"
+        user_url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/user/"
+        user_dict = {
+            "username": "tuser",
+            "first_name": "test",
+            "last_name": "user",
+            "email": "test.user@mail.com",
+            "password": "myPassword",
+            "tag": "usertag"
+        }
+
+        # creating the user
+        r = requests.post(create_url, json=user_dict, headers=self.headers)
+        self.assertIsNotNone(r)
+        self.assertEqual(201, r.status_code)
+        user_id = json.loads(r.text)["response"]["id"]
+
+        # checks after creation
+        r = requests.get(f"{user_url}{user_id}", headers=self.headers)
+        self.assertEqual(200, r.status_code)
+        self.assertEqual("tuser", json.loads(r.text)["username"])
+        self.assertEqual("test", json.loads(r.text)["first_name"])
+        self.assertEqual("user", json.loads(r.text)["last_name"])
+        self.assertEqual("test.user@mail.com", json.loads(r.text)["email"])
+        self.assertEqual("usertag", json.loads(r.text)["tag"])
+
+        r = requests.post(f"{user_url}{user_id}/passwordreset", headers=self.headers)
+        self.assertEqual(201, r.status_code)
+        self.assertIsNotNone(r)
+        self.assertTrue("password" in json.loads(r.text).keys())
+
+        # deleting the user after the test
+        r = requests.delete(f"{user_url}{user_id}", headers=self.headers)
+        self.assertEqual(204, r.status_code)
+        self.assertIsNotNone(r)
+
     def test_GETUsersEndpoint(self):
         """
         Test Case for the testing if the /users endpoint is working

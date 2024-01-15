@@ -51,7 +51,7 @@ class GenericResponseHandler:
         else:
             return 200
 
-    def generate_response(self, method: str, response: str, id_: int = None) -> (dict, int):
+    def generate_response(self, method: str, response: str, id_: int = None, **kwargs) -> (dict, int):
         """
         Generates a generic method for a response Body
         @param method: the request method
@@ -69,6 +69,9 @@ class GenericResponseHandler:
         _response["message"] = response
         out["method"] = method
         out["response"] = _response
+
+        for key, value in kwargs.items():  # adding custom arguments to the response message
+            out[key] = value
 
         return out, self._get_response_code(method)
 
