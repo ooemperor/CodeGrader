@@ -70,7 +70,8 @@ class ExerciseHandler(BaseHandler):
         Get Method to render or redirect for a specific Exercise
         @param id_: The identifier of the object
         @type id_: int
-        @return:
+        @return: The rendered site or a redirect
+        @rtype: str|Response
         """
 
         exercise = self.api.get(f"/exercise/{id_}")

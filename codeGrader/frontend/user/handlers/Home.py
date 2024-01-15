@@ -39,4 +39,8 @@ class HomeHandler(BaseHandler):
         super().__init__(request)
 
     def get(self):
+        """
+        Renders the template of the Home Directory of the user frontend
+        @return: str/
+        """
         return render_template("home.html")

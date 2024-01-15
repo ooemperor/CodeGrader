@@ -29,7 +29,7 @@ from codeGrader.frontend.config import config
 from codeGrader.frontend.user import templates
 from codeGrader.frontend.user.handlers import UserSessionHandler, SessionUser, UserLoginHandler, HomeHandler, \
     ExerciseListHandler, ExerciseHandler, TaskHandler, TaskListHandler, TaskAttachmentHandler, TaskInstructionHandler, \
-    AddSubmissionHandler
+    AddSubmissionHandler, Settingshandler
 from gevent.pywsgi import WSGIServer
 from typing import Union
 import datetime
@@ -211,6 +211,13 @@ def TaskInstruction(task_id_: int, instruction_id_: int) -> Union[Response, str]
 def addSubmission(task_id_: int) -> Union[Response, str]:
     if request.method == 'POST':
         return AddSubmissionHandler(request).post(task_id_)
+
+
+@app.route("/settings", methods=['GET'])
+@login_required
+def settings():
+    if request.method == 'GET':
+        return Settingshandler(request).get()
 
 
 def user_frontend():

@@ -75,7 +75,7 @@ class TaskHandler(BaseHandler):
 
         task = self.api.get(f"/task/{id_}")
 
-        if self.user.check_permission(task["profile"]["id"]):  # when admin is allowed to view this user
+        if self.user.check_permission(task["profile"]["id"]):  # when user is allowed to view this user
             submissions = self.api.get(f"/submissions", task_id=id_, user_id=self.user.id)
             if "submission" in submissions.keys():  # handles the case that there are no submissions yet
                 task["submissions"] = submissions["submission"]
