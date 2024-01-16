@@ -190,19 +190,13 @@ class DeleteProfileHandler(BaseHandler):
 
         profile = self.api.get(f"/profile/{id_}")
         if self.admin.check_permission('w'):  # admin is allowed to delete the profile
-            if self.get_value("action_button") == "Submit":
-                response = self.api.delete(f"/profile/{id_}")
 
-                # display message that Profile has been deleted on the returned page.
-                self.flash("Profile has been deleted")
-                return redirect(url_for("profiles"))
+            response = self.api.delete(f"/profile/{id_}")
 
-            elif self.get_value("action_button") == "Cancel":
-                return redirect(url_for("profile", id_=id_))
+            # display message that Profile has been deleted on the returned page.
+            self.flash("Profile has been deleted")
+            return redirect(url_for("profiles"))
 
-            else:
-                pass
-                # TODO Implement Error
 
         else:  # admin is not allowed to delete profiles
             self.flash("You are not allowed to delete profiles. ")

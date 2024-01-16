@@ -204,19 +204,12 @@ class DeleteSubjectHandler(BaseHandler):
         """
         subject = self.api.get(f"/subject/{id_}")
         if self.admin.check_permission('w', subject["profile"]["id"]):  # admin is allowed to delete the subject
-            if self.get_value("action_button") == "Submit":
-                response = self.api.delete(f"/subject/{id_}")
 
-                # display message that Subject has been deleted on the returned page.
-                self.flash("Subject has been deleted")
-                return redirect(url_for("subjects"))
+            response = self.api.delete(f"/subject/{id_}")
 
-            elif self.get_value("action_button") == "Cancel":
-                return redirect(url_for("subject", id_=id_))
-
-            else:
-                pass
-                # TODO Implement Error
+            # display message that Subject has been deleted on the returned page.
+            self.flash("Subject has been deleted")
+            return redirect(url_for("subjects"))
 
         else:  # admin is not allowed to see subjects
             self.flash("You are not allowed to delete subjects. ")

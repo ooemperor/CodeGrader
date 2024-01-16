@@ -207,19 +207,10 @@ class DeleteTaskHandler(BaseHandler):
         task = self.api.get(f"/task/{id_}")
         if self.admin.check_permission('w', task["profile"]["id"]):  # admin is allowed to delete the task
 
-            if self.get_value("action_button") == "Submit":
-                response = self.api.delete(f"/task/{id_}")
-
-                # display message that task has been deleted on the returned page.
-                self.flash("Task has been deleted")
-                return redirect(url_for("tasks"))
-
-            elif self.get_value("action_button") == "Cancel":
-                return redirect(url_for("task", id_=id_))
-
-            else:
-                pass
-                # TODO Implement Error
+            response = self.api.delete(f"/task/{id_}")
+            # display message that task has been deleted on the returned page.
+            self.flash("Task has been deleted")
+            return redirect(url_for("tasks"))
 
         else:  # admin is not allowed to delete tasks
             self.flash("You are not allowed to delete tasks. ")

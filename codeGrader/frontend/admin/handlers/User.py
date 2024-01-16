@@ -225,19 +225,11 @@ class DeleteUserHandler(BaseHandler):
         user = self.api.get(f"/user/{id_}")
         if self.admin.check_permission('w', user["profile"]["id"]):  # admin is allowed to delete the user
 
-            if self.get_value("action_button") == "Submit":
-                self.api.delete(f"/user/{id_}")
+            self.api.delete(f"/user/{id_}")
 
-                # display message that user has been deleted on the returned page.
-                self.flash("User has been deleted")
-                return redirect(url_for("users"))
-
-            elif self.get_value("action_button") == "Cancel":
-                return redirect(url_for("user", id_=id_))
-
-            else:
-                self.flash("You made an illegal operation. Please Try Again or Contact an Administrator!")
-                return redirect(url_for("user", id_=id_))
+            # display message that user has been deleted on the returned page.
+            self.flash("User has been deleted")
+            return redirect(url_for("users"))
 
         else:  # admin is not allowed to delete users
             self.flash("You are not allowed to delete users. ")
