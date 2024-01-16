@@ -45,7 +45,6 @@ class PasswordResetHandler(BaseHandler):
         """
         super().__init__()
         self.password = None
-        self.generate_random_password()
 
     def generate_random_password(self):
         char_list = string.ascii_letters + string.digits + "!-_.?/"
@@ -56,9 +55,9 @@ class PasswordResetHandler(BaseHandler):
 
         self.password = new_password
 
-    def reset(self, id_: int) -> dict:
+    def _update_password(self, id_):
         """
-        Reset function on the User Object
+        Update the password on the User Object in the database
         @param id_: the id of the user in the database
         @type id_: int
         @return: A Dictionary reporting success or failure
@@ -76,11 +75,35 @@ class PasswordResetHandler(BaseHandler):
             print(self.password)
             self.sql_session.update(self.dbClass, user.id, user_dict)
 
-            return self.create_generic_response('POST', "Password has been reset", password=self.password)
+            return self.create_generic_response('POST', "Password has been changed", password=self.password)
 
         except Exception as e:
             print(e)
-            return self.create_generic_error_response('POST', "Password Reset failed for User")
+            return self.create_generic_error_response('POST', "Password Change failed for User")
+
+    def reset(self, id_: int) -> dict:
+        """
+        Reset function on the User Object
+        @param id_: the id of the user in the database
+        @type id_: int
+        @return: A Dictionary reporting success or failure
+        @rtype: dict
+        """
+        self.generate_random_password()
+        return self._update_password(id_)
+
+    def change(self, id_: int, password: str) -> dict:
+        """
+        Update a password for a given user object
+        @param id_: the id of the user in the database
+        @type id_: int
+        @param password: The password that shall be set
+        @type password: str
+        @return: A Dictionary reporting success or failure
+        @rtype: dict
+        """
+        self.password = password
+        return self._update_password(id_)
 
 
 class AdminUserPasswordResetHandler(PasswordResetHandler):

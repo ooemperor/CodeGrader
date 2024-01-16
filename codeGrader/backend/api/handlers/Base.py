@@ -89,7 +89,7 @@ class BaseHandler:
         # this allows to overwrite the method in child classes
         return dict_
 
-    def get(self, id_: int):
+    def get(self, id_: int) -> dict:
         """
         Get a specific Object from the database from the corresponding table
         Will be overwritten in some of the subclasses for better assertions and preprocessing
@@ -146,7 +146,7 @@ class BaseHandler:
         except Exception as err:
             return self.create_generic_error_response('PUT', err, id_)
 
-    def delete(self, id_: int):
+    def delete(self, id_: int) -> dict:
         """
         Deleting a object from the database
         @param id_: The identifier of the object

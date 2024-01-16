@@ -29,7 +29,7 @@ from codeGrader.frontend.config import config
 from codeGrader.frontend.user import templates
 from codeGrader.frontend.user.handlers import UserSessionHandler, SessionUser, UserLoginHandler, HomeHandler, \
     ExerciseListHandler, ExerciseHandler, TaskHandler, TaskListHandler, TaskAttachmentHandler, TaskInstructionHandler, \
-    AddSubmissionHandler, Settingshandler
+    AddSubmissionHandler, SettingsHandler, PasswordResetHandler
 from gevent.pywsgi import WSGIServer
 from typing import Union
 import datetime
@@ -217,7 +217,18 @@ def addSubmission(task_id_: int) -> Union[Response, str]:
 @login_required
 def settings():
     if request.method == 'GET':
-        return Settingshandler(request).get()
+        return SettingsHandler(request).get()
+
+
+@app.route("/passwordreset", methods=['POST'])
+@login_required
+def password_reset() -> Response:
+    """
+    Route to reset a password of a user that is already logged in
+    @return: Redirect back to the settings page with a distinct flash messaage
+    """
+    if request.method == 'POST':
+        return PasswordResetHandler(request).post()
 
 
 def user_frontend():

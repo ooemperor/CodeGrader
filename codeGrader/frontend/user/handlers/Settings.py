@@ -26,7 +26,7 @@ from .Base import BaseHandler
 from typing import Union
 
 
-class Settingshandler(BaseHandler):
+class SettingsHandler(BaseHandler):
     """
     Handler Class for the Settings
     """

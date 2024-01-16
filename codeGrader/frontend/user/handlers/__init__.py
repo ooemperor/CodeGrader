@@ -29,8 +29,9 @@ from .Task import TaskHandler, TaskListHandler
 from .TaskAttachment import TaskAttachmentHandler
 from .TaskInstruction import TaskInstructionHandler
 from .Submission import AddSubmissionHandler
-from .Settings import Settingshandler
+from .Settings import SettingsHandler
+from .PasswordReset import PasswordResetHandler
 
 __all__ = ["BaseHandler", "UserSessionHandler", "SessionUser", "UserLoginHandler", "HomeHandler", "ExerciseListHandler",
            "ExerciseHandler", "TaskHandler", "TaskListHandler", "TaskAttachmentHandler", "TaskInstructionHandler",
-           "AddSubmissionHandler", "Settingshandler"]
+           "AddSubmissionHandler", "SettingsHandler", "PasswordResetHandler"]
