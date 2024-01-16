@@ -22,8 +22,9 @@ Holds the Handlers for everything that corresponds with the Users
 # TODO: Define how to handle realtions of Profile and more.
 """
 from codeGrader.backend.api.handlers.Base import BaseHandler
-from codeGrader.backend.db import User, AdminUser
+from codeGrader.backend.db import User
 import hashlib
+
 
 class UserHandler(BaseHandler):
     """

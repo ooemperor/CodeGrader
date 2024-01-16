@@ -1,0 +1,169 @@
+<!--
+CodeGrader - https://github.com/ooemperor/CodeGrader
+Copyright © 2023, 2024 Michael Kaiser <michael.kaiser@emplabs.ch>
+
+This file is part of CodeGrader.
+
+CodeGrader is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+CodeGrader is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
+-->
+{% extends "base.html" %}
+
+{% block core %}
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<script>
+    function compare_passwords() {
+        var new_password, old_password, btn_reset;
+        new_password = document.getElementById("input_new_password");
+        repeat_new_password = document.getElementById("input_repeat_new_password");
+        btn_change = document.getElementById("btn_submit_password_change");
+        if ((new_password.value === repeat_new_password.value) && new_password.value.length > 7) {
+            btn_change.disabled = false;
+        }
+        else {
+            btn_change.disabled = true;
+        }
+    }
+</script>
+<div id="main">
+    <div>
+        <h1>Settings</h1>
+    </div>
+    <div class="row">
+        <p class="core_content">User {{ username }}</p>
+    </div>
+
+    <div class="row">
+
+        <div id="user_data">
+            <table class="table">
+                <tr>
+                    <td>Username</td>
+                    <td>
+                        {{ username }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>First Name</td>
+                    <td>
+                        {{ first_name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Last Name</td>
+                    <td>
+                        {{ last_name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>E-Mail</td>
+                    <td>
+                        {{ email }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row py-4">
+        <div id="password-reset">
+            <h5>Password Reset</h5>
+            <p>Your Password must contain at least 8 characters</p>
+            <form action="{{url_for('password_reset')}}" method="POST">
+                <div id="password_data">
+                    <table class="table">
+                        <tr>
+                            <td>Old Password</td>
+                            <td>
+                                <input class="input" type="password" id="input_old_password" name="old-password"
+                                    placeholder="old password">
+                                <i class="bi bi-eye-slash" id="togglePassword_old"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>New Password</td>
+                            <td>
+                                <input class="input" type="password" id="input_new_password" name="new-password"
+                                    placeholder="new password" onkeyup="compare_passwords()">
+                                <i class="bi bi-eye-slash" id="togglePassword_new"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Repeat New Password</td>
+                            <td>
+                                <input class="input" type="password" id="input_repeat_new_password"
+                                    name="repeat-new-password" placeholder="repeat new password"
+                                    onkeyup="compare_passwords()">
+                                <i class="bi bi-eye-slash" id="togglePassword_repeat_new"></i>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="password_reset_controls">
+                    <button id="btn_submit_password_change" class="btn btn-success" type="submit" disabled="true">Change
+                        Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <h5>Statistics</h5>
+        <div class="col-sm-6">
+            <div class="card text-center mr-2" style="max-width: 18rem;">
+                <div class="card-header">
+                    <h5>
+                        Submissions
+                    </h5>
+                </div>
+                <div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ submissions | length }}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // script for the password visibility
+        // getting the elements on which we will operate
+        const togglePassword_old = document.getElementById("togglePassword_old");
+        const password_old = document.getElementById("input_old_password");
+        const togglePassword_new = document.getElementById("togglePassword_new");
+        const password_new = document.getElementById("input_new_password");
+        const togglePassword_repeat_new = document.getElementById("togglePassword_repeat_new");
+        const password_repeat_new = document.getElementById("input_repeat_new_password");
+
+        // event listener on the old password
+        togglePassword_old.addEventListener('click', () => {
+            const type = password_old.getAttribute('type') === 'password' ? 'text' : 'password';
+            password_old.setAttribute('type', type);
+            togglePassword_old.classList.toggle('bi-eye');
+        });
+
+        // event listener on the new password
+        togglePassword_new.addEventListener('click', () => {
+            const type = password_new.getAttribute('type') === 'password' ? 'text' : 'password';
+            password_new.setAttribute('type', type);
+            togglePassword_new.classList.toggle('bi-eye');
+        });
+
+        // event listener on the new repeat password
+        togglePassword_repeat_new.addEventListener('click', () => {
+            const type = password_repeat_new.getAttribute('type') === 'password' ? 'text' : 'password';
+            password_repeat_new.setAttribute('type', type);
+            togglePassword_repeat_new.classList.toggle('bi-eye');
+        });
+    </script>
+</div>
+{% endblock core %}

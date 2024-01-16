@@ -41,7 +41,8 @@ class AddSubmissionHandler(BaseHandler):
         """
         Handler for adding a Submission to a task for a user
         @param id_: The identifier of the task
-        @return:
+        @return: A redirect to another site
+        @rtype: Response
         """
         assert self.request.form is not None
         assert self.request.files is not None

@@ -48,7 +48,7 @@ class BaseHandler:
         self.errorResponseHandler = ErrorResponseHandler()  # adding errorhandler in case we need it
         self.genericResponseHandler = GenericResponseHandler()  # generic Response Handler when there are no errors
 
-    def create_generic_response(self, method: str, response: str, id_: int = None):
+    def create_generic_response(self, method: str, response: str, id_: int = None, **kwargs):
         """
         Generates a generic method for a response Body
         @param method: the request method
@@ -60,9 +60,9 @@ class BaseHandler:
         @return: The response JSON
         @rtype: dict
         """
-        return self.genericResponseHandler.generate_response(method, response, id_)
+        return self.genericResponseHandler.generate_response(method, response, id_, **kwargs)
 
-    def create_generic_error_response(self, method: str, exception: Exception, id_: int = None):
+    def create_generic_error_response(self, method: str, exception: Exception, id_: int = None, **kwargs):
         """
         Generating a generic error response when there is some sort of a Problem.
         @param method: The method used to call the handler e.g. PUT, POST and more
@@ -74,7 +74,7 @@ class BaseHandler:
         @return: The custom error message that shall be provided to the user.
         @rtype: dict
         """
-        return self.errorResponseHandler.generate_response(method, exception, id_)
+        return self.errorResponseHandler.generate_response(method, exception, id_, **kwargs)
 
     def _preprocess_data_dict(self, dict_: dict):
         """
@@ -89,7 +89,7 @@ class BaseHandler:
         # this allows to overwrite the method in child classes
         return dict_
 
-    def get(self, id_: int):
+    def get(self, id_: int) -> dict:
         """
         Get a specific Object from the database from the corresponding table
         Will be overwritten in some of the subclasses for better assertions and preprocessing
@@ -146,7 +146,7 @@ class BaseHandler:
         except Exception as err:
             return self.create_generic_error_response('PUT', err, id_)
 
-    def delete(self, id_: int):
+    def delete(self, id_: int) -> dict:
         """
         Deleting a object from the database
         @param id_: The identifier of the object

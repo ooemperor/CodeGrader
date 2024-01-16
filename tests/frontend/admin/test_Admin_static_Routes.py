@@ -38,58 +38,64 @@ class RouteTest(unittest.TestCase):
         r = requests.post(self.url + "login", data=login_data)
         self.cookies = r.request._cookies
 
-    def test_GET_home(self):
+    def test_GET_static_png_Ube(self):
         """
-        Test Case for the /home route
-        @return: No return
+        Test Case for checking if the static file routes are working for ube.png picture
+        @return:
         """
-
-        r = requests.get(self.url, cookies=self.cookies)
-        self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
-        self.assertFalse("input input_login" in r.text)
-
-    def test_GET_settings(self):
-        """
-        Test Case for the /home route
-        @return: No return
-        """
-
-        r = requests.get(self.url, cookies=self.cookies)
-        self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
-        self.assertFalse("<h1>Settings</h1>" in r.text)
-
-    def test_GET_exercises(self):
-        """
-        Test Case for the /exercises route
-        @return: No return
-        """
-        route = "exercises"
-        r = requests.get(self.url+route, cookies=self.cookies)
-        self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
-        self.assertFalse("input input_login" in r.text)
-
-    def test_GET_tasks(self):
-        """
-        Test Case for the /tasks route
-        @return: No return
-        """
-        route = "tasks"
-        r = requests.get(self.url+route, cookies=self.cookies)
-        self.assertIsNotNone(r)
-        self.assertEqual(200, r.status_code)
-        self.assertFalse("input input_login" in r.text)
-
-    def test_GET_logout(self):
-        """
-        Test Case for the /task/add route
-        @return: No return
-        """
-        route = "logout"
+        route = "static/img/ube.png"
         r = requests.get(self.url + route, cookies=self.cookies)
         self.assertIsNotNone(r)
         self.assertEqual(200, r.status_code)
-        self.assertTrue("btn_login" in r.text)
+
+    def test_GET_static_png_PHBern(self):
+        """
+        Test Case for checking if the static file routes are working for phbern.png picture
+        @return:
+        """
+        route = "static/img/phbern.png"
+        r = requests.get(self.url + route, cookies=self.cookies)
+        self.assertIsNotNone(r)
+        self.assertEqual(200, r.status_code)
+
+    def test_GET_static_png_Belearn(self):
+        """
+        Test Case for checking if the static file routes are working for belearn.png picture
+        @return:
+        """
+        route = "static/img/belearn.png"
+        r = requests.get(self.url + route, cookies=self.cookies)
+        self.assertIsNotNone(r)
+        self.assertEqual(200, r.status_code)
+
+    def test_GET_static_css_boostrap(self):
+        """
+        Test Case for checking if the static file routes are working for css boostrap picture
+        @return:
+        """
+        route = "static/css/bootstrap.min.css"
+        r = requests.get(self.url + route, cookies=self.cookies)
+        self.assertIsNotNone(r)
+        self.assertEqual(200, r.status_code)
+
+    def test_GET_static_css_boostrap_icons(self):
+        """
+        Test Case for checking if the static file routes are working for css boostrap icons picture
+        @return:
+        """
+        route = "static/css/bootstrap-icons.css"
+        r = requests.get(self.url + route, cookies=self.cookies)
+        self.assertIsNotNone(r)
+        self.assertEqual(200, r.status_code)
+
+    def test_GET_static_js_boostrap(self):
+        """
+        Test Case for checking if the static file routes are working for js boostrap picture
+        @return:
+        """
+        route = "static/js/bootstrap.bundle.min.js"
+        r = requests.get(self.url + route, cookies=self.cookies)
+        self.assertIsNotNone(r)
+        self.assertEqual(200, r.status_code)
+
 

@@ -53,17 +53,33 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
 
-    <div class="card text-center" style="max-width: 18rem;">
-        <div class="card-header">
-            <h5>
-                Your Score
-            </h5>
-        </div>
-        <div>
-            <div class="card-body">
-                <h5 class="card-title">
-                    {{ max_score }} %
+    <div class="row">
+        <div class="card text-center mx-2 px-0" style="max-width: 18rem;">
+            <div class="card-header">
+                <h5>
+                    Your Score
                 </h5>
+            </div>
+            <div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ max_score }} %
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <div class="card text-center mx-2 px-0" style="max-width: 18rem;">
+            <div class="card-header">
+                <h5>
+                    Amount of Submissions
+                </h5>
+            </div>
+            <div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ submissions | length}}
+                    </h5>
+                </div>
             </div>
         </div>
     </div>
@@ -82,7 +98,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                         <div>
                             <ul class="list-group list-group-flush py-2">
                                 {% if instructions %}
-                                {% for inst in instructions %}
+                                {% for inst in instructions | sort(attribute='filename') %}
                                 <li class="list-group-item">
                                     <i class="bi bi-filetype-{{ inst['file']['fileExtension'] }}"></i>
                                     <a href="{{ url_for('TaskInstruction', task_id_= id, instruction_id_ = inst['id']) }}"
@@ -109,7 +125,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                         <div>
                             <ul class="list-group list-group-flush py-2">
                                 {% if attachments %}
-                                {% for att in attachments %}
+                                {% for att in attachments | sort(attribute='filename') %}
                                 <li class="list-group-item">
                                     <i class="bi bi-filetype-{{ att['file']['fileExtension'] }}"></i>
                                     <a href="{{ url_for('TaskAttachment', task_id_= id, attachment_id_ = att['id']) }}"
@@ -158,7 +174,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                         </th>
                                     </tr>
 
-                                    {% for sub in submissions %}
+                                    {% for sub in submissions | sort(reverse=true, attribute='id') %}
                                     <tr>
                                         <td>
                                             {{ sub["id"] }}

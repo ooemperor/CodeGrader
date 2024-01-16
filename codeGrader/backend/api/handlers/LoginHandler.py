@@ -37,11 +37,9 @@ class LoginHandler(BaseHandler):
     Used by the frontend to check the login status of a AdminUser.
     """
 
-    # instance variables that are not set in this parent class
-
     def __init__(self) -> None:
         """
-        Constructor of the LoginHandler Partent Class.
+        Constructor of the LoginHandler Parent Class.
         Uses the Basehandler
         """
         super().__init__()

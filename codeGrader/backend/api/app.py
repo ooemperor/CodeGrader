@@ -28,12 +28,12 @@ import urllib
 from functools import wraps
 from gevent.pywsgi import WSGIServer
 
-
 from flask import Flask, request, send_file
 from codeGrader.backend.config import config
 from codeGrader.backend.api.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, \
     ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler, TestCaseHandler, AdminUserLoginHandler, \
-    authentication, AdminTypeHandler, UserLoginHandler, InstructionHandler, AttachmentHandler, ScoreHandler
+    authentication, AdminTypeHandler, UserLoginHandler, InstructionHandler, AttachmentHandler, ScoreHandler, \
+    AdminUserPasswordResetHandler, UserPasswordResetHandler
 from codeGrader.backend.api.logger import Logger
 from codeGrader.backend.api.util import upload_file, preprocess_task_file
 import logging
@@ -64,7 +64,7 @@ def app_index():
         method = route.methods
         rule = route.rule
         endpoint = route.endpoint
-        output_data.append({rule:{"methods": method, "endpoint": endpoint} })
+        output_data.append({rule: {"methods": method, "endpoint": endpoint}})
     output["routes"] = output_data
     return output
 
@@ -93,7 +93,7 @@ def index() -> dict:
 
 @app.route("/admin/login", methods=['POST'])
 @authentication
-def admin_login():
+def admin_login() -> dict:
     """
     Login for a provided Admin User
     """
@@ -105,7 +105,7 @@ def admin_login():
 
 @app.route("/user/login", methods=['POST'])
 @authentication
-def user_login():
+def user_login() -> dict:
     """
     Login for a provided user
     """
@@ -133,6 +133,36 @@ def user(id_: int) -> dict:
 
     elif request.method == 'DELETE':
         return UserHandler().delete(id_)
+
+
+@app.route("/user/<int:id_>/password/reset", methods=['POST'])
+@authentication
+def user_password_reset(id_: int) -> dict:
+    """
+    Route for password reset on a user
+    @param id_: The identifier of the user
+    @type id_: int
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
+    """
+    if request.method == 'POST':
+        return UserPasswordResetHandler().reset(id_)
+
+
+@app.route("/user/<int:id_>/password/update", methods=['POST'])
+@authentication
+def user_password_update(id_: int) -> dict:
+    """
+    Route for password reset on a admin user
+    @param id_: The identifier of the admin user
+    @type id_: int
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
+    """
+    if request.method == 'POST':
+        user_id = request.get_json()["id"]
+        password = request.get_json()["password"]
+        return UserPasswordResetHandler().change(id_, password)
 
 
 @app.route("/users", methods=['GET'])
@@ -175,6 +205,36 @@ def admin(id_: int) -> dict:
 
     elif request.method == 'DELETE':
         return AdminUserHandler().delete(id_)
+
+
+@app.route("/admin/<int:id_>/password/reset", methods=['POST'])
+@authentication
+def admin_password_reset(id_: int) -> dict:
+    """
+    Route for password reset on a admin user
+    @param id_: The identifier of the admin user
+    @type id_: int
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
+    """
+    if request.method == 'POST':
+        return AdminUserPasswordResetHandler().reset(id_)
+
+
+@app.route("/admin/<int:id_>/password/update", methods=['POST'])
+@authentication
+def admin_password_update(id_: int) -> dict:
+    """
+    Route for password reset on a admin user
+    @param id_: The identifier of the admin user
+    @type id_: int
+    @return: Custom Response messgae that we get from the handler class.
+    @rtype: dict
+    """
+    if request.method == 'POST':
+        user_id = request.get_json()["id"]
+        password = request.get_json()["password"]
+        return AdminUserPasswordResetHandler().change(id_, password)
 
 
 @app.route("/admins", methods=['GET'])
