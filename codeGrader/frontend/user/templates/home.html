@@ -27,21 +27,36 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     </div>
     <p>Welcome to the CodeGrader</p>
     <p>A project from University of Bern and BeLearn</p>
-    <div class="row">
-        <div class="col d-flex align-items-center">
-            <a href="https://www.unibe.ch/">
-                <img src="{{ url_for('static', filename='img/ube.png') }}" alt="University of Bern" width="500">
-            </a>
+    <div class="row py-4">
+        <div class="col d-flex align-items-center mb-4">
+            <div class="card text-center" style="width: 25rem;">
+                <img src="{{ url_for('static', filename='img/ube.png') }}" alt="University of Bern">
+                <div class="card-body">
+                  <h5 class="card-title">University of Bern</h5>
+                  <p class="card-text">University of Bern</p>
+                  <a href="https://www.unibe.ch/" class="btn btn-primary">UniBe</a>
+                </div>
+              </div>
         </div>
-        <div class="col d-flex align-items-center">
-            <a href="https://belearn.swiss/">
-                <img src="{{ url_for('static', filename='img/belearn.png') }}" alt="BeLearn" width="500">
-            </a>
+        <div class="col d-flex align-items-center mb-4">
+            <div class="card text-center" style="width: 25rem;">
+                <img src="{{ url_for('static', filename='img/belearn.png') }}" alt="BeLearn">
+                <div class="card-body">
+                  <h5 class="card-title">BeLearn </h5>
+                  <p class="card-text">BeLearn</p>
+                  <a href="https://belearn.swiss/"" class="btn btn-primary">BeLearn</a>
+                </div>
+              </div>
         </div>
-        <div class="col d-flex align-items-center">
-            <a href="https://www.phbern.ch/">
-                <img src="{{ url_for('static', filename='img/phbern.png') }}" alt="PH Bern" width="500">
-            </a>
+        <div class="col d-flex align-items-center mb-4">
+            <div class="card text-center" style="width: 25rem;">
+                <img src="{{ url_for('static', filename='img/phbern.png') }}" alt="PH Bern">
+                <div class="card-body">
+                  <h5 class="card-title">PH Bern</h5>
+                  <p class="card-text">PH Bern</p>
+                  <a href="https://www.phbern.ch/" class="btn btn-primary">PH Bern</a>
+                </div>
+              </div>
         </div>
     </div>
 </div>
