@@ -151,13 +151,11 @@ def user(id_: int) -> dict:
         return UserHandler().get(id_)
 
     elif request.method == 'PUT':
-        cache.delete(users)
-        cache.delete_memoized(user, id_)
+        cache.clear()
         return UserHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':
-        cache.delete(users)
-        cache.delete_memoized(user, id_)
+        cache.clear()
         return UserHandler().delete(id_)
 
 
@@ -211,7 +209,7 @@ def addUser() -> dict:
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
-    cache.delete(users)
+    cache.clear()
     return UserHandler().post(request.get_json())
 
 
@@ -230,13 +228,11 @@ def admin(id_: int) -> dict:
         return AdminUserHandler().get(id_)
 
     elif request.method == 'PUT':
-        cache.delete(admins)
-        cache.delete_memoized(admin, id_)
+        cache.clear()
         return AdminUserHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':
-        cache.delete(admins)
-        cache.delete_memoized(admin, id_)
+        cache.clear()
         return AdminUserHandler().delete(id_)
 
 
@@ -290,7 +286,7 @@ def addAdmin() -> dict:
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
-    cache.delete(admins)
+    cache.clear()
     return AdminUserHandler().post(request.get_json())
 
 
@@ -302,7 +298,7 @@ def addProfile() -> dict:
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
-    cache.delete(profiles)
+    cache.clear()
     return ProfileHandler().post(request.get_json())
 
 
@@ -321,13 +317,11 @@ def profile(id_: int) -> dict:
         return ProfileHandler().get(id_)
 
     elif request.method == 'PUT':
-        cache.delete(profiles)
-        cache.delete_memoized(profile, id_)
+        cache.clear()
         return ProfileHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':
-        cache.delete(profiles)
-        cache.delete_memoized(profile, id_)
+        cache.clear()
         return ProfileHandler().delete(id_)
 
 
@@ -516,7 +510,7 @@ def file(id_: int) -> dict:
                          download_name=(data["filename"]))
 
     elif request.method == 'DELETE':
-        cache.delete_memoized(file, id_)
+        cache.clear()
         return FileHandler().delete(id_)
 
 
