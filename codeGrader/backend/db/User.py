@@ -85,7 +85,7 @@ class User(Base):
         order_by="[Membership.id]",
         cascade="all",
         passive_deletes=True,
-        lazy="joined",
+        lazy="noload",
         backref=backref("MembershipUser", lazy="joined")
     )
 

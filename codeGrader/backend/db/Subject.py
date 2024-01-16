@@ -82,7 +82,7 @@ class Subject(Base):
         # cascade needs to be acitve so when a Subject is deleted the membership is too
         cascade="all",
         passive_deletes=True,
-        lazy="joined",
+        lazy="noload",
         backref=backref("MembershipSubject", lazy="joined")
     )
 

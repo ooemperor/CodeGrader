@@ -144,5 +144,55 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </div>
+
+    <div class="row py-4">
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelMemberships" aria-expanded="false" aria-controls="panelMemberships">
+                        Memberships
+                    </button>
+                </h2>
+                <div id="panelMemberships" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <div>
+                            {% if memberships %}
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        Username
+                                    </th>
+                                    <th>
+                                        First Name
+                                    </th>
+                                    <th>
+                                        Last Name
+                                    </th>
+                                </tr>
+
+                                {% for memb in memberships | sort(attribute='name') %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ url_for('user', id_= memb['user_id']) }}">
+                                            {{ memb["user"]["username"] }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ memb["user"]["first_name"] }}
+                                    </td>
+                                    <td>
+                                        {{ memb["user"]["last_name"] }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock core %}

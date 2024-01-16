@@ -73,8 +73,10 @@ class UserHandler(BaseHandler):
 
         user = self.api.get(f"/user/{id_}")  # get the user data
         profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())  # get the profile data
+        memberships = self.api.get(f"/memberships", user_id=id_)  # get the membership data for the specific user
 
         user["profiles"] = profiles["profile"]
+        user["memberships"] = memberships["membership"]
 
         # checking if user will be able to edit the table
         editable = self.admin.check_permission('w', user["profile"]["id"])

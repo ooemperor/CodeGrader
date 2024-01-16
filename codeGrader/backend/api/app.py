@@ -33,7 +33,7 @@ from codeGrader.backend.config import config
 from codeGrader.backend.api.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, \
     ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler, TestCaseHandler, AdminUserLoginHandler, \
     authentication, AdminTypeHandler, UserLoginHandler, InstructionHandler, AttachmentHandler, ScoreHandler, \
-    AdminUserPasswordResetHandler, UserPasswordResetHandler
+    AdminUserPasswordResetHandler, UserPasswordResetHandler, MembershipHandler
 from codeGrader.backend.api.logger import Logger
 from codeGrader.backend.api.util import upload_file, preprocess_task_file
 import logging
@@ -640,6 +640,50 @@ def scores(view: str) -> dict:
     @rtype: dict
     """
     return ScoreHandler().get_scores(view, request.args)
+
+
+@app.route("/memberships", methods=['GET'])
+@authentication
+def memberships() -> dict:
+    """
+    Path for the rendering of all the memberships
+    @return: A JSON with all the rendered Dictionaries
+    @rtype: dict
+    """
+    if request.method == 'GET':
+        return MembershipHandler().get_all(request.args)
+
+
+@app.route("/membership/add", methods=['POST'])
+@authentication
+def addMembership() -> dict:
+    """
+    Path for creating a new membership in the database
+    @return: A JSON with all the rendered Dictionaries
+    @rtype: dict
+    """
+    if request.method == 'POST':
+        return MembershipHandler().post(request.get_json())
+
+
+@app.route("/membership/<int:id_>", methods=['GET','PUT', 'DELETE'])
+@authentication
+def membership(id_: int) -> dict:
+    """
+    Path for getting, updating and deleting a membership for a user to a subject.
+    @param id_: The id of the membership in the database
+    @type id_: int
+    @return: A JSON with all the rendered Dictionaries
+    @rtype: dict
+    """
+    if request.method == 'GET':
+        return MembershipHandler().get(id_)
+
+    elif request.method == 'PUT':
+        return MembershipHandler().put(id_, request.get_json())
+
+    elif request.method == 'DELETE':
+        return MembershipHandler().delete(id_)
 
 
 def api_backend() -> None:
