@@ -29,6 +29,7 @@ from functools import wraps
 from gevent.pywsgi import WSGIServer
 
 from flask import Flask, request, send_file
+from flask_caching import Cache
 from codeGrader.backend.config import config
 from codeGrader.backend.api.handlers import UserHandler, ProfileHandler, AdminUserHandler, SubjectHandler, \
     ExerciseHandler, TaskHandler, FileHandler, SubmissionHandler, TestCaseHandler, AdminUserLoginHandler, \
@@ -40,7 +41,10 @@ import logging
 import datetime
 
 # construction of Application and DB Connection
+cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
 app = Flask(config.appName)
+cache.init_app(app)
+cache.memoize()
 
 # disabling the integrated logger if set so in the config. 
 if not config.useIntegratedLogin:
@@ -69,7 +73,23 @@ def app_index():
     return output
 
 
+def cache_bypass(*args, **kwargs):
+    """
+    Callable function to check if the cache should be bypassed or not.
+    @param args: Optional arguments as list
+    @param kwargs: Key-Value Pair of optional values
+    @return: True if the cache shall not be used, else False. False means, that we will use the caching values.
+    """
+    if config.cache_bypass is True:
+        return True  # cache will not be used
+    elif request.method == 'GET':
+        return False  # cached willl be used and will not be bypassed
+    else:
+        return True  # cache will not be used
+
+
 @app.route("/", methods=['POST', 'GET'])
+@cache.memoize(60, unless=cache_bypass)
 @authentication
 def home() -> dict:
     """
@@ -81,6 +101,7 @@ def home() -> dict:
 
 
 @app.route("/index", methods=['GET'])
+@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def index() -> dict:
     """
@@ -116,6 +137,7 @@ def user_login() -> dict:
 
 
 @app.route("/user/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
+@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def user(id_: int) -> dict:
     """
@@ -129,9 +151,13 @@ def user(id_: int) -> dict:
         return UserHandler().get(id_)
 
     elif request.method == 'PUT':
+        cache.delete(users)
+        cache.delete_memoized(user, id_)
         return UserHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':
+        cache.delete(users)
+        cache.delete_memoized(user, id_)
         return UserHandler().delete(id_)
 
 
@@ -166,6 +192,7 @@ def user_password_update(id_: int) -> dict:
 
 
 @app.route("/users", methods=['GET'])
+@cache.cached(config.cache_timeout, unless=cache_bypass, query_string=True)
 @authentication
 def users() -> dict:
     """
@@ -184,10 +211,12 @@ def addUser() -> dict:
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
+    cache.delete(users)
     return UserHandler().post(request.get_json())
 
 
 @app.route("/admin/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
+@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def admin(id_: int) -> dict:
     """
@@ -201,9 +230,13 @@ def admin(id_: int) -> dict:
         return AdminUserHandler().get(id_)
 
     elif request.method == 'PUT':
+        cache.delete(admins)
+        cache.delete_memoized(admin, id_)
         return AdminUserHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':
+        cache.delete(admins)
+        cache.delete_memoized(admin, id_)
         return AdminUserHandler().delete(id_)
 
 
@@ -238,6 +271,7 @@ def admin_password_update(id_: int) -> dict:
 
 
 @app.route("/admins", methods=['GET'])
+@cache.cached(config.cache_timeout, unless=cache_bypass, query_string=True)
 @authentication
 def admins() -> dict:
     """
@@ -256,6 +290,7 @@ def addAdmin() -> dict:
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
+    cache.delete(admins)
     return AdminUserHandler().post(request.get_json())
 
 
@@ -267,10 +302,12 @@ def addProfile() -> dict:
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
+    cache.delete(profiles)
     return ProfileHandler().post(request.get_json())
 
 
 @app.route("/profile/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
+@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def profile(id_: int) -> dict:
     """
@@ -284,13 +321,18 @@ def profile(id_: int) -> dict:
         return ProfileHandler().get(id_)
 
     elif request.method == 'PUT':
+        cache.delete(profiles)
+        cache.delete_memoized(profile, id_)
         return ProfileHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':
+        cache.delete(profiles)
+        cache.delete_memoized(profile, id_)
         return ProfileHandler().delete(id_)
 
 
 @app.route("/profiles", methods=['GET'])
+@cache.cached(config.cache_timeout, unless=cache_bypass, query_string=True)
 @authentication
 def profiles() -> dict:
     """
@@ -309,10 +351,12 @@ def addSubject() -> dict:
     @return: Custom Response message that we get from the handler class.
     @rtype: dict
     """
+    cache.clear()
     return SubjectHandler().post(request.get_json())
 
 
 @app.route("/subject/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
+@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def subject(id_: int) -> dict:
     """
@@ -326,13 +370,16 @@ def subject(id_: int) -> dict:
         return SubjectHandler().get(id_)
 
     elif request.method == 'PUT':
+        cache.clear()
         return SubjectHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':
+        cache.clear()
         return SubjectHandler().delete(id_)
 
 
 @app.route("/subjects", methods=['GET'])
+@cache.cached(config.cache_timeout, unless=cache_bypass, query_string=True)
 @authentication
 def subjects() -> dict:
     """
@@ -352,10 +399,12 @@ def addTask() -> dict:
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
+    cache.clear()
     return TaskHandler().post(request.get_json())
 
 
 @app.route("/task/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
+@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def task(id_: int) -> dict:
     """
@@ -369,13 +418,16 @@ def task(id_: int) -> dict:
         return TaskHandler().get(id_)
 
     elif request.method == 'PUT':
+        cache.clear()
         return TaskHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':
+        cache.clear()
         return TaskHandler().delete(id_)
 
 
 @app.route("/tasks", methods=['GET'])
+@cache.cached(config.cache_timeout, unless=cache_bypass, query_string=True)
 @authentication
 def tasks() -> dict:
     """
@@ -394,10 +446,12 @@ def addExercise() -> dict:
     @return: Custom Response messgae that we get from the handler class.
     @rtype: dict
     """
+    cache.clear()
     return ExerciseHandler().post(request.get_json())
 
 
 @app.route("/exercise/<int:id_>", methods=['GET', 'PUT', 'DELETE'])
+@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def exercise(id_: int) -> dict:
     """
@@ -411,13 +465,16 @@ def exercise(id_: int) -> dict:
         return ExerciseHandler().get(id_)
 
     elif request.method == 'PUT':
+        cache.clear()
         return ExerciseHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':
+        cache.clear()
         return ExerciseHandler().delete(id_)
 
 
 @app.route("/exercises", methods=['GET'])
+@cache.cached(config.cache_timeout, unless=cache_bypass, query_string=True)
 @authentication
 def exercises() -> dict:
     """
@@ -441,6 +498,7 @@ def uploadFile() -> dict:
 
 
 @app.route("/file/<int:id_>", methods=["GET", "DELETE"])
+@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def file(id_: int) -> dict:
     """
@@ -458,6 +516,7 @@ def file(id_: int) -> dict:
                          download_name=(data["filename"]))
 
     elif request.method == 'DELETE':
+        cache.delete_memoized(file, id_)
         return FileHandler().delete(id_)
 
 
@@ -469,6 +528,7 @@ def addSubmission() -> dict:
     @return: Response in form of dictionary
     @rtype: dict
     """
+    cache.clear()
     if request.method == 'POST':
         output, response_code = SubmissionHandler().post(request.get_json())
         try:
@@ -480,6 +540,7 @@ def addSubmission() -> dict:
 
 
 @app.route("/submission/<int:id_>", methods=["GET"])
+@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def submission(id_) -> dict:
     """
@@ -494,6 +555,7 @@ def submission(id_) -> dict:
 
 
 @app.route("/submissions", methods=['GET'])
+@cache.cached(config.cache_timeout, unless=cache_bypass, query_string=True)
 @authentication
 def submissions() -> dict:
     """
@@ -512,11 +574,13 @@ def addTestCase() -> dict:
     @return: Response in form of dictionary
     @rtype: dict
     """
+    cache.clear()
     if request.method == 'POST':
         return TestCaseHandler().post(request.get_json())
 
 
 @app.route("/testcase/<int:id_>", methods=["GET", "DELETE"])
+@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def testcase(id_) -> dict:
     """
@@ -530,6 +594,7 @@ def testcase(id_) -> dict:
         return TestCaseHandler().get(id_)
 
     elif request.method == "DELETE":
+        cache.clear()
         return TestCaseHandler().delete(id_)
 
 
@@ -545,6 +610,7 @@ def testcases() -> dict:
 
 
 @app.route("/adminTypes", methods=['GET'])
+@cache.cached(config.cache_timeout, unless=cache_bypass, query_string=True)
 @authentication
 def admin_types() -> dict:
     """
@@ -566,6 +632,7 @@ def task_attachment_add(task_id_: int) -> dict:
     @return: Response in form of dictionary
     @rtype: dict
     """
+    cache.clear()
     if request.method == 'POST':
         file_response = upload_file(request)[0]
         file_id = file_response["response"]["id"]
@@ -577,6 +644,7 @@ def task_attachment_add(task_id_: int) -> dict:
 
 
 @app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>", methods=["GET", "DELETE"])
+@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def task_attachment(task_id_: int, attachment_id_: int) -> dict:
     """
@@ -591,6 +659,7 @@ def task_attachment(task_id_: int, attachment_id_: int) -> dict:
     if request.method == 'GET':
         return AttachmentHandler().get(attachment_id_)
     elif request.method == 'DELETE':
+        cache.clear()
         return AttachmentHandler().delete(attachment_id_)
         # deletion of file not needed because it is made automatically due to datamodel
 
@@ -605,12 +674,14 @@ def task_instruction_add(task_id_: int) -> dict:
     @return: Response in form of dictionary
     @rtype: dict
     """
+    cache.clear()
     if request.method == 'POST':
         instruction_data = preprocess_task_file(request)
         return InstructionHandler().post(instruction_data)
 
 
 @app.route("/task/<int:task_id_>/instruction/<int:instruction_id_>", methods=["GET", "DELETE"])
+@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def task_instruction(task_id_: int, instruction_id_: int) -> dict:
     """
@@ -625,6 +696,7 @@ def task_instruction(task_id_: int, instruction_id_: int) -> dict:
     if request.method == 'GET':
         return InstructionHandler().get(instruction_id_)
     elif request.method == 'DELETE':
+        cache.clear()
         return InstructionHandler().delete(instruction_id_)
         # deletion of file not needed because it is made automatically due to datamodel
 
