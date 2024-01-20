@@ -152,8 +152,10 @@ class Task(Base):
         out["tag"] = self.tag
         if self.TaskExercise is None:
             out["exercise"] = None
+            out["subject_id"] = None
         else:
             out["exercise"] = self.TaskExercise.toJson(recursive=False)
+            out["subject_id"] = self.TaskExercise.subject_id
 
         if recursive:
 

@@ -126,7 +126,9 @@ class Exercise(Base):
 
             if self.subject_id is None:
                 out["subject"] = None
+                out["subject_id"] = None
             else:
                 out["subject"] = self.ExerciseSubject.toJson(recursive=False)
+                out["subject_id"] = self.subject_id
 
         return out
