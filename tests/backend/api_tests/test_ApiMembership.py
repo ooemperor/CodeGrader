@@ -30,7 +30,7 @@ class ApiMembershipTest(unittest.TestCase):
 
     def test_GETMembershipsEndpoint(self):
         """
-        Test Case for the testing if the /profiles endpoint is working
+        Test Case for the testing if the /memberships endpoint is working
         @return: No return
         """
         url = f"http://{config.tests_ApiHost}:{config.tests_ApiPort}/memberships"

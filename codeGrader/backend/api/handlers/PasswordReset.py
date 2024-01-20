@@ -72,7 +72,6 @@ class PasswordResetHandler(BaseHandler):
             user = self.sql_session.get_object(self.dbClass, id_)
 
             user_dict = {"username": user.username, "password": self.password}
-            print(self.password)
             self.sql_session.update(self.dbClass, user.id, user_dict)
 
             return self.create_generic_response('POST', "Password has been changed", password=self.password)

@@ -47,6 +47,7 @@ class RouteTest(unittest.TestCase):
         r = requests.get(self.url, cookies=self.cookies)
         self.assertIsNotNone(r)
         self.assertEqual(200, r.status_code)
+        self.assertTrue("Home" in r.text)
         self.assertFalse("input input_login" in r.text)
 
     def test_GET_settings(self):
@@ -58,6 +59,7 @@ class RouteTest(unittest.TestCase):
         r = requests.get(self.url, cookies=self.cookies)
         self.assertIsNotNone(r)
         self.assertEqual(200, r.status_code)
+        self.assertTrue("Settings" in r.text)
         self.assertFalse("<h1>Settings</h1>" in r.text)
 
     def test_GET_exercises(self):
@@ -69,6 +71,7 @@ class RouteTest(unittest.TestCase):
         r = requests.get(self.url+route, cookies=self.cookies)
         self.assertIsNotNone(r)
         self.assertEqual(200, r.status_code)
+        self.assertTrue("Exercises" in r.text)
         self.assertFalse("input input_login" in r.text)
 
     def test_GET_tasks(self):
@@ -80,6 +83,19 @@ class RouteTest(unittest.TestCase):
         r = requests.get(self.url+route, cookies=self.cookies)
         self.assertIsNotNone(r)
         self.assertEqual(200, r.status_code)
+        self.assertTrue("Tasks" in r.text)
+        self.assertFalse("input input_login" in r.text)
+
+    def test_GET_subjects(self):
+        """
+        Test Case for the /subjects route
+        @return: No return
+        """
+        route = "subjects"
+        r = requests.get(self.url+route, cookies=self.cookies)
+        self.assertIsNotNone(r)
+        self.assertEqual(200, r.status_code)
+        self.assertTrue("Subjects" in r.text)
         self.assertFalse("input input_login" in r.text)
 
     def test_GET_logout(self):
