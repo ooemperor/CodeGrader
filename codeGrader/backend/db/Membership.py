@@ -61,3 +61,23 @@ class Membership(Base):
         nullable=True,
         index=True
     )
+
+    def toJson(self, recursive: bool = True) -> dict:
+        """
+        Render the representation of a Membership.
+        Membership is link between user and subject.
+        @param recursive: Parameter to configure if the values of the related objects shall also be loaded. Default is True
+        @type recursive: bool
+        @return: The json Representation of the Membership
+        @rtype: dict
+        """
+        out = dict()
+        out["id"] = self.id
+        out["user_id"] = self.user_id
+        out["subject_id"] = self.subject_id
+
+        if recursive:
+            out["user"] = self.MembershipUser.toJson(recursive=False)
+            out["subject"] = self.MembershipSubject.toJson(recursive=False)
+
+        return out

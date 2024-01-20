@@ -68,7 +68,8 @@ class TestCase(Base):
     task_id = Column(
         Integer,
         ForeignKey(Task.id, onupdate="CASCADE", ondelete="CASCADE"),
-        nullable=False
+        nullable=False,
+        index=True
     )
 
     input_file = relationship(

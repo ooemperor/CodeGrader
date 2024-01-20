@@ -201,20 +201,12 @@ class DeleteExerciseHandler(BaseHandler):
         """
         exercise = self.api.get(f"/exercise/{id_}")
         if self.admin.check_permission('w', exercise["profile"]["id"]):  # admin is allowed to delete the exercise
-            if self.get_value("action_button") == "Submit":
 
-                response = self.api.delete(f"/exercise/{id_}")
+            response = self.api.delete(f"/exercise/{id_}")
 
-                # display message that exercise has been deleted on the returned page.
-                self.flash("Exercise has been deleted")
-                return redirect(url_for("exercises"))
-
-            elif self.get_value("action_button") == "Cancel":
-                return redirect(url_for("exercise", id_=id_))
-
-            else:
-                pass
-                # TODO Implement Error
+            # display message that exercise has been deleted on the returned page.
+            self.flash("Exercise has been deleted")
+            return redirect(url_for("exercises"))
 
         else:  # admin is not allowed to delete exercises
             self.flash("You are not allowed to delete exercises. ")

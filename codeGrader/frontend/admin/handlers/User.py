@@ -73,12 +73,34 @@ class UserHandler(BaseHandler):
 
         user = self.api.get(f"/user/{id_}")  # get the user data
         profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())  # get the profile data
+        memberships = self.api.get(f"/memberships", user_id=id_)  # get the membership data for the specific user
+        subjects = self.api.get(f"/subjects", profile=self.admin.get_filter_profile())
 
         user["profiles"] = profiles["profile"]
+        if "membership" in memberships.keys():
+            user["memberships_lists"] = memberships["membership"]
+        else:
+            user["memberships_lists"] = []
+        user["subjects"] = []
+
+        if len(user["memberships"]) > 0:
+            for sub in subjects["subject"]:
+                # going over all the subjects to filter only the ones, that are not already in realationship for user
+                print(sub["id"])
+                if int(sub["id"]) not in user["memberships"]:
+                    print("true")
+                    print(user["memberships"])
+                    user["subjects"].append(sub)
+                else:
+                    print("false")
+                    # the user already has a relationship for this subject
+                    continue
+
+        elif len(user["memberships"]) == 0:
+            user["subjects"] = subjects["subject"]
 
         # checking if user will be able to edit the table
         editable = self.admin.check_permission('w', user["profile"]["id"])
-
         user["editable"] = editable
 
         if self.admin.check_permission('r', user["profile"]["id"]):  # when admin is allowed to view this user
@@ -223,19 +245,11 @@ class DeleteUserHandler(BaseHandler):
         user = self.api.get(f"/user/{id_}")
         if self.admin.check_permission('w', user["profile"]["id"]):  # admin is allowed to delete the user
 
-            if self.get_value("action_button") == "Submit":
-                self.api.delete(f"/user/{id_}")
+            self.api.delete(f"/user/{id_}")
 
-                # display message that user has been deleted on the returned page.
-                self.flash("User has been deleted")
-                return redirect(url_for("users"))
-
-            elif self.get_value("action_button") == "Cancel":
-                return redirect(url_for("user", id_=id_))
-
-            else:
-                self.flash("You made an illegal operation. Please Try Again or Contact an Administrator!")
-                return redirect(url_for("user", id_=id_))
+            # display message that user has been deleted on the returned page.
+            self.flash("User has been deleted")
+            return redirect(url_for("users"))
 
         else:  # admin is not allowed to delete users
             self.flash("You are not allowed to delete users. ")

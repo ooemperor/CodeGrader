@@ -169,18 +169,10 @@ class DeleteTaskFile(BaseHandler):
         task = self.api.get(f"/task/{task_id_}")
         if self.admin.check_permission('w', task["profile"]["id"]):  # admin is allowed to delete the task
 
-            if self.get_value("action_button") == "Submit":
-                self.api.delete(f"/task/{task_id_}/{self.fileObject}/{file_id_}")
+            self.api.delete(f"/task/{task_id_}/{self.fileObject}/{file_id_}")
 
-                self.flash(f"{self.fileObject} has been deleted")
-                return redirect(url_for("task", id_=task_id_))
-
-            elif self.get_value("action_button") == "Cancel":
-                return redirect(url_for("task", id_=task_id_))
-
-            else:
-                pass
-                # TODO Implement Error
+            self.flash(f"{self.fileObject} has been deleted")
+            return redirect(url_for("task", id_=task_id_))
 
         else:  # admin is not allowed to delete tasks
             self.flash("You are not allowed to delete Files from tasks. ")

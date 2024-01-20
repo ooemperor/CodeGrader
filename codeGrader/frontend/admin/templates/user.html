@@ -20,7 +20,14 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 {% extends "base.html" %}
 
 {% block core %}
-<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<script>
+    // custom scripts to udpate the modals, each time, that they are getting opened. 
+    function updateDeleteMembership(membership_id) {
+        document.getElementById("deleteMembershipBodyText").innerHTML = `Do you really wanna delete this Membership?`;
+        document.getElementById("deleteMembershipForm").action = `/membership/${membership_id}/delete`;
+    };
+
+</script>
 <div id="main" class="main">
     <div>
         <h1 class="header1">User {{ username }}</h1>
@@ -100,8 +107,8 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             {% if editable %}
             <div id="control_buttons">
                 <button id="btn_submit" class="btn btn-success" type="submit">Submit</button>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                data-bs-target="#deleteUser">Delete User</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUser">Delete
+                    User</button>
             </div>
             {% endif %}
         </form>
@@ -126,6 +133,93 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                         <div id="control_buttons">
                             <button name="action_button" id="btn-deleteUser" class="btn btn-danger" type="submit"
                                 value="Submit">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row py-4">
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsMemberships" aria-expanded="false" aria-controls="panelsMemberships">
+                        Memberships
+                    </button>
+                </h2>
+                <div id="panelsMemberships" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <div>
+                            {% if memberships %}
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+                                </tr>
+
+                                {% for memb in memberships_lists | sort(attribute='name') %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ url_for('subject', id_= memb['subject_id']) }}">
+                                            {{ memb["subject"]["name"] }}
+                                        </a>
+                                        {% if editable %}
+                                        <i class="bi bi-x-circle" data-bs-toggle="modal"
+                                            onclick="updateDeleteMembership({{ memb['id'] }})"
+                                            data-bs-target="#deleteMembership"></i>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                            {% endif %}
+                        </div>
+                        {% if editable %}
+                        <div>
+                            Add Memberships:
+                            <form action="{{url_for('addMembership')}}" method="POST">
+                                <select id="sel_subject_membership" name="subject">
+                                    {% for sub in subjects | sort(attribute='name') %}
+                                    <option value="{{ sub['id'] }}">
+                                        {{ sub['name'] }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <input class="input" hidden type="text" id="user_id" name="user" value="{{ id }}">
+                                <button id="btn_submit_membership" class="btn btn-success" type="submit">Add Membership</button>
+                                </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if editable %}
+    <div class="modal fade" id="deleteMembership" tabindex="-1" role="dialog"
+        aria-labelledby="deleteMembershipTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="deleteMembershipTitle">Delete Membership</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body" id="deleteMembershipBodyText">
+                    Do you really wanna delete the Membership?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form id="deleteMembershipForm"
+                        action="{{url_for('deleteMembership', id_ = id)}}" method="POST">
+                        <div id="control_buttons_deleteMembership">
+                            <button name="action_button" id="btn-deleteMembership" class="btn btn-danger"
+                                type="submit" value="Submit">Delete</button>
                         </div>
                     </form>
                 </div>

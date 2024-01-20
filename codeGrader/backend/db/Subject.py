@@ -82,8 +82,8 @@ class Subject(Base):
         # cascade needs to be acitve so when a Subject is deleted the membership is too
         cascade="all",
         passive_deletes=True,
-        lazy="joined",
-        backref=backref("MembershipSubject", lazy="joined")
+        lazy="noload",
+        backref=backref("MembershipSubject", lazy="joined", join_depth=3)
     )
 
     def get_profile(self) -> dict:

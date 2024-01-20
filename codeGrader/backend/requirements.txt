@@ -9,3 +9,4 @@ gunicorn >=21.2.0, <21.3
 rpyc >=5.3, <5.4
 flask_login >=0.6.2, <0.7
 gevent >=23.9.1, <23.10
+Flask_Caching >=2.1.0, <2.2.0

@@ -42,6 +42,7 @@ class SessionUser(UserMixin):
         self.first_name = user_dict["first_name"]
         self.last_name = user_dict["last_name"]
         self.profile = user_dict["profile"]
+        self.subjects = user_dict["memberships"]
         if self.profile is not None:
             self.profile_id = self.profile["id"]
             self.profile_name = self.profile["name"]
@@ -49,21 +50,30 @@ class SessionUser(UserMixin):
             self.profile_id = None
             self.profile_name = None
 
-    def check_permission(self, profile_id: str = None) -> bool:
+    def check_permission(self, profile_id: str = None, subject_id: str = None) -> bool:
         """
-        Check the permission of the user for a given object and the corresponding profile
+        Check the permission of the user for a given object and the corresponding profile and/or subject
         If the operation on the given profile is allowed we return true
         else we return false
         @param profile_id: The identifier of the profile
         @type profile_id: str
+        @param subject_id: The id of a subject
+        @type subject_id: int
         @return: True if the operation is allowed else false
         @rtype: bool
         """
-        if profile_id == self.profile_id:
-            return True
+        assert (profile_id is not None or subject_id is not None)
 
-        else:
-            return False
+        profile_bool = False
+        subject_bool = False
+
+        if (profile_id == self.profile_id) or (profile_id is None):
+            profile_bool = True
+
+        if (subject_id in self.subjects) or (subject_id is None):
+            subject_bool = True
+
+        return profile_bool and subject_bool
 
     def get_filter_profile(self) -> str:
         """

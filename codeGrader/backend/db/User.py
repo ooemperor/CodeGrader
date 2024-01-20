@@ -86,7 +86,8 @@ class User(Base):
         cascade="all",
         passive_deletes=True,
         lazy="joined",
-        backref=backref("MembershipUser", lazy="joined")
+        join_depth=1,
+        backref=backref("MembershipUser", lazy="joined", join_depth=1)
     )
 
     def toJson(self, recursive: bool = True) -> dict:
@@ -112,4 +113,9 @@ class User(Base):
                 out["profile"] = None
             else:
                 out["profile"] = self.UserProfile.toJson()
+
+            out["memberships"] = []
+            if self.memberships is not None:
+                for membership in self.memberships:
+                    out["memberships"].append(membership.subject_id)
         return out

@@ -72,7 +72,8 @@ class Exercise(Base):
         # cascade="all",
         passive_deletes=True,
         lazy="subquery",
-        backref=backref("TaskExercise", lazy="joined")
+        join_depth=3,
+        backref=backref("TaskExercise", lazy="joined", join_depth=3)
     )
 
     def get_profile(self):
@@ -126,7 +127,9 @@ class Exercise(Base):
 
             if self.subject_id is None:
                 out["subject"] = None
+                out["subject_id"] = None
             else:
                 out["subject"] = self.ExerciseSubject.toJson(recursive=False)
+                out["subject_id"] = self.subject_id
 
         return out

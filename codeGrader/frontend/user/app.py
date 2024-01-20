@@ -29,7 +29,7 @@ from codeGrader.frontend.config import config
 from codeGrader.frontend.user import templates
 from codeGrader.frontend.user.handlers import UserSessionHandler, SessionUser, UserLoginHandler, HomeHandler, \
     ExerciseListHandler, ExerciseHandler, TaskHandler, TaskListHandler, TaskAttachmentHandler, TaskInstructionHandler, \
-    AddSubmissionHandler, SettingsHandler, PasswordResetHandler
+    AddSubmissionHandler, SettingsHandler, PasswordResetHandler, SubjectHandler, SubjectListHandler
 from gevent.pywsgi import WSGIServer
 from typing import Union
 import datetime
@@ -122,6 +122,31 @@ def home():
     @return: Rendered Home Template
     """
     return HomeHandler(request).get()
+
+
+@app.route("/subjects", methods=['GET'])
+@login_required
+def subjects() -> str:
+    """
+    The SubjectListHandler to render or redirect the templates.
+    @return: The rendered Subjects site
+    @rtype: str
+    """
+    return SubjectListHandler(request).get()
+
+
+@app.route("/subject/<int:id_>", methods=['GET'])
+@login_required
+def subject(id_: int) -> str:
+    """
+    The SubjectHandler to render or redirect the templates
+    @param id_: The identifier of the subject
+    @type id_: int
+    @return: The rendered Subject site
+    @rtype: str
+    """
+    if request.method == 'GET':
+        return SubjectHandler(request).get(id_)
 
 
 @app.route("/exercises", methods=['GET'])

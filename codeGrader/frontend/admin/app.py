@@ -35,7 +35,7 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
     DeleteExerciseHandler, DeleteProfileHandler, AddTaskAttachmentHandler, DeleteTaskAttachmentHandler, \
     AddTaskInstructionHandler, DeleteTaskInstructionHandler, TaskInstructionHandler, TaskAttachmentHandler, \
     SubmissionFileHandler, TestCaseInputFileHandler, TestCaseOutputFileHandler, AddTestCaseHandler, \
-    DeleteTestCaseHandler
+    DeleteTestCaseHandler, AddMembershipHandler, DeleteMembershipHandler
 from gevent.pywsgi import WSGIServer
 import datetime
 
@@ -616,6 +616,32 @@ def TestCaseOutputFile(id_: int) -> Union[Response, str]:
     """
     if request.method == 'GET':
         return TestCaseOutputFileHandler(request).get(id_)
+
+
+@app.route("/membership/add", methods=['POST'])
+@login_required
+def addMembership() -> Union[Response, str]:
+    """
+    Route for adding a new membership via POST Operation
+    @return: Redirect to the next page with proper message
+    @rtype: Response/str
+    """
+    if request.method == 'POST':
+        return AddMembershipHandler(request).post()
+
+
+@app.route("/membership/<int:id_>/delete", methods=['POST'])
+@login_required
+def deleteMembership(id_: int) -> Union[Response, str]:
+    """
+    Route for the handling of requests for a memberhip object
+    @param id_: The id of the membership
+    @type id_: int
+    @return: Redirect to the next page with proper message
+    @rtype: Response/str
+    """
+    if request.method == 'POST':
+        return DeleteMembershipHandler(request).post(id_)
 
 
 def admin_frontend():

@@ -39,8 +39,10 @@ from .TestCase import TestCaseHandler
 from .LoginHandler import AdminUserLoginHandler, UserLoginHandler
 from .Score import ScoreHandler
 from .PasswordReset import AdminUserPasswordResetHandler, UserPasswordResetHandler
+from .Membership import MembershipHandler
 
 __all__ = ["BaseHandler", "UserHandler", "AdminUserHandler", "ProfileHandler", "SubjectHandler", "TaskHandler",
            "ExerciseHandler", "FileHandler", "SubmissionHandler", "authentication", "AuthorizationFail",
            "TestCaseHandler", "AdminUserLoginHandler", "AdminTypeHandler", "UserLoginHandler", "AttachmentHandler",
-           "InstructionHandler", "ScoreHandler", "AdminUserPasswordResetHandler", "UserPasswordResetHandler"]
+           "InstructionHandler", "ScoreHandler", "AdminUserPasswordResetHandler", "UserPasswordResetHandler",
+           "MembershipHandler"]

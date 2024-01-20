@@ -62,6 +62,8 @@ class Config:
         self.appName = self.config["API"]["Name"]
         self.tokenAuthorization = self.config["API"]["TokenAuthorization"]
         self.tokenLength = int(self.config["API"]["TokenLength"])
+        self.cache_bypass = True if self.config["API"]["CacheBypass"] == 1 else False
+        self.cache_timeout = int(self.config["API"]["CacheTimeout"])
 
         # Configuration for database Connection
         self.DBName = self.config["Database"]["Database"]

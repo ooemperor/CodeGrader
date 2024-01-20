@@ -34,6 +34,7 @@ from .TaskAttachment import AddTaskAttachmentHandler, DeleteTaskAttachmentHandle
 from .TaskInstruction import AddTaskInstructionHandler, DeleteTaskInstructionHandler, TaskInstructionHandler
 from .Submission import SubmissionFileHandler
 from .TestCase import TestCaseInputFileHandler, TestCaseOutputFileHandler, AddTestCaseHandler, DeleteTestCaseHandler
+from .Membership import AddMembershipHandler, DeleteMembershipHandler
 
 __all__ = ["AdminUserLoginHandler", "AdminSessionHandler", "SessionAdmin", "UserListHandler", "UserHandler",
            "HomeHandler", "AdminHandler", "AdminListHandler", "ProfileListHandler", "ProfileHandler",
@@ -43,4 +44,5 @@ __all__ = ["AdminUserLoginHandler", "AdminSessionHandler", "SessionAdmin", "User
            "DeleteProfileHandler", "DeleteExerciseHandler", "DeleteUserHandler", "DeleteSubjectHandler",
            "AddTaskAttachmentHandler", "AddTaskInstructionHandler", "DeleteTaskAttachmentHandler",
            "DeleteTaskInstructionHandler", "TaskInstructionHandler", "TaskAttachmentHandler", "SubmissionFileHandler",
-           "TestCaseInputFileHandler", "TestCaseOutputFileHandler", "AddTestCaseHandler", "DeleteTestCaseHandler"]
+           "TestCaseInputFileHandler", "TestCaseOutputFileHandler", "AddTestCaseHandler", "DeleteTestCaseHandler",
+           "AddMembershipHandler", "DeleteMembershipHandler"]

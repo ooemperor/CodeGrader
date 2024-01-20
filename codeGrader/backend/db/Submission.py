@@ -70,7 +70,8 @@ class Submission(Base):
     task_id = Column(
         Integer,
         ForeignKey(Task.id, onupdate="CASCADE"),
-        nullable=False
+        nullable=False,
+        index=True
     )
 
     # Relationships
