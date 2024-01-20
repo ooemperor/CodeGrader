@@ -161,7 +161,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                     </th>
                                 </tr>
 
-                                {% for memb in memberships | sort(attribute='name') %}
+                                {% for memb in memberships_lists | sort(attribute='name') %}
                                 <tr>
                                     <td>
                                         <a href="{{ url_for('subject', id_= memb['subject_id']) }}">
@@ -190,7 +190,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                     {% endfor %}
                                 </select>
                                 <input class="input" hidden type="text" id="user_id" name="user" value="{{ id }}">
-                                <button id="btn_submit_membership" class="btn btn-success" type="submit">Submit</button>
+                                <button id="btn_submit_membership" class="btn btn-success" type="submit">Add Membership</button>
                                 </form>
                         </div>
                         {% endif %}
@@ -199,6 +199,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </div>
+
     {% if editable %}
     <div class="modal fade" id="deleteMembership" tabindex="-1" role="dialog"
         aria-labelledby="deleteMembershipTitle" aria-hidden="true">

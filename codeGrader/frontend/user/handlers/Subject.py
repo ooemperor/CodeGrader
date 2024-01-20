@@ -17,7 +17,7 @@
 # along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Handler Class for the Exercise Objects
+Handler Class for the Subject Objects
 @author: mkaiser
 """
 
@@ -27,14 +27,14 @@ from .Base import BaseHandler
 from typing import Union
 
 
-class ExerciseListHandler(BaseHandler):
+class SubjectListHandler(BaseHandler):
     """
-    Handler Class for the List of all Exercises visible to the user
+    Handler Class for the List of all Subjects visible to the user
     """
 
     def __init__(self, request: flask.Request) -> None:
         """
-        Constructor of the ExercisesListHandler
+        Constructor of the SubjectsListHandler
         @param request: The flask Request received from the routes file
         @type request: flask.Request
         @return: Nothign
@@ -44,26 +44,27 @@ class ExerciseListHandler(BaseHandler):
 
     def get(self) -> str:
         """
-        Renders the template for the exercises site
+        Renders the template for the subjects site
         @return: The rendered template
         """
-        exercises = self.api.get("/exercises")
-
-        for ex in exercises["exercise"]:
-            # filtering only the exercises that are allowed by the memberships
-            if not self.user.check_permission(subject_id=ex["subject_id"]):
-                exercises["exercise"].remove(ex)
-
-        return render_template("exercises.html", **exercises, this=self)
+        subjects = self.api.get("/subjects")
 
 
-class ExerciseHandler(BaseHandler):
+        for sub in subjects["subject"]:
+            # filtering only the subjects that are allowed by the memberships
+            if not self.user.check_permission(subject_id=sub["id"]):
+                subjects["subject"].remove(sub)
+
+        return render_template("subjects.html", **subjects, this=self)
+
+
+class SubjectHandler(BaseHandler):
     """
-    Handler Class for a single Exercise
+    Handler Class for a single Subject
     """
     def __init__(self, request: flask.Request) -> None:
         """
-        Constructor for the handler of a single Exercise
+        Constructor for the handler of a single Subject
         @param request: The request provided by the routes file
         @type request: flask.Request
         @return: Nothing
@@ -73,21 +74,21 @@ class ExerciseHandler(BaseHandler):
 
     def get(self, id_: int) -> Union[str, Response]:
         """
-        Get Method to render or redirect for a specific Exercise
+        Get Method to render or redirect for a specific Subject
         @param id_: The identifier of the object
         @type id_: int
         @return: The rendered site or a redirect
         @rtype: str|Response
         """
 
-        exercise = self.api.get(f"/exercise/{id_}")
-        exercise_score_raw = self.api.get(f"/scores/exercise", user_id=self.user.id, object_id=exercise["id"])
-        score = exercise_score_raw['exercise'][0][str(exercise['id'])][0]['score']
-        exercise["score"] = score
+        subject = self.api.get(f"/subject/{id_}")
+        subject_score_raw = self.api.get(f"/scores/subject", user_id=self.user.id, object_id=subject["id"])
+        score = subject_score_raw['subject'][0][str(subject['id'])][0]['score']
+        subject["score"] = score
 
-        if self.user.check_permission(subject_id = exercise["subject_id"]):  # when user is allowed to view this exercise
-            return render_template("exercise.html", **exercise)
+        if self.user.check_permission(subject_id = subject["id"]):  # when user is allowed to view this subject
+            return render_template("subject.html", **subject)
 
-        else:  # admin is not allowed to see exercise
-            self.flash("You are not allowed to view this exercise. ")
-            return redirect(url_for("exercises"))
+        else:  # admin is not allowed to see subject
+            self.flash("You are not allowed to view this subject. ")
+            return redirect(url_for("subjects"))

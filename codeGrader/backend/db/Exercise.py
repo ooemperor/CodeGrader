@@ -72,7 +72,8 @@ class Exercise(Base):
         # cascade="all",
         passive_deletes=True,
         lazy="subquery",
-        backref=backref("TaskExercise", lazy="joined")
+        join_depth=3,
+        backref=backref("TaskExercise", lazy="joined", join_depth=3)
     )
 
     def get_profile(self):

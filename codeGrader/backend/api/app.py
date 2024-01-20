@@ -84,6 +84,9 @@ def cache_bypass(*args, **kwargs):
         return True  # cache will not be used
     elif request.method == 'GET':
         return False  # cached willl be used and will not be bypassed
+    elif request.method in ['POST', 'PUT', 'DELETE']:
+        cache.clear()
+        return True  # cache will not be used
     else:
         return True  # cache will not be used
 
@@ -696,6 +699,7 @@ def task_instruction(task_id_: int, instruction_id_: int) -> dict:
 
 
 @app.route("/scores/<view>", methods=['GET'])
+@cache.cached(config.cache_timeout, unless=cache_bypass, query_string=True)
 @authentication
 def scores(view: str) -> dict:
     """
@@ -709,6 +713,7 @@ def scores(view: str) -> dict:
 
 
 @app.route("/memberships", methods=['GET'])
+@cache.cached(config.cache_timeout, unless=cache_bypass, query_string=True)
 @authentication
 def memberships() -> dict:
     """
@@ -729,10 +734,12 @@ def addMembership() -> dict:
     @rtype: dict
     """
     if request.method == 'POST':
+        cache.clear()
         return MembershipHandler().post(request.get_json())
 
 
 @app.route("/membership/<int:id_>", methods=['GET','PUT', 'DELETE'])
+@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def membership(id_: int) -> dict:
     """
@@ -746,9 +753,11 @@ def membership(id_: int) -> dict:
         return MembershipHandler().get(id_)
 
     elif request.method == 'PUT':
+        cache.clear()
         return MembershipHandler().put(id_, request.get_json())
 
     elif request.method == 'DELETE':
+        cache.clear()
         return MembershipHandler().delete(id_)
 
 

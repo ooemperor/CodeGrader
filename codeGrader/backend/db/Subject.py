@@ -83,7 +83,7 @@ class Subject(Base):
         cascade="all",
         passive_deletes=True,
         lazy="noload",
-        backref=backref("MembershipSubject", lazy="joined")
+        backref=backref("MembershipSubject", lazy="joined", join_depth=3)
     )
 
     def get_profile(self) -> dict:

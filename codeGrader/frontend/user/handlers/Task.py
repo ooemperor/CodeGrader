@@ -46,7 +46,12 @@ class TaskListHandler(BaseHandler):
         Renders the template for the tasks site
         @return: The rendered template
         """
-        tasks = self.api.get("/tasks", profile=self.user.get_filter_profile())
+        tasks = self.api.get("/tasks")
+        for t in tasks["task"]:
+            # filtering only the tasks that are allowed by the memberships
+            if not self.user.check_permission(subject_id = t["subject_id"]):
+                tasks["task"].remove(t)
+
         return render_template("tasks.html", **tasks, this=self)
 
 
@@ -75,7 +80,7 @@ class TaskHandler(BaseHandler):
 
         task = self.api.get(f"/task/{id_}")
 
-        if self.user.check_permission(task["profile"]["id"]):  # when user is allowed to view this user
+        if self.user.check_permission(subject_id=task["subject_id"]):  # when user is allowed to view this task
             submissions = self.api.get(f"/submissions", task_id=id_, user_id=self.user.id)
             if "submission" in submissions.keys():  # handles the case that there are no submissions yet
                 task["submissions"] = submissions["submission"]

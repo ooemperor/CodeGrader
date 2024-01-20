@@ -78,27 +78,29 @@ class UserHandler(BaseHandler):
 
         user["profiles"] = profiles["profile"]
         if "membership" in memberships.keys():
-            user["memberships"] = memberships["membership"]
+            user["memberships_lists"] = memberships["membership"]
         else:
-            user["memberships"] = []
+            user["memberships_lists"] = []
         user["subjects"] = []
 
         if len(user["memberships"]) > 0:
             for sub in subjects["subject"]:
                 # going over all the subjects to filter only the ones, that are not already in realationship for user
-                for mem in user["memberships"]:
-                    if sub["id"] != mem["subject_id"]:
-                        user["subjects"].append(sub)
-                    else:
-                        # the user already has a relationship for this subject
-                        continue
+                print(sub["id"])
+                if int(sub["id"]) not in user["memberships"]:
+                    print("true")
+                    print(user["memberships"])
+                    user["subjects"].append(sub)
+                else:
+                    print("false")
+                    # the user already has a relationship for this subject
+                    continue
 
         elif len(user["memberships"]) == 0:
             user["subjects"] = subjects["subject"]
 
         # checking if user will be able to edit the table
         editable = self.admin.check_permission('w', user["profile"]["id"])
-
         user["editable"] = editable
 
         if self.admin.check_permission('r', user["profile"]["id"]):  # when admin is allowed to view this user
