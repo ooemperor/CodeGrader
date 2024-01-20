@@ -74,9 +74,27 @@ class UserHandler(BaseHandler):
         user = self.api.get(f"/user/{id_}")  # get the user data
         profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())  # get the profile data
         memberships = self.api.get(f"/memberships", user_id=id_)  # get the membership data for the specific user
+        subjects = self.api.get(f"/subjects", profile=self.admin.get_filter_profile())
 
         user["profiles"] = profiles["profile"]
-        user["memberships"] = memberships["membership"]
+        if "membership" in memberships.keys():
+            user["memberships"] = memberships["membership"]
+        else:
+            user["memberships"] = []
+        user["subjects"] = []
+
+        if len(user["memberships"]) > 0:
+            for sub in subjects["subject"]:
+                # going over all the subjects to filter only the ones, that are not already in realationship for user
+                for mem in user["memberships"]:
+                    if sub["id"] != mem["subject_id"]:
+                        user["subjects"].append(sub)
+                    else:
+                        # the user already has a relationship for this subject
+                        continue
+
+        elif len(user["memberships"]) == 0:
+            user["subjects"] = subjects["subject"]
 
         # checking if user will be able to edit the table
         editable = self.admin.check_permission('w', user["profile"]["id"])
