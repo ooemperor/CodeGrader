@@ -71,8 +71,8 @@ class SessionUser(UserMixin):
             profile_bool = True
 
         if (subject_id in self.subjects) or (subject_id is None):
+            print(subject_id)
             subject_bool = True
-
         return profile_bool and subject_bool
 
     def get_filter_profile(self) -> str:

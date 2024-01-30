@@ -47,7 +47,8 @@ class TaskListHandler(BaseHandler):
         @return: The rendered template
         """
         tasks = self.api.get("/tasks")
-        for t in tasks["task"]:
+        temp_tasks = tasks["task"].copy()
+        for t in temp_tasks:
             # filtering only the tasks that are allowed by the memberships
             if not self.user.check_permission(subject_id = t["subject_id"]):
                 tasks["task"].remove(t)
