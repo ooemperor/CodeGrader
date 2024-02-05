@@ -102,6 +102,14 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                         </td>
                         {% endif %}
                     </tr>
+                    {%if editable%}
+                    <td>
+                        Password Reset
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#passwordReset">Reset Password</button>
+                    </td>
+                    {% endif %}
                 </table>
             </div>
             {% if editable %}
@@ -113,6 +121,35 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             {% endif %}
         </form>
     </div>
+
+    {% if editable %}
+    <div class="modal fade" id="passwordReset" tabindex="-1" role="dialog" aria-labelledby="passwordResetTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="passwordResetTitle">Reset Password for User {{ username }} ?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Do you really wanna reset the password for the User {{ username }}?
+                    <br>
+                    The user will be notified via E-Mail with his new password!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form action="{{url_for('user_password_reset', id_ = id)}}" method="POST">
+                        <div id="control_buttons">
+                            <button name="action_button" id="btn-passwordReset" class="btn btn-danger" type="submit"
+                                value="Submit">Reset Password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
     {% if editable %}
     <div class="modal fade" id="deleteUser" tabindex="-1" role="dialog" aria-labelledby="deleteUserTitle"

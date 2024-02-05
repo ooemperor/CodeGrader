@@ -78,7 +78,7 @@ class PasswordResetHandler(BaseHandler):
 
             mail.send()
 
-            return self.create_generic_response('POST', "Password has been changed", password=self.password)
+            return self.create_generic_response('POST', "Password has been changed", password=self.password, id_=user.id)
 
         except Exception as e:
             print(e)

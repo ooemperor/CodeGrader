@@ -35,7 +35,7 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
     DeleteExerciseHandler, DeleteProfileHandler, AddTaskAttachmentHandler, DeleteTaskAttachmentHandler, \
     AddTaskInstructionHandler, DeleteTaskInstructionHandler, TaskInstructionHandler, TaskAttachmentHandler, \
     SubmissionFileHandler, TestCaseInputFileHandler, TestCaseOutputFileHandler, AddTestCaseHandler, \
-    DeleteTestCaseHandler, AddMembershipHandler, DeleteMembershipHandler
+    DeleteTestCaseHandler, AddMembershipHandler, DeleteMembershipHandler, PasswordResetHandler
 from gevent.pywsgi import WSGIServer
 import datetime
 
@@ -180,6 +180,19 @@ def deleteUser(id_: int) -> Union[Response, str]:
         return DeleteUserHandler(request).get(id_)
     elif request.method == 'POST':
         return DeleteUserHandler(request).post(id_)
+
+
+@app.route("/user/<int:id_>/passsword/reset", methods=['POST'])
+@login_required
+def user_password_reset(id_: int) -> Union[Response, str]:
+    """
+    Resetting the password for a user defined by the id_
+    @param id_: The identifier of the object
+    @type id_: int
+    @return: Redirect to another view.
+    """
+    if request.method == 'POST':
+        return PasswordResetHandler(request).post(id_)
 
 
 @app.route("/admin/<int:id_>", methods=['GET', 'POST'])
