@@ -22,14 +22,12 @@ Handler for the Password Reset on the User and Admin Objects
 """
 import string
 
-import sqlalchemy.exc
-
 from .Base import BaseHandler
 from codeGrader.backend.db.Admin import AdminUser
 from codeGrader.backend.db.User import User
-from sqlalchemy import select
 import hashlib
 import random
+from codeGrader.backend.mail.Mail import Mail
 
 
 class PasswordResetHandler(BaseHandler):
@@ -64,21 +62,27 @@ class PasswordResetHandler(BaseHandler):
         @rtype: dict
         """
         try:
-
+            password_raw = self.password
             self.password = self.password.encode('utf-8')
             self.password = hashlib.sha256(self.password)
             self.password = self.password.hexdigest()
 
             user = self.sql_session.get_object(self.dbClass, id_)
 
-            user_dict = {"username": user.username, "password": self.password}
+            user_dict: dict = {"username": user.username, "password": self.password}
             self.sql_session.update(self.dbClass, user.id, user_dict)
+
+            # sending mail to the user that his password has been reset
+            mail = Mail(user.email, "Password Changed",
+                        f"Dear {user.first_name} {user.last_name}\n\n Your password has been changed. \n Your new password is: {password_raw} \n\n Your CodeGrader")
+
+            mail.send()
 
             return self.create_generic_response('POST', "Password has been changed", password=self.password)
 
         except Exception as e:
             print(e)
-            return self.create_generic_error_response('POST', "Password Change failed for User")
+            return self.create_generic_error_response('POST', e)
 
     def reset(self, id_: int) -> dict:
         """
@@ -88,7 +92,7 @@ class PasswordResetHandler(BaseHandler):
         @return: A Dictionary reporting success or failure
         @rtype: dict
         """
-        self.generate_random_password()
+        self.generate_random_password()  # updates the self.password object with random password
         return self._update_password(id_)
 
     def change(self, id_: int, password: str) -> dict:
