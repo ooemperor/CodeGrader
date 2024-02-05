@@ -137,6 +137,33 @@ class Submission(Base):
                     continue
             return max_score*100.0
 
+    def state(self) -> (str, int):
+        """
+        Get the current state of the submission at any given point in time.
+        The hierarchy of states is:
+        - received / execution pending / executing
+        - executed / evaluation pending / evaluating
+        - evaluated / finished
+        @return: The status of the submission at the point of the query
+        @rtype: str
+        """
+
+        if len(self.executionresult) <1:
+            # not executed yet
+            return "execution pending"
+
+        elif len(self.evaluationresult) < 1:
+            # has been executed but not yet evaluated
+            return "evaluation pending"
+
+        elif len(self.evaluationresult) >=1:
+            # has been evaluated
+            return "finished"
+
+        else:
+            # should not be able to get here
+            raise ResourceWarning("The submission is in a state that is not allowed/possible!")
+
     def toJson(self, recursive: bool = True) -> dict:
         """
         JSON representation of a Submission.
@@ -159,5 +186,6 @@ class Submission(Base):
         out["evaluations_count"] = len(self.evaluationresult)
 
         out["max_score"] = self.max_score()
+        out["state"] = self.state()
 
         return out

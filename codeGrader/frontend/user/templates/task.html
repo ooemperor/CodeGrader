@@ -170,6 +170,9 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                             Submission_id
                                         </th>
                                         <th>
+                                            Status
+                                        </th>
+                                        <th>
                                             Score
                                         </th>
                                     </tr>
@@ -178,6 +181,9 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                     <tr>
                                         <td>
                                             {{ sub["id"] }}
+                                        </td>
+                                        <td>
+                                            {{ sub["state"] }}
                                         </td>
                                         <td>
                                             {{ sub["max_score"] }}
