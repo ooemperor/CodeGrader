@@ -37,7 +37,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico')}}">
 </head>
 
-<body onload="loadMode()">
+<body onload="loadMode()" class="min-vh-100">
     <script>
         /*
         function toggleMode() {
@@ -83,10 +83,50 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
         }
     </script>
 
-    <div class="container-fluid p-0">
-        <div class="d-flex min-vh-100">
-            <div class="d-flex flex-column bg-black text-light border-right col-md-auto sidebar" id="sidebar-wrapper">
-                <ul class="nav bd-sidebar flex-column mb-auto list-group list-group-flush">
+    <div class="container-fluid d-flex flex-column min-vh-100">
+        <div class="row">
+            <header class="border-bottom bg-black text-white d-flex mb-auto d-0 py-2">
+                <div class="container-fluid">
+                    <div class="d-flex flex-wrap align-items-center justify-content-center">
+                        <div class="col align-items-start">
+                            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#sidebar-wrapper"
+                                aria-expanded="true" aria-controls="sidebar-wrapper">
+                                <i class="bi bi-list h1"></i>
+                            </button>
+                        </div>
+                        <div class="align-items-end">
+                            <div class="dropdown bg-black">
+                                <a href="#"
+                                    class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle link-light"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle h5 bg-black link-light"></i>
+                                </a>
+                                <ul class="dropdown-menu text-small shadow bg-black">
+                                    <li>
+                                        <a class="dropdown-item link-light" href="{{ url_for('settings') }}">
+                                            <i class="bi bi-gear-fill h5"></i>
+                                            <span>Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item link-light" href="{{ url_for('logout') }}">
+                                            <i class="bi bi-box-arrow-left h5"></i>
+                                            <span>Logout</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="row flex-grow-1">
+            <div class="col collapse collapse-horizontal bg-black text-white border-right col-md-auto show" id="sidebar-wrapper">
+                <ul class="nav list-group list-group-flush flex-column mb-auto">
                     <li class="list-group-item bg-black">
                         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 
@@ -128,6 +168,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                         </a>
                     </li>
                 </ul>
+                <!--
                 <div class="dropdown border-top bg-black">
                     <a href="#"
                         class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle link-light"
@@ -152,9 +193,10 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                         </li>
                     </ul>
                 </div>
+            -->
             </div>
 
-            <div class="container-fluid px-4 py-1">
+            <div class="col container-fluid px-4 py-1">
                 <!-- Content goes in here-->
                 {% with msgs = get_flashed_messages() %}
                 {% if msgs %}
