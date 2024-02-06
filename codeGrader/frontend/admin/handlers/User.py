@@ -202,6 +202,39 @@ class AddUserHandler(BaseHandler):
         return redirect(url_for("users"))
 
 
+class AddUserListHandler(BaseHandler):
+    """
+    Class that handles the addition of multiple Users at the same time by file.
+    """
+
+    def __init__(self, request: flask.Request) -> None:
+        """
+        Constructor of the AddUserListHandler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+
+    def post(self):
+        """
+        Handles the post operation / adding multiple users from a file
+        @return: Redirect to the users site
+        """
+        assert self.request.files is not None
+        if self.admin.check_permission('w', 'user'):
+            # admin is allowed to add users
+            if len(self.request.files.keys()) == 1:
+                # correct amount of files
+                pass
+                file_key = self.request.files.keys()
+                file = self.request.files.get(file_key)
+                file_data = file.read()
+
+            elif len(self.request.files.keys()) > 1:
+                # throw a new Error, because there are too many files present
+                pass
+
+
 class DeleteUserHandler(BaseHandler):
     """
     Handler to delete a user from the api backend

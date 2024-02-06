@@ -389,7 +389,13 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                         User
                                     </th>
                                     <th>
+                                        Status
+                                    </th>
+                                    <th>
                                         Submission File
+                                    </th>
+                                    <th>
+                                        Max Score
                                     </th>
                                 </tr>
 
@@ -408,6 +414,9 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                             download="{{ sub['file']['filename'] }}">
                                             {{ sub["file"]["filename"]}}
                                         </a>
+                                    </td>
+                                    <td>
+                                        {{ sub["state"] }}
                                     </td>
                                     <td>
                                         {{ sub["max_score"] }}
