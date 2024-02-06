@@ -35,7 +35,7 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
     DeleteExerciseHandler, DeleteProfileHandler, AddTaskAttachmentHandler, DeleteTaskAttachmentHandler, \
     AddTaskInstructionHandler, DeleteTaskInstructionHandler, TaskInstructionHandler, TaskAttachmentHandler, \
     SubmissionFileHandler, TestCaseInputFileHandler, TestCaseOutputFileHandler, AddTestCaseHandler, \
-    DeleteTestCaseHandler, AddMembershipHandler, DeleteMembershipHandler, PasswordResetHandler
+    DeleteTestCaseHandler, AddMembershipHandler, DeleteMembershipHandler, PasswordResetHandler, AddUserListHandler
 from gevent.pywsgi import WSGIServer
 import datetime
 
@@ -165,6 +165,18 @@ def addUser() -> Union[Response, str]:
         return AddUserHandler(request).get()
     elif request.method == 'POST':
         return AddUserHandler(request).post()
+
+
+@app.route("/user/add/list", methods=['POST'])
+@login_required
+def addUserList() -> Union[Response, str]:
+    """
+    Add multiple Users by file
+    The file contains a list of users
+    @return: Redirect to the users site
+    """
+    if request.method == 'POST':
+        return AddUserListHandler(request).post()
 
 
 @app.route("/user/<int:id_>/delete", methods=['GET', 'POST'])
@@ -513,7 +525,7 @@ def deleteTaskAttachment(task_id_: int, attachment_id_: int) -> Union[Response, 
 def addTaskInstruction(id_: int) -> Union[Response, str]:
     """
     Adding an Instruction File to a Task
-    @param id_: The id of the task that we wanna add the Instruction to
+    @param id_: The id of the task that we want add the Instruction to
     @type id_: int
     @return: Redirect to another view
     @rtype: Response/str

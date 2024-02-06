@@ -32,11 +32,12 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             <div class="col-4">
                 <form action="{{ url_for('addUser') }}" method="GET">
                     <button class="btn btn-success" type="submit">New User</button>
-                
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUserList">Add
-                    Users by File
-                </button>
-            </form>
+
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#addUserList">Add
+                        Users by File
+                    </button>
+                </form>
 
             </div>
             {% endif %}
@@ -85,23 +86,21 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
-                <div class="modal-body" id="addUserListBodyText">
-                    Do you wanna add the list of users?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form action="#" method="POST">
-                        <div id="control_buttons_addUserList">
-                            <input type="file" id="myFile" name="file.txt">
-                            <button name="action_button" id="btn-addUserList" class="btn btn-danger" type="submit"
-                                value="Submit">Add</button>
-                        </div>
-                    </form>
-                </div>
+                <form action="{{ url_for('addUserList') }}" enctype="multipart/form-data" method="POST">
+                    <div class="modal-body" id="addUserListBodyText">
+                        Do you wanna add the list of users?
+                        <input type="file" id="myFile" name="file.txt">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <input name="action_button" id="btn-addUserList" class="btn btn-danger" type="submit"
+                            value="Add"></input>
+                </form>
             </div>
         </div>
     </div>
-    {% endif %}
+</div>
+{% endif %}
 
 
 </div>
