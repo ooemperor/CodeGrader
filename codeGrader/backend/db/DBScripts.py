@@ -17,27 +17,31 @@
 # along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-File for mulitple helper functions, that are associated with the Database
+File for multiple helper functions, that are associated with the Database
 @author: mkaiser
 """
+import sqlalchemy.exc
+
 from codeGrader.backend.config import config
 from .AdminType import AdminType
+from .EvaluationType import EvaluationType
 from .Session import Session
 import psycopg2
 
 from . import Base, dbEngine
 
 
-def __executeSqlOnDB(sqlStatement: str) -> bool:
+def __executeSqlOnDB(sql_statement: str) -> bool:
     """
     Executes a SQL Statement on the database
     @param sqlStatement: the Statement that shall be executed.
     @return: The output of the query
     @rtype:
     """
-    conn = psycopg2.connect(user=config.DBUser, password=config.DBPassword, host=config.DBHost, port=config.DBPort, dbname=config.DBName)
+    conn = psycopg2.connect(user=config.DBUser, password=config.DBPassword, host=config.DBHost, port=config.DBPort,
+                            dbname=config.DBName)
     cur = conn.cursor()
-    cur.execute(sqlStatement)
+    cur.execute(sql_statement)
     conn.commit()
     cur.close()
     conn.close()
@@ -89,13 +93,40 @@ def init_DB_Data() -> bool:
     admin_types = [
         {"name": "Super Admin", "description": "The Super Admin that has every right on every object"},
         {"name": "Profile Admin", "description": "The Profile Admin only has rights on its Profile"},
-        {"name": "Read Only Full Admin", "description": "The Read Only Full Admin can only read but cannot make changes to any object"},
-        {"name": "Read Only Profile Admin", "description": "The Read Only Profile Admin can only read on the profiles objects but cannot make changes to any object"}
-     ]
+        {"name": "Read Only Full Admin",
+         "description": "The Read Only Full Admin can only read but cannot make changes to any object"},
+        {"name": "Read Only Profile Admin",
+         "description": "The Read Only Profile Admin can only read on the profiles objects but cannot make changes to any object"}
+    ]
+
+    evaluation_types = [
+        {"name": "basic",
+         "description": "The basic evaluation compares if the whole output matches the correct output"},
+        {"name": "line-per-line",
+         "description": "The line-per-line evaluation compares each line of the output with the expected correct output"},
+        {"name": "line-per-line-ignore-blanks",
+         "description": "The line-per-line-ignore-blanks type compares line-per-line but it ignores blanks at the end of the line. "}
+    ]
 
     session = Session()
-    for admin_type in admin_types:
-        at = AdminType(**admin_type)
-        session.create(at)
+    try:
+        for admin_type in admin_types:
+            at = AdminType(**admin_type)
+            session.create(at)
+    except sqlalchemy.exc.IntegrityError as error:
+        """
+        At the time of the insert statement, a value that is already in the table has been detected. We can ignore this and continue
+        """
+        pass
+
+    try:
+        for evaluation_type in evaluation_types:
+            evaluation = EvaluationType(**evaluation_type)
+            session.create(evaluation)
+    except sqlalchemy.exc.IntegrityError as error:
+        """
+        At the time of the insert statement, a value that is already in the table has been detected. We can ignore this and continue
+        """
+        pass
 
     return True

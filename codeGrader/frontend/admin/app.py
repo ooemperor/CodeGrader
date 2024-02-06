@@ -35,7 +35,7 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
     DeleteExerciseHandler, DeleteProfileHandler, AddTaskAttachmentHandler, DeleteTaskAttachmentHandler, \
     AddTaskInstructionHandler, DeleteTaskInstructionHandler, TaskInstructionHandler, TaskAttachmentHandler, \
     SubmissionFileHandler, TestCaseInputFileHandler, TestCaseOutputFileHandler, AddTestCaseHandler, \
-    DeleteTestCaseHandler, AddMembershipHandler, DeleteMembershipHandler
+    DeleteTestCaseHandler, AddMembershipHandler, DeleteMembershipHandler, PasswordResetHandler, AddUserListHandler
 from gevent.pywsgi import WSGIServer
 import datetime
 
@@ -167,6 +167,18 @@ def addUser() -> Union[Response, str]:
         return AddUserHandler(request).post()
 
 
+@app.route("/user/add/list", methods=['POST'])
+@login_required
+def addUserList() -> Union[Response, str]:
+    """
+    Add multiple Users by file
+    The file contains a list of users
+    @return: Redirect to the users site
+    """
+    if request.method == 'POST':
+        return AddUserListHandler(request).post()
+
+
 @app.route("/user/<int:id_>/delete", methods=['GET', 'POST'])
 @login_required
 def deleteUser(id_: int) -> Union[Response, str]:
@@ -180,6 +192,19 @@ def deleteUser(id_: int) -> Union[Response, str]:
         return DeleteUserHandler(request).get(id_)
     elif request.method == 'POST':
         return DeleteUserHandler(request).post(id_)
+
+
+@app.route("/user/<int:id_>/passsword/reset", methods=['POST'])
+@login_required
+def user_password_reset(id_: int) -> Union[Response, str]:
+    """
+    Resetting the password for a user defined by the id_
+    @param id_: The identifier of the object
+    @type id_: int
+    @return: Redirect to another view.
+    """
+    if request.method == 'POST':
+        return PasswordResetHandler(request).post(id_)
 
 
 @app.route("/admin/<int:id_>", methods=['GET', 'POST'])
@@ -500,7 +525,7 @@ def deleteTaskAttachment(task_id_: int, attachment_id_: int) -> Union[Response, 
 def addTaskInstruction(id_: int) -> Union[Response, str]:
     """
     Adding an Instruction File to a Task
-    @param id_: The id of the task that we wanna add the Instruction to
+    @param id_: The id of the task that we want add the Instruction to
     @type id_: int
     @return: Redirect to another view
     @rtype: Response/str

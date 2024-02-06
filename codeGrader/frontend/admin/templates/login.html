@@ -28,7 +28,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico')}}">
 </head>
 
-<body>
+<body class="min-vw-100">
     {% with msgs = get_flashed_messages() %}
     {% if msgs %}
     <div id="flash" class="alert alert-warning" role="alert">
@@ -43,38 +43,27 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     {% endif %}
     {% endwith %}
 
-    
-    <form action="{{ url_for('login') }}" method="POST">
-        <div class="container-fluid" id="login">
-
-            <div class="row justify-content-center">
-                <div class="col-4 p-2">
+    <div class="container-fluid min-vw-100" id="login">
+        <div class="row">
+            <form action="{{ url_for('login') }}" method="POST">
+                <div class="row justify-content-center py-2">
+                    <div class="col-4">
+                        <input id="input_username" class="input" name="username" placeholder="Username">
+                    </div>
                 </div>
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-4 p-1">
-                    <input id="input_username" class="input" name="username" placeholder="Username">
+                <div class="row justify-content-center py-2">
+                    <div class="col-4">
+                        <input id="input_password" type="password" class="input" name="password" placeholder="Password">
+                    </div>
                 </div>
-            </div>
-            
-            <div class="row justify-content-center">
-                <div class="col-4 p-1">
-                    <input id="input_password" type="password" class="input" name="password" placeholder="Password">
+                <div class="row justify-content-center py-2">
+                    <div class="col-4">
+                        <button id="btn_login" class="btn btn-success">Login</button>
+                    </div>
                 </div>
-                
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-4 p-1">
-                    <button id="btn_login" class="btn btn-success">Login</button>
-                </div>
-                
-            </div>
-            
-            
+            </form>
         </div>
-    </form>
+    </div>
 </body>
 
 </html>

@@ -41,7 +41,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 </script>
 <div id="main" class="main">
     <div>
-        <h1 class="header1 core_content">Task {{ name }}</h1>
+        <h1 class="header1">Task {{ name }}</h1>
     </div>
     <div class="row">
         <p>Task {{ name }}</p>
@@ -389,7 +389,13 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                         User
                                     </th>
                                     <th>
+                                        Status
+                                    </th>
+                                    <th>
                                         Submission File
+                                    </th>
+                                    <th>
+                                        Max Score
                                     </th>
                                 </tr>
 
@@ -408,6 +414,9 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                             download="{{ sub['file']['filename'] }}">
                                             {{ sub["file"]["filename"]}}
                                         </a>
+                                    </td>
+                                    <td>
+                                        {{ sub["state"] }}
                                     </td>
                                     <td>
                                         {{ sub["max_score"] }}

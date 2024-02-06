@@ -43,14 +43,14 @@ class Mail:
         self.password = config.mail_password
         self.smtp = config.mail_smtp
         self.port = config.mail_port  # 578
-        self.use_authentication = config.use_authentication
-        self.sender = config.sender
+        self.use_authentication = config.mail_use_authentication
+        self.sender = config.mail_sender
 
         self.receiver = receiver
         self.subject = subject
         self.message = message
 
-        self.message = self._message_constructor(self.sender, self.receiver, self.subject, self.message)
+        self.message = self._message_constructor()
 
     def send(self) -> None:
         """

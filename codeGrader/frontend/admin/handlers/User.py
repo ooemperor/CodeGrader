@@ -202,6 +202,76 @@ class AddUserHandler(BaseHandler):
         return redirect(url_for("users"))
 
 
+class AddUserListHandler(BaseHandler):
+    """
+    Class that handles the addition of multiple Users at the same time by file.
+    """
+
+    def __init__(self, request: flask.Request) -> None:
+        """
+        Constructor of the AddUserListHandler
+        @param request: The request from the app route of flask
+        @type request: flask.Request
+        """
+        super().__init__(request)
+
+    def post(self):
+        """
+        Handles the post operation / adding multiple users from a file
+        @return: Redirect to the users site
+        """
+        assert self.request.files is not None
+        if self.admin.check_permission('w', 'user'):
+
+            # admin is allowed to add users
+            if len(self.request.files.keys()) == 1:
+                # correct amount of files
+                flash_message = ""  # will be used later to append all lines that contain an error
+                for file_key in self.request.files.keys():
+                    file = self.request.files[file_key] # reading the only file
+                    i = 0
+                    for line in file.readlines():
+                        try:
+                            # reading the line
+                            # converting from bytes to string an stripping the end of lines
+                            line = line.decode('UTF-8').strip()
+                            # then reading the user params from the line
+
+                            user_array = line.split(";")
+                            user_dict = dict()
+                            user_dict["username"] = user_array[0]
+                            user_dict["first_name"] = user_array[1]
+                            user_dict["last_name"] = user_array[2]
+                            user_dict["password"] = user_array[3]
+                            user_dict["email"] = user_array[4]
+                            user_dict["tag"] = user_array[5]
+                            user_dict["profile_id"] = self.admin.profile_id
+
+                            self.api.post(f"/user/add", body=user_dict)
+
+                        except Exception as err:
+                            # we want to catch all exceptions
+                            self.flash(f"Error on line {i}. Please check this line for errors \n")
+                            continue
+
+                        finally:
+                            i += 1
+                            continue
+
+            elif len(self.request.files.keys()) > 1:
+                # throw a new Error, because there are too many files present
+                self.flash("Too many files have been uploaded!")
+
+            else:
+                # no file has been provided
+                self.flash("You need to upload a file!")
+        else:
+            # admin user is not allowed to write user objects
+            self.flash("You are not allowed to create users!")
+
+        return redirect(url_for("users"))
+
+
 class DeleteUserHandler(BaseHandler):
     """
     Handler to delete a user from the api backend

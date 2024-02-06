@@ -57,13 +57,21 @@ class Config:
 
         # Flask Application Configurations
         self.ApiPort = self.config["API"]["Port"]
-        self.debug = True if self.config["Logging"]["Debug"] == 0 else False
+        self.debug = True if self.config["Logging"]["Debug"] == "0" else False
         self.useIntegratedLogin = self.config["Logging"]["UseIntegratedLogging"]
         self.appName = self.config["API"]["Name"]
         self.tokenAuthorization = self.config["API"]["TokenAuthorization"]
         self.tokenLength = int(self.config["API"]["TokenLength"])
-        self.cache_bypass = True if self.config["API"]["CacheBypass"] == 1 else False
+        self.cache_bypass = True if self.config["API"]["CacheBypass"] == "1" else False
         self.cache_timeout = int(self.config["API"]["CacheTimeout"])
+
+        # Mail Server Configurations
+        self.mail_use_authentication = True if self.config["Mail"]["use_authentication"] == "1" else False
+        self.mail_address = self.config["Mail"]["address"]
+        self.mail_password = self.config["Mail"]["password"]
+        self.mail_smtp = self.config["Mail"]["smtp_server"]
+        self.mail_port = self.config["Mail"]["port"]
+        self.mail_sender = self.config["Mail"]["sender"]
 
         # Configuration for database Connection
         self.DBName = self.config["Database"]["Database"]
@@ -98,13 +106,13 @@ class Config:
         # Configuration for EvaluationService
         self.evaluationHost = self.config["EvaluationService"]["Host"]
         self.evaluationPort = self.config["EvaluationService"]["Port"]
-        self.evaluationIpWhiteList = self.config["EvaluationService"]["IP_Adress_Whitelist"]
+        self.evaluationIpWhiteList = self.config["EvaluationService"]["IP_Address_Whitelist"]
 
         # Configuration for the ExecutionService
         self.executionHost = self.config["ExecutionService"]["Host"]
         self.executionPort = self.config["ExecutionService"]["Port"]
         self.executionFilePath = self.config["ExecutionService"]["PathToExecutionFiles"]
-        self.executionIpWhiteList = self.config["ExecutionService"]["IP_Adress_Whitelist"]
+        self.executionIpWhiteList = self.config["ExecutionService"]["IP_Address_Whitelist"]
 
     def getInstallationCommand(self, codeLanguage: str):
         """

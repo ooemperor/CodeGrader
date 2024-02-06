@@ -23,7 +23,7 @@ Init File for the handlers of the admin WebServer.
 
 from .Login import AdminUserLoginHandler
 from .SessionAdmin import AdminSessionHandler, SessionAdmin
-from .User import UserListHandler, UserHandler, AddUserHandler, DeleteUserHandler
+from .User import UserListHandler, UserHandler, AddUserHandler, DeleteUserHandler, AddUserListHandler
 from .Home import HomeHandler
 from .AdminUser import AdminListHandler, AdminHandler, AddAdminHandler, DeleteAdminHandler
 from .Profile import ProfileHandler, ProfileListHandler, AddProfileHandler, DeleteProfileHandler
@@ -35,6 +35,7 @@ from .TaskInstruction import AddTaskInstructionHandler, DeleteTaskInstructionHan
 from .Submission import SubmissionFileHandler
 from .TestCase import TestCaseInputFileHandler, TestCaseOutputFileHandler, AddTestCaseHandler, DeleteTestCaseHandler
 from .Membership import AddMembershipHandler, DeleteMembershipHandler
+from .PasswordReset import PasswordResetHandler
 
 __all__ = ["AdminUserLoginHandler", "AdminSessionHandler", "SessionAdmin", "UserListHandler", "UserHandler",
            "HomeHandler", "AdminHandler", "AdminListHandler", "ProfileListHandler", "ProfileHandler",
@@ -45,4 +46,4 @@ __all__ = ["AdminUserLoginHandler", "AdminSessionHandler", "SessionAdmin", "User
            "AddTaskAttachmentHandler", "AddTaskInstructionHandler", "DeleteTaskAttachmentHandler",
            "DeleteTaskInstructionHandler", "TaskInstructionHandler", "TaskAttachmentHandler", "SubmissionFileHandler",
            "TestCaseInputFileHandler", "TestCaseOutputFileHandler", "AddTestCaseHandler", "DeleteTestCaseHandler",
-           "AddMembershipHandler", "DeleteMembershipHandler"]
+           "AddMembershipHandler", "DeleteMembershipHandler", "PasswordResetHandler", "AddUserListHandler"]
