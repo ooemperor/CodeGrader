@@ -28,24 +28,26 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     <div class="row">
         <p class="core_content">Profile</p>
     </div>
-    
+
     <div class="row">
         <form action="{{url_for('addProfile')}}" method="POST">
             <div id="profile_data">
                 <table class="table">
-                    <tr>
-                        <td>Name</td>
-                        <td>
-                            <input type="text" class="input" id="input_name" name="name" placeholder="Profile Name"">
+                    <tbody>
+                        <tr>
+                            <td>Name</td>
+                            <td>
+                                <input type="text" class="input" id="input_name" name="name" placeholder="Profile Name"">
                             </td>
                         </tr>
                         <tr>
                             <td>Tag
                         </td>
                         <td>
-                            <input type="text" class="input" id="input_tag" name="tag" placeholder="Profile Tag">
-                        </td>
-                    </tr>
+                            <input type=" text" class="input" id="input_tag" name="tag" placeholder="Profile Tag">
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <div id="control_buttons">
@@ -53,6 +55,6 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </form>
     </div>
-    
+
 </div>
 {% endblock core %}

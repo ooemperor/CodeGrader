@@ -26,7 +26,9 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
         <h1>Exercise {{ name }}</h1>
     </div>
     <div class="row">
-        <p></p>Exercise {{ name }}</p>
+        <p>
+            {{ description }}
+        </p>
     </div>
 
     <div class="row">
@@ -75,27 +77,31 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                 <div id="panelTasks" class="accordion-collapse collapse">
                     <div class="accordion-body">
                         <div class="table-responsive" id="tasks">
-                            <table class="table">
-                                <tr>
-                                    <th>
-                                        Task Name
-                                    </th>
-                                    <th>
-                                        Task Tag
-                                    </th>
-                                </tr>
-                                {% for t in tasks %}
-                                <tr>
-                                    <td>
-                                        <a class="core_content" href="{{ url_for('task', id_ = t['id']|string) }}">
-                                            {{ t["name"] }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        {{t["tag"]}}
-                                    </td>
-                                </tr>
-                                {% endfor %}
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Task Name
+                                        </th>
+                                        <th>
+                                            Task Tag
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for t in tasks %}
+                                    <tr class="clickable-row" data-href="{{ url_for('task', id_ = t['id']|string) }}">
+                                        <td>
+                                            <a href="{{ url_for('task', id_ = t['id']|string) }}">
+                                                {{ t["name"] }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{t["tag"]}}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
                             </table>
                         </div>
                     </div>

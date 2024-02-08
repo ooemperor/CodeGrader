@@ -34,29 +34,33 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 
 
     <div class="container-fluid">
-        <p class="core_content">Exercise</p>
+        <p>Exercise</p>
     </div>
 
     <div class="container-fluid">
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Tag</th>
-                <th>Subject</th>
-            </tr>
-            {% for ex in exercise | sort(attribute='name') %}
-            <tr>
-                <td>
-                    <a href="{{ url_for('exercise', id_ = ex['id']|string) }}">
-                        {{ ex["name"] }}
-                    </a>
-                </td>
-                <td>{{ ex['tag'] }}</td>
-                <td>
-                    {{ ex['subject']['name'] }}
-                </td>
-            </tr>
-            {% endfor %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Tag</th>
+                    <th>Subject</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ex in exercise | sort(attribute='name') %}
+                <tr class="clickable-row" data-href="{{ url_for('exercise', id_ = ex['id']|string) }}">
+                    <td>
+                        <a href="{{ url_for('exercise', id_ = ex['id']|string) }}">
+                            {{ ex["name"] }}
+                        </a>
+                    </td>
+                    <td>{{ ex['tag'] }}</td>
+                    <td>
+                        {{ ex['subject']['name'] }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
 </div>

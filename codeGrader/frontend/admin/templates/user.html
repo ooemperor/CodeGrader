@@ -40,76 +40,79 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
         <form action="{{url_for('user', id_ = id)}}" method="POST">
             <div id="user_data">
                 <table class="table">
-                    <tr>
-                        <td>Username</td>
+                    <tbody>
+                        <tr>
+                            <td>Username</td>
+                            <td>
+                                <input class="input" {% if not editable %} readonly {% endif %} type="text"
+                                    id="input_username" name="username" value="{{ username }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>First Name</td>
+                            <td>
+                                <input class="input" {% if not editable %} readonly {% endif %} type="text"
+                                    id="input_first_name" name="first_name" value="{{ first_name }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Last Name</td>
+                            <td>
+                                <input class="input" {% if not editable %} readonly {% endif %} type="text"
+                                    id="input_last_name" name="last_name" value="{{ last_name }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>E-Mail</td>
+                            <td>
+                                <input class="input" {% if not editable %} readonly {% endif %} type="text"
+                                    id="input_email" name="email" value="{{ email }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tag</td>
+                            <td>
+                                <input class="input" {% if not editable %} readonly {% endif %} type="text"
+                                    id="input_tag" name="tag" value="{{ tag }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Profile</td>
+                            {% if editable %}
+                            <td class="data">
+                                <select id="sel_profile" name="profile">
+                                    {% if not profile[id] %}
+                                    {% endif %}
+                                    {% for prof in profiles | sort(attribute='name') %}
+                                    {% if prof['id'] == profile['id'] %}
+                                    <option value="{{ prof['id'] }}" selected>
+                                        {{ prof['name'] }}
+                                    </option>
+                                    {% else %}
+                                    <option value="{{ prof['id'] }}">
+                                        {{ prof['name'] }}
+                                    </option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            {% else %}
+                            <td>
+                                <input class="input" type="text" id="input_profile" name="profile"
+                                    value="{{ profile['name'] }}" {% if not editable %} readonly {% endif %}>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {%if editable%}
                         <td>
-                            <input class="input" {% if not editable %} readonly {% endif %} type="text"
-                                id="input_username" name="username" value="{{ username }}">
+                            Password Reset
                         </td>
-                    </tr>
-                    <tr>
-                        <td>First Name</td>
                         <td>
-                            <input class="input" {% if not editable %} readonly {% endif %} type="text"
-                                id="input_first_name" name="first_name" value="{{ first_name }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Last Name</td>
-                        <td>
-                            <input class="input" {% if not editable %} readonly {% endif %} type="text"
-                                id="input_last_name" name="last_name" value="{{ last_name }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>E-Mail</td>
-                        <td>
-                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_email"
-                                name="email" value="{{ email }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Tag</td>
-                        <td>
-                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_tag"
-                                name="tag" value="{{ tag }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Profile</td>
-                        {% if editable %}
-                        <td class="data">
-                            <select id="sel_profile" name="profile">
-                                {% if not profile[id] %}
-                                {% endif %}
-                                {% for prof in profiles | sort(attribute='name') %}
-                                {% if prof['id'] == profile['id'] %}
-                                <option value="{{ prof['id'] }}" selected>
-                                    {{ prof['name'] }}
-                                </option>
-                                {% else %}
-                                <option value="{{ prof['id'] }}">
-                                    {{ prof['name'] }}
-                                </option>
-                                {% endif %}
-                                {% endfor %}
-                            </select>
-                        </td>
-                        {% else %}
-                        <td>
-                            <input class="input" type="text" id="input_profile" name="profile"
-                                value="{{ profile['name'] }}" {% if not editable %} readonly {% endif %}>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#passwordReset">Reset Password</button>
                         </td>
                         {% endif %}
-                    </tr>
-                    {%if editable%}
-                    <td>
-                        Password Reset
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#passwordReset">Reset Password</button>
-                    </td>
-                    {% endif %}
+                    </tbody>
                 </table>
             </div>
             {% if editable %}
@@ -227,8 +230,9 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                     {% endfor %}
                                 </select>
                                 <input class="input" hidden type="text" id="user_id" name="user" value="{{ id }}">
-                                <button id="btn_submit_membership" class="btn btn-success" type="submit">Add Membership</button>
-                                </form>
+                                <button id="btn_submit_membership" class="btn btn-success" type="submit">Add
+                                    Membership</button>
+                            </form>
                         </div>
                         {% endif %}
                     </div>
@@ -238,8 +242,8 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 
     {% if editable %}
-    <div class="modal fade" id="deleteMembership" tabindex="-1" role="dialog"
-        aria-labelledby="deleteMembershipTitle" aria-hidden="true">
+    <div class="modal fade" id="deleteMembership" tabindex="-1" role="dialog" aria-labelledby="deleteMembershipTitle"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -252,11 +256,10 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form id="deleteMembershipForm"
-                        action="{{url_for('deleteMembership', id_ = id)}}" method="POST">
+                    <form id="deleteMembershipForm" action="{{url_for('deleteMembership', id_ = id)}}" method="POST">
                         <div id="control_buttons_deleteMembership">
-                            <button name="action_button" id="btn-deleteMembership" class="btn btn-danger"
-                                type="submit" value="Submit">Delete</button>
+                            <button name="action_button" id="btn-deleteMembership" class="btn btn-danger" type="submit"
+                                value="Submit">Delete</button>
                         </div>
                     </form>
                 </div>

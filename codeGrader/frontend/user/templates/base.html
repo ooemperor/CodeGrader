@@ -34,7 +34,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-icons.css') }}">
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
-    <title>CodeGrader</title>
+    <title>{{ appname }}</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico')}}">
 </head>
 
@@ -82,6 +82,14 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             }
             localStorage.setItem('theme', color_mode);
         }
+
+        // Script that makes rows in tables which have class clickable-row clickable to the link of the data-href attribute
+        $(document).ready(function () {
+            $(".clickable-row").click(function () {
+                window.location = $(this).data("href");
+            });
+        });
+
     </script>
 
     <div class="container-fluid d-flex flex-column min-vh-100">
@@ -90,15 +98,23 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                 <div class="container-fluid">
                     <div class="d-flex flex-wrap align-items-center justify-content-center">
                         <div class="col align-items-start">
+                            <!--Items that must stick to the start of the navbar-->
                             <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#sidebar-wrapper"
                                 aria-expanded="true" aria-controls="sidebar-wrapper">
                                 <i class="bi bi-list h1"></i>
                             </button>
                         </div>
+                        <div class="col align-items-center">
+                            <!--Items that must be in the middle of the navbar-->
+                            <div class="position-absolute translate-middle">
+                                <h1>{{ appname }}</h1>
+                            </div>
+                        </div>
                         <div class="align-items-end">
+                            <!--Items that must stick to the end of the navbar-->
                             <div class="dropdown bg-black">
                                 <a href="#"
-                                    class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle link-light"
+                                    class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle link-light text-white"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-person-circle h5 bg-black link-light"></i>
                                 </a>

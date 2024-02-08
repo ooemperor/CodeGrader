@@ -23,38 +23,40 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
 <div id="main" class="main">
     <div>
-        <h1 class="header1 core_content">Profile {{ name }}</h1>
+        <h1 class="header1">Profile {{ name }}</h1>
     </div>
     <div class="row">
-        <p class="core_content">Profile {{ name }}</p>
+        <p>Profile {{ name }}</p>
     </div>
     <div class="row">
         <form action="{{url_for('profile', id_ = id)}}" method="POST" class="core_content">
             <div class="table-responsive" id="profile_data">
                 <table class="table">
-                    <tr>
-                        <td>Name</td>
-                        <td>
-                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_name"
-                                name="name" value="{{ name }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Tag
-                        </td>
-                        <td>
-                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_tag"
-                                name="tag" value="{{ tag }}">
-                        </td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Name</td>
+                            <td>
+                                <input class="input" {% if not editable %} readonly {% endif %} type="text"
+                                    id="input_name" name="name" value="{{ name }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tag
+                            </td>
+                            <td>
+                                <input class="input" {% if not editable %} readonly {% endif %} type="text"
+                                    id="input_tag" name="tag" value="{{ tag }}">
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             {% if editable %}
             <div id="control_buttons">
                 <button id="btn_submit" class="btn btn-success" type="submit">Submit</button>
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                data-bs-target="#deleteProfile">Delete Profile</button>
+                    data-bs-target="#deleteProfile">Delete Profile</button>
             </div>
             {% endif %}
         </form>

@@ -42,6 +42,17 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+@app.context_processor
+def global_vars():
+    """
+    Returns a dictionary with global variables that we can use in the templates rendering
+    uses builtin decorator from flask
+    @return: Global Variables dictionary for rendering
+    @rtype: dict
+    """
+    return dict(appname=config.userAppName)
+
+
 def app_index():
     """
     Calculates a JSON dict with the representaion of all the Routes in this application
@@ -187,16 +198,18 @@ def tasks() -> str:
 
 @app.route("/task/<int:id_>", methods=['GET'])
 @login_required
-def task(id_: int) -> str:
+def task(id_: int, from_submission: bool = False) -> str:
     """
     The TaskHandler to render or redirect the templates
     @param id_: The identifier of the task
     @type id_: int
+    @param from_submission: Flag if the source is coming from a redirect after posting a submission
+    @type from_submission: bool
     @return: The rendered Task site
     @rtype: str
     """
     if request.method == 'GET':
-        return TaskHandler(request).get(id_)
+        return TaskHandler(request).get(id_, from_submission=from_submission)
 
 
 @app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>", methods=['GET'])

@@ -26,24 +26,28 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
         <h1>Subject {{ name }}</h1>
     </div>
     <div class="row">
-        <p></p>Subject {{ name }}</p>
+        <p>Subject {{ name }}</p>
     </div>
 
     <div class="row">
         <div id="subject_data">
             <table class="table">
-                <tr>
-                    <td>Name</td>
-                    <td>
-                        {{ name }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>Tag</td>
-                    <td>
-                        {{ tag }}
-                    </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>
+                            {{ name }}
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tag</td>
+                        <td>
+                            {{ tag }}
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
@@ -75,27 +79,31 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                 <div id="panelExercises" class="accordion-collapse collapse">
                     <div class="accordion-body">
                         <div class="table-responsive" id="tasks">
-                            <table class="table">
-                                <tr>
-                                    <th>
-                                        Exercise Name
-                                    </th>
-                                    <th>
-                                        Exercise Tag
-                                    </th>
-                                </tr>
-                                {% for ex in exercises %}
-                                <tr>
-                                    <td>
-                                        <a class="core_content" href="{{ url_for('exercise', id_ = ex['id']|string) }}">
-                                            {{ ex["name"] }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        {{ex["tag"]}}
-                                    </td>
-                                </tr>
-                                {% endfor %}
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Exercise Name
+                                        </th>
+                                        <th>
+                                            Exercise Tag
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ex in exercises %}
+                                    <tr class="clickable-row" data-href="{{ url_for('exercise', id_ = ex['id']|string) }}">
+                                        <td>
+                                            <a href="{{ url_for('exercise', id_ = ex['id']|string) }}">
+                                                {{ ex["name"] }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ex["tag"]}}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
                             </table>
                         </div>
                     </div>

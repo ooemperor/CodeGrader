@@ -20,43 +20,46 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 {% extends "base.html" %}
 
 {% block core %}
-    <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-    <div id="main" class="main">
-        <div class="container-fluid p-1">
-            <div class="row">
-                <div class="col-4">
-                    <h1 class="header1 core_content">Profile</h1>
-                </div>
-                
-                {% if this.admin.check_permission('w', create_object='profile') %}
-                    <div class="col-4">
-                        <form action="{{ url_for('addProfile') }}" method="GET">
-                            <button class="btn btn-success" type="submit">New Profile</button>
-                        </form>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main" class="main">
+    <div class="container-fluid p-1">
         <div class="row">
-            <p class="core_content">Profile</p>
+            <div class="col-4">
+                <h1 class="header1 core_content">Profile</h1>
+            </div>
+
+            {% if this.admin.check_permission('w', create_object='profile') %}
+            <div class="col-4">
+                <form action="{{ url_for('addProfile') }}" method="GET">
+                    <button class="btn btn-success" type="submit">New Profile</button>
+                </form>
+            </div>
+            {% endif %}
         </div>
-        
-        <table class="core_content table">
+    </div>
+    <div class="row">
+        <p>Profile</p>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
             <tr>
                 <th>Name</th>
                 <th>Tag</th>
             </tr>
+        </thead>
+        <tbody>
             {% for prof in profile | sort(attribute='name') %}
-                <tr>
-                    <td>
-                        <a href="{{ url_for('profile', id_ = prof['id']|string) }}">
-                            {{ prof["name"] }}
-                        </a>
-                    </td>
-                    <td>{{ prof["tag"] }}</td>
-                </tr>
+            <tr class="clickable-row" data-href="{{ url_for('profile', id_ = prof['id']|string) }}">
+                <td>
+                    <a href="{{ url_for('profile', id_ = prof['id']|string) }}">
+                        {{ prof["name"] }}
+                    </a>
+                </td>
+                <td>{{ prof["tag"] }}</td>
+            </tr>
             {% endfor %}
-
-        </table>
-    </div>
+        </tbody>
+    </table>
+</div>
 {% endblock core %}

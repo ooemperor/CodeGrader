@@ -39,7 +39,8 @@ class ApiExerciseTest(unittest.TestCase):
 
         exercise_dict = {
             "name": "testExercise",
-            "tag": "exercisetag"
+            "tag": "exercisetag",
+            "description": "Test Description"
         }
         r = requests.post(create_url, json=exercise_dict, headers=self.headers)
         self.assertIsNotNone(r)
@@ -50,6 +51,7 @@ class ApiExerciseTest(unittest.TestCase):
         self.assertEqual(200, r.status_code)
         self.assertEqual("testExercise", json.loads(r.text)["name"])
         self.assertEqual("exercisetag", json.loads(r.text)["tag"])
+        self.assertEqual("Test Description", json.loads(r.text)["description"])
 
         r = requests.delete(f"{exercise_url}{exercise_id}", headers=self.headers)
         self.assertIsNotNone(r)
@@ -66,12 +68,14 @@ class ApiExerciseTest(unittest.TestCase):
 
         exercise_dict = {
             "name": "testExercise",
-            "tag": "exerciseTag"
+            "tag": "exerciseTag",
+            "description": "Test Description"
         }
 
         exercise_dict_2 = {
             "name": "newExerciseName",
-            "tag": "newTag"
+            "tag": "newTag",
+            "description": "Test Description New"
         }
         r = requests.post(create_url, json=exercise_dict, headers=self.headers)
         self.assertIsNotNone(r)
@@ -83,6 +87,7 @@ class ApiExerciseTest(unittest.TestCase):
         self.assertEqual(exercise_id, json.loads(r.text)["id"])
         self.assertEqual("testExercise", json.loads(r.text)["name"])
         self.assertEqual("exerciseTag", json.loads(r.text)["tag"])
+        self.assertEqual("Test Description", json.loads(r.text)["description"])
 
         r = requests.put(f"{exercise_url}{exercise_id}", json=exercise_dict_2, headers={'content-type': 'application/json', 'Authorization': f"{api_config.apiAuthentication} {api_config.apiToken}"})
         self.assertEqual(200, r.status_code)
@@ -91,6 +96,7 @@ class ApiExerciseTest(unittest.TestCase):
         self.assertEqual(exercise_id, json.loads(r.text)["id"])
         self.assertEqual("newExerciseName", json.loads(r.text)["name"])
         self.assertEqual("newTag", json.loads(r.text)["tag"])
+        self.assertEqual("Test Description New", json.loads(r.text)["description"])
 
         r = requests.delete(f"{exercise_url}{exercise_id}", headers=self.headers)
         self.assertIsNotNone(r)

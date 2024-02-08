@@ -44,18 +44,25 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
         <h1 class="header1">Task {{ name }}</h1>
     </div>
     <div class="row">
-        <p>Task {{ name }}</p>
     </div>
 
     <div class="row">
         <form action="{{url_for('task', id_ = id)}}" method="POST">
             <div id="task_data">
                 <table class="table">
+                    <tbody>
                     <tr>
                         <td>Name</td>
-                        <td>
+                        <td class="w-auto">
                             <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_name"
                                 name="name" value="{{ name }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td>
+                            <textarea class="input" {% if not editable %} readonly {% endif %} type="text" id="input_description"
+                                      name="description" rows="3" cols="100">{{ description }}</textarea>
                         </td>
                     </tr>
                     <tr>
@@ -90,6 +97,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                         </td>
                         {% endif %}
                     </tr>
+                    </tbody>
                 </table>
             </div>
             {% if editable %}

@@ -56,7 +56,7 @@ if not config.useIntegratedLogin:
 log = Logger()
 
 
-def app_index():
+def app_index() -> dict:
     """
     Calculates a JSON dict with the representaion of all the Routes in this application
     @return: The routes as a JSON representation
@@ -106,13 +106,13 @@ def home() -> dict:
 @app.route("/index", methods=['GET'])
 @cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
-def index() -> dict:
+def index() -> str:
     """
     Returns the calculated index of all the routes in this application
     @return: Returns the calculated index of all the routes in this application
-    @rtype: dict
+    @rtype: str
     """
-    return app_index()
+    return str(app_index())
 
 
 @app.route("/admin/login", methods=['POST'])
@@ -537,7 +537,6 @@ def addSubmission() -> dict:
 
 
 @app.route("/submission/<int:id_>", methods=["GET"])
-@cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
 def submission(id_) -> dict:
     """
@@ -552,7 +551,6 @@ def submission(id_) -> dict:
 
 
 @app.route("/submissions", methods=['GET'])
-@cache.cached(config.cache_timeout, unless=cache_bypass, query_string=True)
 @authentication
 def submissions() -> dict:
     """
