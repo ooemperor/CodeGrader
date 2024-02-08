@@ -32,31 +32,34 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 
 
     <div class="container-fluid">
-        <p class="core_content">Task</p>
+        <p>Task</p>
     </div>
-
     <div class="container-fluid">
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Tag</th>
-                <th>Exercise</th>
-            </tr>
-            {% for t in task | sort(attribute='name') %}
-            <tr>
-                <td>
-                    <a href="{{ url_for('task', id_ = t['id']|string) }}">
-                        {{ t["name"] }}
-                    </a>
-                </td>
-                <td>{{ t["tag"] }}</td>
-                <td>
-                    <a href="{{ url_for('exercise', id_ = t['exercise']['id']|string) }}">
-                        {{ t["exercise"]["name"] }}
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Tag</th>
+                    <th>Exercise</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in task | sort(attribute='name') %}
+                <tr class="clickable-row" data-href="{{ url_for('task', id_ = t['id']|string) }}">
+                    <td>
+                        <a href="{{ url_for('task', id_ = t['id']|string) }}">
+                            {{ t["name"] }}
+                        </a>
+                    </td>
+                    <td>{{ t["tag"] }}</td>
+                    <td>
+                        <a href="{{ url_for('exercise', id_ = t['exercise']['id']|string) }}">
+                            {{ t["exercise"]["name"] }}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
 

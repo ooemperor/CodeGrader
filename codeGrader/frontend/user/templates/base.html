@@ -82,6 +82,14 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             }
             localStorage.setItem('theme', color_mode);
         }
+
+        // Script that makes rows in tables which have class clickable-row clickable to the link of the data-href attribute
+        $(document).ready(function () {
+            $(".clickable-row").click(function () {
+                window.location = $(this).data("href");
+            });
+        });
+
     </script>
 
     <div class="container-fluid d-flex flex-column min-vh-100">

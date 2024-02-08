@@ -35,12 +35,15 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 
         <div id="task_data">
             <table class="table">
+                <thead>
                 <tr>
                     <td>Name</td>
                     <td>
                         {{ name }}
                     </td>
                 </tr>
+            </thead>
+            <tbody>
                 <tr>
                     <td>Tag</td>
                     <td>
@@ -51,6 +54,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                     <td>Exercise</td>
                     <td>{{ exercise['name'] }}</td>
                 </tr>
+            </tbody>
             </table>
         </div>
     </div>
@@ -166,35 +170,38 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                             </div>
                             <div>
                                 {% if submissions %}
-                                <table class="table">
-                                    <tr>
-                                        <th>
-                                            Submission_id
-                                        </th>
-                                        <th>
-                                            Status
-                                        </th>
-                                        <th>
-                                            Score
-                                        </th>
-                                    </tr>
-
-                                    {% for sub in submissions | sort(reverse=true, attribute='id') %}
-                                    <tr>
-                                        <td>
-                                            {{ sub["id"] }}
-                                        </td>
-                                        <td>
-                                            {{ sub["state"] }}
-                                        </td>
-                                        <td>
-                                            {{ sub["max_score"] }}
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Submission_id
+                                            </th>
+                                            <th>
+                                                Status
+                                            </th>
+                                            <th>
+                                                Score
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for sub in submissions | sort(reverse=true, attribute='id') %}
+                                        <tr>
+                                            <td>
+                                                {{ sub["id"] }}
+                                            </td>
+                                            <td>
+                                                {{ sub["state"] }}
+                                            </td>
+                                            <td>
+                                                {{ sub["max_score"] }}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
 
                                 </table>
                                 {% endif %}
+                                </tbody>
                             </div>
 
                         </div>
