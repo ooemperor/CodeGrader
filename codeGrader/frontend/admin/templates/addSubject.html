@@ -28,36 +28,38 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     <div class="row">
         <p>Subject</p>
     </div>
-    
+
 
     <form action="{{url_for('addSubject')}}" method="POST">
         <div id="subject_data">
             <table class="table">
-                <tr>
-                    <td>Name</td>
-                    <td>
-                        <input class="input" type="text" id="input_name" name="name" placeholder="Subject Name"">
+                <tbody>
+                    <tr>
+                        <td>Name</td>
+                        <td>
+                            <input class="input" type="text" id="input_name" name="name" placeholder="Subject Name"">
                         </td>
                     </tr>
                     <tr>
                         <td class=" data">Tag
-                    </td>
-                    <td>
-                        <input class="input" type="text" id="input_tag" name="tag" placeholder="Subject Tag">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Profile</td>
-                    <td>
-                        <select id="sel_profile" name="profile">
-                            {% for prof in profiles | sort(attribute='name')  %}
-                            <option value="{{ prof['id'] }}">
-                                {{ prof['name'] }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                </tr>
+                        </td>
+                        <td>
+                            <input class="input" type="text" id="input_tag" name="tag" placeholder="Subject Tag">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Profile</td>
+                        <td>
+                            <select id="sel_profile" name="profile">
+                                {% for prof in profiles | sort(attribute='name') %}
+                                <option value="{{ prof['id'] }}">
+                                    {{ prof['name'] }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
         <div id="control_buttons">

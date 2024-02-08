@@ -34,47 +34,49 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
         <form action="{{url_for('subject', id_ = id)}}" method="POST" class="core_content">
             <div class="table-responsive" id="subject_data">
                 <table class="table">
-                    <tr>
-                        <td>Name</td>
-                        <td>
-                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_name"
-                                name="name" value="{{ name }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Tag</td>
-                        <td>
-                            <input class="input" {% if not editable %} readonly {% endif %} type="text" id="input_tag"
-                                name="tag" value="{{ tag }}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="data">Profile</td>
-                        {% if editable %}
-                        <td>
-                            <select id="sel_profile" name="profile">
-                                {% if not profile[id] %}
-                                {% endif %}
-                                {% for prof in profiles %}
-                                {% if prof['id'] == profile['id'] %}
-                                <option value="{{ prof['id'] }}" selected>
-                                    {{ prof['name'] }}
-                                </option>
-                                {% else %}
-                                <option value="{{ prof['id'] }}">
-                                    {{ prof['name'] }}
-                                </option>
-                                {% endif %}
-                                {% endfor %}
-                            </select>
-                        </td>
-                        {% else %}
-                        <td>
-                            <input type="text" id="input_profile" name="profile" value="{{ profile['name'] }}" {% if not
-                                editable %} readonly {% endif %}>
-                        </td>
-                        {% endif %}
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Name</td>
+                            <td>
+                                <input class="input" {% if not editable %} readonly {% endif %} type="text"
+                                    id="input_name" name="name" value="{{ name }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tag</td>
+                            <td>
+                                <input class="input" {% if not editable %} readonly {% endif %} type="text"
+                                    id="input_tag" name="tag" value="{{ tag }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data">Profile</td>
+                            {% if editable %}
+                            <td>
+                                <select id="sel_profile" name="profile">
+                                    {% if not profile[id] %}
+                                    {% endif %}
+                                    {% for prof in profiles %}
+                                    {% if prof['id'] == profile['id'] %}
+                                    <option value="{{ prof['id'] }}" selected>
+                                        {{ prof['name'] }}
+                                    </option>
+                                    {% else %}
+                                    <option value="{{ prof['id'] }}">
+                                        {{ prof['name'] }}
+                                    </option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            {% else %}
+                            <td>
+                                <input type="text" id="input_profile" name="profile" value="{{ profile['name'] }}" {% if
+                                    not editable %} readonly {% endif %}>
+                            </td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             {% if editable%}

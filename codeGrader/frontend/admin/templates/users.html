@@ -49,30 +49,33 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 
     <div class="container-fluid">
-        <table class="table">
-            <tr>
-                <th>Username</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>E-Mail</th>
-                <th>Profile</th>
-                <th>Tag</th>
-            </tr>
-            {% for us in user | sort(attribute='username') %}
-            <tr>
-                <td class="data">
-                    <a href="{{ url_for('user', id_ = us['id']|string) }}">
-                        {{ us["username"] }}
-                    </a>
-                </td>
-                <td>{{ us["first_name"] }}</td>
-                <td>{{ us["last_name"] }}</td>
-                <td>{{ us["email"] }}</td>
-                <td>{{ us["profile"]["name"] }}</td>
-                <td>{{ us["tag"] }}</td>
-            </tr>
-            {% endfor %}
-
+        <table class="table  table-hover">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>E-Mail</th>
+                    <th>Profile</th>
+                    <th>Tag</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for us in user | sort(attribute='username') %}
+                <tr>
+                    <td class="data">
+                        <a href="{{ url_for('user', id_ = us['id']|string) }}">
+                            {{ us["username"] }}
+                        </a>
+                    </td>
+                    <td>{{ us["first_name"] }}</td>
+                    <td>{{ us["last_name"] }}</td>
+                    <td>{{ us["email"] }}</td>
+                    <td>{{ us["profile"]["name"] }}</td>
+                    <td>{{ us["tag"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
 

@@ -33,71 +33,75 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
         <form action="{{url_for('addAdmin')}}" method="POST">
             <div id="admin_user_data">
                 <table class="table">
-                    <tr>
-                        <td>Username</td>
-                        <td>
-                            <input class="input" type="text" id="input_username" name="username" placeholder="Username">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>First Name</td>
-                        <td>
-                            <input class="input" type="text" id="input_first_name" name="first_name"
-                                placeholder="First Name">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Last Name</td>
-                        <td>
-                            <input class="input" type="text" id="input_last_name" name="last_name"
-                                placeholder="Last Name">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td>
-                            <input class="input" type="text" id="input_password" name="password" placeholder="Password">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>E-Mail</td>
-                        <td>
-                            <input class="input" type="text" id="input_email" name="email" placeholder="E-Mail">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Tag</td>
-                        <td>
-                            <input class="input" type="text" id="input_tag" name="tag" placeholder="Admin User Tag">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Admin Type</td>
-                        <td>
-                            <select id="sel_admin_type" name="admin_type">
-                                <option value="0">
-                                    Select Admin User Type
-                                </option>
-                                {% for type in types | sort(attribute='name')  %}
-                                <option value="{{ type['id'] }}">
-                                    {{ type['name'] }}
-                                </option>
-                                {% endfor %}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Admin Profile</td>
-                        <td>
-                            <select id="sel_profile" name="profile">
-                                {% for prof in profiles | sort(attribute='name')  %}
-                                <option value="{{ prof['id'] }}">
-                                    {{ prof['name'] }}
-                                </option>
-                                {% endfor %}
-                            </select>
-                        </td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Username</td>
+                            <td>
+                                <input class="input" type="text" id="input_username" name="username"
+                                    placeholder="Username">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>First Name</td>
+                            <td>
+                                <input class="input" type="text" id="input_first_name" name="first_name"
+                                    placeholder="First Name">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Last Name</td>
+                            <td>
+                                <input class="input" type="text" id="input_last_name" name="last_name"
+                                    placeholder="Last Name">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Password</td>
+                            <td>
+                                <input class="input" type="text" id="input_password" name="password"
+                                    placeholder="Password">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>E-Mail</td>
+                            <td>
+                                <input class="input" type="text" id="input_email" name="email" placeholder="E-Mail">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tag</td>
+                            <td>
+                                <input class="input" type="text" id="input_tag" name="tag" placeholder="Admin User Tag">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Admin Type</td>
+                            <td>
+                                <select id="sel_admin_type" name="admin_type">
+                                    <option value="0">
+                                        Select Admin User Type
+                                    </option>
+                                    {% for type in types | sort(attribute='name') %}
+                                    <option value="{{ type['id'] }}">
+                                        {{ type['name'] }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Admin Profile</td>
+                            <td>
+                                <select id="sel_profile" name="profile">
+                                    {% for prof in profiles | sort(attribute='name') %}
+                                    <option value="{{ prof['id'] }}">
+                                        {{ prof['name'] }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <div id="control_buttons">

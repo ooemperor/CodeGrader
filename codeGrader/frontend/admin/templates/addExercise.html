@@ -23,41 +23,43 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
 <div id="main" class="main">
     <div>
-        <h1 class="header1 core_content">Exercise</h1>
+        <h1 class="header1">Exercise</h1>
     </div>
     <div class="row">
-        <p class="core_content">Exercise</p>
+        <p >Exercise</p>
     </div>
 
     <div class="row">
         <form action="{{url_for('addExercise')}}" method="POST" class="core_content">
             <div id="exercise_data">
                 <table class="table">
-                    <tr>
-                        <td>Name</td>
-                        <td>
-                            <input class="input" type="text" id="input_name" name="name" placeholder="Exercise Name"">
+                    <tbody>
+                        <tr>
+                            <td>Name</td>
+                            <td>
+                                <input class="input" type="text" id="input_name" name="name" placeholder="Exercise Name"">
                         </td>
                     </tr>
                     <tr>
                         <td>Tag
                         </td>
                         <td>
-                            <input class="input" type="text" id="input_tag" name="tag" placeholder="Exercise Tag">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Subject</td>
-                        <td>
-                            <select id="sel_subject" name="subject">
-                                {% for sub in subjects | sort(attribute='name')  %}
-                                <option value="{{ sub['id'] }}">
-                                    {{ sub['name'] }}
-                                </option>
-                                {% endfor %}
-                            </select>
-                        </td>
-                    </tr>
+                            <input class=" input" type="text" id="input_tag" name="tag" placeholder="Exercise Tag">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Subject</td>
+                            <td>
+                                <select id="sel_subject" name="subject">
+                                    {% for sub in subjects | sort(attribute='name') %}
+                                    <option value="{{ sub['id'] }}">
+                                        {{ sub['name'] }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <div id="control_buttons">

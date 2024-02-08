@@ -45,12 +45,16 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 
     <div class="container-fluid">
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Tag</th>
-                <th>Exercise</th>
-            </tr>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Tag</th>
+                    <th>Exercise</th>
+                </tr>
+            </thead>
+            <tbody>
             {% for t in task | sort(attribute='name') %}
             <tr>
                 <td>
@@ -58,6 +62,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                         {{ t["name"] }}
                     </a>
                 </td>
+                <td>{{ t["description"] }}</td>
                 <td>{{ t["tag"] }}</td>
                 <td>
                     <a href="{{ url_for('exercise', id_ = t['exercise']['id']|string) }}">
@@ -66,7 +71,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                 </td>
             </tr>
             {% endfor %}
-
+        </tbody>
         </table>
     </div>
 

@@ -33,26 +33,28 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
         <form action="{{url_for('addTestCase', id_ = task['id'])}}" method="POST" enctype="multipart/form-data">
             <div id="task_data">
                 <table class="table">
-                    <tr>
-                        <td>Task</td>
-                        <td>
-                            <a href="{{ url_for('task', id_ = task['id']) }}">
-                                {{ task["name"] }}
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Input File</td>
-                        <td>
-                            <input type="file" id="input_file" name="input_file">
-                        </td>
-                    </tr>
-                    <tr>
-                    <td>Output File</td>
-                    <td>
-                        <input type="file" id="output_file" name="output_file">
-                    </td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Task</td>
+                            <td>
+                                <a href="{{ url_for('task', id_ = task['id']) }}">
+                                    {{ task["name"] }}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Input File</td>
+                            <td>
+                                <input type="file" id="input_file" name="input_file">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Output File</td>
+                            <td>
+                                <input type="file" id="output_file" name="output_file">
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <div id="control_buttons">

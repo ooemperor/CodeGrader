@@ -23,7 +23,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
 <div id="main" class="main">
     <div>
-        <h1 class="header1 core_content">Task</h1>
+        <h1 class="header1">Task</h1>
     </div>
     <div class="row">
         <p>Task</p>
@@ -33,30 +33,32 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
         <form action="{{url_for('addTask')}}" method="POST">
             <div id="task_data">
                 <table class="table">
-                    <tr>
-                        <td>Name</td>
-                        <td>
-                            <input class="input" type="text" id="input_name" name="name" placeholder="Task Name">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class=" data">Tag</td>
-                        <td>
-                            <input class="input" type="text" id="input_tag" name="tag" placeholder="Task Tag">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Exercise</td>
-                        <td>
-                            <select id="sel_exercise" name="exercise">
-                                {% for ex in exercises | sort(attribute='name')  %}
-                                <option value="{{ ex['id'] }}">
-                                    {{ ex['name'] }}
-                                </option>
-                                {% endfor %}
-                            </select>
-                        </td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Name</td>
+                            <td>
+                                <input class="input" type="text" id="input_name" name="name" placeholder="Task Name">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class=" data">Tag</td>
+                            <td>
+                                <input class="input" type="text" id="input_tag" name="tag" placeholder="Task Tag">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Exercise</td>
+                            <td>
+                                <select id="sel_exercise" name="exercise">
+                                    {% for ex in exercises | sort(attribute='name') %}
+                                    <option value="{{ ex['id'] }}">
+                                        {{ ex['name'] }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <div id="control_buttons">

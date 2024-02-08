@@ -102,6 +102,7 @@ class TaskHandler(BaseHandler):
 
             task_data["name"] = self.get_value("name")
             task_data["tag"] = self.get_value("tag")
+            task_data["description"] = self.get_value("description")
             task_data["exercise_id"] = self.get_value("exercise")
 
             # getting the data from the form provided in the request

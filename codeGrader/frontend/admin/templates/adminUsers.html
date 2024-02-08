@@ -25,10 +25,10 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 
     <div class="container-fluid p-1">
         <div class="row">
-            <div class="col-4" >
+            <div class="col-4">
                 <h1 class="h1 ">Administrators</h1>
             </div>
-                
+
             {% if this.admin.check_permission('w', 'admin') %}
             <div class="col-4">
                 <form action="{{ url_for('addAdmin') }}" method="GET">
@@ -41,35 +41,38 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     <div class="container-fluid">
         <p class="core_content">Admin Users</p>
     </div>
-    
+
     <div class="container-fluid">
         <div class="table-responsive">
-            <table class="table">
-                <tr>
-                    <th>Username</th>
-                    <th>Admin Type</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>E-Mail</th>
-                    <th>Profile</th>
-                    <th>Tag</th>
-                </tr>
-                {% for user in adminuser | sort(attribute='username') %}
-                <tr>
-                    <td class="data">
-                        <a href="{{ url_for('admin', id_ = user['id']) }}">
-                            {{ user["username"] }}
-                        </a>
-                    </td>
-                    <td>{{ user["admin_type"]["name"] }}</td>
-                    <td>{{ user["first_name"] }}</td>
-                    <td>{{ user["last_name"] }}</td>
-                    <td>{{ user["email"] }}</td>
-                    <td>{{ user["profile"]["name"] }}</td>
-                    <td>{{ user["tag"] }}</td>
-                </tr>
-                {% endfor %}
-        
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Admin Type</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>E-Mail</th>
+                        <th>Profile</th>
+                        <th>Tag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in adminuser | sort(attribute='username') %}
+                    <tr>
+                        <td class="data">
+                            <a href="{{ url_for('admin', id_ = user['id']) }}">
+                                {{ user["username"] }}
+                            </a>
+                        </td>
+                        <td>{{ user["admin_type"]["name"] }}</td>
+                        <td>{{ user["first_name"] }}</td>
+                        <td>{{ user["last_name"] }}</td>
+                        <td>{{ user["email"] }}</td>
+                        <td>{{ user["profile"]["name"] }}</td>
+                        <td>{{ user["tag"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>
