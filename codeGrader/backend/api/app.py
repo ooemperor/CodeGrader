@@ -56,7 +56,7 @@ if not config.useIntegratedLogin:
 log = Logger()
 
 
-def app_index():
+def app_index() -> dict:
     """
     Calculates a JSON dict with the representaion of all the Routes in this application
     @return: The routes as a JSON representation
@@ -112,7 +112,7 @@ def index() -> dict:
     @return: Returns the calculated index of all the routes in this application
     @rtype: dict
     """
-    return app_index()
+    return str(app_index())
 
 
 @app.route("/admin/login", methods=['POST'])
