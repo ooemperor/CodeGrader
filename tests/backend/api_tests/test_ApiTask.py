@@ -39,7 +39,8 @@ class ApiTaskTest(unittest.TestCase):
 
         task_dict = {
             "name": "testTask",
-            "tag": "tasktag"
+            "tag": "tasktag",
+            "description": "Test Description"
         }
         r = requests.post(create_url, json=task_dict, headers=self.headers)
         self.assertIsNotNone(r)
@@ -52,6 +53,7 @@ class ApiTaskTest(unittest.TestCase):
         self.assertEqual("tasktag", json.loads(r.text)["tag"])
         self.assertEqual(None, json.loads(r.text)["attachments"])
         self.assertEqual(None, json.loads(r.text)["instructions"])
+        self.assertEqual("Test Description", json.loads(r.text)["description"])
 
         r = requests.delete(f"{task_url}{task_id}", headers=self.headers)
         self.assertIsNotNone(r)
@@ -68,12 +70,14 @@ class ApiTaskTest(unittest.TestCase):
 
         task_dict = {
             "name": "testTask",
-            "tag": "tasktag"
+            "tag": "tasktag",
+            "description": "Test Description"
         }
 
         task_dict_2 = {
             "name": "newTaskName",
-            "tag": "newTag"
+            "tag": "newTag",
+            "description": "Test Description New"
         }
         r = requests.post(create_url, json=task_dict, headers=self.headers)
         self.assertIsNotNone(r)
@@ -87,6 +91,7 @@ class ApiTaskTest(unittest.TestCase):
         self.assertEqual("tasktag", json.loads(r.text)["tag"])
         self.assertEqual(None, json.loads(r.text)["attachments"])
         self.assertEqual(None, json.loads(r.text)["instructions"])
+        self.assertEqual("Test Description", json.loads(r.text)["description"])
 
         r = requests.put(f"{task_url}{task_id}", json=task_dict_2, headers={'content-type': 'application/json',
                                                                             'Authorization': f"{api_config.apiAuthentication} {api_config.apiToken}"})
@@ -98,6 +103,7 @@ class ApiTaskTest(unittest.TestCase):
         self.assertEqual("newTag", json.loads(r.text)["tag"])
         self.assertEqual(None, json.loads(r.text)["attachments"])
         self.assertEqual(None, json.loads(r.text)["instructions"])
+        self.assertEqual("Test Description New", json.loads(r.text)["description"])
 
         r = requests.delete(f"{task_url}{task_id}", headers=self.headers)
         self.assertIsNotNone(r)
