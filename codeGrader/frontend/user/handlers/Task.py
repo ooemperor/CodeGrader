@@ -21,7 +21,7 @@ Handler Class for the Task
 """
 
 import flask
-from flask import request, render_template, redirect, url_for, flash, Response
+from flask import request, render_template, redirect, url_for, flash, Response, Request
 from .Base import BaseHandler
 from typing import Union
 
@@ -71,19 +71,24 @@ class TaskHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int, from_submission: bool = False) -> Union[str, Response]:
+    def get(self, id_: int, arguments: Request.args) -> Union[str, Response]:
         """
         Get Method to render or redirect for a specific Task
         @param id_: The identifier of the object
         @type id_: int
-        @param from_submission:  Flag if the source is coming from a redirect after posting a submission. /
+        @param arguments:  The arguments passed to the function in the url /
         This is used when we want to live render the execution of the submission
-        @rtype: bool
+        @rtype: int
         @return:
         """
 
         task = self.api.get(f"/task/{id_}")
-        task["from_submission"] = from_submission
+
+        if "submission_id" in arguments.keys():
+            task["submission_id"] = arguments["submission_id"]
+
+        else:
+            task["submission_id"] = 0
 
         if self.user.check_permission(subject_id=task["subject_id"]):  # when user is allowed to view this task
             submissions = self.api.get(f"/submissions", task_id=id_, user_id=self.user.id)
