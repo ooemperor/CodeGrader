@@ -42,6 +42,17 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+@app.context_processor
+def global_vars():
+    """
+    Returns a dictionary with global variables that we can use in the templates rendering
+    uses builtin decorator from flask
+    @return: Global Variables dictionary for rendering
+    @rtype: dict
+    """
+    return dict(appname=config.userAppName)
+
+
 def app_index():
     """
     Calculates a JSON dict with the representaion of all the Routes in this application

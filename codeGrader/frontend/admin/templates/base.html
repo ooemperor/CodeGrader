@@ -34,7 +34,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-icons.css') }}">
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
-    <title>CodeGrader</title>
+    <title>{{ appname }}</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico')}}">
 </head>
 
@@ -104,6 +104,12 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                 aria-expanded="true" aria-controls="sidebar-wrapper">
                                 <i class="bi bi-list h1"></i>
                             </button>
+                        </div>
+                        <div class="col align-items-center">
+                            <!--Items that must be in the middle of the navbar-->
+                            <div class="position-absolute translate-middle">
+                                <h1>{{ appname }}</h1>
+                            </div>
                         </div>
                         <div class="align-items-end">
                             <!--Items that must stick to the end of the navbar-->
