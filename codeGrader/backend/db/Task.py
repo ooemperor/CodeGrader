@@ -154,10 +154,12 @@ class Task(Base):
         out["id"] = self.id
         out["name"] = self.name
         out["tag"] = self.tag
+
         if self.description is not None:
             out["description"] = self.description
         else:
             out["description"] = ""
+
         if self.TaskExercise is None:
             out["exercise"] = None
             out["subject_id"] = None

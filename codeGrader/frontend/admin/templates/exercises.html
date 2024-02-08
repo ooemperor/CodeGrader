@@ -51,6 +51,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Description</th>
                     <th>Tag</th>
                     <th>Subject</th>
                 </tr>
@@ -63,6 +64,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                             {{ ex["name"] }}
                         </a>
                     </td>
+                    <td>{{ ex["description"] }}</td>
                     <td>{{ ex['tag'] }}</td>
                     <td>
                         <a href="{{ url_for('subject', id_ = ex['subject']['id']|string) }}">

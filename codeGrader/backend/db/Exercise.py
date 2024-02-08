@@ -52,6 +52,11 @@ class Exercise(Base):
     name = Column(
         String, nullable=False, index=True
     )
+
+    description = Column(
+        String, nullable=True
+    )
+
     # tag for filtering
     tag = Column(
         String, nullable=True
@@ -113,6 +118,11 @@ class Exercise(Base):
         out["id"] = self.id
         out["name"] = self.name
         out["tag"] = self.tag
+
+        if self.description is not None:
+            out["description"] = self.description
+        else:
+            out["description"] = ""
 
         if recursive:
             if self.tasks is None:
