@@ -106,11 +106,11 @@ def home() -> dict:
 @app.route("/index", methods=['GET'])
 @cache.memoize(config.cache_timeout, unless=cache_bypass)
 @authentication
-def index() -> dict:
+def index() -> str:
     """
     Returns the calculated index of all the routes in this application
     @return: Returns the calculated index of all the routes in this application
-    @rtype: dict
+    @rtype: str
     """
     return str(app_index())
 
