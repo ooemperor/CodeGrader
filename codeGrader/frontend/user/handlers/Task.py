@@ -71,15 +71,19 @@ class TaskHandler(BaseHandler):
         """
         super().__init__(request)
 
-    def get(self, id_: int) -> Union[str, Response]:
+    def get(self, id_: int, from_submission: bool = False) -> Union[str, Response]:
         """
         Get Method to render or redirect for a specific Task
         @param id_: The identifier of the object
         @type id_: int
+        @param from_submission:  Flag if the source is coming from a redirect after posting a submission. /
+        This is used when we want to live render the execution of the submission
+        @rtype: bool
         @return:
         """
 
         task = self.api.get(f"/task/{id_}")
+        task["from_submission"] = from_submission
 
         if self.user.check_permission(subject_id=task["subject_id"]):  # when user is allowed to view this task
             submissions = self.api.get(f"/submissions", task_id=id_, user_id=self.user.id)
