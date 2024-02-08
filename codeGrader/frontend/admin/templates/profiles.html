@@ -50,7 +50,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
         </thead>
         <tbody>
             {% for prof in profile | sort(attribute='name') %}
-            <tr>
+            <tr class="clickable-row" data-href="{{ url_for('profile', id_ = prof['id']|string) }}">
                 <td>
                     <a href="{{ url_for('profile', id_ = prof['id']|string) }}">
                         {{ prof["name"] }}

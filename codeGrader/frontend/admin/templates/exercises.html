@@ -57,7 +57,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             </thead>
             <tbody>
                 {% for ex in exercise | sort(attribute='name') %}
-                <tr>
+                <tr class="clickable-row" data-href="{{ url_for('exercise', id_ = ex['id']|string) }}">
                     <td>
                         <a href="{{ url_for('exercise', id_ = ex['id']|string) }}">
                             {{ ex["name"] }}

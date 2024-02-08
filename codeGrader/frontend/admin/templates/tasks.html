@@ -56,7 +56,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             </thead>
             <tbody>
             {% for t in task | sort(attribute='name') %}
-            <tr>
+            <tr class="clickable-row" data-href="{{ url_for('task', id_ = t['id']|string) }}">
                 <td>
                     <a href="{{ url_for('task', id_ = t['id']|string) }}">
                         {{ t["name"] }}
