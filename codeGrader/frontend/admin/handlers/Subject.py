@@ -73,6 +73,10 @@ class SubjectHandler(BaseHandler):
         subject["profiles"] = profiles["profile"]
         subject["memberships"] = memberships["membership"]
 
+        scores = self.api.get(f"/scores/subject", object_id=id_)
+        scores = scores["subject"][0][str(id_)]
+        subject["scores"] = scores
+
         editable = self.admin.check_permission('w', subject["profile"]["id"])
         subject["editable"] = editable
 
