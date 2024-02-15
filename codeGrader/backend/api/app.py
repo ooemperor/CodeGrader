@@ -760,7 +760,7 @@ def membership(id_: int) -> dict:
 
 
 def api_backend() -> None:
-    http_server = WSGIServer(("0.0.0.0", int(config.ApiPort)), app)
+    http_server = WSGIServer((config.ApiAddresses, int(config.ApiPort)), app)
     print("WSGI SERVER started!")
     print(f"TIME: {datetime.datetime.now()}")
     print(f"PORT: {config.ApiPort}")
