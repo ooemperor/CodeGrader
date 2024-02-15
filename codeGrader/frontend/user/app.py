@@ -29,7 +29,8 @@ from codeGrader.frontend.config import config
 from codeGrader.frontend.user import templates
 from codeGrader.frontend.user.handlers import UserSessionHandler, SessionUser, UserLoginHandler, HomeHandler, \
     ExerciseListHandler, ExerciseHandler, TaskHandler, TaskListHandler, TaskAttachmentHandler, TaskInstructionHandler, \
-    AddSubmissionHandler, SettingsHandler, PasswordResetHandler, SubjectHandler, SubjectListHandler, SubmissionHandler
+    AddSubmissionHandler, SettingsHandler, PasswordResetHandler, SubjectHandler, SubjectListHandler, SubmissionHandler, \
+    ErrorHandler
 from gevent.pywsgi import WSGIServer
 from typing import Union
 import datetime
@@ -65,7 +66,7 @@ def app_index():
         method = route.methods
         rule = route.rule
         endpoint = route.endpoint
-        output_data.append({rule:{"methods": method, "endpoint": endpoint} })
+        output_data.append({rule: {"methods": method, "endpoint": endpoint}})
     output["routes"] = output_data
     return output
 
@@ -91,6 +92,17 @@ def unauthorized():
     @return: Redirection to the login site.
     """
     return redirect(url_for("login"))
+
+
+@app.errorhandler(Exception)
+def error(err: Exception):
+    """
+    Error Handler for a when a error occurs.
+    @param err: The Exception that has been raised
+    @type err: Exception
+    @return: Rendered Error Page with Information for the user
+    """
+    return ErrorHandler(request).get(err, err.code)
 
 
 @app.route("/login", methods=['GET', 'POST'])

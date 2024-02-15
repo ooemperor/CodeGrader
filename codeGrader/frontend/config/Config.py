@@ -73,3 +73,5 @@ class Config:
         self.good_gifs = self.config["GIFS"]["Good_GIFS"].split(',')
         self.bad_gifs = self.config["GIFS"]["Bad_GIFS"].split(',')
         self.medium_gifs = self.config["GIFS"]["Medium_GIFS"].split(',')
+        self.gif_404 = self.config["GIFS"]["404_GIF"]
+        self.gif_500 = self.config["GIFS"]["500_GIF"]
