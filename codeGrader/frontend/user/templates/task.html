@@ -59,6 +59,43 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
 
+    <script>
+        function update_rendering() {
+            var output;
+            var url;
+            var submission_id = {{ submission_id }};
+            console.log(submission_id);
+            if (submission_id == 0) {
+                var url = '/gamification/submission/0';
+            }
+            else {
+                var url = `/gamification/submission/${submission_id}`;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                async: false,
+                success: function (response) { output = response;}
+            });
+
+            return output;
+        }
+
+        setInterval(function () {
+            //get value from api
+            var rendering = update_rendering();
+            console.log(rendering)
+            if (document.getElementById('submission_feedback_render').innerHTML !== rendering) {
+                document.getElementById('submission_feedback_render').innerHTML = rendering;
+            }
+        }, 3000)
+    </script>
+
+    <div class="row py-2" id="submission_feedback_render">
+        <!--This is row will be used for the active Feedback after a submission to the user-->
+    </div>
+
     <div class="row">
         <div class="card text-center mx-2 px-0" style="max-width: 18rem;">
             <div class="card-header">

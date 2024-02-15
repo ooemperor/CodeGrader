@@ -1,0 +1,60 @@
+<!--
+CodeGrader - https://github.com/ooemperor/CodeGrader
+Copyright © 2023, 2024 Michael Kaiser <michael.kaiser@emplabs.ch>
+
+This file is part of CodeGrader.
+
+CodeGrader is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+CodeGrader is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <title>{{ appname}} Error</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico')}}">
+</head>
+
+<body class="min-vw-100">
+    <div class="container-fluid min-vw-100" id="error">
+        <div class="row">
+            <div class="row justify-content-center p-2">
+                <h1 class="row justify-content-center">
+                    {{ title }}
+                </h1>
+            </div>
+            <div class="row justify-content-center p-2">
+                {{ error_text }}
+                <br>
+                If you think this should not happen, please contact your administrator and provide the Information below. 
+            </div>
+            <div class="row justify-content-center p-2">
+                {{ gif|safe }}
+            </div>
+            <div class="row justify-content-center">
+                Path: {{path}}
+                <br>
+                Method: {{method}}
+                <br>
+                Time: {{time}}
+                <br>
+                Exception: {{error}}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

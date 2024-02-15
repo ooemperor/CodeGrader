@@ -289,7 +289,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                     <div class="accordion-body">
                         <div>
                             {% if testcases %}
-                            <table class="table">
+                            <table class="table table-hover">
                                 <tr>
                                     <th>
                                         Testcase_ID
@@ -380,6 +380,50 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelscores" aria-expanded="false" aria-controls="panelscores">
+                        Scores
+                    </button>
+                </h2>
+                <div id="panelscores" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <div>
+                            {% if scores %}
+                            <table class="table table-hover">
+                                <tr>
+                                    <th>
+                                        User
+                                    </th>
+                                    <th>
+                                        Max Score
+                                    </th>
+                                </tr>
+
+                                {% for sc in scores | sort(attribute='user_id') %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ url_for('user', id_ = sc['user_id']|string) }}">
+                                            {{ sc["username"] }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ sc["score"] }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row py-4">
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#panelsubmissions" aria-expanded="false" aria-controls="panelsubmissions">
                         Submissions
                     </button>
@@ -388,7 +432,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                     <div class="accordion-body">
                         <div>
                             {% if submissions %}
-                            <table class="table">
+                            <table class="table table-hover">
                                 <tr>
                                     <th>
                                         Submission_id

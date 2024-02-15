@@ -35,7 +35,8 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
     DeleteExerciseHandler, DeleteProfileHandler, AddTaskAttachmentHandler, DeleteTaskAttachmentHandler, \
     AddTaskInstructionHandler, DeleteTaskInstructionHandler, TaskInstructionHandler, TaskAttachmentHandler, \
     SubmissionFileHandler, TestCaseInputFileHandler, TestCaseOutputFileHandler, AddTestCaseHandler, \
-    DeleteTestCaseHandler, AddMembershipHandler, DeleteMembershipHandler, PasswordResetHandler, AddUserListHandler
+    DeleteTestCaseHandler, AddMembershipHandler, DeleteMembershipHandler, PasswordResetHandler, AddUserListHandler, \
+    ErrorHandler
 from gevent.pywsgi import WSGIServer
 import datetime
 
@@ -70,7 +71,7 @@ def app_index():
         method = route.methods
         rule = route.rule
         endpoint = route.endpoint
-        output_data.append({rule:{"methods": method, "endpoint": endpoint} })
+        output_data.append({rule: {"methods": method, "endpoint": endpoint}})
     output["routes"] = output_data
     return output
 
@@ -87,6 +88,17 @@ def adminUser_login(admin_id):
     """
     user = SessionAdmin(admin_id)
     return user
+
+
+@app.errorhandler(Exception)
+def error(err: Exception):
+    """
+    Error Handler for a when a error occurs.
+    @param err: The Exception that has been raised
+    @type err: Exception
+    @return: Rendered Error Page with Information for the user
+    """
+    return ErrorHandler(request).get(err, err.code)
 
 
 @app.route("/login", methods=['GET', 'POST'])

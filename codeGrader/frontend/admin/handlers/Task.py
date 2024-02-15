@@ -72,6 +72,9 @@ class TaskHandler(BaseHandler):
         exercises = self.api.get("/exercises", profile=self.admin.get_filter_profile())
         submissions = self.api.get("/submissions", profile=self.admin.get_filter_profile(), task_id=id_)
         testcases = self.api.get("/testcases", task_id=id_)
+        scores = self.api.get(f"/scores/task", object_id=id_)
+        scores = scores["task"][0][str(id_)]
+        task["scores"] = scores
         task["exercises"] = exercises["exercise"]
         if "submission" in submissions.keys():  # handles the case that there are no submissions yet
             task["submissions"] = submissions["submission"]

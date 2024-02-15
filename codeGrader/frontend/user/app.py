@@ -29,7 +29,8 @@ from codeGrader.frontend.config import config
 from codeGrader.frontend.user import templates
 from codeGrader.frontend.user.handlers import UserSessionHandler, SessionUser, UserLoginHandler, HomeHandler, \
     ExerciseListHandler, ExerciseHandler, TaskHandler, TaskListHandler, TaskAttachmentHandler, TaskInstructionHandler, \
-    AddSubmissionHandler, SettingsHandler, PasswordResetHandler, SubjectHandler, SubjectListHandler
+    AddSubmissionHandler, SettingsHandler, PasswordResetHandler, SubjectHandler, SubjectListHandler, SubmissionHandler, \
+    ErrorHandler
 from gevent.pywsgi import WSGIServer
 from typing import Union
 import datetime
@@ -65,7 +66,7 @@ def app_index():
         method = route.methods
         rule = route.rule
         endpoint = route.endpoint
-        output_data.append({rule:{"methods": method, "endpoint": endpoint} })
+        output_data.append({rule: {"methods": method, "endpoint": endpoint}})
     output["routes"] = output_data
     return output
 
@@ -91,6 +92,17 @@ def unauthorized():
     @return: Redirection to the login site.
     """
     return redirect(url_for("login"))
+
+
+@app.errorhandler(Exception)
+def error(err: Exception):
+    """
+    Error Handler for a when a error occurs.
+    @param err: The Exception that has been raised
+    @type err: Exception
+    @return: Rendered Error Page with Information for the user
+    """
+    return ErrorHandler(request).get(err, err.code)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -198,18 +210,18 @@ def tasks() -> str:
 
 @app.route("/task/<int:id_>", methods=['GET'])
 @login_required
-def task(id_: int, from_submission: bool = False) -> str:
+def task(id_: int) -> str:
     """
     The TaskHandler to render or redirect the templates
     @param id_: The identifier of the task
     @type id_: int
-    @param from_submission: Flag if the source is coming from a redirect after posting a submission
-    @type from_submission: bool
+    @param submission_id: The id of a submission if a submission has been made (used for rendering after submission)
+    @type submission_id: int
     @return: The rendered Task site
     @rtype: str
     """
     if request.method == 'GET':
-        return TaskHandler(request).get(id_, from_submission=from_submission)
+        return TaskHandler(request).get(id_, request.args)
 
 
 @app.route("/task/<int:task_id_>/attachment/<int:attachment_id_>", methods=['GET'])
@@ -244,11 +256,25 @@ def TaskInstruction(task_id_: int, instruction_id_: int) -> Union[Response, str]
         return TaskInstructionHandler(request).get(task_id_, instruction_id_)
 
 
-@app.route("/task/<int:task_id_>/submission/add", methods = ['POST'])
+@app.route("/task/<int:task_id_>/submission/add", methods=['POST'])
 @login_required
 def addSubmission(task_id_: int) -> Union[Response, str]:
     if request.method == 'POST':
         return AddSubmissionHandler(request).post(task_id_)
+
+
+@app.route("/gamification/submission/<int:id_>", methods=['GET'])
+@login_required
+def submission_gamification(id_: int) -> Union[Response, str]:
+    """
+    Route for the function that returns HTML code to be inserted by javascript into the code
+    @param id_: The identifier of the submission that has been made
+    @type id_: int
+    @return: HTML Code
+    @rtype: str
+    """
+    if request.method == 'GET':
+        return SubmissionHandler(request).get_gamification(id_)
 
 
 @app.route("/settings", methods=['GET'])

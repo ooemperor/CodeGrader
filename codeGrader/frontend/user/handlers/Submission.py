@@ -24,6 +24,54 @@ import flask
 from flask import request, render_template, redirect, url_for, flash, Response
 from .Base import BaseHandler
 from typing import Union
+from codeGrader.frontend.config import config
+from random import randint
+
+class SubmissionHandler(BaseHandler):
+    """
+    Class to handle the Requests for a submission
+    """
+
+    def __init__(self, request: flask.Request) -> None:
+        """
+        Constructor of the Handler
+        """
+        super().__init__(request)
+
+    def get_gamification(self, id_: int) -> str:
+        """
+        Render for the submission result
+        @param id_: The identifier of the submission
+        @type id_: int
+        @return: HTML Code that will be inserted into the rendered html via javascript /
+        This html code is only a snippet and not complete code
+        """
+        if id_ == 0:
+            return ""  # we do not return anything
+
+        else:
+            # we need to prepare the data now
+            submission = self.api.get(f"/submission/{id_}")
+            state = submission["state"]
+            score = float(submission["max_score"])
+
+            if state != "finished":
+                return '<img src="https://media.tenor.com/aXbaXzhcVVUAAAAM/hi.gif" alt="Hi GIF - Hi GIFs" loading="lazy" style="background-color: unset;" width="158" height="127.11818181818181">'
+
+            else:
+                # submission has finished in the backend, need to calculate the result base on the score.
+                if score == 100.0:
+                    i = int(id_) % len(config.good_gifs)
+                    return config.good_gifs[i]
+
+                elif score == 0.0:
+                    i = int(id_) % len(config.bad_gifs)
+                    return config.bad_gifs[i]
+
+                else:
+                    # score is between 0 and 100 but not either of those
+                    i = int(id_) % len(config.medium_gifs)
+                    return config.medium_gifs[i]
 
 
 class AddSubmissionHandler(BaseHandler):
@@ -51,6 +99,8 @@ class AddSubmissionHandler(BaseHandler):
         user_id = self.user.id
         task_id = id_
 
+        submission_id = None
+
         for file_key in self.request.files.keys():
             file = self.request.files[file_key]
 
@@ -64,8 +114,11 @@ class AddSubmissionHandler(BaseHandler):
             body = ({"task_id": task_id, "file_id": file_id, "user_id": user_id})
             url = f"/submission/add"
 
-            self.api.post(url, body=body)  # adding the submission via file_id
+            response = self.api.post(url, body=body)  # adding the submission via file_id
+            print(response)
+            submission_id = response["response"]["id"]
+
 
         # either way redirect to the task
-        self.flash("Submission received")
-        return redirect(url_for("task", id_=id_))
+        self.flash(f"Submission received with id_ {submission_id}")
+        return redirect(url_for("task", id_=id_, submission_id=submission_id))
