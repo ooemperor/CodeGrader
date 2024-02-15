@@ -49,7 +49,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     <div class="row">
         <form action="{{url_for('task', id_ = id)}}" method="POST">
             <div id="task_data">
-                <table class="table">
+                <table class="table table-hover">
                     <tbody>
                     <tr>
                         <td>Name</td>
@@ -289,7 +289,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                     <div class="accordion-body">
                         <div>
                             {% if testcases %}
-                            <table class="table">
+                            <table class="table table-hover">
                                 <tr>
                                     <th>
                                         Testcase_ID
@@ -388,7 +388,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                     <div class="accordion-body">
                         <div>
                             {% if scores %}
-                            <table class="table">
+                            <table class="table table-hover">
                                 <tr>
                                     <th>
                                         User
@@ -432,7 +432,7 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                     <div class="accordion-body">
                         <div>
                             {% if submissions %}
-                            <table class="table">
+                            <table class="table table-hover">
                                 <tr>
                                     <th>
                                         Submission_id
