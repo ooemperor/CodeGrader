@@ -65,30 +65,38 @@ class ApiHandler:
         @return: Formatted response of the api.
         @rtype:
         """
-        path = f"{self.url}{path}"
-        headers = dict()
-        if self.authentication_type is not None:
-            headers["Authorization"] = f"{self.authentication_type} {self.authentication_token}"
+        try:
+            path = f"{self.url}{path}"
+            headers = dict()
+            if self.authentication_type is not None:
+                headers["Authorization"] = f"{self.authentication_type} {self.authentication_token}"
 
-        if method == 'GET':
-            assert body is None
-            response = requests.get(path, headers=headers)
+            if method == 'GET':
+                assert body is None
+                response = requests.get(path, headers=headers)
 
-        elif method == 'POST':
-            assert body is not None or data is not None or files is not None
-            response = requests.post(path, headers=headers, json=body, data=data, files=files)
+            elif method == 'POST':
+                assert body is not None or data is not None or files is not None
+                response = requests.post(path, headers=headers, json=body, data=data, files=files)
 
-        elif method == 'PUT':
-            assert body is not None
-            response = requests.put(path, headers=headers, json=body, data=data, files=files)
+            elif method == 'PUT':
+                assert body is not None
+                response = requests.put(path, headers=headers, json=body, data=data, files=files)
 
-        elif method == 'DELETE':
-            assert body is None
-            response = requests.delete(path, headers=headers)
-        else:
-            raise TypeError("Method not allowed! Allowed are: DELETE, GET, POST, PUT")
+            elif method == 'DELETE':
+                assert body is None
+                response = requests.delete(path, headers=headers)
+            else:
+                raise TypeError("Method not allowed! Allowed are: DELETE, GET, POST, PUT")
 
-        return response
+            return response
+
+        except AssertionError as ass_err:
+            print(ass_err)
+            print(path)
+            print(method)
+            print(response.status_code)
+            print(response.text)
 
     @staticmethod
     def _cast_dict(dictionary: str) -> Union[str, dict]:

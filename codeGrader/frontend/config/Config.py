@@ -69,3 +69,7 @@ class Config:
         self.admin_rw_partial = self.config["AdminTypes"]["rwPartial"]
         self.admin_r_full = self.config["AdminTypes"]["rFull"]
         self.admin_r_partial = self.config["AdminTypes"]["rPartial"]
+
+        self.good_gifs = self.config["GIFS"]["Good_GIFS"].split(',')
+        self.bad_gifs = self.config["GIFS"]["Bad_GIFS"].split(',')
+        self.medium_gifs = self.config["GIFS"]["Medium_GIFS"].split(',')

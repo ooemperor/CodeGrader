@@ -24,7 +24,8 @@ import flask
 from flask import request, render_template, redirect, url_for, flash, Response
 from .Base import BaseHandler
 from typing import Union
-
+from codeGrader.frontend.config import config
+from random import randint
 
 class SubmissionHandler(BaseHandler):
     """
@@ -60,13 +61,17 @@ class SubmissionHandler(BaseHandler):
             else:
                 # submission has finished in the backend, need to calculate the result base on the score.
                 if score == 100.0:
-                    return '<img src="https://media1.tenor.com/m/oMnCJU2dp5oAAAAd/one-hundred-percent-sophie.gif" width="833" height="833" alt="One Hundred Percent Sophie GIF - One Hundred Percent Sophie How I Met Your Father GIFs" style="max-width: 833px;">'
+                    i = int(id_) % len(config.good_gifs)
+                    return config.good_gifs[i]
 
                 elif score == 0.0:
-                    return '<img src="https://media1.tenor.com/m/1dvdDJ0TumUAAAAC/thisisfine-disaster.gif" width="833" height="468.5625" alt="Thisisfine Disaster GIF - Thisisfine Disaster Denial GIFs" style="max-width: 833px; background-color: rgb(174, 153, 71);">'
+                    i = int(id_) % len(config.bad_gifs)
+                    return config.bad_gifs[i]
 
                 else:
-                    return '<img src="https://media1.tenor.com/m/DgPnCr2BbOcAAAAd/not-good-not-bad-not-good.gif" width="833" height="786.14375" alt="Not Good Not Bad Good And Bad GIF - Not Good Not Bad Not Good Not Bad GIFs" style="max-width: 833px;">'
+                    # score is between 0 and 100 but not either of those
+                    i = int(id_) % len(config.medium_gifs)
+                    return config.medium_gifs[i]
 
 
 class AddSubmissionHandler(BaseHandler):
