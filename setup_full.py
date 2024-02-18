@@ -18,10 +18,24 @@
 
 from setuptools import setup, find_packages
 
+PACKAGE_DATA = {
+    "codeGrader.frontend": [
+        "admin/static/*",
+        "admin/static/*/*",
+        "admin/static/*/*/*",
+        "admin/templates/*.*",
+        "user/static/*",
+        "user/static/*/*",
+        "user/static/*/*/*",
+        "user/templates/*.*"
+    ]
+}
+
 setup(
     name='codeGrader',
     version='1.0',
     packages=find_packages(),
+    package_data=PACKAGE_DATA,
     url='https://github.com/ooemperor/CodeGrader',
     license='GNU Affero General Public License v3.0',
     author='mkaiser',
