@@ -17,12 +17,12 @@
 # along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-Script File for starting the Admin Frontend
+Script File for starting the User Frontend
 @author: mkaiser
 """
 
 import sys
-from codeGrader.frontend.admin import admin_frontend
+from codeGrader.frontend.user import user_frontend
 import os
 
 
@@ -31,8 +31,8 @@ def main():
     Starting a new instance of the EvaluationService
     @return:
     """
-    os.chdir("/usr/local/lib/python3.11/dist-packages/codeGrader/frontend/admin")
-    admin_frontend()
+    os.chdir("/usr/local/lib/python3.11/dist-packages/codeGrader/frontend/user")
+    user_frontend()
 
 
 if __name__ == '__main__':

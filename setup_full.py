@@ -32,10 +32,11 @@ setup(
             'cgDeployDB = codeGrader.scripts.deployDB:main',
             'cgEvaluationService = codeGrader.scripts.cgEvaluationService:main',
             'cgExecutionService = codeGrader.scripts.cgExecutionService:main',
-            'cgAdminFrontend = codeGrader.scripts.cgAdminFrontend:main',
             'cgApiBackend = codeGrader.scripts.cgApiBackend:main',
             'cgAddApiToken = codeGrader.scripts.cgAddApiToken:main',
-            'cgAddAdmin = codeGrader.scripts.cgAddAdmin:main'
+            'cgAddAdmin = codeGrader.scripts.cgAddAdmin:main',
+            'cgAdminFrontend = codeGrader.scripts.cgAdminFrontend:main',
+            'cgUserFrontend = codeGrader.scripts.cgUserFrontend:main'
         ]
     }
 )

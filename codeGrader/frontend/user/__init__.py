@@ -20,3 +20,4 @@
 init file for the user Frontend
 @author: mkaiser
 """
+from .app import user_frontend
