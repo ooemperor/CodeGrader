@@ -22,7 +22,6 @@ Script File for starting the User Frontend
 """
 
 import sys
-from codeGrader.frontend.user import user_frontend
 import os
 import subprocess
 
