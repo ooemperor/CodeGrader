@@ -27,7 +27,7 @@ import argparse
 import sys
 
 
-def main(username, first_name, last_name, email, password):
+def addAdmin(username, first_name, last_name, email, password):
     """
     Generate an admin user that will be added to the database for the initial setups
     @param username: The username for the new admin
@@ -58,10 +58,12 @@ def main(username, first_name, last_name, email, password):
     print(f"User {username} has been created with password {password}")
 
 
-if __name__ == '__main__':
+def main():
     """
-    Parsing the description argument via a ArgumentParser
+    The main method adding an admin to the backend.
+    @return:
     """
+
     parser = argparse.ArgumentParser(
         description="Add Admin User to the Database"
     )
@@ -73,4 +75,8 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    sys.exit(main(args.username, args.first_name, args.last_name, args.email, args.password))
+    addAdmin(args.username, args.first_name, args.last_name, args.email, args.password)
+
+
+if __name__ == '__main__':
+    sys.exit(main())
