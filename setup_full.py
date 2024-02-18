@@ -35,6 +35,7 @@ setup(
             'cgAdminFrontend = codeGrader.scripts.cgAdminFrontend:main',
             'cgApiBackend = codeGrader.scripts.cgApiBackend:main',
             'cgAddApiToken = codeGrader.scripts.cgAddApiToken:main',
+            'cgAddAdmin = codeGrader.scripts.cgAddAdmin:main'
         ]
     }
 )
