@@ -43,7 +43,8 @@ setup(
     description='A WebApplication for automated code execution and evaluation called CodeGrader',
     entry_points={
         'console_scripts': [
-            'cgAdminFrontend = codeGrader.frontend.admin.app:admin_frontend'
+            'cgAdminFrontend = codeGrader.scripts.cgAdminFrontend:main',
+            'cgUserFrontend = codeGrader.scripts.cgUserFrontend:main'
         ]
     }
 )

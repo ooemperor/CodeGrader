@@ -81,7 +81,11 @@ class AdminHandler(BaseHandler):
         editable = self.admin.check_permission('w')
         admin["editable"] = editable
 
-        if self.admin.check_permission('r', admin["profile"]["id"]):  # when admin is allowed to view this admin
+        prof_id = 0
+        if admin["profile"] is not None:
+            prof_id = admin["profile"]["id"]
+
+        if self.admin.check_permission('r', prof_id):  # when admin is allowed to view this admin
             return render_template("adminUser.html", **admin)
 
         else:  # admin is not allowed to view this user
@@ -98,7 +102,12 @@ class AdminHandler(BaseHandler):
         assert self.request.form is not None
 
         admin_before = self.api.get(f"/admin/{id_}")  # get the admin data
-        if self.admin.check_permission('w', admin_before["profile"]["id"]):
+
+        prof_id = 0
+        if admin_before["profile"] is not None:
+            prof_id = admin_before["profile"]["id"]
+
+        if self.admin.check_permission('w', prof_id):
             admin_data = dict()
 
             # getting the data from the form provided in the request

@@ -23,6 +23,8 @@ Script will be generated and added to the server path.
 """
 
 from codeGrader.backend.db import Session, APIToken
+import argparse
+import sys
 
 
 def main(description):
@@ -44,4 +46,14 @@ def main(description):
 
 
 if __name__ == '__main__':
-    main("")
+    """
+    Parsing the description argument via a ArgumentParser
+    """
+    parser = argparse.ArgumentParser(
+        description="Add API Key to the Database"
+    )
+    parser.add_argument('-d', 'description')
+
+    args = parser.parse_args()
+
+    sys.exit(main(args.description))

@@ -85,6 +85,8 @@ class SessionAdmin(UserMixin):
                 return False
 
         elif operation == 'w':
+            print(create_object)
+            print(self._admin_type_name)
             if self._admin_type_name == config.admin_rw_partial and profile_id == self.profile_id:
                 return True
 
@@ -92,6 +94,7 @@ class SessionAdmin(UserMixin):
                 return True
 
             else:
+                print(1)
                 return False
 
         else:

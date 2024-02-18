@@ -18,10 +18,24 @@
 
 from setuptools import setup, find_packages
 
+PACKAGE_DATA = {
+    "codeGrader.frontend": [
+        "admin/static/*",
+        "admin/static/*/*",
+        "admin/static/*/*/*",
+        "admin/templates/*.*",
+        "user/static/*",
+        "user/static/*/*",
+        "user/static/*/*/*",
+        "user/templates/*.*"
+    ]
+}
+
 setup(
     name='codeGrader',
     version='1.0',
     packages=find_packages(),
+    package_data=PACKAGE_DATA,
     url='https://github.com/ooemperor/CodeGrader',
     license='GNU Affero General Public License v3.0',
     author='mkaiser',
@@ -32,9 +46,11 @@ setup(
             'cgDeployDB = codeGrader.scripts.deployDB:main',
             'cgEvaluationService = codeGrader.scripts.cgEvaluationService:main',
             'cgExecutionService = codeGrader.scripts.cgExecutionService:main',
-            'cgAdminFrontend = codeGrader.scripts.cgAdminFrontend:main',
             'cgApiBackend = codeGrader.scripts.cgApiBackend:main',
             'cgAddApiToken = codeGrader.scripts.cgAddApiToken:main',
+            'cgAddAdmin = codeGrader.scripts.cgAddAdmin:main',
+            'cgAdminFrontend = codeGrader.scripts.cgAdminFrontend:main',
+            'cgUserFrontend = codeGrader.scripts.cgUserFrontend:main'
         ]
     }
 )

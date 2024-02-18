@@ -159,7 +159,7 @@ class AddUserHandler(BaseHandler):
         Get and render the site to create an admin user
         @return: The rendered page.
         """
-        if self.admin.check_permission('w', 'user'):
+        if self.admin.check_permission('w', create_object='user'):
 
             user_data = dict()
 

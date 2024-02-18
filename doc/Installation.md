@@ -18,9 +18,9 @@ apt-get install -y pip
 pip install -r requirements.txt
 ```
 # Backend
-Running the gunicorn wsgi:
+Running the backend API after Installtion of the package.
 ```
-gunicorn -w 4 codeGrader.backend.api.app:app
+cgApiBackend
 ```
 ## Python Packages
 ```
@@ -60,3 +60,62 @@ If there was some kind of error during the installation, an error message would 
 
 ## Evaluation Service
 The Evaluation Service does not need any additional packages, than what is already specified in the requirements.txt of the backend package. 
+
+# Full Installation
+Following from here you can find all the needed steps for a full installation on a single host. 
+
+Install all apt packages including postgres:
+```
+apt-get install -y python-dev libpq-dev lxc libvirt0 libpam-cgfs bridge-utils uidmap pip
+```
+
+```
+apt update && sudo apt upgrade -y
+sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+apt-get update
+apt-get install postgresql-15
+```
+```
+createuser --username=postgres --pwprompt codeGrader
+createdb --username=postgres --owner=codeGrader codeGraderDB
+psql --username=postgres --dbname=codeGraderDB --command='CREATE ROLE codeGrader'
+psql --username=postgres --dbname=codeGraderDB --command='GRANT codegrader TO "codeGrader"'
+psql --username=postgres --dbname=codeGraderDB --command='ALTER SCHEMA public OWNER TO codeGrader'
+psql --username=postgres --dbname=codeGraderDB --command='GRANT SELECT ON pg_largeobject TO codeGrader'
+
+```
+Then proceed with to clone and install the software itself:
+
+```
+cd /opt
+rm -r /opt/CodeGrader
+git clone https://github.com/ooemperor/CodeGrader.git
+cd CodeGrader
+pip install -r ./codeGrader/frontend/requirements.txt
+pip install -r ./codeGrader/backend/requirements.txt
+cd /opt/CodeGrader
+mv setup_full.py setup.py
+pip install .
+```
+
+Then create a new admin User and an api key with:
+```
+cgAddApiToken
+
+cgAddAdmin -u <username> -fn <first_name> -ln <last_name> -e <email> -p <password>
+```
+
+
+
+After this part is done, please place the Config Files at "/etc/codeGrader" and adapt the values in it according to your installation (ApiToken, Database Credentials and IP Adresses).
+
+
+When this is done you can then startup all the services with: 
+```
+nohup cgApiBackend &
+nohup cgEvaluationService &
+nohup cgExecutionService &
+nohup cgUserFrontend &
+nohup cgAdminFrontend &
+```

@@ -85,7 +85,7 @@ class ScoreHandler(BaseHandler):
                 db_object = self.sql_session.get_object(self.dbClass, object_id)
                 print(db_object.id)
                 score = db_object.user_score(user_id)
-                user = self.sql_session.get(User, user_id)
+                user = self.sql_session.get_object(User, user_id)
 
                 user_data_dict = {"user_id": user_id, "username": user.username, "score": score}
                 output_data_list.append(user_data_dict)
@@ -95,7 +95,7 @@ class ScoreHandler(BaseHandler):
             else:
                 # the object_id is not given, so we need to query all objects
                 db_objects = self.sql_session.get_all(self.dbClass)
-                user = self.sql_session.get(User, user_id)
+                user = self.sql_session.get_object(User, user_id)
                 for db_object in db_objects:
                     score = db_object.user_score(user_id)
                     print(score)
