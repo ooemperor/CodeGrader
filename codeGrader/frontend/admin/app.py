@@ -40,7 +40,7 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
 from gevent.pywsgi import WSGIServer
 import datetime
 
-app = Flask(config.adminAppName, template_folder=templates.__path__[0])
+app = Flask(config.adminAppName, template_folder='./templates')
 
 # configuration of the login_manager and attaching it to the app
 app.secret_key = config.adminSecretKey
