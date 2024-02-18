@@ -48,8 +48,9 @@ class ExerciseListHandler(BaseHandler):
         @return: The rendered template
         """
         exercises = self.api.get("/exercises")
+        temp_exercises = exercises["exercise"].copy()
 
-        for ex in exercises["exercise"]:
+        for ex in temp_exercises:
             # filtering only the exercises that are allowed by the memberships
             if not self.user.check_permission(subject_id=ex["subject_id"]):
                 exercises["exercise"].remove(ex)

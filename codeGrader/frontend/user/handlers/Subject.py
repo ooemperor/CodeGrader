@@ -48,9 +48,9 @@ class SubjectListHandler(BaseHandler):
         @return: The rendered template
         """
         subjects = self.api.get("/subjects")
+        temp_subjects = subjects["subject"].copy()
 
-
-        for sub in subjects["subject"]:
+        for sub in temp_subjects:
             # filtering only the subjects that are allowed by the memberships
             if not self.user.check_permission(subject_id=sub["id"]):
                 subjects["subject"].remove(sub)
