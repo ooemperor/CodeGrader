@@ -22,7 +22,6 @@ Script File for starting the Admin Frontend
 """
 
 import sys
-from codeGrader.frontend.admin import admin_frontend
 import os
 
 
@@ -32,7 +31,7 @@ def main():
     @return:
     """
     os.chdir("/usr/local/lib/python3.11/dist-packages/codeGrader/frontend/admin")
-    admin_frontend()
+    os.system("python3 app.py")
 
 
 if __name__ == '__main__':
