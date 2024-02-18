@@ -24,7 +24,7 @@ Script File for starting the User Frontend
 import sys
 from codeGrader.frontend.user import user_frontend
 import os
-
+import subprocess
 
 def main():
     """
@@ -32,7 +32,7 @@ def main():
     @return:
     """
     os.chdir("/usr/local/lib/python3.11/dist-packages/codeGrader/frontend/user")
-    user_frontend()
+    p1 = subprocess.run("python3 app.py", shell=True, text=True, capture_output=True)
 
 
 if __name__ == '__main__':
