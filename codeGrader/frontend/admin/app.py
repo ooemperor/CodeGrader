@@ -26,7 +26,7 @@ from flask import Flask, request, render_template, url_for, redirect, flash, ses
 from flask_login import LoginManager, login_user, login_required, logout_user
 from typing import Union
 from codeGrader.frontend.config import config
-#from codeGrader.frontend.admin import templates
+from codeGrader.frontend.admin import templates
 from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessionHandler, SessionAdmin, \
     UserListHandler, UserHandler, HomeHandler, AdminListHandler, AdminHandler, ProfileListHandler, \
     ProfileHandler, SubjectListHandler, SubjectHandler, TaskHandler, TaskListHandler, ExerciseHandler, \
