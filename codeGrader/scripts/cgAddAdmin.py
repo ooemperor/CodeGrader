@@ -25,6 +25,7 @@ Script will be generated and added to the server path.
 from codeGrader.backend.db import Session, AdminUser
 import argparse
 import sys
+import hashlib
 
 
 def addAdmin(username, first_name, last_name, email, password):
@@ -44,12 +45,15 @@ def addAdmin(username, first_name, last_name, email, password):
     @rtype: str
     """
     sql = Session()  # open session
+    password = password.encode('utf-8')  # Convert the password to bytes
+    hash_object = hashlib.sha256(password)  # Choose a hashing algorithm (e.g., SHA-256)
+    hex_dig = hash_object.hexdigest()
     admin_dict = {
         "username": username,
         "first_name": first_name,
         "last_name": last_name,
         "email": email,
-        "password": password,
+        "password": hex_dig,
         "tag": "",
         "admin_type": 1
     }
