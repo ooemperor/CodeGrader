@@ -33,7 +33,7 @@ setup(
             'cgEvaluationService = codeGrader.scripts.cgEvaluationService:main',
             'cgExecutionService = codeGrader.scripts.cgExecutionService:main',
             'cgAddApiToken = codeGrader.scripts.cgAddApiToken:main',
-            'cgAddAdmin = codeGrader.scripts.cgAddAdmin:main',
+            'cgAddAdmin = codeGrader.scripts.cgAddAdmin:main(*args)',
             'cgApiBackend = codeGrader.backend.api.app:api_backend'
 
         ]
