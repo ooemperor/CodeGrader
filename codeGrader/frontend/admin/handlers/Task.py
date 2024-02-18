@@ -159,6 +159,7 @@ class AddTaskHandler(BaseHandler):
 
             task_data["name"] = self.get_value("name")
             task_data["tag"] = self.get_value("tag")
+            task_data["description"] = self.get_value("description")
             task_data["exercise_id"] = self.get_value("exercise")
 
             self.api.post("/task/add", body=task_data)

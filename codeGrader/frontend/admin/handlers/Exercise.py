@@ -156,6 +156,7 @@ class AddExerciseHandler(BaseHandler):
 
             exercise_data["name"] = self.get_value("name")
             exercise_data["tag"] = self.get_value("tag")
+            exercise_data["description"] = self.get_value("description")
 
             exercise_data["subject_id"] = self.get_value("subject")
 
