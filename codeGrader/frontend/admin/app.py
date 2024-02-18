@@ -27,6 +27,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user
 from typing import Union
 from codeGrader.frontend.config import config
 from codeGrader.frontend.admin import templates
+from codeGrader.frontend.admin import static
 from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessionHandler, SessionAdmin, \
     UserListHandler, UserHandler, HomeHandler, AdminListHandler, AdminHandler, ProfileListHandler, \
     ProfileHandler, SubjectListHandler, SubjectHandler, TaskHandler, TaskListHandler, ExerciseHandler, \
@@ -40,7 +41,7 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
 from gevent.pywsgi import WSGIServer
 import datetime
 
-app = Flask(config.adminAppName, template_folder=templates.__path__[0])
+app = Flask(config.adminAppName, template_folder=templates.__path__[0], static_folder=static.__path__[0])
 
 # configuration of the login_manager and attaching it to the app
 app.secret_key = config.adminSecretKey

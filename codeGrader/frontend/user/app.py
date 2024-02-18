@@ -27,6 +27,7 @@ from flask import Flask, request, render_template, url_for, redirect, flash, ses
 from flask_login import LoginManager, login_user, login_required, logout_user
 from codeGrader.frontend.config import config
 from codeGrader.frontend.user import templates
+from codeGrader.frontend.user import static
 from codeGrader.frontend.user.handlers import UserSessionHandler, SessionUser, UserLoginHandler, HomeHandler, \
     ExerciseListHandler, ExerciseHandler, TaskHandler, TaskListHandler, TaskAttachmentHandler, TaskInstructionHandler, \
     AddSubmissionHandler, SettingsHandler, PasswordResetHandler, SubjectHandler, SubjectListHandler, SubmissionHandler, \
@@ -35,7 +36,7 @@ from gevent.pywsgi import WSGIServer
 from typing import Union
 import datetime
 
-app = Flask(config.userAppName, template_folder=templates.__path__[0])
+app = Flask(config.userAppName, template_folder=templates.__path__[0], static_folder=static.__path__[0])
 
 # configuration of the login_manager and attaching it to the app
 app.secret_key = config.userSecretKey
