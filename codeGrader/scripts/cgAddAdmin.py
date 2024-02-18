@@ -50,7 +50,8 @@ def addAdmin(username, first_name, last_name, email, password):
         "last_name": last_name,
         "email": email,
         "password": password,
-        "tag": ""
+        "tag": "",
+        "admin_type": 1
     }
     admin_user = AdminUser(**admin_dict)  # create the object
     sql.create(admin_user)  # write token to sql
