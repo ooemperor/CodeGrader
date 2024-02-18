@@ -67,11 +67,11 @@ def main():
     parser = argparse.ArgumentParser(
         description="Add Admin User to the Database"
     )
-    parser.add_argument('-u', 'username')
-    parser.add_argument('-fn', 'first_name')
-    parser.add_argument('-ln', 'last_name')
-    parser.add_argument('-e', 'email')
-    parser.add_argument('-p', 'password')
+    parser.add_argument('-u', '--username')
+    parser.add_argument('-fn', '--first_name')
+    parser.add_argument('-ln', '--last_name')
+    parser.add_argument('-e', '--email')
+    parser.add_argument('-p', '--password')
 
     args = parser.parse_args()
 
