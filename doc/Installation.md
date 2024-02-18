@@ -112,7 +112,8 @@ You can resolve this by running:
 
 Then create a new admin User and an api key with:
 ```
-cgAddApiToken
+cgDeployDB
+cgAddApiToken -d <Description>
 
 cgAddAdmin -u <username> -fn <first_name> -ln <last_name> -e <email> -p <password>
 ```
