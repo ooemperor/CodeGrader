@@ -31,7 +31,7 @@ def main():
     @return:
     """
     os.chdir("/usr/local/lib/python3.11/dist-packages/codeGrader/frontend/user")
-    p1 = subprocess.run("python3 app.py", shell=True, text=True, capture_output=True)
+    p1 = subprocess.run("nohup python3 app.py &", shell=True, text=True, capture_output=True)
 
 
 if __name__ == '__main__':
