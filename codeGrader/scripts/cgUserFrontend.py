@@ -31,7 +31,7 @@ def main():
     @return:
     """
     os.chdir("/usr/local/lib/python3.11/dist-packages/codeGrader/frontend/user")
-    os.system("python3 app.py)
+    os.system("python3 app.py")
 
 
 if __name__ == '__main__':
