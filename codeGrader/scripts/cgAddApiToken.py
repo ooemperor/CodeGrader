@@ -27,7 +27,7 @@ import argparse
 import sys
 
 
-def main(description):
+def add_token(description):
     """
     Generate a API Token for the backend api, create the object in the database
     Return the token itself in a print statement
@@ -45,15 +45,19 @@ def main(description):
     print(token)
 
 
-if __name__ == '__main__':
+def main():
     """
-    Parsing the description argument via a ArgumentParser
+    Parsing the description argument via a ArgumentParser and creating the user in the database
     """
     parser = argparse.ArgumentParser(
         description="Add API Key to the Database"
     )
-    parser.add_argument('-d', 'description')
+    parser.add_argument('-d', '--description')
 
     args = parser.parse_args()
+    add_token(args.description)
 
-    sys.exit(main(args.description))
+
+if __name__ == '__main__':
+
+    sys.exit(main())
