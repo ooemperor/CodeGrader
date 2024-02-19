@@ -25,6 +25,7 @@ This class will act as a controller for the lxc
 
 import os
 import subprocess
+from codeGrader.backend.config import config
 
 
 class LXC:
@@ -109,7 +110,7 @@ class LXC:
         @rtype: None
         """
         assert self._invariant_os()
-        command = f"lxc-create -n {self.name} -t debian -- -r bullseye"
+        command = f"lxc-create -n {self.name} {config.execution_LXC_Install_Command}"
         self._run_cmd(command)
 
     def lxc_destroy(self):

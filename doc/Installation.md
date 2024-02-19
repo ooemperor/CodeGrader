@@ -66,7 +66,7 @@ Following from here you can find all the needed steps for a full installation on
 
 Install all apt packages including postgres:
 ```
-apt-get install -y libpq-dev lxc libvirt0 libpam-cgfs bridge-utils uidmap pip git
+apt-get install -y libpython3-dev libpq-dev lxc libvirt0 libpam-cgfs bridge-utils uidmap pip git
 ```
 Verify the installation of the lxc with the lxc-ls command. It should return no output and no error. 
 
