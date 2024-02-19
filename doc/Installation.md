@@ -69,7 +69,14 @@ Install all apt packages including postgres:
 apt-get install -y libpython3-dev libpq-dev lxc libvirt0 libpam-cgfs bridge-utils uidmap pip git
 ```
 Verify the installation of the lxc with the lxc-ls command. It should return no output and no error. 
-
+After that we need to append some changes in order to run unpriviliged LXC Containers for the Execution Service
+```
+echo "root:100000:65536" >>/etc/subuid
+echo "root:100000:65536" >>/etc/subgid
+echo "lxc.idmap = u 0 100000 65536" >>/etc/lxc/default.conf
+echo "lxc.idmap = g 0 100000 65536" >>/etc/lxc/default.conf
+```
+Then continue with
 ```
 apt update && apt upgrade -y
 sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
