@@ -66,26 +66,31 @@ Following from here you can find all the needed steps for a full installation on
 
 Install all apt packages including postgres:
 ```
-apt-get install -y python-dev libpq-dev lxc libvirt0 libpam-cgfs bridge-utils uidmap pip
+apt-get install -y libpq-dev lxc libvirt0 libpam-cgfs bridge-utils uidmap pip git
 ```
+Verify the installation of the lxc with the lxc-ls command. It should return no output and no error. 
 
 ```
-apt update && sudo apt upgrade -y
+apt update && apt upgrade -y
 sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 apt-get update
-apt-get install postgresql-15
+apt-get install postgresql-15 -y
 ```
+
+
 ```
+sudo su - postgres
 createuser --username=postgres --pwprompt codeGrader
 createdb --username=postgres --owner=codeGrader codeGraderDB
 psql --username=postgres --dbname=codeGraderDB --command='CREATE ROLE codeGrader'
 psql --username=postgres --dbname=codeGraderDB --command='GRANT codegrader TO "codeGrader"'
 psql --username=postgres --dbname=codeGraderDB --command='ALTER SCHEMA public OWNER TO codeGrader'
 psql --username=postgres --dbname=codeGraderDB --command='GRANT SELECT ON pg_largeobject TO codeGrader'
+exit
 
 ```
-Then proceed with to clone and install the software itself:
+Then proceed with to clone and install the software itself. 
 
 ```
 cd /opt
@@ -99,9 +104,16 @@ mv setup_full.py setup.py
 pip install .
 ```
 
+If you are running some Version of python higher than 3.9, it could be that there is an Error about Externally Managed python. 
+You can resolve this by running: 
+```
+ rm -rf /usr/lib/python3.11/EXTERNALLY-MANAGED
+```
+
 Then create a new admin User and an api key with:
 ```
-cgAddApiToken
+cgDeployDB
+cgAddApiToken -d <Description>
 
 cgAddAdmin -u <username> -fn <first_name> -ln <last_name> -e <email> -p <password>
 ```
