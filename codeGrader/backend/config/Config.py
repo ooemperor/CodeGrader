@@ -114,6 +114,7 @@ class Config:
         self.executionPort = self.config["ExecutionService"]["Port"]
         self.executionFilePath = self.config["ExecutionService"]["PathToExecutionFiles"]
         self.executionIpWhiteList = self.config["ExecutionService"]["IP_Address_Whitelist"]
+        self.execution_LXC_Install_Command = self.config["ExecutionService"]["LXC_Install_Command"]
 
     def getInstallationCommand(self, codeLanguage: str):
         """
