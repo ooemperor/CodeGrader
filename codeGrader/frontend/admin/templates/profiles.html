@@ -31,7 +31,8 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
             {% if this.admin.check_permission('w', create_object='profile') %}
             <div class="col-4">
                 <form action="{{ url_for('addProfile') }}" method="GET">
-                    <button class="btn btn-success" type="submit">New Profile</button>
+                    <button class="btn btn-success" type="submit">New
+                        Profile</button>
                 </form>
             </div>
             {% endif %}
@@ -40,26 +41,29 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     <div class="row">
         <p>Profile</p>
     </div>
-
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Tag</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for prof in profile | sort(attribute='name') %}
-            <tr class="clickable-row" data-href="{{ url_for('profile', id_ = prof['id']|string) }}">
-                <td>
-                    <a href="{{ url_for('profile', id_ = prof['id']|string) }}">
-                        {{ prof["name"] }}
-                    </a>
-                </td>
-                <td>{{ prof["tag"] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="container-fluid">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Tag</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prof in profile | sort(attribute='name') %}
+                <tr class="clickable-row"
+                    data-href="{{ url_for('profile', id_ = prof['id']|string) }}">
+                    <td>
+                        <a
+                            href="{{ url_for('profile', id_ = prof['id']|string) }}">
+                            {{ prof["name"] }}
+                        </a>
+                    </td>
+                    <td>{{ prof["tag"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock core %}

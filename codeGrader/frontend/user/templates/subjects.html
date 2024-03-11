@@ -34,29 +34,32 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
     <div class="container-fluid">
         <p>Subjects</p>
     </div>
+    <div class="container-fluid">
+        <table class="table table-hover">
+            <thead>
 
-    <table class="table table-hover">
-        <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Profile</th>
+                    <th>Tag</th>
+                </tr>
+            </thead>
+            <tbody>
 
-            <tr>
-                <th>Name</th>
-                <th>Profile</th>
-                <th>Tag</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            {% for sub in subject | sort(attribute='name') %}
-            <tr class="clickable-row" data-href="{{ url_for('subject', id_ = sub['id']|string) }}">
-                <td class="data">
-                    <a href="{{ url_for('subject', id_ = sub['id']|string) }}">
-                        {{ sub["name"] }}
-                    </a>
-                </td>
-                <td>{{ sub["tag"] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                {% for sub in subject | sort(attribute='name') %}
+                <tr class="clickable-row"
+                    data-href="{{ url_for('subject', id_ = sub['id']|string) }}">
+                    <td class="data">
+                        <a
+                            href="{{ url_for('subject', id_ = sub['id']|string) }}">
+                            {{ sub["name"] }}
+                        </a>
+                    </td>
+                    <td>{{ sub["tag"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock core %}
