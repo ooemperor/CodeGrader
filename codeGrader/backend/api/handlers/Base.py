@@ -176,7 +176,10 @@ class BaseHandler:
             objects = self.sql_session.get_all(self.dbClass)
 
             if len(objects) == 0:  # no data found
-                return self.create_generic_response('GET', f"No Objects entries to display")
+                #return self.create_generic_response('GET', f"No Objects entries to display")
+                output = dict()
+                output[str(self.dbClass.__table__)] = []
+                return output
 
             else:
                 object_list = []
