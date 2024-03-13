@@ -1,0 +1,14 @@
+[Unit]
+Description=Running the Evaluation Servie of the CodeGrader
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/
+ExecStart=nohup cgEvaluationService > /var/log/cgEvaluationService.log &
+# optional items below
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

@@ -121,6 +121,15 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                 </a>
                                 <ul class="dropdown-menu text-small shadow">
                                     <li>
+                                        <a class="dropdown-item link-light" href="{{ url_for('settings') }}">
+                                            <i class="bi bi-gear-fill h5"></i>
+                                            <span>Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
                                         <a class="dropdown-item" href="{{ url_for('logout') }}">
                                             <i class="bi bi-box-arrow-left h5"></i>
                                             <span>Logout</span>

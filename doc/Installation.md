@@ -138,3 +138,25 @@ nohup cgExecutionService &
 nohup cgUserFrontend &
 nohup cgAdminFrontend &
 ```
+
+## Services
+If you want to run the 5 steps above as services under linux, please visit the services folder where you can finde the .service files. \
+\
+On debian you would need to copy these in the ```/etc/systemd/system``` \
+After moving the files in this directory complete the startup with the following commands:
+```
+systemctl daemon-reload
+
+systemd enable cgApiBackend.service
+systemd enable cgEvaluationService.service
+systemd enable cgExecutionService.service
+systemd enable cgUserFrontend.service
+systemd enable cgAdminFrontend.service
+
+systemctl start cgApiBackend.service
+systemctl start cgEvaluationService.service
+systemctl start cgExecutionService.service
+systemctl start cgUserFrontend.service
+systemctl start cgAdminFrontend.service
+```
+

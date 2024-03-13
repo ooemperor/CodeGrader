@@ -56,7 +56,7 @@ class SubmissionHandler(BaseHandler):
             score = float(submission["max_score"])
 
             if state != "finished":
-                return '<img src="https://media.tenor.com/aXbaXzhcVVUAAAAM/hi.gif" alt="Hi GIF - Hi GIFs" loading="lazy" style="background-color: unset;" width="158" height="127.11818181818181">'
+                return config.gif_loading
 
             else:
                 # submission has finished in the backend, need to calculate the result base on the score.
