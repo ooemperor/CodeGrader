@@ -37,7 +37,7 @@ from codeGrader.frontend.admin.handlers import AdminUserLoginHandler, AdminSessi
     AddTaskInstructionHandler, DeleteTaskInstructionHandler, TaskInstructionHandler, TaskAttachmentHandler, \
     SubmissionFileHandler, TestCaseInputFileHandler, TestCaseOutputFileHandler, AddTestCaseHandler, \
     DeleteTestCaseHandler, AddMembershipHandler, DeleteMembershipHandler, PasswordResetHandler, AddUserListHandler, \
-    ErrorHandler
+    ErrorHandler, SettingsHandler, AdminPasswordResetHandler
 from gevent.pywsgi import WSGIServer
 import datetime
 
@@ -153,6 +153,13 @@ def home() -> str:
     return HomeHandler(request).get()
 
 
+@app.route("/settings", methods=['GET'])
+@login_required
+def settings():
+    if request.method == 'GET':
+        return SettingsHandler(request).get()
+
+
 @app.route("/user/<int:id_>", methods=['GET', 'POST'])
 @login_required
 def user(id_) -> Union[Response, str]:
@@ -231,6 +238,7 @@ def user_password_reset(id_: int) -> Union[Response, str]:
         return PasswordResetHandler(request).post(id_)
 
 
+
 @app.route("/admin/<int:id_>", methods=['GET', 'POST'])
 @login_required
 def admin(id_) -> Union[Response, str]:
@@ -281,6 +289,19 @@ def deleteAdmin(id_: int) -> Union[Response, str]:
         return DeleteAdminHandler(request).get(id_)
     elif request.method == 'POST':
         return DeleteAdminHandler(request).post(id_)
+
+
+@app.route("/admin/<int:id_>/passsword/reset", methods=['POST'])
+@login_required
+def admin_password_reset(id_: int) -> Union[Response, str]:
+    """
+    Resetting the password for a admin defined by the id_
+    @param id_: The identifier of the object
+    @type id_: int
+    @return: Redirect to another view.
+    """
+    if request.method == 'POST':
+        return AdminPasswordResetHandler(request).post()
 
 
 @app.route("/profile/<int:id_>", methods=['GET', 'POST'])
