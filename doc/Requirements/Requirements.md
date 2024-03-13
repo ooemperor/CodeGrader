@@ -7,6 +7,8 @@ All of the frontend requirements can be mapped to a backend requirement.
 
 The frontend requirements will be generalized and then transferred to the backend.
 
+The requirements here are just a draft and are not to be taken as complete. 
+
 # Frontend
 
 ## Admin Site
