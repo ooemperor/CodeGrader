@@ -74,7 +74,7 @@ class ExecutionResult(Base):
 
     testcase_id = Column(
         Integer,
-        ForeignKey(TestCase.id, onupdate="CASCADE"),
+        ForeignKey(TestCase.id, ondelete="SET NULL", onupdate="CASCADE"),
         nullable=True,
         index=True
     )
