@@ -69,12 +69,22 @@ class SubjectHandler(BaseHandler):
         subject = self.api.get(f"/subject/{id_}")
         profiles = self.api.get(f"/profiles", name=self.admin.get_filter_profile_name())  # get the profile data
         memberships = self.api.get(f"/memberships", subject_id=id_)
+        subject_profile = subject["profile"]
+        profile_users = self.api.get(f"/users", profile=subject_profile)
+        profile_user_ids = []
+        for user in profile_users["user"]:
+            profile_user_ids.append(user["id"])
 
         subject["profiles"] = profiles["profile"]
         subject["memberships"] = memberships["membership"]
 
         scores = self.api.get(f"/scores/subject", object_id=id_)
-        scores = scores["subject"][0][str(id_)]
+        scores_prep = scores["subject"][0][str(id_)]
+        scores = []
+        for score in scores_prep:
+            if score["user_id"] in profile_user_ids:
+                scores.append(score)
+
         subject["scores"] = scores
 
         editable = self.admin.check_permission('w', subject["profile"]["id"])
