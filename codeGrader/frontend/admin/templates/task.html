@@ -462,13 +462,13 @@ along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
                                         </a>
                                     </td>
                                     <td>
+                                        {{ sub["state"] }}
+                                    </td>
+                                    <td>
                                         <a href="{{ url_for('SubmissionFile', id_ = sub['id']) }}" target="_blank"
                                             download="{{ sub['file']['filename'] }}">
                                             {{ sub["file"]["filename"]}}
                                         </a>
-                                    </td>
-                                    <td>
-                                        {{ sub["state"] }}
                                     </td>
                                     <td>
                                         {{ sub["max_score"] }}

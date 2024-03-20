@@ -197,9 +197,9 @@ class TestCaseFileHandler(BaseHandler):
         task_id = testcase["task"]["profile"]["id"]
 
         if self.admin.check_permission('r', task_profile_id):  # when admin is allowed to view this File
-            input_file_id = testcase["input_file_id"]
+            file_id = testcase[self.file_id_name]
 
-            req = self.api.get_file(f"/file/{input_file_id}")
+            req = self.api.get_file(f"/file/{file_id}")
             filename = testcase[self.file_type_name]["filename"]
             req.headers['Content-Disposition'] = f"attachment;filename={filename}"
             return Response(stream_with_context(req.iter_content(chunk_size=2048)),
