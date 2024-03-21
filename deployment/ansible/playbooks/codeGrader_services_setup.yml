@@ -1,0 +1,60 @@
+# CodeGrader - https://github.com/ooemperor/CodeGrader
+# Copyright © 2023, 2024 Michael Kaiser <michael.kaiser@emplabs.ch>
+#
+# This file is part of CodeGrader.
+#
+# CodeGrader is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CodeGrader is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
+
+- name: Copy Service Files for the CodeGrader
+  hosts: all
+  vars: 
+    - distro: bookworm
+  gather_facts: true
+  become: true
+  tasks:
+  
+    - name: Find all service files
+      ansible.builtin.find: 
+        paths: /opt/CodeGrader/services
+        patterns: "*.service"
+        recurse: true
+        use_regex: true
+      register: service_files
+    
+    - name: Copy all service Files to systemctl folder
+      ansible.builtin.copy:
+        src: "{{ item.path }}"
+        dest: /etc/systemd/system
+      with_items: "{{ service_files.files }}"
+    
+    - name: Copy all the service files into the system service folder
+      ansible.builtin.copy: 
+        src: "{{ item.src }}" 
+        dest: "{{ item.dest }}"
+        remote_src: true
+      loop:
+        - src: /opt/CodeGrader/services/cgAdminFrontend.service
+          dest: /etc/systemd/system
+        - src: /opt/CodeGrader/services/cgUserFrontend.service
+          dest: /etc/systemd/system
+        - src: /opt/CodeGrader/services/cgApiBackend.service
+          dest: /etc/systemd/system
+        - src: /opt/CodeGrader/services/cgEvaluationService.service
+          dest: /etc/systemd/system
+        - src: /opt/CodeGrader/services/cgExecutionService.service
+          dest: /etc/systemd/system
+
+    - name: systemctl daemon-reload after service file copy
+      ansible.builtin.systemd_service:
+        daemon_reload: true

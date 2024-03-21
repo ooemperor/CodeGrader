@@ -71,7 +71,19 @@ class ExerciseHandler(BaseHandler):
         editable = self.admin.check_permission('w', exercise["profile"]["id"])
         subjects = self.api.get("/subjects", profile=self.admin.get_filter_profile())
         scores = self.api.get(f"/scores/exercise", object_id=id_)
-        scores = scores["exercise"][0][str(id_)]
+
+        profile_users = self.api.get(f"/users", profile=exercise["profile"])
+        profile_user_ids = []
+        for user in profile_users["user"]:
+            profile_user_ids.append(user["id"])
+
+        scores_prep = scores["exercise"][0][str(id_)]
+        scores = []
+        for score in scores_prep:
+            if score["user_id"] in profile_user_ids:
+                scores.append(score)
+
+
         exercise["scores"] = scores
 
         exercise["subjects"] = subjects["subject"]
