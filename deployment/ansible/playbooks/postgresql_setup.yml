@@ -1,0 +1,105 @@
+# CodeGrader - https://github.com/ooemperor/CodeGrader
+# Copyright © 2023, 2024 Michael Kaiser <michael.kaiser@emplabs.ch>
+#
+# This file is part of CodeGrader.
+#
+# CodeGrader is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CodeGrader is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
+
+# Install PostgreSQL and create CodeGrader Database
+- name: Install PostgreSQL for the CodeGrader
+  hosts: all
+  vars: 
+    - distro: bookworm
+    - DB_PASSWORD: DATABASEPASSWORD
+  gather_facts: true
+  become: true
+  tasks:
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Installing standard Debian dependencies
+      apt:
+        upgrade: dist
+
+    - name: Install CodeGrader required apt packages
+      apt:
+        name: 
+          - libpython3-dev
+          - libpq-dev 
+          - lxc
+          - libvirt0
+          - libpam-cgfs 
+          - bridge-utils 
+          - uidmap 
+          - pip 
+          - git
+        state: present
+
+    - name: Add pgdg repo to sources.list.d for PostgreSQL
+      lineinfile:
+        path: /etc/apt/sources.list.d/pgdg.list
+        line: "deb http://apt.postgresql.org/pub/repos/apt {{ distro }}-pgdg main"
+        create: true
+
+    - name: Download PostgreSQL key and add it to system keyring
+      apt_key:
+        url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        state: present
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install PostgreSQL
+      apt:
+        name: postgresql-15
+        state: present
+      
+    - name: Create codeGrader user on database
+      shell: createuser --username=postgres codeGrader
+      become: true
+      become_user: postgres
+
+    - name: Create database codeGraderDB 
+      shell: createdb --username=postgres --owner=codeGrader codeGraderDB
+      become: true
+      become_user: postgres
+    
+    - name: Create CodeGrader role on database
+      shell: psql --username=postgres --dbname=codeGraderDB --command='CREATE ROLE codeGrader'
+      become: true
+      become_user: postgres
+    
+    - name: Grant CodeGrader role to user on database
+      shell: psql --username=postgres --dbname=codeGraderDB --command='GRANT codegrader TO "codeGrader"'
+      become: true
+      become_user: postgres
+    
+    - name: Grant user as schema owner in DB
+      shell: psql --username=postgres --dbname=codeGraderDB --command='ALTER SCHEMA public OWNER TO codeGrader'
+      become: true
+      become_user: postgres
+    
+    - name: Grant SELECT and more on Database to user
+      shell: psql --username=postgres --dbname=codeGraderDB --command='GRANT SELECT ON pg_largeobject TO codeGrader'
+      become: true
+      become_user: postgres
+
+    - name: Change Password of codeGrader user on database
+      shell: psql --username=postgres --dbname=codeGraderDB --command="ALTER USER codeGrader WITH PASSWORD '{{DB_PASSWORD}}'";
+      become: true
+      become_user: postgres
+    

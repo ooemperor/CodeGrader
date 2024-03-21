@@ -1,0 +1,57 @@
+# CodeGrader - https://github.com/ooemperor/CodeGrader
+# Copyright © 2023, 2024 Michael Kaiser <michael.kaiser@emplabs.ch>
+#
+# This file is part of CodeGrader.
+#
+# CodeGrader is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CodeGrader is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
+
+- name: Setup the config files for the CodeGrader in /etc/codeGrader
+  hosts: all
+  vars: 
+    - distro: bookworm
+  gather_facts: true
+  become: true
+  tasks:
+
+    - name: Check if /etc/codeGrader existst
+      stat:
+        path: /etc/codeGrader
+      register: etc_codeGrader
+
+    - name: Create /etc/codeGrader folder if it does not exist
+      file:
+        path: /etc/codeGrader
+        state: directory
+      when: not etc_codeGrader.stat.exists
+    
+    - name: Copy Backend Config files
+      ansible.builtin.copy:
+        src: /opt/CodeGrader/codeGrader/backend/config/config.conf
+        dest: /etc/codeGrader/backendConfig.conf
+        remote_src: true
+        force: false  # does not get overwritten when there already is a config file
+
+    - name: Copy CodeLanguages Config files
+      ansible.builtin.copy:
+        src: /opt/CodeGrader/codeGrader/backend/config/codeLanguages.json
+        dest: /etc/codeGrader/codeLanguages.json
+        remote_src: true
+        force: false # does not get overwritten when there already is a config file
+    
+    - name: Copy Frontend Config files
+      ansible.builtin.copy:
+        src: /opt/CodeGrader/codeGrader/frontend/config/config.conf
+        dest: /etc/codeGrader/frontendConfig.conf
+        remote_src: true
+        force: false  # does not get overwritten when there already is a config file

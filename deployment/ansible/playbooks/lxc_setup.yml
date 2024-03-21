@@ -1,0 +1,125 @@
+# CodeGrader - https://github.com/ooemperor/CodeGrader
+# Copyright © 2023, 2024 Michael Kaiser <michael.kaiser@emplabs.ch>
+#
+# This file is part of CodeGrader.
+#
+# CodeGrader is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CodeGrader is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CodeGrader.  If not, see <http://www.gnu.org/licenses/>.
+
+- name: Install the LXC Dependencies for the CodeGrader Application
+  hosts: all
+  vars: 
+    - distro: bookworm
+    - line_lxc_subuid: root:100000:65536
+    - line_lxc_subgid: root:100000:65536
+    - line_lxc_default_1: lxc.idmap = u 0 100000 65536
+    - line_lxc_default_2: lxc.idmap = g 0 100000 65536
+  gather_facts: true
+  become: true
+  tasks:
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Installing standard Debian dependencies
+      apt:
+        upgrade: dist
+
+    - name: Install CodeGrader required apt packages
+      apt:
+        name: 
+          - libpython3-dev
+          - libpq-dev 
+          - lxc
+          - libvirt0
+          - libpam-cgfs 
+          - bridge-utils 
+          - uidmap 
+          - pip 
+          - git
+        state: present
+
+    - name: Check if /etc/lxc/default.conf exists
+      stat:
+        path: /etc/lxc/default.conf
+      register: etc_lxc
+
+    - name: Create /etc/lxc/default.conf if it does not exist
+      file:
+        path: /etc/lxc/default.conf
+        state: touch
+      when: not etc_lxc.stat.exists
+
+    - name: Test if lxc params are already in /etc/subuid
+      ansible.builtin.lineinfile:
+        path: /etc/subuid
+        regexp: '{{line_lxc_subuid}}'
+        state: absent
+      check_mode: yes
+      changed_when: false
+      register: lxc_subuid
+
+    - name: Test if lxc params are already in /etc/subgid
+      ansible.builtin.lineinfile:
+        path: /etc/subgid
+        regexp: '{{line_lxc_subgid}}'
+        state: absent
+      check_mode: yes
+      changed_when: false
+      register: lxc_subgid
+
+    - name: Test if lxc params are already in the config files. 
+      ansible.builtin.lineinfile:
+        path: /etc/lxc/default.conf
+        regexp: '{{line_lxc_default_1}}'
+        state: absent
+      check_mode: yes
+      changed_when: false
+      register: lxc_default_1
+
+    - name: Test if lxc params are already in the config files. 
+      ansible.builtin.lineinfile:
+        path: /etc/lxc/default.conf
+        regexp: '{{line_lxc_default_2}}'
+        state: absent
+      check_mode: yes
+      changed_when: false
+      register: lxc_default_2
+
+    - name: add lxc line to config /etc/subuid
+      lineinfile:
+        dest: /etc/subuid
+        line: "{{line_lxc_subuid}}"
+      when: lxc_subuid.found == 0
+
+    - name: add lxc line to config /etc/subgid
+      lineinfile:
+        dest: /etc/subgid
+        line: "{{line_lxc_subgid}}"
+      when: lxc_subgid.found == 0
+    
+    - name: add config line to lxc default config 1
+      lineinfile:
+        dest: /etc/lxc/default.conf
+        line: "{{line_lxc_default_1}}"
+      when: lxc_default_1.found == 0
+    
+    - name: add config line to lxc default config 2
+      lineinfile:
+        dest: /etc/lxc/default.conf
+        line: "{{line_lxc_default_2}}"
+      when: lxc_default_2.found == 0
+
+    - name: Execute lxc-ls --fancy to check for installation error
+      shell: "lxc-ls --fancy"
