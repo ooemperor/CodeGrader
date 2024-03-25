@@ -67,7 +67,7 @@ class ExecutionResult(Base):
     # Foreign Keys
     submission_id = Column(
         Integer,
-        ForeignKey(Submission.id, onupdate="CASCADE", ondelete="SET NULL"),
+        ForeignKey(Submission.id, onupdate="CASCADE", ondelete="CASCADE"),
         nullable=True,
         index=True
     )
