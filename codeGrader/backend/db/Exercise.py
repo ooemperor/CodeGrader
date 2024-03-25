@@ -74,7 +74,7 @@ class Exercise(Base):
         "Task",
         collection_class=ordering_list("name"),
         order_by="[Task.name]",
-        # cascade="all",
+        cascade="all",
         passive_deletes=True,
         lazy="subquery",
         join_depth=3,
