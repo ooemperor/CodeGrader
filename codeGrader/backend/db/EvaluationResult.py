@@ -55,7 +55,7 @@ class EvaluationResult(Base):
     # Foreign Keys
     submission_id = Column(
         Integer,
-        ForeignKey(Submission.id, onupdate="CASCADE"),
+        ForeignKey(Submission.id, onupdate="CASCADE", ondelete="SET NULL"),
         nullable=True,
         index=True
     )

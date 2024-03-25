@@ -62,14 +62,14 @@ class Submission(Base):
 
     user_id = Column(
         Integer,
-        ForeignKey(User.id, onupdate="CASCADE", ondelete="CASCADE"),
+        ForeignKey(User.id, onupdate="CASCADE", ondelete="SET NULL"),
         nullable=False,
         index=True
     )
 
     task_id = Column(
         Integer,
-        ForeignKey(Task.id, onupdate="CASCADE"),
+        ForeignKey(Task.id, onupdate="CASCADE", ondelete="SET NULL"),
         nullable=False,
         index=True
     )
