@@ -65,7 +65,7 @@ class Exercise(Base):
     # Foreign Keys
     subject_id = Column(
         Integer,
-        ForeignKey(Subject.id, onupdate="CASCADE"),
+        ForeignKey(Subject.id, onupdate="CASCADE", ondelete="CASCADE"),
         nullable=True,
         index=True
     )
