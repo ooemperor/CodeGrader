@@ -69,7 +69,7 @@ class Subject(Base):
         "Exercise",
         collection_class=ordering_list("name"),
         order_by="[Exercise.name]",
-        # cascade="all",
+        cascade="all",
         passive_deletes=True,
         lazy="subquery",
         backref=backref("ExerciseSubject", lazy="joined")
